@@ -1,39 +1,39 @@
 {
-    "projects": [
+  "projects": [
+    {
+      "id": "プロジェクトのID",
+      "name": "プロジェクトの名前",
+      "content": "プロジェクトの内容",
+      "question_num": "１人あたりの問題数",
+      "creater": "プロジェクトの作成者",
+      "participants": [
         {
-            "id": "プロジェクトのID",
-            "name": "プロジェクトの名前",
-            "content": "プロジェクトの内容",
-            "question_num": "１人あたりの問題数",
-            "creater": "プロジェクトの作成者",
-            "participants": [
-                {
-                    "user_id":"問題への参加者(UID)",
-                    "user_name":"問題への参加者(DisplayName)"
-                }
-            ],
-            "questions": [
-                {
-                    "no": "曲順",
-                    "url": "曲のURL",
-                    "user_id": "選曲者のid"
-                }
-            ],
-            "answers": [
-                {
-                    "no": "曲順",
-                    "answer": "回答(選曲したと思うひとのUID)",
-                    "correct": "正解(正解の人のUID)",
-                    "user_id": "回答者のid",
-                    "url": "曲のURL"
-                }
-            ],
-            "results": [
-                {
-                    "user_id": "回答者のid",
-                    "point": "得点"
-                }
-            ]
+          "user_id": "問題への参加者(UID)",
+          "user_name": "問題への参加者(DisplayName)"
         }
-    ]
+      ],
+      "questions": [
+        {
+          "no": "曲順",
+          "url": "曲のURL",
+          "user_id": "選曲者のid"
+        }
+      ],
+      "answers": [
+        {
+          "no": "曲順",
+          "answer": "回答(選曲したと思うひとのUID)",
+          "correct": "正解(正解の人のUID)",
+          "user_id": "回答者のid",
+          "url": "曲のURL"
+        }
+      ],
+      "results": [
+        {
+          "user_id": "回答者のid",
+          "point": "得点"
+        }
+      ]
+    }
+  ]
 }
