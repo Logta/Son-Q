@@ -1,8 +1,7 @@
 import Image from "next/image";
-import styles from "./Home.module.css";
+import styles from "./Project.module.css";
 import { Container } from "@material-ui/core";
 import { AppBar } from "@/components/organisms";
-import { Youtube } from "@/components/atoms";
 
 const PageBody = () => {
   return (
@@ -13,7 +12,6 @@ const PageBody = () => {
           皆の好きな曲を持ち寄って、誰が持ってきた曲か当てよう！
         </main>
 
-        <Youtube id={"81MzL00keYY"} />
         <footer className={styles.footer}>
           <a
             href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
