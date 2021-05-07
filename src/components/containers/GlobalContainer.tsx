@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import _ from "lodash";
 
 import { User } from "@/models";
-import { awaitOnAuth } from "@/firebase";
+import { awaitOnLogin } from "@/firebase";
 
 const GlobalContainer: React.FC = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -14,18 +14,13 @@ const GlobalContainer: React.FC = ({ children }) => {
   });
 
   const signIn = async () => {
-    // const user = await awaitOnAuth();
-    // setLoading(false);
-    // if (_.isNull(user)) return;
-    // if (!user.ok) return;
-    // setUser({
-    //   ID: user.id,
-    //   Name: user.name,
-    //   Login: true,
-    // });
+    const user = await awaitOnLogin();
+    setLoading(false);
+    if (_.isNull(user)) return;
+    if (!user.ok) return;
     setUser({
-      ID: "test",
-      Name: "",
+      ID: user.id,
+      Name: user.name,
       Login: true,
     });
   };

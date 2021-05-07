@@ -12,7 +12,7 @@
     "@material-ui/icons": "^4.11.2",
     "@types/lodash": "^4.14.168",
     "clsx": "latest",
-    "firebase": "^8.4.3",
+    "firebase": "^8.5.0",
     "lodash": "^4.17.21",
     "next": "10.2.0",
     "prop-types": "latest",
