@@ -1,9 +1,12 @@
 import Image from "next/image";
 import styles from "./Project.module.scss";
-import { Container } from "@material-ui/core";
+import { useContext } from "react";
+import { Container, Button } from "@material-ui/core";
 import { AppBar, ProjectTable } from "@/components/organisms";
+import { ProjectsContext } from "@/contexts";
 
 const PageBody = () => {
+  const { projects } = useContext(ProjectsContext);
   return (
     <>
       <AppBar />
@@ -12,7 +15,9 @@ const PageBody = () => {
           プロジェクトの作成・参加をしましょう
         </main>
 
-        <ProjectTable />
+        <ProjectTable rows={projects} />
+        <Button>プロジェクト作成</Button>
+        <Button>プロジェクト参加</Button>
 
         <footer className={styles.footer}>
           <a

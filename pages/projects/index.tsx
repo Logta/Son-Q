@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { ProjectPage } from "../../src/components/pages";
+import { ProjectsContainer } from "../../src/components/containers";
 
 export default function Home() {
   return (
@@ -13,7 +14,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <ProjectPage />
+      <ProjectsContainer>
+        <ProjectPage />
+      </ProjectsContainer>
     </>
   );
 }

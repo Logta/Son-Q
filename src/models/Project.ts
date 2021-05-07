@@ -2,8 +2,9 @@ type Project = {
   ID: string;
   name: string;
   content: string;
+  creater: string;
   questionNum: number;
-  participents: Array<string>;
+  participants: Object[];
 };
 
 export type { Project };

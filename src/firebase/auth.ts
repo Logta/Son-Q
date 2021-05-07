@@ -1,10 +1,5 @@
 import { auth, firebase } from "@/plugins/firebase";
-
-type Auth = {
-  ok: boolean;
-  id: string;
-  name: string;
-};
+import { Auth } from "@/models";
 
 const awaitOnAuth = async (): Promise<Auth> => {
   return new Promise(function (resolve, reject) {
