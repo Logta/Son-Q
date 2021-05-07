@@ -1,16 +1,18 @@
 import Image from "next/image";
-import styles from "./Project.module.css";
+import styles from "./Project.module.scss";
 import { Container } from "@material-ui/core";
-import { AppBar } from "@/components/organisms";
+import { AppBar, ProjectTable } from "@/components/organisms";
 
 const PageBody = () => {
   return (
     <>
       <AppBar />
-      <Container maxWidth="sm">
+      <Container maxWidth="lg">
         <main className={styles.main}>
-          皆の好きな曲を持ち寄って、誰が持ってきた曲か当てよう！
+          プロジェクトの作成・参加をしましょう
         </main>
+
+        <ProjectTable />
 
         <footer className={styles.footer}>
           <a
@@ -34,4 +36,4 @@ const PageBody = () => {
   );
 };
 
-export { PageBody };
+export { PageBody as ProjectPage };

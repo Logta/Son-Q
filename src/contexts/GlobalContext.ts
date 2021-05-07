@@ -8,7 +8,7 @@ type Props = {
   loading: boolean;
 };
 
-export const UserContext = React.createContext<Props>({
+export const GlobalContext = React.createContext<Props>({
   user: {
     ID: "",
     Name: "",

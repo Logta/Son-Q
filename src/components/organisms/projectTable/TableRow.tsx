@@ -14,7 +14,7 @@ const App = (props: Props) => {
       <TableCell align="right">{row.ID}</TableCell>
       <TableCell align="right">{row.content}</TableCell>
       <TableCell align="right">{row.carbs}</TableCell>
-      <TableCell align="right">{row.participent}</TableCell>
+      <TableCell align="right">{row.participents}</TableCell>
     </TableRow>
   );
 };

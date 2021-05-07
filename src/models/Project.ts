@@ -1,7 +1,9 @@
-type User = {
+type Project = {
   ID: string;
-  Name: string;
-  Login: boolean;
+  name: string;
+  content: string;
+  questionNum: number;
+  participents: Array<string>;
 };
 
-export type { User };
+export type { Project };

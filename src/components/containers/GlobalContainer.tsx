@@ -1,4 +1,4 @@
-import { UserContext } from "@/contexts";
+import { GlobalContext } from "@/contexts";
 import React, { useState } from "react";
 import _ from "lodash";
 
@@ -34,7 +34,7 @@ const GlobalContainer: React.FC = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider
+    <GlobalContext.Provider
       value={{
         user,
         signIn,
@@ -43,7 +43,7 @@ const GlobalContainer: React.FC = ({ children }) => {
       }}
     >
       {children}
-    </UserContext.Provider>
+    </GlobalContext.Provider>
   );
 };
 

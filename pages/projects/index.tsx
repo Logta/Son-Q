@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { PageBody } from "../src/components/pages/Project";
+import { ProjectPage } from "../../src/components/pages";
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <PageBody />
+      <ProjectPage />
     </>
   );
 }

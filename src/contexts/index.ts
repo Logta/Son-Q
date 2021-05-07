@@ -1,1 +1,2 @@
-export * from "./UserContext";
+export * from "./GlobalContext";
+export * from "./ProjectsContext";
