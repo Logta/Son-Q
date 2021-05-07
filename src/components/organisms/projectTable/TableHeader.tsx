@@ -5,11 +5,12 @@ const App = () => {
     <TableHead>
       <TableRow>
         <TableCell>プロジェクト名</TableCell>
-        <TableCell align="right">ID</TableCell>
-        <TableCell align="right">内容</TableCell>
-        <TableCell align="right">出題数</TableCell>
-        <TableCell align="right">参加者</TableCell>
-        <TableCell align="right">操作</TableCell>
+        <TableCell align="center">ID</TableCell>
+        <TableCell align="center">内容</TableCell>
+        <TableCell align="center">出題数</TableCell>
+        <TableCell align="center">参加者</TableCell>
+        <TableCell align="center"></TableCell>
+        <TableCell align="center">操作</TableCell>
       </TableRow>
     </TableHead>
   );

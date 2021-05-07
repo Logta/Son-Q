@@ -3,7 +3,12 @@ import React, { useState, useEffect } from "react";
 import _ from "lodash";
 
 import { Project } from "@/models";
-import { awaitOnAuth, getProject } from "@/firebase";
+import {
+  awaitOnAuth,
+  getProject,
+  createProject,
+  deleteProject,
+} from "@/firebase";
 
 const ProjectsContainer: React.FC = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -25,16 +30,24 @@ const ProjectsContainer: React.FC = ({ children }) => {
     setProjects(ps);
   };
 
-  const createProjects = async () => {
-    setProjects([]);
+  const createProjects = async (data: Project) => {
+    const user = await awaitOnAuth();
+    if (_.isNull(user) || !user.ok) return;
+
+    await createProject(user, data);
+    await getProjects();
   };
 
   const updateProjects = async () => {
     setProjects([]);
   };
 
-  const deleteProjects = async () => {
-    setProjects([]);
+  const deleteProjects = async (id: string) => {
+    const user = await awaitOnAuth();
+    if (_.isNull(user) || !user.ok) return;
+
+    await deleteProject(id);
+    await getProjects();
   };
 
   return (

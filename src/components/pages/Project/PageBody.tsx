@@ -1,12 +1,16 @@
 import Image from "next/image";
 import styles from "./Project.module.scss";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Container, Button } from "@material-ui/core";
 import { AppBar, ProjectTable } from "@/components/organisms";
 import { ProjectsContext } from "@/contexts";
+import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
 
 const PageBody = () => {
   const { projects } = useContext(ProjectsContext);
+
+  const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false);
+  const [openJoinDialog, setOpenJoinDialog] = useState<boolean>(false);
   return (
     <>
       <AppBar />
@@ -16,8 +20,12 @@ const PageBody = () => {
         </main>
 
         <ProjectTable rows={projects} />
-        <Button>プロジェクト作成</Button>
-        <Button>プロジェクト参加</Button>
+        <Button onClick={() => setOpenCreateDialog(true)}>
+          プロジェクト作成
+        </Button>
+        <Button onClick={() => setOpenJoinDialog(true)}>
+          プロジェクト参加
+        </Button>
 
         <footer className={styles.footer}>
           <a
@@ -37,6 +45,11 @@ const PageBody = () => {
           </a>
         </footer>
       </Container>
+      <ProjectCreateDialog
+        open={openCreateDialog}
+        setOpen={setOpenCreateDialog}
+      />
+      <ProjectJoinDialog open={openJoinDialog} setOpen={setOpenJoinDialog} />
     </>
   );
 };
