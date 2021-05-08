@@ -3,7 +3,7 @@ import { TableHead, TableRow, TableCell } from "@material-ui/core";
 const App = () => {
   return (
     <TableHead>
-      <TableRow>
+      <TableRow key="header">
         <TableCell>プロジェクト名</TableCell>
         <TableCell align="center">ID</TableCell>
         <TableCell align="center">内容</TableCell>

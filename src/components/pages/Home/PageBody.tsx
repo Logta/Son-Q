@@ -4,8 +4,16 @@ import styles from "./Home.module.scss";
 import { Container, Button, Typography, Box } from "@material-ui/core";
 import { AppBar } from "@/components/organisms";
 import { GlobalContext } from "@/contexts";
+import { useRouter } from "next/router";
 
 const PageBody = () => {
+  const router = useRouter();
+
+  const handleClick = (href: string) => (e: any) => {
+    e.preventDefault();
+    router.push(href);
+  };
+
   const { user, signIn, signOut } = useContext(GlobalContext);
   return (
     <>
@@ -18,9 +26,22 @@ const PageBody = () => {
         </main>
 
         {user.Login ? (
-          <Button onClick={() => signOut()} color="primary" variant="contained">
-            サインアウト
-          </Button>
+          <>
+            <Button
+              onClick={handleClick("/projects")}
+              color="primary"
+              variant="contained"
+            >
+              プロジェクト一覧へ
+            </Button>
+            <Button
+              onClick={() => signOut()}
+              color="primary"
+              variant="outlined"
+            >
+              サインアウト
+            </Button>
+          </>
         ) : (
           <Button onClick={() => signIn()} color="primary" variant="contained">
             サインイン

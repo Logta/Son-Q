@@ -8,6 +8,7 @@ import {
   getProject,
   createProject,
   deleteProject,
+  joinProject,
 } from "@/firebase";
 
 const ProjectsContainer: React.FC = ({ children }) => {
@@ -50,6 +51,15 @@ const ProjectsContainer: React.FC = ({ children }) => {
     await getProjects();
   };
 
+  ///プロジェクトに参加する
+  const joinProjects = async (id: string) => {
+    const user = await awaitOnAuth();
+    if (_.isNull(user) || !user.ok) return;
+
+    await joinProject(user, id);
+    await getProjects();
+  };
+
   return (
     <ProjectsContext.Provider
       value={{
@@ -58,6 +68,7 @@ const ProjectsContainer: React.FC = ({ children }) => {
         createProjects,
         updateProjects,
         deleteProjects,
+        joinProjects,
         loading,
       }}
     >

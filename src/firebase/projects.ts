@@ -51,4 +51,41 @@ const deleteProject = async (index: string) => {
     });
 };
 
-export { getProject, createProject, deleteProject };
+///プロジェクトに参加する
+const joinProject = async (user: Auth, id: string) => {
+  let postRef = firestore.collection("projects").doc(id);
+  await postRef
+    .get()
+    .then(async function (doc: any) {
+      if (!doc.exists) {
+        console.log("入力IDはありません");
+        return;
+      }
+      const participants = JSON.parse(JSON.stringify(doc.data().participants));
+      const exist = doc
+        .data()
+        .participants.some((p: any) => p.user_id === user.id);
+      if (exist) return;
+      participants.push({
+        user_id: user.id,
+        user_name: user.name,
+      });
+      let document = firestore.collection("projects").doc(id);
+      document
+        .update({
+          participants: participants,
+        })
+        .then(function () {
+          console.log("更新が完了しました");
+        })
+        .catch(function (error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+        });
+    })
+    .catch(function (error) {
+      console.log("Error getting document:", error);
+    });
+};
+
+export { getProject, createProject, deleteProject, joinProject };

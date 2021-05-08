@@ -7,6 +7,7 @@ type Props = {
   createProjects: Function;
   updateProjects: Function;
   deleteProjects: Function;
+  joinProjects: Function;
   loading: boolean;
 };
 
@@ -16,5 +17,6 @@ export const ProjectsContext = React.createContext<Props>({
   createProjects: Function,
   updateProjects: Function,
   deleteProjects: Function,
+  joinProjects: Function,
   loading: true,
 });
