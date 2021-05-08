@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "./Project.module.scss";
+import styles from "./Question.module.scss";
 import { useContext, useState } from "react";
 import { Container, Button } from "@material-ui/core";
 import { AppBar, ProjectTable } from "@/components/organisms";

@@ -16,8 +16,9 @@ import { Project } from "@/models";
 type Props = {
   open: boolean;
   setOpen: Function;
-}; // カスタムフックを定義（input 要素用の属性を生成する）
+};
 
+// カスタムフックを定義（input 要素用の属性を生成する）
 function useInput(initValue: string): any {
   const [value, setValue] = React.useState<string>(initValue);
   return {

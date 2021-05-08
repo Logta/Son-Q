@@ -62,7 +62,7 @@ const joinProject = async (user: Auth, id: string) => {
         return;
       }
       const participants = JSON.parse(JSON.stringify(doc.data().participants));
-      const exist = doc
+      const exist = await doc
         .data()
         .participants.some((p: any) => p.user_id === user.id);
       if (exist) return;
@@ -71,7 +71,7 @@ const joinProject = async (user: Auth, id: string) => {
         user_name: user.name,
       });
       let document = firestore.collection("projects").doc(id);
-      document
+      await document
         .update({
           participants: participants,
         })
