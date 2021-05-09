@@ -1,27 +1,25 @@
 import { firestore } from "@/plugins/firebase";
-import { Auth, Answer, Question } from "@/models";
+import { Auth, Answer, Question, Participant } from "@/models";
 
 const getAnswer = async (user: Auth, projectId: string) => {
   const answers: Array<Answer> = [];
 
-  let collection = firestore
+  const ans = await firestore
     .collection("projects")
     .doc(projectId)
     .collection("answers")
-    .where("user_id", "==", user.id);
-  await collection.get().then((querySnapshot) => {
-    querySnapshot.forEach((doc: any) => {
-      const answer: any = {
-        id: doc.id,
-        no: doc.data().no,
-        url: doc.data().url,
-        answer: doc.data().answer,
-        correct: doc.data().correct,
-        user_id: doc.data().user_id,
-        user_name: doc.data().user_name,
-      };
-      answers.push(answer);
-    });
+    .where("answer_user_id", "==", user.id)
+    .get();
+  ans.forEach((doc: any) => {
+    const answer: Answer = {
+      ID: doc.id,
+      no: doc.data().no,
+      url: doc.data().url,
+      guess_user_id: doc.data().guess_user_id,
+      select_user_id: doc.data().select_user_id,
+      answer_user_id: doc.data().answer_user_id,
+    };
+    answers.push(answer);
   });
 
   return answers;
@@ -40,8 +38,8 @@ const createAnswer = async (
   await collection.add({
     no: questionNo,
     url: answer.url,
-    answer: answer.guess_user_id,
-    correct: answer.select_user_id,
+    guess_user_id: answer.guess_user_id,
+    select_user_id: answer.select_user_id,
     answer_user_id: user.id,
     user_name: user.name,
   });
@@ -56,11 +54,11 @@ const updateAnswer = async (
     .collection("projects")
     .doc(projectId)
     .collection("answers");
-  await collection.doc(answer.ID).set({
+  await collection.doc(answer.ID).update({
     no: questionNo,
     url: answer.url,
-    answer: answer.guess_user_id,
-    correct: answer.select_user_id,
+    guess_user_id: answer.guess_user_id,
+    select_user_id: answer.select_user_id,
   });
 };
 
@@ -83,20 +81,21 @@ const getQuestionNumber = async (projectId: string) => {
   const proj = await firestore.collection("projects").doc(projectId).get();
 
   if (proj.exists) {
-    return +proj.data().questionNum * proj.data().participants.length;
+    return +proj.data().question_num * +proj.data().participants.length;
   } else {
     console.log("No such document!");
+    return 0;
   }
 };
 
 // 参加者を取得
 const getParticipants = async (projectId: string) => {
-  const members: Array<Object> = [];
+  const members: Array<Participant> = [];
   const proj = await firestore.collection("projects").doc(projectId).get();
 
   if (proj.exists) {
     proj.data().participants.map((p: any) => {
-      const member: Object = {
+      const member: Participant = {
         user_id: p.user_id,
         user_name: p.user_name,
       };

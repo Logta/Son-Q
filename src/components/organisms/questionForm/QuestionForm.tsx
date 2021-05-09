@@ -34,7 +34,6 @@ const App = ({ questions, nums }: Props) => {
   };
   useEffect(() => {
     handleSetPropsQuestions();
-    console.log(currentQuestions);
   }, []);
 
   const handleURL = (id: number) => (event: any) => {
@@ -46,7 +45,7 @@ const App = ({ questions, nums }: Props) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     registerQuestions(currentQuestions);
-    redirect("/projects");
+    redirect("/projects")(e);
   };
 
   return (

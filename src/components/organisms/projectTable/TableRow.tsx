@@ -31,8 +31,12 @@ const App = (props: Props) => {
         <Button variant="outlined" onClick={redirect(`/questions/${row.ID}`)}>
           問題設定
         </Button>
-        <Button variant="outlined">回答</Button>
-        <Button variant="outlined">結果</Button>
+        <Button variant="outlined" onClick={redirect(`/answers/${row.ID}`)}>
+          回答
+        </Button>
+        <Button variant="outlined" onClick={redirect(`/resutls/${row.ID}`)}>
+          結果
+        </Button>
       </TableCell>
       <TableCell>
         {}
