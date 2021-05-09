@@ -3,7 +3,7 @@ type Project = {
   name: string;
   content: string;
   creater: string;
-  questionNum: number;
+  question_num: number;
   participants: Object[];
 };
 

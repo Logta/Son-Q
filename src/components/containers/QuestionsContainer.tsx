@@ -6,20 +6,37 @@ import { Question } from "@/models";
 import {
   awaitOnAuth,
   getQuestion,
-  createQuestion,
-  deleteQuestion,
-  joinQuestion,
+  registerQuestion,
+  getQuestionNum,
 } from "@/firebase";
 
-const QuestionsContainer: React.FC = ({ children }) => {
+type Props = {
+  children: React.ReactNode;
+  projectId: string;
+};
+
+const QuestionsContainer: React.FC<Props> = ({ children, projectId }) => {
   const [loading, setLoading] = useState<boolean>(true);
+  const [questionNum, setQuestionNum] = useState<number>(0);
   const [questions, setQuestions] = useState<Array<Question>>([]);
 
   useEffect(() => {
     getQuestions();
+    getQuestionsNum();
   }, []);
 
   const getQuestions = async () => {
+    const user = await awaitOnAuth();
+
+    if (_.isNull(user) || !user.ok) {
+      setQuestions([]);
+      return;
+    }
+    const ps = await getQuestion(user, projectId);
+    setQuestions(ps);
+  };
+
+  const getQuestionsNum = async (): Promise<number> => {
     const user = await awaitOnAuth();
 
     setLoading(false);
@@ -27,27 +44,16 @@ const QuestionsContainer: React.FC = ({ children }) => {
       setQuestions([]);
       return;
     }
-    const ps = await getQuestion(user);
-    setQuestions(ps);
+    const questionNum = await getQuestionNum(projectId);
+    setQuestionNum(questionNum);
+    setLoading(false);
   };
 
-  const createQuestions = async (data: Question) => {
+  const registerQuestions = async (questions: Array<Question>) => {
     const user = await awaitOnAuth();
     if (_.isNull(user) || !user.ok) return;
 
-    await createQuestion(user, data);
-    await getQuestions();
-  };
-
-  const updateQuestions = async () => {
-    setQuestions([]);
-  };
-
-  const deleteQuestions = async (id: string) => {
-    const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) return;
-
-    await deleteQuestion(id);
+    await registerQuestion(user, questions, projectId);
     await getQuestions();
   };
 
@@ -55,10 +61,10 @@ const QuestionsContainer: React.FC = ({ children }) => {
     <QuestionsContext.Provider
       value={{
         questions,
+        questionNum,
         getQuestions,
-        createQuestions,
-        updateQuestions,
-        deleteQuestions,
+        getQuestionsNum,
+        registerQuestions,
         loading,
       }}
     >

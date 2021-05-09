@@ -2,31 +2,34 @@ import Image from "next/image";
 import styles from "./Question.module.scss";
 import { useContext, useState } from "react";
 import { Container, Button } from "@material-ui/core";
-import { AppBar, ProjectTable } from "@/components/organisms";
-import { ProjectsContext } from "@/contexts";
+import { AppBar, QuestionForm } from "@/components/organisms";
+import { QuestionsContext } from "@/contexts";
 import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
+import { useRouter } from "next/router";
+import _ from "lodash";
 
 const PageBody = () => {
-  const { projects } = useContext(ProjectsContext);
+  const { questions, questionNum, loading } = useContext(QuestionsContext);
 
   const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false);
   const [openJoinDialog, setOpenJoinDialog] = useState<boolean>(false);
+
+  const router = useRouter();
+
+  const redirect = (href: string) => (e: any) => {
+    e.preventDefault();
+    router.push(href);
+  };
+
   return (
     <>
       <AppBar />
       <Container maxWidth="lg">
-        <main className={styles.main}>
-          プロジェクトの作成・参加をしましょう
-        </main>
-
-        <ProjectTable rows={projects} />
-        <Button onClick={() => setOpenCreateDialog(true)}>
-          プロジェクト作成
-        </Button>
-        <Button onClick={() => setOpenJoinDialog(true)}>
-          プロジェクト参加
-        </Button>
-
+        <main className={styles.main}>問題を設定しましょう！</main>
+        {!loading && questionNum !== 0 && !_.isNil(questions) && (
+          <QuestionForm nums={questionNum} questions={questions} />
+        )}
+        <Button onClick={redirect("/projects")}>プロジェクト一覧に戻る</Button>
         <footer className={styles.footer}>
           <a
             href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"

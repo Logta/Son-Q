@@ -1,10 +1,10 @@
 type Answer = {
   ID: string;
-  name: string;
-  content: string;
-  creater: string;
-  questionNum: number;
-  participants: Object[];
+  no: number;
+  guess_user_id: string;
+  select_user_id: string;
+  answer_user_id: string;
+  url: string;
 };
 
 export type { Answer };

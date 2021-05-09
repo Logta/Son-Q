@@ -7,14 +7,15 @@ import { GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
 
 const PageBody = () => {
+  const { user, signIn, signOut } = useContext(GlobalContext);
+
   const router = useRouter();
 
-  const handleClick = (href: string) => (e: any) => {
+  const redirect = (href: string) => (e: any) => {
     e.preventDefault();
     router.push(href);
   };
 
-  const { user, signIn, signOut } = useContext(GlobalContext);
   return (
     <>
       <AppBar />
@@ -28,7 +29,7 @@ const PageBody = () => {
         {user.Login ? (
           <>
             <Button
-              onClick={handleClick("/projects")}
+              onClick={redirect("/projects")}
               color="primary"
               variant="contained"
             >

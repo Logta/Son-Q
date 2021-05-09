@@ -16,15 +16,15 @@
         {
           "no": "曲順",
           "url": "曲のURL",
-          "user_id": "選曲者のid"
+          "select_user_id": "選曲者のid"
         }
       ],
       "answers": [
         {
           "no": "曲順",
-          "answer": "回答(選曲したと思うひとのUID)",
-          "correct": "正解(正解の人のUID)",
-          "user_id": "回答者のid",
+          "guess_user_id": "回答(選曲したと思うひとのUID)",
+          "select_user_id": "正解(正解の人のUID)",
+          "answer_user_id": "回答者のid",
           "url": "曲のURL"
         }
       ],

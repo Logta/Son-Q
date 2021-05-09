@@ -44,7 +44,7 @@ const App = (props: Props) => {
       name: name.value,
       content: content.value,
       creater: "",
-      questionNum: questionNum.value,
+      question_num: question_num.value,
       participants: [],
     };
 
@@ -54,7 +54,7 @@ const App = (props: Props) => {
 
   const name = useInput("");
   const content = useInput("");
-  const questionNum = useInput("");
+  const question_num = useInput("");
 
   return (
     <div>
@@ -93,12 +93,12 @@ const App = (props: Props) => {
               variant="outlined"
               autoFocus
               margin="dense"
-              id="questionNum"
+              id="question_num"
               label="出題数"
               type="number"
               required
               fullWidth
-              {...questionNum}
+              {...question_num}
             />
           </DialogContent>
           <DialogActions>

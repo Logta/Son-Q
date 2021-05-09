@@ -3,15 +3,14 @@ import React, { useState, useEffect } from "react";
 import _ from "lodash";
 
 import { Answer } from "@/models";
-import {
-  awaitOnAuth,
-  getAnswer,
-  createAnswer,
-  deleteAnswer,
-  joinAnswer,
-} from "@/firebase";
+import { awaitOnAuth, getAnswer } from "@/firebase";
 
-const AnswersContainer: React.FC = ({ children }) => {
+type Props = {
+  children: React.ReactNode;
+  projectId: string;
+};
+
+const AnswersContainer: React.FC = ({ children, projectId }: Props) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [answers, setAnswers] = useState<Array<Answer>>([]);
 
@@ -27,37 +26,8 @@ const AnswersContainer: React.FC = ({ children }) => {
       setAnswers([]);
       return;
     }
-    const ps = await getAnswer(user);
+    const ps = await getAnswer(user, projectId);
     setAnswers(ps);
-  };
-
-  const createAnswers = async (data: Answer) => {
-    const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) return;
-
-    await createAnswer(user, data);
-    await getAnswers();
-  };
-
-  const updateAnswers = async () => {
-    setAnswers([]);
-  };
-
-  const deleteAnswers = async (id: string) => {
-    const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) return;
-
-    await deleteAnswer(id);
-    await getAnswers();
-  };
-
-  ///プロジェクトに参加する
-  const joinAnswers = async (id: string) => {
-    const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) return;
-
-    await joinAnswer(user, id);
-    await getAnswers();
   };
 
   return (
@@ -65,10 +35,6 @@ const AnswersContainer: React.FC = ({ children }) => {
       value={{
         answers,
         getAnswers,
-        createAnswers,
-        updateAnswers,
-        deleteAnswers,
-        joinAnswers,
         loading,
       }}
     >

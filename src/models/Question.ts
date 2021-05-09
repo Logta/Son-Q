@@ -1,10 +1,8 @@
 type Question = {
   ID: string;
-  name: string;
-  content: string;
-  creater: string;
-  questionNum: number;
-  participants: Object[];
+  no: number;
+  url: string;
+  select_user_id: string;
 };
 
 export type { Question };

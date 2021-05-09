@@ -16,7 +16,7 @@ const getProject = async (user: Auth) => {
       name: doc.data().name,
       content: doc.data().content,
       creater: doc.data().creater,
-      questionNum: doc.data().questionNum,
+      question_num: doc.data().question_num,
       ID: doc.id,
       participants: doc.data().participants,
     });
@@ -30,7 +30,7 @@ const createProject = async (user: Auth, data: Project) => {
   collection.add({
     name: data.name,
     content: data.content,
-    questionNum: data.questionNum,
+    question_num: data.question_num,
     creater: user.id,
     participants: [
       {
