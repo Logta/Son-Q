@@ -3,7 +3,9 @@ import { User } from "@/models";
 
 type Props = {
   user: User;
-  signIn: Function;
+  signInGoogle: Function;
+  signInEmail: Function;
+  signUpEmail: Function;
   signOut: Function;
   loading: boolean;
 };
@@ -14,7 +16,9 @@ export const GlobalContext = React.createContext<Props>({
     Name: "",
     Login: false,
   },
-  signIn: Function,
+  signInGoogle: Function,
+  signInEmail: Function,
+  signUpEmail: Function,
   signOut: Function,
   loading: true,
 });

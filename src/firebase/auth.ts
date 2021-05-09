@@ -21,7 +21,7 @@ const awaitOnAuth = async (): Promise<Auth> => {
   });
 };
 
-const awaitOnLogin = async (): Promise<Auth> => {
+const awaitOnGoogleLogin = async (): Promise<Auth> => {
   const provider = new firebase.auth.GoogleAuthProvider();
   return new Promise(function (resolve, reject) {
     auth
@@ -44,4 +44,42 @@ const awaitOnLogin = async (): Promise<Auth> => {
   });
 };
 
-export { awaitOnAuth, awaitOnLogin };
+const awaitOnPasswordLogin = async (data: any): Promise<Auth> => {
+  const res = await firebase
+    .auth()
+    .signInWithEmailAndPassword(data.email, data.password);
+
+  if (res) {
+    var user = res.user;
+    return {
+      ok: true,
+      id: user.uid,
+      name: user.displayName,
+    };
+  } else {
+    return {
+      ok: false,
+      id: "",
+      name: "",
+    };
+  }
+};
+
+const createPasswordUser = async (data: any): Promise<boolean> => {
+  const auth = firebase.auth();
+  try {
+    await auth.createUserWithEmailAndPassword(data.email, data.password);
+    return true;
+  } catch (e) {
+    // FIXME: カスタムエラーオブジェクトを作ってinstance of で絞り込もう
+    alert(JSON.stringify(e.message));
+    return false;
+  }
+};
+
+export {
+  awaitOnAuth,
+  awaitOnGoogleLogin,
+  awaitOnPasswordLogin,
+  createPasswordUser,
+};

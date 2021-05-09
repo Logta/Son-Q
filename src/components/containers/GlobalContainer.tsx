@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import _ from "lodash";
 
 import { User } from "@/models";
-import { awaitOnLogin } from "@/firebase";
+import {
+  awaitOnGoogleLogin,
+  awaitOnPasswordLogin,
+  createPasswordUser,
+} from "@/firebase";
 
 const GlobalContainer: React.FC = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -13,8 +17,8 @@ const GlobalContainer: React.FC = ({ children }) => {
     Login: false,
   });
 
-  const signIn = async () => {
-    const user = await awaitOnLogin();
+  const signInGoogle = async () => {
+    const user = await awaitOnGoogleLogin();
     setLoading(false);
     if (_.isNull(user)) return;
     if (!user.ok) return;
@@ -23,6 +27,24 @@ const GlobalContainer: React.FC = ({ children }) => {
       Name: user.name,
       Login: true,
     });
+  };
+
+  const signInEmail = async (data: any) => {
+    const user = await awaitOnPasswordLogin(data);
+    setLoading(false);
+    if (_.isNull(user)) return;
+    if (!user.ok) return;
+    setUser({
+      ID: user.id,
+      Name: user.name,
+      Login: true,
+    });
+  };
+
+  const signUpEmail = async (data: any) => {
+    const bool = await createPasswordUser(data);
+    setLoading(false);
+    return bool;
   };
 
   const signOut = async () => {
@@ -37,7 +59,9 @@ const GlobalContainer: React.FC = ({ children }) => {
     <GlobalContext.Provider
       value={{
         user,
-        signIn,
+        signInGoogle,
+        signInEmail,
+        signUpEmail,
         signOut,
         loading,
       }}

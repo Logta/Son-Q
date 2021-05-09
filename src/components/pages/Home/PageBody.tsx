@@ -2,12 +2,14 @@ import Image from "next/image";
 import { useContext } from "react";
 import styles from "./Home.module.scss";
 import { Container, Button, Typography, Box } from "@material-ui/core";
-import { AppBar } from "@/components/organisms";
+import { AppBar, LoginForm } from "@/components/organisms";
 import { GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
 
 const PageBody = () => {
-  const { user, signIn, signOut } = useContext(GlobalContext);
+  const { user, signInGoogle, signInEmail, signOut } = useContext(
+    GlobalContext
+  );
 
   const router = useRouter();
 
@@ -44,9 +46,16 @@ const PageBody = () => {
             </Button>
           </>
         ) : (
-          <Button onClick={() => signIn()} color="primary" variant="contained">
-            サインイン
-          </Button>
+          <>
+            <LoginForm />
+            <Button
+              onClick={() => signInGoogle()}
+              color="primary"
+              variant="contained"
+            >
+              Google
+            </Button>
+          </>
         )}
 
         <Box m={10} />
