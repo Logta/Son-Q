@@ -34,13 +34,18 @@ const PageBody = () => {
               onClick={redirect("/projects")}
               color="primary"
               variant="contained"
+              style={{ margin: "1em" }}
             >
               プロジェクト一覧へ
             </Button>
             <Button
-              onClick={() => signOut()}
+              onClick={() => {
+                signOut();
+                redirect("/");
+              }}
               color="primary"
               variant="outlined"
+              style={{ margin: "1em" }}
             >
               サインアウト
             </Button>
@@ -49,9 +54,13 @@ const PageBody = () => {
           <>
             <LoginForm />
             <Button
-              onClick={() => signInGoogle()}
+              onClick={async () => {
+                await signInGoogle();
+                redirect("/projects");
+              }}
               color="primary"
               variant="contained"
+              style={{ margin: "1em" }}
             >
               Google
             </Button>

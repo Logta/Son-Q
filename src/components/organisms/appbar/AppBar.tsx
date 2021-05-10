@@ -3,9 +3,17 @@ import { useContext } from "react";
 import { GlobalContext } from "@/contexts";
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import { AppBarButton } from "@/components/atoms";
+import { useRouter } from "next/router";
 
 const App = () => {
-  const { user, signIn, signOut } = useContext(GlobalContext);
+  const { user, signInGoogle, signOut } = useContext(GlobalContext);
+
+  const router = useRouter();
+
+  const redirect = (href: string) => (e: any) => {
+    e.preventDefault();
+    router.push(href);
+  };
 
   return (
     <>
@@ -16,13 +24,25 @@ const App = () => {
           </Typography>
           {user.Login ? (
             <div className={styles.button}>
-              <AppBarButton onClick={() => signOut()}>
+              <AppBarButton
+                onClick={() => {
+                  signOut();
+                  redirect("/");
+                }}
+              >
                 サインアウト
               </AppBarButton>
             </div>
           ) : (
             <div className={styles.button}>
-              <AppBarButton onClick={() => signIn()}>サインイン</AppBarButton>
+              <AppBarButton
+                onClick={async () => {
+                  await signInGoogle();
+                  redirect("/projects");
+                }}
+              >
+                サインイン
+              </AppBarButton>
             </div>
           )}
         </Toolbar>
