@@ -1,6 +1,6 @@
 import Head from "next/head";
-import { QuestionPage } from "../../src/components/pages";
-import { QuestionsContainer } from "../../src/components/containers";
+import { ResultPage } from "../../src/components/pages";
+import { ResultsContainer } from "../../src/components/containers";
 import { useRouter } from "next/router";
 
 export default function Home() {
@@ -17,9 +17,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <QuestionsContainer projectId={project_id as string}>
-        <QuestionPage />
-      </QuestionsContainer>
+      <ResultsContainer projectId={project_id as string}>
+        <ResultPage />
+      </ResultsContainer>
     </>
   );
 }

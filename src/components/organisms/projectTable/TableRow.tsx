@@ -34,7 +34,7 @@ const App = (props: Props) => {
         <Button variant="outlined" onClick={redirect(`/answers/${row.ID}`)}>
           回答
         </Button>
-        <Button variant="outlined" onClick={redirect(`/resutls/${row.ID}`)}>
+        <Button variant="outlined" onClick={redirect(`/results/${row.ID}`)}>
           結果
         </Button>
       </TableCell>

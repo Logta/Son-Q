@@ -1,18 +1,16 @@
 import Image from "next/image";
-import styles from "./Question.module.scss";
+import styles from "./Result.module.scss";
 import { useContext, useState } from "react";
 import { Container, Button } from "@material-ui/core";
-import { AppBar, QuestionForm } from "@/components/organisms";
-import { QuestionsContext } from "@/contexts";
-import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
+import { AppBar, ResultTable } from "@/components/organisms";
+import { ResultsContext } from "@/contexts";
 import { useRouter } from "next/router";
 import _ from "lodash";
 
 const PageBody = () => {
-  const { questions, questionNum, loading } = useContext(QuestionsContext);
-
-  const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false);
-  const [openJoinDialog, setOpenJoinDialog] = useState<boolean>(false);
+  const { questionNum, loading, answers, participants } = useContext(
+    ResultsContext
+  );
 
   const router = useRouter();
 
@@ -26,9 +24,12 @@ const PageBody = () => {
       <AppBar />
       <Container maxWidth="lg">
         <main className={styles.main}>結果を確認しよう！</main>
-        {!loading && questionNum !== 0 && !_.isNil(questions) && (
-          <QuestionForm nums={questionNum} questions={questions} />
-        )}
+        {!loading &&
+          questionNum !== 0 &&
+          !_.isNil(answers) &&
+          !_.isNil(participants) && (
+            <ResultTable rows={answers} participants={participants} />
+          )}
         <Button onClick={redirect("/projects")}>プロジェクト一覧に戻る</Button>
         <footer className={styles.footer}>
           <a
@@ -48,11 +49,6 @@ const PageBody = () => {
           </a>
         </footer>
       </Container>
-      <ProjectCreateDialog
-        open={openCreateDialog}
-        setOpen={setOpenCreateDialog}
-      />
-      <ProjectJoinDialog open={openJoinDialog} setOpen={setOpenJoinDialog} />
     </>
   );
 };
