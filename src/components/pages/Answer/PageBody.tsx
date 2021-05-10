@@ -31,7 +31,11 @@ const PageBody = () => {
           questions &&
           participants && <AnswerForm />}
 
-        <Button onClick={redirect("/projects")}>プロジェクト一覧に戻る</Button>
+        <div className={styles.redirectButton}>
+          <Button onClick={redirect("/projects")} variant="outlined">
+            プロジェクト一覧に戻る
+          </Button>
+        </div>
         <footer className={styles.footer}>
           <a
             href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"

@@ -1,8 +1,8 @@
 import Image from "next/image";
 import styles from "./Result.module.scss";
-import { useContext, useState } from "react";
-import { Container, Button } from "@material-ui/core";
-import { AppBar, ResultTable } from "@/components/organisms";
+import { useContext } from "react";
+import { Container, Button, Typography } from "@material-ui/core";
+import { AppBar, ResultPointTable, ResultTable } from "@/components/organisms";
 import { ResultsContext } from "@/contexts";
 import { useRouter } from "next/router";
 import _ from "lodash";
@@ -28,9 +28,20 @@ const PageBody = () => {
           questionNum !== 0 &&
           !_.isNil(answers) &&
           !_.isNil(participants) && (
-            <ResultTable rows={answers} participants={participants} />
+            <>
+              <Typography align="center">得点表</Typography>
+              <ResultPointTable />
+              <div className={styles.resultTable}>
+                <Typography align="center">回答一覧</Typography>
+                <ResultTable />
+              </div>
+            </>
           )}
-        <Button onClick={redirect("/projects")}>プロジェクト一覧に戻る</Button>
+        <div className={styles.redirectButton}>
+          <Button onClick={redirect("/projects")} variant="outlined">
+            プロジェクト一覧に戻る
+          </Button>
+        </div>
         <footer className={styles.footer}>
           <a
             href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"

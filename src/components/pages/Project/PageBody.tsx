@@ -20,12 +20,22 @@ const PageBody = () => {
         </main>
 
         <ProjectTable rows={projects} />
-        <Button onClick={() => setOpenCreateDialog(true)}>
-          プロジェクト作成
-        </Button>
-        <Button onClick={() => setOpenJoinDialog(true)}>
-          プロジェクト参加
-        </Button>
+        <div className={styles.redirectButton}>
+          <Button
+            onClick={() => setOpenCreateDialog(true)}
+            variant="contained"
+            color="primary"
+          >
+            プロジェクト作成
+          </Button>
+          <Button
+            onClick={() => setOpenJoinDialog(true)}
+            variant="contained"
+            style={{ marginLeft: "1em" }}
+          >
+            プロジェクト参加
+          </Button>
+        </div>
 
         <footer className={styles.footer}>
           <a

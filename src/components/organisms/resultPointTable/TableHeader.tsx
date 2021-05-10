@@ -8,13 +8,14 @@ const App = () => {
   return (
     <TableHead>
       <TableRow key="header">
-        <TableCell rowSpan={2}>出題者</TableCell>
-
-        <TableCell colSpan={participants.length} align="center">
+        <TableCell
+          component="th"
+          padding="none"
+          align="center"
+          style={{ width: "5em" }}
+        >
           回答者
         </TableCell>
-      </TableRow>
-      <TableRow>
         {participants.map((part: Participant) => {
           return <TableCell align="center">{part.user_name}</TableCell>;
         })}

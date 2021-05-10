@@ -5,3 +5,4 @@ export * from "./questionForm";
 export * from "./answerForm";
 export * from "./loginForm";
 export * from "./resultTable";
+export * from "./resultPointTable";

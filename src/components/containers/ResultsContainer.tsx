@@ -2,7 +2,7 @@ import { ResultsContext } from "@/contexts";
 import React, { useState, useEffect } from "react";
 import _ from "lodash";
 
-import { Answer, Result, Participant } from "@/models";
+import { Answer, Result, Participant, Question } from "@/models";
 import {
   awaitOnAuth,
   getResult,
@@ -10,6 +10,7 @@ import {
   getParticipants,
   getQuestionNumber,
   registerResult,
+  getAllQuestions,
 } from "@/firebase";
 
 type Props = {
@@ -23,11 +24,13 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
   const [answers, setAnswers] = useState<Array<Answer>>([]);
   const [results, setResults] = useState<Array<Result>>([]);
   const [participants, setParticipants] = useState<Array<Participant>>([]);
+  const [questions, setQuestions] = useState<Array<Question>>([]);
 
   useEffect(() => {
     getResults();
     getQuestionsNum();
     getParticipant();
+    getQuestions();
     getAnswers();
   }, []);
 
@@ -41,6 +44,17 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
     const ps = await getAllAnswers(projectId);
     setAnswers(ps);
     setLoading(false);
+  };
+
+  const getQuestions = async () => {
+    const user = await awaitOnAuth();
+
+    if (_.isNull(user) || !user.ok) {
+      setQuestions([]);
+      return;
+    }
+    const ps = await getAllQuestions(projectId);
+    setQuestions(ps);
   };
 
   const getResults = async () => {
@@ -92,6 +106,7 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
         registerResults,
         questionNum,
         results,
+        questions,
         participants,
         loading,
       }}

@@ -27,19 +27,26 @@ const App = (props: Props) => {
       <TableCell align="center">{row.content}</TableCell>
       <TableCell align="center">{row.question_num}</TableCell>
       <TableCell align="center">{row.participants.length}</TableCell>
-      <TableCell>
+      <TableCell align="center">
         <Button variant="outlined" onClick={redirect(`/questions/${row.ID}`)}>
           問題設定
         </Button>
-        <Button variant="outlined" onClick={redirect(`/answers/${row.ID}`)}>
+        <Button
+          variant="outlined"
+          onClick={redirect(`/answers/${row.ID}`)}
+          style={{ marginLeft: "1em" }}
+        >
           回答
         </Button>
-        <Button variant="outlined" onClick={redirect(`/results/${row.ID}`)}>
+        <Button
+          variant="outlined"
+          onClick={redirect(`/results/${row.ID}`)}
+          style={{ marginLeft: "1em" }}
+        >
           結果
         </Button>
       </TableCell>
-      <TableCell>
-        {}
+      <TableCell align="center">
         <Button
           variant="outlined"
           color="secondary"

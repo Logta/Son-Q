@@ -1,25 +1,55 @@
 import { TableRow, TableCell } from "@material-ui/core";
 import { ResultsContext } from "@/contexts";
 import { useContext } from "react";
-import { Answer } from "@/models";
+import { Answer, Participant, Question } from "@/models";
+import _ from "lodash";
 
 const App = () => {
-  const { participants, answers } = useContext(ResultsContext);
+  const { participants, answers, questions } = useContext(ResultsContext);
   return (
-    <TableRow key={"result-point"}>
-      <TableCell component="th" scope="row" />
-      {participants.map((r) => {
+    <>
+      {questions.map((ques) => {
         return (
-          <TableCell component="th" scope="row" align="center">
-            {getResultPoint(r.user_id, answers)}
-          </TableCell>
+          <TableRow key={"result-point"}>
+            <TableCell component="th" scope="row" align="center">
+              {getQuestioner(participants, ques)}
+            </TableCell>
+            {participants.map((part) => {
+              return (
+                <TableCell>
+                  {getRespondent(part, participants, ques, answers)}
+                </TableCell>
+              );
+            })}
+          </TableRow>
         );
       })}
-    </TableRow>
+    </>
   );
 };
 
-const getResultPoint = (userID: string, answers: Array<Answer>): string => {
+const getQuestioner = (
+  participants: Array<Participant>,
+  ques: Question
+): string => {
+  return participants.find((p) => p.user_id === ques.select_user_id).user_name;
+};
+
+const getRespondent = (
+  participant: Participant,
+  participants: Array<Participant>,
+
+  ques: Question,
+  answers: Array<Answer>
+): string => {
+  const ans: Answer = answers.find(
+    (a) => a.answer_user_id === participant.user_id && ques.url === a.url
+  );
+  if (_.isNil(ans)) return "";
+  return participants.find((p) => p.user_id === ans.guess_user_id).user_name;
+};
+
+const getCorrectPoint = (userID: string, answers: Array<Answer>): string => {
   console.log(userID);
   return answers
     .filter(
