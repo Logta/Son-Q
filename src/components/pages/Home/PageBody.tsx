@@ -1,15 +1,14 @@
 import Image from "next/image";
 import { useContext } from "react";
 import styles from "./Home.module.scss";
-import { Container, Button, Typography, Box } from "@material-ui/core";
-import { AppBar, LoginForm } from "@/components/organisms";
+import { Container, Button, Typography, Box, Grid } from "@material-ui/core";
+import { AppBar } from "@/components/organisms";
 import { GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
 
 const PageBody = () => {
-  const { user, signInGoogle, signInEmail, signOut } = useContext(
-    GlobalContext
-  );
+  const { user, signInGoogle, signInEmail, signOut } =
+    useContext(GlobalContext);
 
   const router = useRouter();
 
@@ -29,42 +28,49 @@ const PageBody = () => {
         </main>
 
         {user.Login ? (
-          <>
-            <Button
-              onClick={redirect("/projects")}
-              color="primary"
-              variant="contained"
-              style={{ margin: "1em" }}
-            >
-              プロジェクト一覧へ
-            </Button>
-            <Button
-              onClick={() => {
-                signOut();
-                redirect("/");
-              }}
-              color="primary"
-              variant="outlined"
-              style={{ margin: "1em" }}
-            >
-              サインアウト
-            </Button>
-          </>
+          <Box m={2} p={2}>
+            <Grid container alignItems="center" justify="center">
+              <Grid item>
+                <Button
+                  onClick={redirect("/projects")}
+                  color="primary"
+                  variant="contained"
+                  style={{ margin: "1em" }}
+                >
+                  プロジェクト一覧へ
+                </Button>
+                <Button
+                  onClick={() => {
+                    signOut();
+                    redirect("/");
+                  }}
+                  color="primary"
+                  variant="outlined"
+                  style={{ margin: "1em" }}
+                >
+                  サインアウト
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
         ) : (
-          <>
-            <LoginForm />
-            <Button
-              onClick={async () => {
-                await signInGoogle();
-                redirect("/projects");
-              }}
-              color="primary"
-              variant="contained"
-              style={{ margin: "1em" }}
-            >
-              Google
-            </Button>
-          </>
+          <Box m={2} p={2}>
+            <Grid container alignItems="center" justify="center">
+              <Grid item>
+                <Button
+                  onClick={async () => {
+                    await signInGoogle();
+                    redirect("/projects");
+                  }}
+                  color="primary"
+                  variant="contained"
+                  style={{ margin: "1em" }}
+                >
+                  Google認証
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
         )}
 
         <Box m={10} />

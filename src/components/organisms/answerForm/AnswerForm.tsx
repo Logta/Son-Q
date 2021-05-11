@@ -6,6 +6,8 @@ import {
   CardContent,
   Button,
   Typography,
+  Box,
+  Grid,
 } from "@material-ui/core";
 import { Answer } from "@/models";
 import { useRouter } from "next/router";
@@ -71,7 +73,7 @@ const App = () => {
   };
 
   return (
-    <Paper>
+    <Paper style={{ backgroundColor: "#E3F2FD" }}>
       <form onSubmit={handleSubmit}>
         {[...Array(questionNum)].map((_, value) => {
           return (
@@ -81,12 +83,18 @@ const App = () => {
                   <Typography variant="h5" component="h2">
                     {value + 1} 曲目
                   </Typography>
-                  <div>
-                    <Youtube
-                      id={questions[value] ? questions[value].url : ""}
-                      endSec={60}
-                    />
-                  </div>
+                  <Box m={2}>
+                    <Paper style={{ backgroundColor: "#F5F5F5" }}>
+                      <Grid container alignItems="center" justify="center">
+                        <Grid item>
+                          <Youtube
+                            id={questions[value] ? questions[value].url : ""}
+                            endSec={60}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Paper>
+                  </Box>
                   <AnswerSelector
                     key={`Label-${+value + 1}`}
                     index={value}
@@ -104,11 +112,15 @@ const App = () => {
             </div>
           );
         })}
-        <div className={styles.button}>
-          <Button type="submit" variant="contained" color="primary">
-            回答
-          </Button>
-        </div>
+        <Box m={5} p={2}>
+          <Grid container alignItems="center" justify="center">
+            <Grid item>
+              <Button type="submit" variant="contained" color="primary">
+                回答
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
       </form>
     </Paper>
   );

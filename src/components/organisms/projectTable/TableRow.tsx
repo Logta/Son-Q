@@ -17,7 +17,7 @@ const App = (props: Props) => {
   };
 
   const { row } = props;
-  const { deleteProjects } = useContext(ProjectsContext);
+  const { deleteProjects, user } = useContext(ProjectsContext);
   return (
     <TableRow key={row.ID}>
       <TableCell component="th" scope="row">
@@ -28,18 +28,18 @@ const App = (props: Props) => {
       <TableCell align="center">{row.question_num}</TableCell>
       <TableCell align="center">{row.participants.length}</TableCell>
       <TableCell align="center">
-        <Button variant="outlined" onClick={redirect(`/questions/${row.ID}`)}>
+        <Button variant="contained" onClick={redirect(`/questions/${row.ID}`)}>
           問題設定
         </Button>
         <Button
-          variant="outlined"
+          variant="contained"
           onClick={redirect(`/answers/${row.ID}`)}
           style={{ marginLeft: "1em" }}
         >
           回答
         </Button>
         <Button
-          variant="outlined"
+          variant="contained"
           onClick={redirect(`/results/${row.ID}`)}
           style={{ marginLeft: "1em" }}
         >
@@ -47,13 +47,15 @@ const App = (props: Props) => {
         </Button>
       </TableCell>
       <TableCell align="center">
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() => deleteProjects(row.ID)}
-        >
-          削除
-        </Button>
+        {row.creater === user.ID && (
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => deleteProjects(row.ID)}
+          >
+            削除
+          </Button>
+        )}
       </TableCell>
     </TableRow>
   );
