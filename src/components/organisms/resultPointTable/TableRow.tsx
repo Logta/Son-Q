@@ -7,7 +7,9 @@ const App = () => {
   const { participants, answers } = useContext(ResultsContext);
   return (
     <TableRow key={"result-point"}>
-      <TableCell component="th" scope="row" />
+      <TableCell component="th" scope="row">
+        得点
+      </TableCell>
       {participants.map((r) => {
         return (
           <TableCell component="th" scope="row" align="center">

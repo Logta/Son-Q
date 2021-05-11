@@ -11,12 +11,12 @@ const App = () => {
       {questions.map((ques) => {
         return (
           <TableRow key={"result-point"}>
-            <TableCell component="th" scope="row" align="center">
+            <TableCell component="th" scope="row">
               {getQuestioner(participants, ques)}
             </TableCell>
             {participants.map((part) => {
               return (
-                <TableCell>
+                <TableCell align="center">
                   {getRespondent(part, participants, ques, answers)}
                 </TableCell>
               );
