@@ -1,8 +1,9 @@
 import Image from "next/image";
 import styles from "./Answer.module.scss";
 import { useContext } from "react";
-import { Container, Button, Typography } from "@material-ui/core";
+import { Container, Button, Grid } from "@material-ui/core";
 import { AppBar, AnswerForm } from "@/components/organisms";
+import { Label } from "@/components/atoms";
 import { AnswersContext } from "@/contexts";
 import { useRouter } from "next/router";
 
@@ -13,23 +14,22 @@ const PageBody = () => {
     e.preventDefault();
     router.push(href);
   };
-  const { loading, answers, questionNum, questions, participants } = useContext(
-    AnswersContext
-  );
+  const { loading, answers, questionNum, questions, participants } =
+    useContext(AnswersContext);
 
   return (
     <>
       <AppBar />
       <Container maxWidth="lg">
-        <Typography className={styles.main}>
-          誰が選んだ曲か推理しよう！
-        </Typography>
+        <Label>誰が選んだ曲か推理しよう！</Label>
 
-        {!loading &&
-          answers &&
-          questionNum !== 0 &&
-          questions &&
-          participants && <AnswerForm />}
+        {!loading && answers && questionNum !== 0 && questions && participants && (
+          <Grid container alignItems="center" justify="center">
+            <Grid item>
+              <AnswerForm />
+            </Grid>
+          </Grid>
+        )}
 
         <div className={styles.redirectButton}>
           <Button onClick={redirect("/projects")} variant="outlined">

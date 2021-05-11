@@ -1,16 +1,16 @@
 import Image from "next/image";
 import styles from "./Result.module.scss";
 import { useContext } from "react";
-import { Container, Button, Typography } from "@material-ui/core";
+import { Container, Button, Box } from "@material-ui/core";
 import { AppBar, ResultPointTable, ResultTable } from "@/components/organisms";
 import { ResultsContext } from "@/contexts";
 import { useRouter } from "next/router";
+import { Label, SubLabel } from "@/components/atoms";
 import _ from "lodash";
 
 const PageBody = () => {
-  const { questionNum, loading, answers, participants } = useContext(
-    ResultsContext
-  );
+  const { questionNum, loading, answers, participants } =
+    useContext(ResultsContext);
 
   const router = useRouter();
 
@@ -23,18 +23,19 @@ const PageBody = () => {
     <>
       <AppBar />
       <Container maxWidth="lg">
-        <main className={styles.main}>結果を確認しよう！</main>
+        <main className={styles.main}>
+          <Label>結果を確認しよう！</Label>
+        </main>
         {!loading &&
           questionNum !== 0 &&
           !_.isNil(answers) &&
           !_.isNil(participants) && (
             <>
-              <Typography align="center">得点表</Typography>
+              <SubLabel>得点表</SubLabel>
               <ResultPointTable />
-              <div className={styles.resultTable}>
-                <Typography align="center">回答一覧</Typography>
-                <ResultTable />
-              </div>
+              <Box m={10} />
+              <SubLabel>回答一覧</SubLabel>
+              <ResultTable />
             </>
           )}
         <div className={styles.redirectButton}>

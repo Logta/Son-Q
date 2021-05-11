@@ -1,11 +1,12 @@
 import Image from "next/image";
 import styles from "./Question.module.scss";
 import { useContext, useState } from "react";
-import { Container, Button } from "@material-ui/core";
+import { Container, Button, Typography } from "@material-ui/core";
 import { AppBar, QuestionForm } from "@/components/organisms";
 import { QuestionsContext } from "@/contexts";
 import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
 import { useRouter } from "next/router";
+import { Label } from "@/components/atoms";
 import _ from "lodash";
 
 const PageBody = () => {
@@ -25,7 +26,12 @@ const PageBody = () => {
     <>
       <AppBar />
       <Container maxWidth="lg">
-        <main className={styles.main}>問題を設定しましょう！</main>
+        <main className={styles.main}>
+          <Label>問題を設定しましょう！</Label>
+          <Typography color="primary">
+            ※出題するYoutube動画IDを記入してください
+          </Typography>
+        </main>
         {!loading && questionNum !== 0 && !_.isNil(questions) && (
           <QuestionForm nums={questionNum} questions={questions} />
         )}

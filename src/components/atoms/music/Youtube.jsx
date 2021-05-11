@@ -3,7 +3,7 @@ import styles from "./Youtube.module.scss";
 
 //import styles from "./Youtube.module.scss";
 import YouTube from "react-youtube";
-import { IconButton } from "@material-ui/core";
+import { IconButton, Box } from "@material-ui/core";
 import Forward10Icon from "@material-ui/icons/Forward10";
 import Replay10Icon from "@material-ui/icons/Replay10";
 import StopIcon from "@material-ui/icons/Stop";
@@ -54,6 +54,7 @@ const App = (props) => {
 
   return (
     <>
+      <Box m={-3} />
       <YouTube videoId={id} opts={opts} onReady={onReady} />
       <IconButton
         aria-label="before"
