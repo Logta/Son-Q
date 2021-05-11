@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { useContext } from "react";
 import styles from "./Home.module.scss";
-import { Container, Button, Typography, Box, Grid } from "@material-ui/core";
+import { Container, Button, Box, Grid } from "@material-ui/core";
+import { Label } from "@/components/atoms";
 import { AppBar } from "@/components/organisms";
 import { GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
@@ -22,9 +23,8 @@ const PageBody = () => {
       <AppBar />
       <Container maxWidth="sm">
         <main className={styles.main}>
-          <Typography variant="h6">
-            皆の好きな曲を持ち寄って、誰が持ってきた曲か当てよう！
-          </Typography>
+          <Label>皆の好きな曲を持ち寄って、</Label>
+          <Label>誰が持ってきた曲か当てよう！</Label>
         </main>
 
         {user.Login ? (

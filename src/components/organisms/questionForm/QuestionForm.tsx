@@ -1,6 +1,15 @@
 import styles from "./QuestionForm.module.scss";
 import { useState, useContext, useEffect } from "react";
-import { Paper, TextField, Button, Box } from "@material-ui/core";
+import {
+  Paper,
+  TextField,
+  Button,
+  Box,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+} from "@material-ui/core";
 import { Question } from "@/models";
 import { QuestionsContext } from "@/contexts";
 import { useRouter } from "next/router";
@@ -38,6 +47,12 @@ const App = ({ questions, nums }: Props) => {
 
   const handleURL = (id: number) => (event: any) => {
     const newQues = currentQuestions.slice();
+    var regex = new RegExp(/\?|\=|\/|\\|\:/);
+
+    if (regex.test(event.target.value)) {
+      alert("不正な入力があります。");
+      return;
+    }
     newQues[id].url = event.target.value;
     setCurrentQuestions([...newQues]);
   };
@@ -51,30 +66,15 @@ const App = ({ questions, nums }: Props) => {
   return (
     <Paper>
       <form onSubmit={handleSubmit}>
-        <div className={styles.label}>
-          出題するYoutube動画IDを記入してください
-        </div>
         {[...Array(nums)].map((_, value) => {
           return (
             <div className={styles.textForm}>
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                color="gray"
-              >
-                https://www.youtube.com/watch?v=
-              </Box>
-              <Box ml={2}>
-                <TextField
-                  key={`Label-${+value + 1}`}
-                  id="standard-full-width"
-                  label={`${+value + 1}題目の動画ID`}
-                  placeholder={`${+value + 1}曲目を記入してください。`}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  fullWidth
+              <FormControl fullWidth variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-amount">
+                  {`${+value + 1}題目：`}
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-amount"
                   value={
                     currentQuestions[value] && currentQuestions[value].url
                       ? currentQuestions[value].url
@@ -82,9 +82,14 @@ const App = ({ questions, nums }: Props) => {
                   }
                   onChange={handleURL(+value)}
                   onBlur={handleURL(+value)}
-                  variant="outlined"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      https://www.youtube.com/watch?v=
+                    </InputAdornment>
+                  }
+                  labelWidth={60}
                 />
-              </Box>
+              </FormControl>
             </div>
           );
         })}

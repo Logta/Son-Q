@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import { AnswersContext } from "@/contexts";
 import _ from "lodash";
 import { AnswerSelector } from "./AnswerSelector";
-import { Youtube } from "@/components/atoms";
+import { Youtube, AnswerFormLabel } from "@/components/atoms";
 
 const App = () => {
   const { answers, registerAnswers, questionNum, questions, participants } =
@@ -73,28 +73,31 @@ const App = () => {
   };
 
   return (
-    <Paper style={{ backgroundColor: "#E3F2FD" }}>
+    <Paper className={styles.table}>
       <form onSubmit={handleSubmit}>
         {[...Array(questionNum)].map((_, value) => {
           return (
             <div className={styles.card}>
-              <Card>
+              <Card style={{ backgroundColor: "#FAFAFA" }}>
                 <CardContent>
-                  <Typography variant="h5" component="h2">
-                    {value + 1} 曲目
-                  </Typography>
-                  <Box m={2}>
-                    <Paper style={{ backgroundColor: "#F5F5F5" }}>
+                  <AnswerFormLabel>{value + 1} 曲目</AnswerFormLabel>
+                  <Grid container alignItems="center" justify="center">
+                    <Grid item>
                       <Grid container alignItems="center" justify="center">
+                        <Box
+                          borderRadius={16}
+                          style={{ backgroundColor: "#E3F2FD" }}
+                        />
                         <Grid item>
                           <Youtube
                             id={questions[value] ? questions[value].url : ""}
                             endSec={60}
                           />
+                          <Box m={1} />
                         </Grid>
                       </Grid>
-                    </Paper>
-                  </Box>
+                    </Grid>
+                  </Grid>
                   <AnswerSelector
                     key={`Label-${+value + 1}`}
                     index={value}
