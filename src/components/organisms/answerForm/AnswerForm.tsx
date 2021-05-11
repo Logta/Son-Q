@@ -15,13 +15,8 @@ import { AnswerSelector } from "./AnswerSelector";
 import { Youtube } from "@/components/atoms";
 
 const App = () => {
-  const {
-    answers,
-    registerAnswers,
-    questionNum,
-    questions,
-    participants,
-  } = useContext(AnswersContext);
+  const { answers, registerAnswers, questionNum, questions, participants } =
+    useContext(AnswersContext);
 
   const router = useRouter();
 
@@ -32,14 +27,23 @@ const App = () => {
 
   const [currentAnswers, setCurrentAnswers] = useState<Array<Answer>>(
     [...Array(questionNum)].map((_, index) => {
-      return {
-        ID: "",
-        no: index,
-        select_user_id: questions[index].select_user_id,
-        guess_user_id: "",
-        answer_user_id: "",
-        url: questions[index].url,
-      };
+      return questions[index]
+        ? {
+            ID: "",
+            no: index,
+            select_user_id: questions[index].select_user_id,
+            guess_user_id: "",
+            answer_user_id: "",
+            url: questions[index].url,
+          }
+        : {
+            ID: "",
+            no: index,
+            select_user_id: "",
+            guess_user_id: "",
+            answer_user_id: "",
+            url: "",
+          };
     })
   );
 
