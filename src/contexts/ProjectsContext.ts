@@ -1,8 +1,9 @@
 import React from "react";
-import { Project } from "@/models";
+import { Project, User } from "@/models";
 
 type Props = {
   projects: Array<Project>;
+  user: User;
   getProjects: Function;
   createProjects: Function;
   updateProjects: Function;
@@ -13,6 +14,11 @@ type Props = {
 
 export const ProjectsContext = React.createContext<Props>({
   projects: [],
+  user: {
+    ID: "",
+    Name: "",
+    Login: false,
+  },
   getProjects: Function,
   createProjects: Function,
   updateProjects: Function,

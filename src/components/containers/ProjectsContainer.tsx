@@ -2,7 +2,7 @@ import { ProjectsContext } from "@/contexts";
 import React, { useState, useEffect } from "react";
 import _ from "lodash";
 
-import { Project } from "@/models";
+import { Project, User } from "@/models";
 import {
   awaitOnAuth,
   getProject,
@@ -14,6 +14,11 @@ import {
 const ProjectsContainer: React.FC = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [projects, setProjects] = useState<Array<Project>>([]);
+  const [user, setUser] = useState<User>({
+    ID: "",
+    Name: "",
+    Login: false,
+  });
 
   useEffect(() => {
     getProjects();
@@ -22,13 +27,18 @@ const ProjectsContainer: React.FC = ({ children }) => {
   const getProjects = async () => {
     const user = await awaitOnAuth();
 
-    setLoading(false);
     if (_.isNull(user) || !user.ok) {
       setProjects([]);
       return;
     }
     const ps = await getProject(user);
     setProjects(ps);
+    setUser({
+      ID: user.id,
+      Name: user.name,
+      Login: true,
+    });
+    setLoading(false);
   };
 
   const createProjects = async (data: Project) => {
@@ -64,6 +74,7 @@ const ProjectsContainer: React.FC = ({ children }) => {
     <ProjectsContext.Provider
       value={{
         projects,
+        user,
         getProjects,
         createProjects,
         updateProjects,
