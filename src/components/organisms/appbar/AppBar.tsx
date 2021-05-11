@@ -1,7 +1,7 @@
 import styles from "./AppBar.module.scss";
 import { useContext } from "react";
 import { GlobalContext } from "@/contexts";
-import { AppBar, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import { AppBarButton } from "@/components/atoms";
 import { useRouter } from "next/router";
 
@@ -20,7 +20,12 @@ const App = () => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={styles.title}>
-            曲当てクイズ
+            <Button
+              onClick={redirect("/")}
+              style={{ height: "100%", color: "white" }}
+            >
+              選曲者あてクイズ
+            </Button>
           </Typography>
           {user.Login ? (
             <div className={styles.button}>
