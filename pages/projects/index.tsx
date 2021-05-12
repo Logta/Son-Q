@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { ProjectPage } from "../../src/components/pages";
+import { ProjectsPage } from "../../src/components/pages";
 import { ProjectsContainer } from "../../src/components/containers";
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
       </Head>
 
       <ProjectsContainer>
-        <ProjectPage />
+        <ProjectsPage />
       </ProjectsContainer>
     </>
   );
