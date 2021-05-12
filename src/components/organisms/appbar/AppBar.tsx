@@ -24,7 +24,7 @@ const App = () => {
               onClick={redirect("/")}
               style={{ height: "100%", color: "white" }}
             >
-              選曲者あてクイズ
+              Black Jukebox
             </Button>
           </Typography>
           {user.Login ? (
