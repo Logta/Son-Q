@@ -2,9 +2,7 @@ import styles from "./QuestionForm.module.scss";
 import { useState, useContext, useEffect } from "react";
 import {
   Paper,
-  TextField,
   Button,
-  Box,
   FormControl,
   InputLabel,
   OutlinedInput,
