@@ -88,4 +88,41 @@ const joinProject = async (user: Auth, id: string) => {
     });
 };
 
-export { getProject, createProject, deleteProject, joinProject };
+const getProjectFromID = async (projectId: string) => {
+  let snapShot = await firestore.collection("projects").doc(projectId).get();
+  return {
+    name: snapShot.data().name,
+    content: snapShot.data().content,
+    creater: snapShot.data().creater,
+    question_num: snapShot.data().question_num,
+    ID: snapShot.id,
+    participants: snapShot.data().participants,
+  };
+};
+
+const updateProject = async (projectId: string, data: Project) => {
+  const project = firestore.collection("projects");
+  await project
+    .doc(projectId)
+    .update({
+      name: data.name,
+      content: data.content,
+      question_num: data.question_num,
+    })
+    .then(function () {
+      console.log("更新が完了しました");
+    })
+    .catch(function (error) {
+      // The document probably doesn't exist.
+      console.error("Error updating document: ", error);
+    });
+};
+
+export {
+  getProject,
+  createProject,
+  deleteProject,
+  joinProject,
+  getProjectFromID,
+  updateProject,
+};
