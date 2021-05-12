@@ -38,7 +38,7 @@ const App = () => {
     };
 
     updateProjectInfo(pro);
-    redirect("/projects");
+    redirect("/projects")(e);
   };
 
   const name = useInput(project.name);
@@ -84,12 +84,7 @@ const App = () => {
               {...question_num}
             />
             <div className={styles.button}>
-              <Button
-                onClick={() => {
-                  redirect("/projects");
-                }}
-                color="primary"
-              >
+              <Button onClick={redirect("/projects/")} color="primary">
                 キャンセル
               </Button>
               <Button type="submit" color="primary">
