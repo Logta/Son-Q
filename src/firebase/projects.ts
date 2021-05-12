@@ -101,7 +101,6 @@ const getProjectFromID = async (projectId: string) => {
 };
 
 const updateProject = async (projectId: string, data: Project) => {
-  console.log("updata");
   const project = firestore.collection("projects");
   await project
     .doc(projectId)

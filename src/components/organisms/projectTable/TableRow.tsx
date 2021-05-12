@@ -1,8 +1,9 @@
 import { TableRow, TableCell, Button } from "@material-ui/core";
-import { Project } from "@/models";
+import { Project, User } from "@/models";
 import { ProjectsContext } from "@/contexts";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { useRouter } from "next/router";
+import styles from "./ProjectTable.module.scss";
 
 type Props = {
   row: Project;
@@ -11,15 +12,32 @@ type Props = {
 const App = (props: Props) => {
   const router = useRouter();
 
-  const redirect = (href: string) => (e: any) => {
-    e.preventDefault();
-    router.push(href);
+  const redirect =
+    (href: string) => (event: React.MouseEvent<HTMLInputElement>) => {
+      event.preventDefault();
+      router.push(href);
+      event.stopPropagation();
+    };
+
+  const handleClickRow =
+    (href: string, authority: boolean) =>
+    (event: React.MouseEvent<HTMLTableRowElement>) => {
+      event.preventDefault();
+      authority && router.push(href);
+    };
+
+  const getAuthority = (row: Project, user: User) => {
+    return row.creater === user.ID;
   };
 
   const { row } = props;
   const { deleteProjects, user } = useContext(ProjectsContext);
   return (
-    <TableRow key={row.ID}>
+    <TableRow
+      key={row.ID}
+      onClick={handleClickRow(`/projects/${row.ID}`, getAuthority(row, user))}
+      className={getAuthority(row, user) && styles.hovorRow}
+    >
       <TableCell component="th" scope="row">
         {row.name}
       </TableCell>

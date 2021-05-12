@@ -1,3 +1,9 @@
 .table {
   min-width: 650;
 }
+.hovorRow {
+  cursor: pointer;
+  &:hover {
+    background-color: #fafafa;
+  }
+}
