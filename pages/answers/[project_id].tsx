@@ -18,9 +18,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <AnswersContainer projectId={project_id as string}>
-        <AnswerPage />
-      </AnswersContainer>
+      {project_id && (
+        <AnswersContainer projectId={project_id as string}>
+          <AnswerPage />
+        </AnswersContainer>
+      )}
     </>
   );
 }

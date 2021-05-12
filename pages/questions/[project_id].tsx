@@ -17,9 +17,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <QuestionsContainer projectId={project_id as string}>
-        <QuestionPage />
-      </QuestionsContainer>
+      {project_id && (
+        <QuestionsContainer projectId={project_id as string}>
+          <QuestionPage />
+        </QuestionsContainer>
+      )}
     </>
   );
 }
