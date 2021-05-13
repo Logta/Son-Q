@@ -1,4 +1,4 @@
-import styles from "./ProjectTable.module.scss";
+import styles from "./ProjectDialog.module.scss";
 import React from "react";
 import {
   Button,
@@ -45,39 +45,43 @@ const App = (props: Props) => {
   const joinID = useInput("");
 
   return (
-    <div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">プログラムへの参加</DialogTitle>
-        <form onSubmit={handleSubmit}>
-          <DialogContent>
-            <DialogContentText>
-              参加したいプログラムIDを入力してください
-            </DialogContentText>
-            <TextField
-              variant="outlined"
-              autoFocus
-              margin="dense"
-              id="name"
-              label="プログラムID"
-              fullWidth
-              {...joinID}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              キャンセル
-            </Button>
-            <Button type="submit" color="primary">
-              参加
-            </Button>
-          </DialogActions>
-        </form>
-      </Dialog>
-    </div>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="form-dialog-title"
+      classes={{ paper: styles.dialog }}
+    >
+      <DialogTitle id="form-dialog-title">プログラムへの参加</DialogTitle>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <DialogContent classes={{ root: styles.dialogContent }}>
+          <DialogContentText>
+            参加したいプログラムIDを入力してください
+          </DialogContentText>
+          <TextField
+            variant="outlined"
+            autoFocus
+            margin="dense"
+            id="name"
+            label="プログラムID"
+            fullWidth
+            {...joinID}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">
+            キャンセル
+          </Button>
+          <Button
+            type="submit"
+            color="primary"
+            variant="contained"
+            style={{ margin: "2em" }}
+          >
+            参加
+          </Button>
+        </DialogActions>
+      </form>
+    </Dialog>
   );
 };
 
