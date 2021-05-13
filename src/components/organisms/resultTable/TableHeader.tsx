@@ -7,14 +7,26 @@ const App = () => {
   const { participants } = useContext(ResultsContext);
   return (
     <TableHead>
-      <TableRow key="header">
-        <TableCell rowSpan={2}>
+      <TableRow key="header-result">
+        <TableCell
+          rowSpan={2}
+          style={{ width: "10em", minWidth: "10em", fontWeight: "bold" }}
+        >
           <Box ml={2}>
             <Chip color="secondary" label={"出題者"} />
           </Box>
         </TableCell>
 
-        <TableCell colSpan={participants.length} align="center">
+        <TableCell
+          colSpan={participants.length * 2}
+          align="center"
+          style={{
+            fontWeight: "bold",
+            borderLeftWidth: "3px",
+            borderLeftStyle: "solid",
+            borderLeftColor: "lightGray",
+          }}
+        >
           <Box ml={2}>
             <Chip color="primary" label={"回答者"} />
           </Box>
@@ -22,7 +34,21 @@ const App = () => {
       </TableRow>
       <TableRow>
         {participants.map((part: Participant) => {
-          return <TableCell align="center">{part.user_name}</TableCell>;
+          return (
+            <TableCell
+              key={`${part.user_id}-result-answer-part`}
+              colSpan={2}
+              align="center"
+              style={{
+                fontWeight: "bold",
+                borderLeftWidth: "3px",
+                borderLeftStyle: "solid",
+                borderLeftColor: "lightGray",
+              }}
+            >
+              {part.user_name}
+            </TableCell>
+          );
         })}
       </TableRow>
     </TableHead>
