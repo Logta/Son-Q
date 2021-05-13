@@ -7,19 +7,30 @@ const App = () => {
   const { participants } = useContext(ResultsContext);
   return (
     <TableHead>
-      <TableRow key="header">
+      <TableRow key="header-result-point">
         <TableCell
           component="th"
           padding="none"
           align="center"
-          style={{ width: "5em" }}
+          style={{ width: "10em", minWidth: "10em", fontWeight: "bold" }}
         >
-          <Box ml={2}>
-            <Chip color="primary" label={"回答者"} />
-          </Box>
+          <Chip color="primary" label={"回答者"} />
         </TableCell>
         {participants.map((part: Participant) => {
-          return <TableCell align="center">{part.user_name}</TableCell>;
+          return (
+            <TableCell
+              align="center"
+              style={{
+                fontWeight: "bold",
+                borderLeftWidth: "2px",
+                borderLeftStyle: "dotted",
+                borderLeftColor: "lightGray",
+                width: `30%`,
+              }}
+            >
+              {part.user_name}
+            </TableCell>
+          );
         })}
       </TableRow>
     </TableHead>

@@ -31,10 +31,14 @@ const PageBody = () => {
           !_.isNil(answers) &&
           !_.isNil(participants) && (
             <>
-              <SubLabel>得点表</SubLabel>
+              <SubLabel>
+                <strong>得点表</strong>
+              </SubLabel>
               <ResultPointTable />
               <Box m={10} />
-              <SubLabel>回答一覧</SubLabel>
+              <SubLabel>
+                <strong>回答一覧</strong>
+              </SubLabel>
               <ResultTable />
             </>
           )}

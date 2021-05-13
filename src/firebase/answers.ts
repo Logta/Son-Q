@@ -18,6 +18,7 @@ const getAnswer = async (user: Auth, projectId: string) => {
       guess_user_id: doc.data().guess_user_id,
       select_user_id: doc.data().select_user_id,
       answer_user_id: doc.data().answer_user_id,
+      question_id: doc.data().question_id,
     };
     answers.push(answer);
   });
