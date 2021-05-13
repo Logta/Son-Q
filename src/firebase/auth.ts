@@ -64,6 +64,28 @@ const awaitOnPasswordLogin = async (data: any): Promise<Auth> => {
     };
   }
 };
+const signOutFirebase = async (): Promise<Auth> => {
+  return new Promise(function (resolve, reject) {
+    auth.onAuthStateChanged((user) => {
+      auth
+        .signOut()
+        .then(() => {
+          resolve({
+            ok: true,
+            id: "",
+            name: "",
+          });
+        })
+        .catch((error) => {
+          reject({
+            ok: false,
+            id: "",
+            name: `ログアウト時にエラーが発生しました (${error})`,
+          });
+        });
+    });
+  });
+};
 
 const createPasswordUser = async (data: any): Promise<boolean> => {
   const auth = firebase.auth();
@@ -82,4 +104,5 @@ export {
   awaitOnGoogleLogin,
   awaitOnPasswordLogin,
   createPasswordUser,
+  signOutFirebase,
 };

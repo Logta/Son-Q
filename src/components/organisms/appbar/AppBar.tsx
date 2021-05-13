@@ -1,14 +1,19 @@
 import styles from "./AppBar.module.scss";
-import { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { GlobalContext } from "@/contexts";
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import { AppBarButton } from "@/components/atoms";
 import { useRouter } from "next/router";
 
 const App = () => {
-  const { user, signInGoogle, signOut } = useContext(GlobalContext);
+  const { user, signInCheck, signInGoogle, signOut } =
+    useContext(GlobalContext);
 
   const router = useRouter();
+
+  useEffect(() => {
+    signInCheck();
+  }, []);
 
   const redirect = (href: string) => (e: any) => {
     e.preventDefault();
@@ -30,9 +35,9 @@ const App = () => {
           {user.Login ? (
             <div className={styles.button}>
               <AppBarButton
-                onClick={() => {
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                   signOut();
-                  redirect("/");
+                  redirect("/")(e);
                 }}
               >
                 サインアウト
@@ -41,9 +46,9 @@ const App = () => {
           ) : (
             <div className={styles.button}>
               <AppBarButton
-                onClick={async () => {
+                onClick={async (e: React.MouseEvent<HTMLButtonElement>) => {
                   await signInGoogle();
-                  redirect("/projects");
+                  redirect("/projects")(e);
                 }}
               >
                 サインイン

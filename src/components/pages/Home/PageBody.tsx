@@ -40,9 +40,9 @@ const PageBody = () => {
                   プロジェクト一覧へ
                 </Button>
                 <Button
-                  onClick={() => {
+                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                     signOut();
-                    redirect("/");
+                    redirect("/")(e);
                   }}
                   color="primary"
                   variant="outlined"
