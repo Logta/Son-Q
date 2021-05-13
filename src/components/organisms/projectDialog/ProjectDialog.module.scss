@@ -1,0 +1,10 @@
+.dialog {
+  min-width: 650;
+  width: 50%;
+}
+.hovorRow {
+  cursor: pointer;
+  &:hover {
+    background-color: #fafafa;
+  }
+}

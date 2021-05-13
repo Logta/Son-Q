@@ -5,6 +5,8 @@ import { ProjectContext } from "@/contexts";
 import { useContext } from "react";
 import { Project } from "@/models";
 import { useRouter } from "next/router";
+import { ProjectInfos } from "./ProjectInfos";
+import { ProjectFormContent } from "./ProjectFormContent";
 
 // カスタムフックを定義（input 要素用の属性を生成する）
 function useInput(initValue: string): any {
@@ -48,51 +50,8 @@ const App = () => {
   return (
     project && (
       <Paper>
-        <div className={styles.textForm}>
-          <form onSubmit={handleSubmit}>
-            プロジェクトの情報を確認・編集してください
-            <Box m={5} />
-            <TextField
-              variant="outlined"
-              autoFocus
-              margin="dense"
-              id="name"
-              label="プロジェクト名"
-              required
-              fullWidth
-              {...name}
-            />
-            <TextField
-              variant="outlined"
-              autoFocus
-              margin="dense"
-              id="content"
-              label="内容"
-              required
-              fullWidth
-              {...content}
-            />
-            <TextField
-              variant="outlined"
-              autoFocus
-              margin="dense"
-              id="question_num"
-              label="出題数"
-              type="number"
-              required
-              fullWidth
-              {...question_num}
-            />
-            <div className={styles.button}>
-              <Button onClick={redirect("/projects/")} color="primary">
-                キャンセル
-              </Button>
-              <Button type="submit" color="primary">
-                更新
-              </Button>
-            </div>
-          </form>
-        </div>
+        <ProjectInfos />
+        <ProjectFormContent />
       </Paper>
     )
   );

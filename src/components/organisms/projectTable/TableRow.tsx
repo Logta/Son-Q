@@ -41,7 +41,6 @@ const App = (props: Props) => {
       <TableCell component="th" scope="row">
         {row.name}
       </TableCell>
-      <TableCell align="center">{row.ID}</TableCell>
       <TableCell align="center">{row.content}</TableCell>
       <TableCell align="center">{row.question_num}</TableCell>
       <TableCell align="center">{row.participants.length}</TableCell>
