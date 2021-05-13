@@ -44,6 +44,7 @@ const App = () => {
                 borderLeftWidth: "3px",
                 borderLeftStyle: "solid",
                 borderLeftColor: "lightGray",
+                width: `calc(90% / ${participants.length})`,
               }}
             >
               {part.user_name}
