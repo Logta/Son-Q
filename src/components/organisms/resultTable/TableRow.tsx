@@ -50,7 +50,7 @@ const App = () => {
                       borderLeftWidth: "2px",
                       borderLeftStyle: "dotted",
                       borderLeftColor: "lightGray",
-                      width: "30%",
+                      width: `calc(90% / ${participants.length})`,
                     }}
                   >
                     {getRespondent(part, participants, ques, answers)}
