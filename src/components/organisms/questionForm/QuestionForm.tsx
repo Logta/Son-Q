@@ -45,7 +45,7 @@ const App = ({ questions, nums }: Props) => {
 
   const handleURL = (id: number) => (event: any) => {
     const newQues = currentQuestions.slice();
-    var regex = new RegExp(/\?|\=|\/|\\|\:/);
+    var regex = /.*\?.*|.*\=.*|.*\/.*|.*\\.*|.*\:.*|.*\&.*/;
 
     if (regex.test(event.target.value)) {
       alert("不正な入力があります。");
