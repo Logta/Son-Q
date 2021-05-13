@@ -1,12 +1,14 @@
 import { GlobalContext } from "@/contexts";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import _ from "lodash";
 
-import { User } from "@/models";
+import { User, Auth } from "@/models";
 import {
   awaitOnGoogleLogin,
+  awaitOnAuth,
   awaitOnPasswordLogin,
   createPasswordUser,
+  signOutFirebase,
 } from "@/firebase";
 
 const GlobalContainer: React.FC = ({ children }) => {
@@ -16,6 +18,20 @@ const GlobalContainer: React.FC = ({ children }) => {
     Name: "",
     Login: false,
   });
+  useEffect(() => {
+    signInCheck();
+  }, []);
+
+  const signInCheck = async () => {
+    const user = await awaitOnAuth();
+    if (_.isNull(user)) return;
+    if (!user.ok) return;
+    setUser({
+      ID: user.id,
+      Name: user.name,
+      Login: true,
+    });
+  };
 
   const signInGoogle = async () => {
     const user = await awaitOnGoogleLogin();
@@ -47,18 +63,22 @@ const GlobalContainer: React.FC = ({ children }) => {
     return bool;
   };
 
-  const signOut = async () => {
-    setUser({
-      ID: "",
-      Name: "",
-      Login: false,
-    });
+  const signOut = async (): Promise<string> => {
+    const user: Auth = await signOutFirebase();
+    user.ok &&
+      setUser({
+        ID: "",
+        Name: "",
+        Login: false,
+      });
+    return user.name;
   };
 
   return (
     <GlobalContext.Provider
       value={{
         user,
+        signInCheck,
         signInGoogle,
         signInEmail,
         signUpEmail,
