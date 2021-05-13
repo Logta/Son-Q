@@ -8,12 +8,21 @@ import { useRouter } from "next/router";
 import { FormLabel } from "@/components/atoms";
 
 // カスタムフックを定義（input 要素用の属性を生成する）
-function useInput(initValue: string): any {
+function useInput(
+  initValue: string,
+  validation: (t: string) => boolean,
+  validationMessage: string
+): any {
   const [value, setValue] = React.useState<string>(initValue);
   return {
     value,
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-      setValue(e.target.value),
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (validation(e.target.value)) {
+        alert(validationMessage);
+        return;
+      }
+      setValue(e.target.value);
+    },
   };
 }
 
@@ -42,9 +51,27 @@ const App = () => {
     redirect("/projects")(e);
   };
 
-  const name = useInput(project.name);
-  const content = useInput(project.content);
-  const question_num = useInput(project.question_num.toString());
+  const name = useInput(
+    project.name,
+    (t: string): boolean => {
+      return t.length > 10;
+    },
+    "10文字以下で入力してください"
+  );
+  const content = useInput(
+    project.content,
+    (t: string): boolean => {
+      return t.length > 30;
+    },
+    "30文字以下で入力してください"
+  );
+  const question_num = useInput(
+    project.question_num.toString(),
+    (t: string): boolean => {
+      return +t <= 0;
+    },
+    "1以上の数値を入力してください"
+  );
 
   return (
     project && (
