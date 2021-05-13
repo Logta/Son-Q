@@ -49,11 +49,11 @@ const App = (props: Props) => {
       open={open}
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
-      className={styles.dialog}
+      classes={{ paper: styles.dialog }}
     >
       <DialogTitle id="form-dialog-title">プログラムへの参加</DialogTitle>
-      <form onSubmit={handleSubmit}>
-        <DialogContent>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <DialogContent classes={{ root: styles.dialogContent }}>
           <DialogContentText>
             参加したいプログラムIDを入力してください
           </DialogContentText>
@@ -68,10 +68,15 @@ const App = (props: Props) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="secondary">
             キャンセル
           </Button>
-          <Button type="submit" color="primary">
+          <Button
+            type="submit"
+            color="primary"
+            variant="contained"
+            style={{ margin: "2em" }}
+          >
             参加
           </Button>
         </DialogActions>

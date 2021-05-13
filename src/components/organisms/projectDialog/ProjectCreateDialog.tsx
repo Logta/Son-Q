@@ -1,4 +1,4 @@
-import styles from "./ProjectTable.module.scss";
+import styles from "./ProjectDialog.module.scss";
 import React from "react";
 import {
   Button,
@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Box,
 } from "@material-ui/core";
 import { ProjectsContext } from "@/contexts";
 import { useContext } from "react";
@@ -62,50 +63,62 @@ const App = (props: Props) => {
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
+        classes={{ paper: styles.dialog }}
       >
         <DialogTitle id="form-dialog-title">プログラムの作成</DialogTitle>
         <form onSubmit={handleSubmit}>
-          <DialogContent>
+          <DialogContent classes={{ root: styles.dialogContent }}>
             <DialogContentText>
               作成したいプログラムの情報を入力してください
             </DialogContentText>
-            <TextField
-              variant="outlined"
-              autoFocus
-              margin="dense"
-              id="name"
-              label="プロジェクト名"
-              required
-              fullWidth
-              {...name}
-            />
-            <TextField
-              variant="outlined"
-              autoFocus
-              margin="dense"
-              id="content"
-              label="内容"
-              required
-              fullWidth
-              {...content}
-            />
-            <TextField
-              variant="outlined"
-              autoFocus
-              margin="dense"
-              id="question_num"
-              label="出題数"
-              type="number"
-              required
-              fullWidth
-              {...question_num}
-            />
+            <Box mt={3}>
+              <TextField
+                variant="outlined"
+                autoFocus
+                margin="dense"
+                id="name"
+                label="プロジェクト名"
+                required
+                fullWidth
+                {...name}
+              />
+            </Box>
+            <Box mt={3}>
+              <TextField
+                variant="outlined"
+                autoFocus
+                margin="dense"
+                id="content"
+                label="内容"
+                required
+                fullWidth
+                {...content}
+              />
+            </Box>
+            <Box mt={3}>
+              <TextField
+                variant="outlined"
+                autoFocus
+                margin="dense"
+                id="question_num"
+                label="出題数"
+                type="number"
+                required
+                fullWidth
+                {...question_num}
+              />
+            </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={handleClose} color="secondary">
               キャンセル
             </Button>
-            <Button type="submit" color="primary">
+            <Button
+              type="submit"
+              color="primary"
+              variant="contained"
+              style={{ margin: "2em" }}
+            >
               作成
             </Button>
           </DialogActions>

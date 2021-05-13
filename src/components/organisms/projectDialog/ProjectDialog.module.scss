@@ -1,10 +1,13 @@
 .dialog {
   min-width: 650;
-  width: 50%;
+  width: 200em;
 }
 .hovorRow {
   cursor: pointer;
   &:hover {
     background-color: #fafafa;
   }
+}
+.dialogContent {
+  overflow-y: hidden !important;
 }
