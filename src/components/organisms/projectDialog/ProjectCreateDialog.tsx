@@ -20,12 +20,21 @@ type Props = {
 };
 
 // カスタムフックを定義（input 要素用の属性を生成する）
-function useInput(initValue: string): any {
+function useInput(
+  initValue: string,
+  validation: (t: string) => boolean,
+  validationMessage: string
+): any {
   const [value, setValue] = React.useState<string>(initValue);
   return {
     value,
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-      setValue(e.target.value),
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (validation(e.target.value)) {
+        alert(validationMessage);
+        return;
+      }
+      setValue(e.target.value);
+    },
   };
 }
 
@@ -53,9 +62,27 @@ const App = (props: Props) => {
     handleClose();
   };
 
-  const name = useInput("");
-  const content = useInput("");
-  const question_num = useInput("");
+  const name = useInput(
+    "",
+    (t: string): boolean => {
+      return t.length > 10;
+    },
+    "10文字以下で入力してください"
+  );
+  const content = useInput(
+    "",
+    (t: string): boolean => {
+      return t.length > 30;
+    },
+    "30文字以下で入力してください"
+  );
+  const question_num = useInput(
+    "",
+    (t: string): boolean => {
+      return +t <= 0;
+    },
+    "1以上の数値を入力してください"
+  );
 
   return (
     <div>
