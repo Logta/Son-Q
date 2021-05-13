@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { HomePage } from "../src/components/pages";
+import { Copyright } from "../src/components/atoms";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       </Head>
 
       <HomePage />
+      <Copyright />
     </>
   );
 }

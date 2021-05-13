@@ -2,6 +2,7 @@ import Head from "next/head";
 import { QuestionPage } from "../../src/components/pages";
 import { QuestionsContainer } from "../../src/components/containers";
 import { useRouter } from "next/router";
+import { Copyright } from "../../src/components/atoms";
 
 export default function Home() {
   const router = useRouter();
@@ -22,6 +23,7 @@ export default function Home() {
           <QuestionPage />
         </QuestionsContainer>
       )}
+      <Copyright />
     </>
   );
 }

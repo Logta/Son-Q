@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { ProjectsPage } from "../../src/components/pages";
 import { ProjectsContainer } from "../../src/components/containers";
+import { Copyright } from "../../src/components/atoms";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
       <ProjectsContainer>
         <ProjectsPage />
       </ProjectsContainer>
+      <Copyright />
     </>
   );
 }
