@@ -12,7 +12,7 @@ const App = () => {
           component="th"
           padding="none"
           align="center"
-          style={{ width: "10em", minWidth: "10em", fontWeight: "bold" }}
+          style={{ width: "15em", minWidth: "15em", fontWeight: "bold" }}
         >
           <Chip color="primary" label={"回答者"} />
         </TableCell>

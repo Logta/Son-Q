@@ -2,6 +2,7 @@ import { TableRow, TableCell, Chip } from "@material-ui/core";
 import { ResultsContext } from "@/contexts";
 import { useContext } from "react";
 import { Answer, Participant, Question } from "@/models";
+import { YoutubeAnswer } from "@/components/atoms";
 import _ from "lodash";
 
 const App = () => {
@@ -19,6 +20,19 @@ const App = () => {
               style={{ fontWeight: "bold" }}
             >
               {getQuestioner(participants, ques)}
+            </TableCell>
+            <TableCell
+              key={`${ques.ID}-result-partName-youtube`}
+              component="th"
+              scope="row"
+              align="center"
+              style={{
+                borderLeftWidth: "2px",
+                borderLeftStyle: "dotted",
+                borderLeftColor: "lightGray",
+              }}
+            >
+              <YoutubeAnswer id={ques.url} />
             </TableCell>
             {participants.map((part) => {
               return (

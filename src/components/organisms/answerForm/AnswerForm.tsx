@@ -84,12 +84,18 @@ const App = () => {
                   <Grid container alignItems="center" justify="center">
                     <Grid item>
                       <Grid container alignItems="center" justify="center">
-                        <Box borderRadius={16} />
                         <Grid item>
-                          <Youtube
-                            id={questions[value] ? questions[value].url : ""}
-                            endSec={60}
-                          />
+                          <Box
+                            borderRadius={16}
+                            borderColor={"lightGray"}
+                            border={3}
+                          >
+                            <Youtube
+                              id={questions[value] ? questions[value].url : ""}
+                              endSec={60}
+                            />
+                            <Box m={-0.5} />
+                          </Box>
                           <Box m={1} />
                         </Grid>
                       </Grid>
