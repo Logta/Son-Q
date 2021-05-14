@@ -8,6 +8,9 @@ type Props = {
   signInEmail: Function;
   signUpEmail: Function;
   signOut: Function;
+  handleDarkModeOff: Function;
+  handleDarkModeOn: Function;
+  darkMode: boolean;
   loading: boolean;
 };
 
@@ -22,5 +25,8 @@ export const GlobalContext = React.createContext<Props>({
   signInEmail: Function,
   signUpEmail: Function,
   signOut: Function,
+  handleDarkModeOff: Function,
+  handleDarkModeOn: Function,
+  darkMode: true,
   loading: true,
 });

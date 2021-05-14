@@ -28,7 +28,6 @@ const App = () => {
                     style={{
                       width: "5em",
                       minWidth: "5em",
-                      backgroundColor: "#FAFAFA",
                       borderLeftWidth: "3px",
                       borderLeftStyle: "solid",
                       borderLeftColor: "lightGray",
@@ -46,7 +45,6 @@ const App = () => {
                     key={`${part.user_id}-${ques.ID}-result`}
                     align="center"
                     style={{
-                      backgroundColor: "#FAFAFA",
                       borderLeftWidth: "2px",
                       borderLeftStyle: "dotted",
                       borderLeftColor: "lightGray",

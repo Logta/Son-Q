@@ -1,7 +1,15 @@
 .table {
   min-width: 650;
 }
-.hovorRow {
+
+.darkHovorRow {
+  cursor: pointer;
+  &:hover {
+    background-color: #616161;
+  }
+}
+
+.lightHovorRow {
   cursor: pointer;
   &:hover {
     background-color: #fafafa;

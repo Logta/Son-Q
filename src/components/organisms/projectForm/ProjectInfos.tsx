@@ -3,10 +3,12 @@ import React from "react";
 import { List, ListItem, ListItemText, Box, Chip } from "@material-ui/core";
 import { ProjectContext } from "@/contexts";
 import { FormLabel } from "@/components/atoms";
+import useTheme from "@material-ui/core/styles/useTheme";
 import { useContext } from "react";
 
 const App = () => {
   const { project } = useContext(ProjectContext);
+  const paletteType = useTheme().palette.type;
 
   const getParticipants = (): string[] => {
     return project.participants.map((p) => {
@@ -31,7 +33,7 @@ const App = () => {
                 <Chip
                   label={p}
                   color="primary"
-                  variant="outlined"
+                  variant={paletteType === "dark" ? "default" : "outlined"}
                   style={{ marginRight: "1em" }}
                 />
               );

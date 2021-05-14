@@ -11,7 +11,14 @@ import {
   signOutFirebase,
 } from "@/firebase";
 
-const GlobalContainer: React.FC = ({ children }) => {
+type Props = {
+  children: React.ReactNode;
+  handleDarkModeOff: Function;
+  handleDarkModeOn: Function;
+  darkMode: boolean;
+};
+
+const GlobalContainer: React.FC = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User>({
     ID: "",
@@ -77,6 +84,7 @@ const GlobalContainer: React.FC = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
+        ..._.pick(props, ["handleDarkModeOff", "handleDarkModeOn", "darkMode"]),
         user,
         signInCheck,
         signInGoogle,
@@ -86,7 +94,7 @@ const GlobalContainer: React.FC = ({ children }) => {
         loading,
       }}
     >
-      {children}
+      {props.children}
     </GlobalContext.Provider>
   );
 };
