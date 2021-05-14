@@ -1,7 +1,7 @@
 import { TableRow, TableCell, Chip } from "@material-ui/core";
 import { ResultsContext } from "@/contexts";
 import { useContext } from "react";
-import { Answer } from "@/models";
+import { getPoint } from "@/utils";
 
 const App = () => {
   const { participants, answers } = useContext(ResultsContext);
@@ -28,19 +28,11 @@ const App = () => {
               borderLeftColor: "lightGray",
             }}
           >
-            {getCorrectPoint(r.user_id, answers)}
+            {getPoint("normal", r.user_id, answers, participants.length)}
           </TableCell>
         );
       })}
     </TableRow>
   );
-};
-
-const getCorrectPoint = (userID: string, answers: Array<Answer>): string => {
-  const userAnswers = answers.filter((ans) => ans.answer_user_id === userID);
-  const correctAnswers = userAnswers.filter(
-    (ans) => ans.guess_user_id === ans.select_user_id
-  );
-  return correctAnswers.length.toString();
 };
 export { App as TableRow };
