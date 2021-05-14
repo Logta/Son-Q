@@ -10,11 +10,24 @@ const App = () => {
       <TableRow key="header-result">
         <TableCell
           rowSpan={2}
+          align="center"
           style={{ width: "10em", minWidth: "10em", fontWeight: "bold" }}
         >
-          <Box ml={2}>
-            <Chip color="secondary" label={"出題者"} />
-          </Box>
+          <Chip color="secondary" label={"出題者"} />
+        </TableCell>
+        <TableCell
+          rowSpan={2}
+          align="center"
+          style={{
+            width: "5em",
+            minWidth: "5em",
+            fontWeight: "bold",
+            borderLeftWidth: "2px",
+            borderLeftStyle: "dotted",
+            borderLeftColor: "lightGray",
+          }}
+        >
+          課題曲
         </TableCell>
 
         <TableCell

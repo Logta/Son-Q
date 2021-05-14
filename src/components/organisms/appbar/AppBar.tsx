@@ -1,13 +1,20 @@
 import styles from "./AppBar.module.scss";
 import React, { useContext, useEffect } from "react";
 import { GlobalContext } from "@/contexts";
-import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
+import { AppBar, Toolbar, Typography, Button, Switch } from "@material-ui/core";
 import { AppBarButton } from "@/components/atoms";
 import { useRouter } from "next/router";
 
 const App = () => {
-  const { user, signInCheck, signInGoogle, signOut } =
-    useContext(GlobalContext);
+  const {
+    user,
+    signInCheck,
+    signInGoogle,
+    signOut,
+    handleDarkModeOff,
+    handleDarkModeOn,
+    darkMode,
+  } = useContext(GlobalContext);
 
   const router = useRouter();
 
@@ -18,6 +25,10 @@ const App = () => {
   const redirect = (href: string) => (e: any) => {
     e.preventDefault();
     router.push(href);
+  };
+
+  const handleChange = () => {
+    !darkMode ? handleDarkModeOn() : handleDarkModeOff();
   };
 
   return (
@@ -32,6 +43,13 @@ const App = () => {
               Black Jukebox
             </Button>
           </Typography>
+          <Switch
+            checked={darkMode}
+            onChange={handleChange}
+            color="default"
+            name="darkMode"
+            inputProps={{ "aria-label": "primary checkbox" }}
+          />
           {user.Login ? (
             <div className={styles.button}>
               <AppBarButton

@@ -1,7 +1,8 @@
 import { TableRow, TableCell, Chip } from "@material-ui/core";
 import { ResultsContext } from "@/contexts";
 import { useContext } from "react";
-import { Answer, Participant, Question } from "@/models";
+import { YoutubeAnswer } from "@/components/atoms";
+import { getQuestioner, getRespondent } from "@/utils";
 import _ from "lodash";
 
 const App = () => {
@@ -20,6 +21,19 @@ const App = () => {
             >
               {getQuestioner(participants, ques)}
             </TableCell>
+            <TableCell
+              key={`${ques.ID}-result-partName-youtube`}
+              component="th"
+              scope="row"
+              align="center"
+              style={{
+                borderLeftWidth: "2px",
+                borderLeftStyle: "dotted",
+                borderLeftColor: "lightGray",
+              }}
+            >
+              <YoutubeAnswer id={ques.url} />
+            </TableCell>
             {participants.map((part) => {
               return (
                 <>
@@ -28,7 +42,6 @@ const App = () => {
                     style={{
                       width: "5em",
                       minWidth: "5em",
-                      backgroundColor: "#FAFAFA",
                       borderLeftWidth: "3px",
                       borderLeftStyle: "solid",
                       borderLeftColor: "lightGray",
@@ -46,7 +59,6 @@ const App = () => {
                     key={`${part.user_id}-${ques.ID}-result`}
                     align="center"
                     style={{
-                      backgroundColor: "#FAFAFA",
                       borderLeftWidth: "2px",
                       borderLeftStyle: "dotted",
                       borderLeftColor: "lightGray",
@@ -63,30 +75,6 @@ const App = () => {
       })}
     </>
   );
-};
-
-const getQuestioner = (
-  participants: Array<Participant>,
-  ques: Question
-): string => {
-  return participants.find((p) => p.user_id === ques.select_user_id).user_name;
-};
-
-const getRespondent = (
-  ansUser: Participant,
-  participants: Array<Participant>,
-
-  ques: Question,
-  answers: Array<Answer>
-): string => {
-  const ans: Answer = answers.find(
-    (a) =>
-      a.answer_user_id === ansUser.user_id &&
-      ques.url === a.url &&
-      ques.select_user_id === a.select_user_id
-  );
-  if (_.isNil(ans)) return "";
-  return participants.find((p) => p.user_id === ans.guess_user_id).user_name;
 };
 
 export { App as TableRow };

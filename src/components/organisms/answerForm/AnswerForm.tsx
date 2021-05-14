@@ -77,22 +77,25 @@ const App = () => {
       <form onSubmit={handleSubmit}>
         {[...Array(questionNum)].map((_, value) => {
           return (
-            <div className={styles.card}>
-              <Card style={{ backgroundColor: "#FAFAFA" }}>
+            <div className={styles.backDiv}>
+              <Card className={styles.card}>
                 <CardContent>
                   <AnswerFormLabel>{value + 1} 曲目</AnswerFormLabel>
                   <Grid container alignItems="center" justify="center">
                     <Grid item>
                       <Grid container alignItems="center" justify="center">
-                        <Box
-                          borderRadius={16}
-                          style={{ backgroundColor: "#E3F2FD" }}
-                        />
                         <Grid item>
-                          <Youtube
-                            id={questions[value] ? questions[value].url : ""}
-                            endSec={60}
-                          />
+                          <Box
+                            borderRadius={16}
+                            borderColor={"lightGray"}
+                            border={3}
+                          >
+                            <Youtube
+                              id={questions[value] ? questions[value].url : ""}
+                              endSec={60}
+                            />
+                            <Box m={-0.5} />
+                          </Box>
                           <Box m={1} />
                         </Grid>
                       </Grid>

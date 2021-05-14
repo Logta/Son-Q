@@ -1,6 +1,6 @@
 import { TableRow, TableCell, Button } from "@material-ui/core";
 import { Project, User } from "@/models";
-import { ProjectsContext } from "@/contexts";
+import { ProjectsContext, GlobalContext } from "@/contexts";
 import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import styles from "./ProjectTable.module.scss";
@@ -32,11 +32,16 @@ const App = (props: Props) => {
 
   const { row } = props;
   const { deleteProjects, user } = useContext(ProjectsContext);
+  const { darkMode } = useContext(GlobalContext);
+
   return (
     <TableRow
       key={row.ID}
       onClick={handleClickRow(`/projects/${row.ID}`, getAuthority(row, user))}
-      className={getAuthority(row, user) && styles.hovorRow}
+      className={
+        getAuthority(row, user) &&
+        (!darkMode ? styles.lightHovorRow : styles.darkHovorRow)
+      }
     >
       <TableCell component="th" scope="row">
         {row.name}

@@ -14,7 +14,21 @@
   margin-right: -50%;
 }
 
-.card {
+.backDiv {
   width: 100%;
   padding: 2em 2em 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .card {
+    background-color: #11181f;
+    color: #ffffff;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .card {
+    background-color: #fafafa;
+    color: #11181f;
+  }
 }
