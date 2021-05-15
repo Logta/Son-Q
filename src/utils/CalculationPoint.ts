@@ -31,12 +31,16 @@ const getOnlyOneCorrectAnswer = (
   );
 
   let point = 0;
+  console.log(`userQuestionIDs lenght: ${userQuestionIDs.length}`);
+
   for (const id of userQuestionIDs) {
     const questionPoint = otherCorrectAnswers.filter(
       (ans) => ans.question_id === id
     ).length;
     questionPoint !== 0 && (point += participantNum - 1 - questionPoint);
+    console.log(`questionPoint: ${questionPoint}`);
   }
+
   return point;
 };
 

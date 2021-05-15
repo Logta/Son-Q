@@ -6,6 +6,7 @@ type Project = {
   content: string;
   creater: string;
   question_num: number;
+  project_mode: string;
   participants: Participant[];
 };
 

@@ -17,6 +17,7 @@ const getProject = async (user: Auth) => {
       content: doc.data().content,
       creater: doc.data().creater,
       question_num: doc.data().question_num,
+      project_mode: doc.data().project_mode,
       ID: doc.id,
       participants: doc.data().participants,
     });
@@ -32,6 +33,7 @@ const createProject = async (user: Auth, data: Project) => {
     content: data.content,
     question_num: data.question_num,
     creater: user.id,
+    project_mode: data.project_mode,
     participants: [
       {
         user_id: user.id,
@@ -97,6 +99,7 @@ const getProjectFromID = async (projectId: string) => {
     question_num: snapShot.data().question_num,
     ID: snapShot.id,
     participants: snapShot.data().participants,
+    project_mode: snapShot.data().project_mode,
   };
 };
 
@@ -108,6 +111,7 @@ const updateProject = async (projectId: string, data: Project) => {
       name: data.name,
       content: data.content,
       question_num: data.question_num,
+      project_mode: data.project_mode,
     })
     .then(function () {
       console.log("更新が完了しました");

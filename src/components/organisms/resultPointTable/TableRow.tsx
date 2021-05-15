@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { getPoint } from "@/utils";
 
 const App = () => {
-  const { participants, answers } = useContext(ResultsContext);
+  const { participants, answers, projectMode } = useContext(ResultsContext);
   return (
     <TableRow key={"result-point"}>
       <TableCell
@@ -28,7 +28,7 @@ const App = () => {
               borderLeftColor: "lightGray",
             }}
           >
-            {getPoint("normal", r.user_id, answers, participants.length)}
+            {getPoint(projectMode, r.user_id, answers, participants.length)}
           </TableCell>
         );
       })}

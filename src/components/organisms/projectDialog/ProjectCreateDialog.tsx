@@ -9,6 +9,10 @@ import {
   DialogContentText,
   DialogTitle,
   Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 import { ProjectsContext } from "@/contexts";
 import { useContext } from "react";
@@ -55,6 +59,7 @@ const App = (props: Props) => {
       content: content.value,
       creater: "",
       question_num: question_num.value,
+      project_mode: project_mode.value,
       participants: [],
     };
 
@@ -82,6 +87,13 @@ const App = (props: Props) => {
       return +t <= 0;
     },
     "1以上の数値を入力してください"
+  );
+  const project_mode = useInput(
+    "normal",
+    (_: string): boolean => {
+      return false;
+    },
+    ""
   );
 
   return (
@@ -134,6 +146,27 @@ const App = (props: Props) => {
                 fullWidth
                 {...question_num}
               />
+            </Box>
+            <Box mt={3}>
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  ポイント計算モード
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  {...project_mode}
+                  label="ポイント計算モード"
+                >
+                  <MenuItem value={"normal"}>正解数が得点に</MenuItem>
+                  <MenuItem value={"getOnlyOneCorrectAnswer"}>
+                    1人だけが正解するように
+                  </MenuItem>
+                  <MenuItem value={"getOnlyOneIncorrectAnswer"}>
+                    1人だけが不正解するように
+                  </MenuItem>
+                </Select>
+              </FormControl>
             </Box>
           </DialogContent>
           <DialogActions>
