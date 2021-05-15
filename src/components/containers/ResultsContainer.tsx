@@ -11,6 +11,7 @@ import {
   getQuestionNumber,
   registerResult,
   getAllQuestions,
+  getProjectMode as getPMode,
 } from "@/firebase";
 
 type Props = {
@@ -24,15 +25,22 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
   const [answers, setAnswers] = useState<Array<Answer>>([]);
   const [results, setResults] = useState<Array<Result>>([]);
   const [participants, setParticipants] = useState<Array<Participant>>([]);
+  const [projectMode, setProjectMode] = useState<string>("normal");
   const [questions, setQuestions] = useState<Array<Question>>([]);
 
   useEffect(() => {
     getResults();
+    getProjectMode();
     getQuestionsNum();
     getParticipant();
     getQuestions();
     getAnswers();
   }, []);
+
+  const getProjectMode = async () => {
+    const projectMode = await getPMode(projectId);
+    setProjectMode(projectMode);
+  };
 
   const getAnswers = async () => {
     const user = await awaitOnAuth();
@@ -105,6 +113,7 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
         getAnswers,
         registerResults,
         questionNum,
+        projectMode,
         results,
         questions,
         participants,

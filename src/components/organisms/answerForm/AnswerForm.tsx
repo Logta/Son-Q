@@ -37,6 +37,7 @@ const App = () => {
             guess_user_id: "",
             answer_user_id: "",
             url: questions[index].url,
+            question_id: questions[index].ID,
           }
         : {
             ID: "",
@@ -45,6 +46,7 @@ const App = () => {
             guess_user_id: "",
             answer_user_id: "",
             url: "",
+            question_id: "",
           };
     })
   );

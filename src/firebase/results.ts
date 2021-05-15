@@ -92,6 +92,7 @@ const getAllAnswers = async (projectId: string) => {
       select_user_id: doc.data().select_user_id,
       guess_user_id: doc.data().guess_user_id,
       answer_user_id: doc.data().answer_user_id,
+      question_id: doc.data().question_id,
     };
     answers.push(answer);
   });
@@ -99,4 +100,17 @@ const getAllAnswers = async (projectId: string) => {
   return answers;
 };
 
-export { getResult, registerResult, getAllAnswers };
+// 参加者を取得
+const getProjectMode = async (projectId: string) => {
+  let projectMode: string = "normal";
+  const proj = await firestore.collection("projects").doc(projectId).get();
+
+  if (proj.exists) {
+    projectMode = proj.data().project_mode;
+  } else {
+    console.log("No such document!");
+  }
+  return projectMode;
+};
+
+export { getResult, registerResult, getAllAnswers, getProjectMode };

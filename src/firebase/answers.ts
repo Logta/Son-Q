@@ -43,6 +43,7 @@ const createAnswer = async (
     select_user_id: answer.select_user_id,
     answer_user_id: user.id,
     user_name: user.name,
+    question_id: answer.question_id,
   });
 };
 
@@ -60,6 +61,7 @@ const updateAnswer = async (
     url: answer.url,
     guess_user_id: answer.guess_user_id,
     select_user_id: answer.select_user_id,
+    question_id: answer.question_id,
   });
 };
 

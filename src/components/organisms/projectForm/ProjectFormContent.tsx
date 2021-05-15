@@ -1,6 +1,14 @@
 import styles from "./ProjectForm.module.scss";
 import React from "react";
-import { Button, TextField, Box } from "@material-ui/core";
+import {
+  Button,
+  TextField,
+  Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@material-ui/core";
 import { ProjectContext } from "@/contexts";
 import { useContext } from "react";
 import { Project } from "@/models";
@@ -44,6 +52,7 @@ const App = () => {
       content: content.value,
       creater: "",
       question_num: question_num.value,
+      project_mode: project_mode.value,
       participants: [],
     };
 
@@ -71,6 +80,13 @@ const App = () => {
       return +t <= 0;
     },
     "1以上の数値を入力してください"
+  );
+  const project_mode = useInput(
+    project.project_mode,
+    (_: string): boolean => {
+      return false;
+    },
+    ""
   );
 
   return (
@@ -113,6 +129,27 @@ const App = () => {
                 fullWidth
                 {...question_num}
               />
+            </Box>
+            <Box marginTop={3} width={"100%"}>
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  ポイント計算モード
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  {...project_mode}
+                  label="ポイント計算モード"
+                >
+                  <MenuItem value={"normal"}>正解数が得点に</MenuItem>
+                  <MenuItem value={"getOnlyOneCorrectAnswer"}>
+                    1人だけが正解するように
+                  </MenuItem>
+                  <MenuItem value={"getOnlyOneIncorrectAnswer"}>
+                    1人だけが不正解するように
+                  </MenuItem>
+                </Select>
+              </FormControl>
             </Box>
             <div className={styles.button}>
               <Button onClick={redirect("/projects/")} color="secondary">

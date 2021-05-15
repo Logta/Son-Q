@@ -6,6 +6,7 @@ type Props = {
   getAnswers: Function;
   registerResults: Function;
   questionNum: number;
+  projectMode: string;
   participants: Array<Participant>;
   questions: Array<Question>;
   answers: Array<Answer>;
@@ -17,6 +18,7 @@ export const ResultsContext = React.createContext<Props>({
   getAnswers: Function,
   registerResults: Function,
   questionNum: 0,
+  projectMode: "normal",
   participants: [],
   answers: [],
   questions: [],
