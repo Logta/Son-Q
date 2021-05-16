@@ -82,16 +82,14 @@ const getPoint = (
     case "normal":
       return getCorrectPoint(userID, answers).toString();
     case "getOnlyOneIncorrectAnswer":
-      return getOnlyOneIncorrectAnswer(
-        userID,
-        answers,
-        participantNum
+      return (
+        getOnlyOneIncorrectAnswer(userID, answers, participantNum) +
+        getCorrectPoint(userID, answers)
       ).toString();
     case "getOnlyOneCorrectAnswer":
-      return getOnlyOneCorrectAnswer(
-        userID,
-        answers,
-        participantNum
+      return (
+        getOnlyOneCorrectAnswer(userID, answers, participantNum) +
+        getCorrectPoint(userID, answers)
       ).toString();
     default:
       return "error";
@@ -99,4 +97,10 @@ const getPoint = (
 };
 
 // 今回使用するAPI
-export { getPoint, getCorrectPoint };
+export {
+  getPoint,
+  getCorrectPoint,
+  getOnlyOneCorrectAnswer,
+  getDuplicateDeletionArray,
+  getOnlyOneIncorrectAnswer,
+};
