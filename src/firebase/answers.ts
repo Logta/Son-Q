@@ -1,5 +1,6 @@
 import { firestore } from "@/plugins/firebase";
 import { Auth, Answer, Question, Participant } from "@/models";
+import _ from "lodash";
 
 const getAnswer = async (user: Auth, projectId: string) => {
   const answers: Array<Answer> = [];
@@ -24,6 +25,15 @@ const getAnswer = async (user: Auth, projectId: string) => {
   });
 
   return answers;
+};
+
+const getExistAnswerNum = async (projectId: string): Promise<number> => {
+  const proj = await firestore
+    .collection("projects")
+    .doc(projectId)
+    .collection("answers")
+    .get();
+  return _.isNil(proj) ? 0 : +proj.size;
 };
 
 const createAnswer = async (
@@ -138,4 +148,5 @@ export {
   getQuestionNumber,
   getParticipants,
   getAllQuestions,
+  getExistAnswerNum,
 };

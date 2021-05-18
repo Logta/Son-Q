@@ -12,6 +12,7 @@ const PageBody = () => {
 
   const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false);
   const [openJoinDialog, setOpenJoinDialog] = useState<boolean>(false);
+
   return (
     <>
       <AppBar />

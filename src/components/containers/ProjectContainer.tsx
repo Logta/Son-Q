@@ -12,14 +12,7 @@ type Props = {
 
 const ProjectContainer: React.FC<Props> = ({ children, projectId }) => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [project, setProject] = useState<Project>({
-    ID: "",
-    name: "",
-    content: "",
-    creater: "",
-    question_num: 0,
-    participants: [],
-  });
+  const [project, setProject] = useState<Project>();
   const [user, setUser] = useState<User>({
     ID: "",
     Name: "",
@@ -60,7 +53,7 @@ const ProjectContainer: React.FC<Props> = ({ children, projectId }) => {
         loading,
       }}
     >
-      {children}
+      {project && children}
     </ProjectContext.Provider>
   );
 };

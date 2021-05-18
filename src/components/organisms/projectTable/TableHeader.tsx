@@ -42,11 +42,23 @@ const App = () => {
           align="center"
           style={{
             fontWeight: "bold",
-            width: "21em",
+            width: "7em",
           }}
-        >
-          操作
-        </TableCell>
+        />
+        <TableCell
+          align="center"
+          style={{
+            fontWeight: "bold",
+            width: "7em",
+          }}
+        />
+        <TableCell
+          align="center"
+          style={{
+            fontWeight: "bold",
+            width: "7em",
+          }}
+        />
         <TableCell
           align="center"
           style={{

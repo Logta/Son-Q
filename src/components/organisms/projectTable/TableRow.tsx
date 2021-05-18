@@ -1,9 +1,12 @@
 import { TableRow, TableCell, Button } from "@material-ui/core";
 import { Project, User } from "@/models";
 import { ProjectsContext, GlobalContext } from "@/contexts";
-import React, { useContext } from "react";
+import { PopupButton } from "@/components/atoms";
+import { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styles from "./ProjectTable.module.scss";
+
+import { getExistQuestionNum, getExistAnswerNum } from "@/firebase";
 
 type Props = {
   row: Project;
@@ -11,6 +14,33 @@ type Props = {
 
 const App = (props: Props) => {
   const router = useRouter();
+  const [readyQuestion, setReadyQuestion] = useState<boolean>(false);
+  const [readyResult, setReadyResult] = useState<boolean>(false);
+
+  const { row } = props;
+  const { deleteProjects, user } = useContext(ProjectsContext);
+  const { darkMode } = useContext(GlobalContext);
+
+  useEffect(() => {
+    getReadyQuesion();
+    getReadyResult();
+  }, []);
+
+  const getReadyQuesion = async () => {
+    const q_num = await getExistQuestionNum(row.ID);
+    const full_q = row.participants.length * row.question_num;
+    console.log(`q_num : ${q_num}`);
+    console.log(`full_q : ${full_q}`);
+    setReadyQuestion(full_q === q_num);
+  };
+
+  const getReadyResult = async () => {
+    const a_num = await getExistAnswerNum(row.ID);
+    const full_a = row.participants.length ** 2 * row.question_num;
+    console.log(`a_num : ${a_num}`);
+    console.log(`full_a : ${full_a}`);
+    setReadyResult(full_a === a_num);
+  };
 
   const redirect =
     (href: string) => (event: React.MouseEvent<HTMLInputElement>) => {
@@ -29,10 +59,6 @@ const App = (props: Props) => {
   const getAuthority = (row: Project, user: User) => {
     return row.creater === user.ID;
   };
-
-  const { row } = props;
-  const { deleteProjects, user } = useContext(ProjectsContext);
-  const { darkMode } = useContext(GlobalContext);
 
   return (
     <TableRow
@@ -53,20 +79,26 @@ const App = (props: Props) => {
         <Button variant="contained" onClick={redirect(`/questions/${row.ID}`)}>
           問題設定
         </Button>
-        <Button
-          variant="contained"
+      </TableCell>
+      <TableCell align="center">
+        <PopupButton
           onClick={redirect(`/answers/${row.ID}`)}
-          style={{ marginLeft: "1em" }}
+          disabled={!readyQuestion}
+          popup={"参加者全員分の問題設定が完了していません"}
+          popupDisable={readyQuestion}
         >
           回答
-        </Button>
-        <Button
-          variant="contained"
+        </PopupButton>
+      </TableCell>
+      <TableCell align="center">
+        <PopupButton
           onClick={redirect(`/results/${row.ID}`)}
-          style={{ marginLeft: "1em" }}
+          disabled={!readyResult}
+          popup={"参加者全員分の回答が完了していません"}
+          popupDisable={readyResult}
         >
           結果
-        </Button>
+        </PopupButton>
       </TableCell>
       <TableCell align="center">
         {row.creater === user.ID && (

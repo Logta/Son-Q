@@ -7,6 +7,15 @@ const getQuestionNum = async (projectId: string): Promise<number> => {
   return _.isNil(proj) || _.isNil(proj.data()) ? 0 : +proj.data().question_num;
 };
 
+const getExistQuestionNum = async (projectId: string): Promise<number> => {
+  const proj = await firestore
+    .collection("projects")
+    .doc(projectId)
+    .collection("questions")
+    .get();
+  return _.isNil(proj) ? 0 : +proj.size;
+};
+
 const getQuestion = async (user: Auth, projectId: string) => {
   const questions: Array<Question> = [];
 
@@ -75,4 +84,4 @@ const registerQuestion = async (
   }
 };
 
-export { getQuestion, registerQuestion, getQuestionNum };
+export { getQuestion, registerQuestion, getQuestionNum, getExistQuestionNum };
