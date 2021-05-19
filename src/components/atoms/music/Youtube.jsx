@@ -5,7 +5,7 @@ import clsx from "clsx";
 
 //import styles from "./Youtube.module.scss";
 import YouTube from "react-youtube";
-import { IconButton, Box } from "@material-ui/core";
+import { Box, Button, ButtonGroup } from "@material-ui/core";
 import Forward10Icon from "@material-ui/icons/Forward10";
 import Replay10Icon from "@material-ui/icons/Replay10";
 import StopIcon from "@material-ui/icons/Stop";
@@ -59,44 +59,33 @@ const App = (props) => {
     <>
       <Box m={-3} />
       <YouTube videoId={id} opts={opts} onReady={onReady} />
-      <IconButton
-        aria-label="before"
-        className={styles.margin}
-        onClick={onBefore10Sec}
-        disabled={loading}
+      <ButtonGroup
+        size="small"
+        variant={"contained"}
+        color="primary"
+        aria-label="contained primary button group"
       >
-        <Replay10Icon fontSize="small" className={!darkMode && styles.light} />
-      </IconButton>
-      {!playing ? (
-        <IconButton
-          aria-label="play"
+        <Button onClick={onBefore10Sec} disabled={loading}>
+          <Replay10Icon fontSize="small" />
+        </Button>
+        {!playing ? (
+          <Button aria-label="play" onClick={onStart} disabled={loading}>
+            <PlayCircleOutlineIcon fontSize="small" />
+          </Button>
+        ) : (
+          <Button aria-label="stop" onClick={onStop} disabled={loading}>
+            <StopIcon fontSize="small" />
+          </Button>
+        )}
+        <Button
+          aria-label="foward"
           className={styles.margin}
-          onClick={onStart}
+          onClick={onFoward10Sec}
           disabled={loading}
         >
-          <PlayCircleOutlineIcon
-            fontSize="small"
-            className={!darkMode && styles.light}
-          />
-        </IconButton>
-      ) : (
-        <IconButton
-          aria-label="stop"
-          className={styles.margin}
-          onClick={onStop}
-          disabled={loading}
-        >
-          <StopIcon fontSize="small" className={!darkMode && styles.light} />
-        </IconButton>
-      )}
-      <IconButton
-        aria-label="foward"
-        className={styles.margin}
-        onClick={onFoward10Sec}
-        disabled={loading}
-      >
-        <Forward10Icon fontSize="small" className={!darkMode && styles.light} />
-      </IconButton>
+          <Forward10Icon fontSize="small" />
+        </Button>
+      </ButtonGroup>
     </>
   );
 };
