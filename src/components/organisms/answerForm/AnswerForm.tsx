@@ -53,7 +53,9 @@ const App = () => {
 
   const handleSetPropsAnswers = async () => {
     const newQues: Array<Answer> = currentAnswers.map((data, index) => {
-      return answers && answers[index] ? answers[index] : data;
+      if (answers && answers[index]) {
+        return { ...answers[index], question_id: data.question_id };
+      } else return data;
     });
     setCurrentAnswers([...newQues]);
   };
@@ -87,17 +89,11 @@ const App = () => {
                     <Grid item>
                       <Grid container alignItems="center" justify="center">
                         <Grid item>
-                          <Box
-                            borderRadius={16}
-                            borderColor={"lightGray"}
-                            border={3}
-                          >
-                            <Youtube
-                              id={questions[value] ? questions[value].url : ""}
-                              endSec={60}
-                            />
-                            <Box m={-0.5} />
-                          </Box>
+                          <Youtube
+                            id={questions[value] ? questions[value].url : ""}
+                            endSec={60}
+                          />
+                          <Box m={-0.5} />
                           <Box m={1} />
                         </Grid>
                       </Grid>

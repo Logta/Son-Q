@@ -79,7 +79,7 @@ const AnswersContainer: React.FC<Props> = ({ children, projectId }) => {
   const registerAnswers = async (answers: Array<Answer>) => {
     const user = await awaitOnAuth();
     if (_.isNull(user) || !user.ok) return;
-
+    console.log(answers);
     registerAnswer(user, answers, projectId);
     await getAnswers();
   };
