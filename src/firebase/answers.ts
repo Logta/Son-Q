@@ -66,13 +66,15 @@ const updateAnswer = async (
     .collection("projects")
     .doc(projectId)
     .collection("answers");
-  await collection.doc(answer.ID).update({
+  const ans = {
+    ...answer,
     no: questionNo,
     url: answer.url,
     guess_user_id: answer.guess_user_id,
     select_user_id: answer.select_user_id,
     question_id: answer.question_id,
-  });
+  };
+  await collection.doc(answer.ID).set(ans);
 };
 
 const registerAnswer = (

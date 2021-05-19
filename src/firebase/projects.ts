@@ -107,12 +107,15 @@ const updateProject = async (projectId: string, data: Project) => {
   const project = firestore.collection("projects");
   await project
     .doc(projectId)
-    .update({
-      name: data.name,
-      content: data.content,
-      question_num: data.question_num,
-      project_mode: data.project_mode,
-    })
+    .set(
+      {
+        name: data.name,
+        content: data.content,
+        question_num: data.question_num,
+        project_mode: data.project_mode,
+      },
+      { merge: true }
+    )
     .then(function () {
       console.log("更新が完了しました");
     })
