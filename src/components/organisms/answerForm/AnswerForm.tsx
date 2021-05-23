@@ -1,20 +1,13 @@
 import styles from "./AnswerForm.module.scss";
 import { useState, useContext, useEffect } from "react";
-import {
-  Paper,
-  Card,
-  CardContent,
-  Button,
-  Typography,
-  Box,
-  Grid,
-} from "@material-ui/core";
-import { Answer } from "@/models";
+import { Paper, Card, CardContent, Button, Box, Grid } from "@material-ui/core";
+import { Answer, Question } from "@/models";
 import { useRouter } from "next/router";
 import { AnswersContext } from "@/contexts";
 import _ from "lodash";
 import { AnswerSelector } from "./AnswerSelector";
 import { Youtube, AnswerFormLabel } from "@/components/atoms";
+import { getAnswer } from "@/firebase";
 
 const App = () => {
   const { answers, registerAnswers, questionNum, questions, participants } =
@@ -52,13 +45,27 @@ const App = () => {
   );
 
   const handleSetPropsAnswers = async () => {
-    const newQues: Array<Answer> = currentAnswers.map((data, index) => {
-      if (answers && answers[index]) {
-        return { ...answers[index], question_id: data.question_id };
-      } else return data;
+    if (_.isNil(answers)) return;
+    const newQues: Array<Answer> = currentAnswers.map((data) => {
+      const findAns: Answer | undefined = getAnswerFromQuestionID(
+        data,
+        answers
+      );
+      if (_.isNil(findAns)) {
+        return data;
+      } else return { ...findAns, question_id: data.question_id };
     });
     setCurrentAnswers([...newQues]);
   };
+
+  const getAnswerFromQuestionID = (
+    currentAnswer: Answer,
+    answers: Array<Answer>
+  ): Answer | undefined => {
+    if (_.isNil(currentAnswer.question_id)) return undefined;
+    return answers.find((a) => a.question_id === currentAnswer.question_id);
+  };
+
   useEffect(() => {
     handleSetPropsAnswers();
   }, []);
