@@ -57,8 +57,12 @@ const App = ({ questions, nums }: Props) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    registerQuestions(currentQuestions);
-    redirect("/projects")(e);
+    const result = registerQuestions(currentQuestions);
+    if (result) redirect("/projects")(e);
+    else
+      alert(
+        "問題設定の登録/更新に失敗しました\n時間をあけてから再度操作を実行してください"
+      );
   };
 
   return (

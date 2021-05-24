@@ -73,14 +73,19 @@ const registerQuestion = async (
   questions: Array<Question>,
   projectId: string
 ) => {
-  for (const question of questions) {
-    if (_.isNil(question)) continue;
+  try {
+    for (const question of questions) {
+      if (_.isNil(question)) continue;
 
-    if (question.ID !== "") {
-      updateQuestion(user, question, projectId);
-    } else {
-      createQuestion(user, question, projectId);
+      if (question.ID !== "") {
+        await updateQuestion(user, question, projectId);
+      } else {
+        await createQuestion(user, question, projectId);
+      }
     }
+    return true;
+  } catch {
+    return false;
   }
 };
 

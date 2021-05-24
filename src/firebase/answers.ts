@@ -77,18 +77,23 @@ const updateAnswer = async (
   await collection.doc(answer.ID).set(ans);
 };
 
-const registerAnswer = (
+const registerAnswer = async (
   user: Auth,
   answers: Array<Answer>,
   projectId: string
-) => {
-  answers.forEach((answer, index) => {
-    if (answer && answer.ID !== "") {
-      updateAnswer(answer, projectId, index);
-    } else {
-      createAnswer(user, answer, projectId, index);
-    }
-  });
+): Promise<boolean> => {
+  try {
+    answers.forEach(async (answer, index) => {
+      if (answer && answer.ID !== "") {
+        await updateAnswer(answer, projectId, index);
+      } else {
+        await createAnswer(user, answer, projectId, index);
+      }
+    });
+    return true;
+  } catch {
+    return false;
+  }
 };
 
 // 問題数を取得
@@ -98,7 +103,9 @@ const getQuestionNumber = async (projectId: string) => {
   if (proj.exists) {
     return +proj.data().question_num * +proj.data().participants.length;
   } else {
-    console.log("No such document!");
+    alert(
+      "問題数情報の取得に失敗しました!\n時間をおいてから再度操作を行ってください。"
+    );
     return 0;
   }
 };
@@ -117,7 +124,9 @@ const getParticipants = async (projectId: string) => {
       members.push(member);
     });
   } else {
-    console.log("No such document!");
+    alert(
+      "参加者情報の取得に失敗しました!\n時間をおいてから再度操作を行ってください。"
+    );
   }
   return members;
 };

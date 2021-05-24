@@ -59,8 +59,8 @@ const PageBody = () => {
               <Grid item>
                 <Button
                   onClick={async () => {
-                    await signInGoogle();
-                    redirect("/projects");
+                    const result = await signInGoogle();
+                    if (result) redirect("/projects");
                   }}
                   color="primary"
                   variant="contained"

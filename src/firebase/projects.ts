@@ -27,20 +27,25 @@ const getProject = async (user: Auth) => {
 };
 
 const createProject = async (user: Auth, data: Project) => {
-  let collection = firestore.collection("projects");
-  collection.add({
-    name: data.name,
-    content: data.content,
-    question_num: data.question_num,
-    creater: user.id,
-    project_mode: data.project_mode,
-    participants: [
-      {
-        user_id: user.id,
-        user_name: user.name,
-      },
-    ],
-  });
+  try {
+    let collection = firestore.collection("projects");
+    await collection.add({
+      name: data.name,
+      content: data.content,
+      question_num: data.question_num,
+      creater: user.id,
+      project_mode: data.project_mode,
+      participants: [
+        {
+          user_id: user.id,
+          user_name: user.name,
+        },
+      ],
+    });
+    alert("作成が完了しました");
+  } catch {
+    alert("作成に失敗しました");
+  }
 };
 
 const deleteProject = async (index: string) => {
@@ -49,6 +54,7 @@ const deleteProject = async (index: string) => {
     .doc(index)
     .delete()
     .catch(function (error) {
+      alert("削除に失敗しました");
       console.error("Error removing document: ", error);
     });
 };
@@ -60,7 +66,7 @@ const joinProject = async (user: Auth, id: string) => {
     .get()
     .then(async function (doc: any) {
       if (!doc.exists) {
-        console.log("入力IDはありません");
+        alert("入力IDはありません");
         return;
       }
       const participants = JSON.parse(JSON.stringify(doc.data().participants));
@@ -78,14 +84,15 @@ const joinProject = async (user: Auth, id: string) => {
           participants: participants,
         })
         .then(function () {
-          console.log("更新が完了しました");
+          alert("更新が完了しました");
         })
         .catch(function (error) {
-          // The document probably doesn't exist.
+          alert("更新に失敗しました");
           console.error("Error updating document: ", error);
         });
     })
     .catch(function (error) {
+      alert("更新に失敗しました");
       console.log("Error getting document:", error);
     });
 };
@@ -117,10 +124,10 @@ const updateProject = async (projectId: string, data: Project) => {
       { merge: true }
     )
     .then(function () {
-      console.log("更新が完了しました");
+      alert("更新が完了しました");
     })
     .catch(function (error) {
-      // The document probably doesn't exist.
+      alert("更新に失敗しました");
       console.error("Error updating document: ", error);
     });
 };
