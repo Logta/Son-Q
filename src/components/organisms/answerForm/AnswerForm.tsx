@@ -53,7 +53,7 @@ const App = () => {
       );
       if (_.isNil(findAns)) {
         return data;
-      } else return { ...findAns, question_id: data.question_id };
+      } else return { ...findAns, url: data.url };
     });
     setCurrentAnswers([...newQues]);
   };
@@ -74,13 +74,16 @@ const App = () => {
     const newQues = currentAnswers.slice();
     newQues[id].guess_user_id = value;
     setCurrentAnswers([...newQues]);
-    console.log(currentAnswers);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    registerAnswers(currentAnswers);
-    redirect("/projects")(e);
+    const result = registerAnswers(currentAnswers);
+    if (result) redirect("/projects")(e);
+    else
+      alert(
+        "回答の登録/更新に失敗しました\n時間をあけてから再度操作を実行してください"
+      );
   };
 
   return (

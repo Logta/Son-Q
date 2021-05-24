@@ -46,8 +46,8 @@ const App = () => {
             <div className={styles.button}>
               <AppBarButton
                 onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                  signOut();
-                  redirect("/")(e);
+                  const result = signOut();
+                  if (result) redirect("/")(e);
                 }}
               >
                 サインアウト
@@ -57,8 +57,8 @@ const App = () => {
             <div className={styles.button}>
               <AppBarButton
                 onClick={async (e: React.MouseEvent<HTMLButtonElement>) => {
-                  await signInGoogle();
-                  redirect("/projects")(e);
+                  const result = await signInGoogle();
+                  if (result) redirect("/projects")(e);
                 }}
               >
                 サインイン

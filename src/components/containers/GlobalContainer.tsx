@@ -31,8 +31,8 @@ const GlobalContainer: React.FC = (props: Props) => {
 
   const signInCheck = async () => {
     const user = await awaitOnAuth();
-    if (_.isNull(user)) return;
-    if (!user.ok) return;
+    if (_.isNull(user)) return false;
+    if (!user.ok) return false;
     setUser({
       ID: user.id,
       Name: user.name,
@@ -43,8 +43,8 @@ const GlobalContainer: React.FC = (props: Props) => {
   const signInGoogle = async () => {
     const user = await awaitOnGoogleLogin();
     setLoading(false);
-    if (_.isNull(user)) return;
-    if (!user.ok) return;
+    if (_.isNull(user)) return false;
+    if (!user.ok) return false;
     setUser({
       ID: user.id,
       Name: user.name,
@@ -55,8 +55,8 @@ const GlobalContainer: React.FC = (props: Props) => {
   const signInEmail = async (data: any) => {
     const user = await awaitOnPasswordLogin(data);
     setLoading(false);
-    if (_.isNull(user)) return;
-    if (!user.ok) return;
+    if (_.isNull(user)) return false;
+    if (!user.ok) return false;
     setUser({
       ID: user.id,
       Name: user.name,
