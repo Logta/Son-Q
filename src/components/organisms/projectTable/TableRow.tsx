@@ -105,7 +105,7 @@ const App = (props: Props) => {
           <Button
             variant="outlined"
             color="secondary"
-            onClick={() => {
+            onClick={(event: React.MouseEvent<HTMLInputElement>) => {
               deleteProjects(row.ID);
               event.stopPropagation();
             }}
