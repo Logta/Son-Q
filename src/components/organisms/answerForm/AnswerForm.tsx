@@ -53,7 +53,7 @@ const App = () => {
       );
       if (_.isNil(findAns)) {
         return data;
-      } else return { ...findAns, question_id: data.question_id };
+      } else return { ...findAns, url: data.url };
     });
     setCurrentAnswers([...newQues]);
   };

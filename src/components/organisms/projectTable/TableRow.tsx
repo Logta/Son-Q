@@ -105,7 +105,10 @@ const App = (props: Props) => {
           <Button
             variant="outlined"
             color="secondary"
-            onClick={() => deleteProjects(row.ID)}
+            onClick={() => {
+              deleteProjects(row.ID);
+              event.stopPropagation();
+            }}
           >
             削除
           </Button>
