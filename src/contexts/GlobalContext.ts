@@ -12,6 +12,9 @@ type Props = {
   handleDarkModeOn: Function;
   darkMode: boolean;
   loading: boolean;
+  errorMessage: Function;
+  warningMessage: Function;
+  successMessage: Function;
 };
 
 export const GlobalContext = React.createContext<Props>({
@@ -29,4 +32,7 @@ export const GlobalContext = React.createContext<Props>({
   handleDarkModeOn: Function,
   darkMode: true,
   loading: true,
+  errorMessage: Function,
+  warningMessage: Function,
+  successMessage: Function,
 });

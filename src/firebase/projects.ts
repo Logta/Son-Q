@@ -42,59 +42,53 @@ const createProject = async (user: Auth, data: Project) => {
         },
       ],
     });
-    alert("作成が完了しました");
+    return { message: "作成が完了しました", variant: "success" };
   } catch {
-    alert("作成に失敗しました");
+    return { message: "作成に失敗しました", variant: "error" };
   }
 };
 
 const deleteProject = async (index: string) => {
   let collection = firestore.collection("projects");
-  collection
-    .doc(index)
-    .delete()
-    .catch(function (error) {
-      alert("削除に失敗しました");
-      console.error("Error removing document: ", error);
-    });
+  try {
+    await collection.doc(index).delete();
+
+    return { message: "削除が完了しました", variant: "success" };
+  } catch (error) {
+    return { message: "削除に失敗しました", variant: "error" };
+  }
 };
 
 ///プロジェクトに参加する
 const joinProject = async (user: Auth, id: string) => {
   let postRef = firestore.collection("projects").doc(id);
-  await postRef
-    .get()
-    .then(async function (doc: any) {
-      if (!doc.exists) {
-        alert("入力IDはありません");
-        return;
-      }
-      const participants = JSON.parse(JSON.stringify(doc.data().participants));
-      const exist = await doc
-        .data()
-        .participants.some((p: any) => p.user_id === user.id);
-      if (exist) return;
-      participants.push({
-        user_id: user.id,
-        user_name: user.name,
-      });
-      let document = firestore.collection("projects").doc(id);
-      await document
-        .update({
-          participants: participants,
-        })
-        .then(function () {
-          alert("更新が完了しました");
-        })
-        .catch(function (error) {
-          alert("更新に失敗しました");
-          console.error("Error updating document: ", error);
-        });
-    })
-    .catch(function (error) {
-      alert("更新に失敗しました");
-      console.log("Error getting document:", error);
+  try {
+    const doc = await postRef.get();
+    if (!doc.exists) {
+      return { message: "入力IDはありません", variant: "error" };
+    }
+    const participants = JSON.parse(JSON.stringify(doc.data().participants));
+    const exist = await doc
+      .data()
+      .participants.some((p: any) => p.user_id === user.id);
+    if (exist) return { message: "すでに参加しています", variant: "warning" };
+
+    participants.push({
+      user_id: user.id,
+      user_name: user.name,
     });
+    let document = firestore.collection("projects").doc(id);
+    try {
+      await document.update({
+        participants: participants,
+      });
+      return { message: "更新が完了しました", variant: "success" };
+    } catch {
+      return { message: "更新に失敗しました", variant: "error" };
+    }
+  } catch {
+    return { message: "更新に失敗しました", variant: "error" };
+  }
 };
 
 const getProjectFromID = async (projectId: string) => {
@@ -112,9 +106,8 @@ const getProjectFromID = async (projectId: string) => {
 
 const updateProject = async (projectId: string, data: Project) => {
   const project = firestore.collection("projects");
-  await project
-    .doc(projectId)
-    .set(
+  try {
+    await project.doc(projectId).set(
       {
         name: data.name,
         content: data.content,
@@ -122,14 +115,11 @@ const updateProject = async (projectId: string, data: Project) => {
         project_mode: data.project_mode,
       },
       { merge: true }
-    )
-    .then(function () {
-      alert("更新が完了しました");
-    })
-    .catch(function (error) {
-      alert("更新に失敗しました");
-      console.error("Error updating document: ", error);
-    });
+    );
+    return { message: "更新が完了しました", variant: "success" };
+  } catch {
+    return { message: "更新に失敗しました", variant: "error" };
+  }
 };
 
 export {

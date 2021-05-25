@@ -1,5 +1,5 @@
-import { ResultsContext } from "@/contexts";
-import React, { useState, useEffect } from "react";
+import { ResultsContext, GlobalContext } from "@/contexts";
+import React, { useState, useEffect, useContext } from "react";
 import _ from "lodash";
 
 import { Answer, Result, Participant, Question } from "@/models";
@@ -20,6 +20,8 @@ type Props = {
 };
 
 const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
+  const { errorMessage } = useContext(GlobalContext);
+
   const [loading, setLoading] = useState<boolean>(true);
   const [questionNum, setQuestionNum] = useState<number>(0);
   const [answers, setAnswers] = useState<Array<Answer>>([]);
@@ -27,7 +29,6 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
   const [participants, setParticipants] = useState<Array<Participant>>([]);
   const [projectMode, setProjectMode] = useState<string>("normal");
   const [questions, setQuestions] = useState<Array<Question>>([]);
-
   useEffect(() => {
     getResults();
     getProjectMode();
@@ -84,6 +85,10 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
       return;
     }
     const p = await getParticipants(projectId);
+    _.isNil(p) &&
+      errorMessage(
+        "参加者情報の取得に失敗しました!\n時間をおいてから再度操作を行ってください。"
+      );
     setParticipants(p);
   };
 
@@ -95,6 +100,10 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
       return;
     }
     const qn = await getQuestionNumber(projectId);
+    qn === 0 &&
+      errorMessage(
+        "問題数情報の取得に失敗しました!\n時間をおいてから再度操作を行ってください。"
+      );
     setQuestionNum(qn);
   };
 

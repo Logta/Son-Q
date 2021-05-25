@@ -93,7 +93,6 @@ const createPasswordUser = async (data: any): Promise<boolean> => {
     await auth.createUserWithEmailAndPassword(data.email, data.password);
     return true;
   } catch (e) {
-    // FIXME: カスタムエラーオブジェクトを作ってinstance of で絞り込もう
     alert(JSON.stringify(e.message));
     return false;
   }
