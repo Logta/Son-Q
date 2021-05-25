@@ -1,21 +1,21 @@
-import React, { useState, useContext } from "react";
-import { GlobalContext } from "@/contexts";
+import React, { useState } from "react";
 import styles from "./Youtube.module.scss";
-import clsx from "clsx";
 
 //import styles from "./Youtube.module.scss";
 import YouTube from "react-youtube";
-import { Box, Button, ButtonGroup } from "@material-ui/core";
+import { Box, Button, ButtonGroup, Grid, Slider } from "@material-ui/core";
 import Forward10Icon from "@material-ui/icons/Forward10";
 import Replay10Icon from "@material-ui/icons/Replay10";
 import StopIcon from "@material-ui/icons/Stop";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import VolumeDown from "@material-ui/icons/VolumeDown";
+import VolumeUp from "@material-ui/icons/VolumeUp";
 
 const App = (props) => {
-  const [youtube, setYoutube] = useState([]);
+  const [youtube, setYoutube] = useState();
   const [loading, setLoading] = useState(true);
   const [playing, setPlaying] = useState(false);
-  const { darkMode } = useContext(GlobalContext);
+  const [volume, setVolume] = useState(0);
 
   const { id, endSec = 15 } = props;
   const opts = {
@@ -30,7 +30,9 @@ const App = (props) => {
 
   const onReady = (event) => {
     event.target.pauseVideo();
+    event.target.unMute();
     setYoutube(event.target);
+    setVolume(event.target.getVolume());
     setLoading(false);
   };
 
@@ -53,6 +55,11 @@ const App = (props) => {
   const onFoward10Sec = () => {
     var currentTime = youtube.getCurrentTime();
     youtube.seekTo(currentTime + 10);
+  };
+
+  const handleChangeVolume = (_, newValue) => {
+    setVolume(newValue);
+    youtube.setVolume(newValue);
   };
 
   return (
@@ -86,6 +93,23 @@ const App = (props) => {
           <Forward10Icon fontSize="small" />
         </Button>
       </ButtonGroup>
+      {youtube && (
+        <Grid container spacing={2}>
+          <Grid item>
+            <VolumeDown />
+          </Grid>
+          <Grid item xs>
+            <Slider
+              value={volume}
+              onChange={handleChangeVolume}
+              aria-labelledby="continuous-slider"
+            />
+          </Grid>
+          <Grid item>
+            <VolumeUp />
+          </Grid>
+        </Grid>
+      )}
     </>
   );
 };
