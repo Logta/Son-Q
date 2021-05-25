@@ -14,7 +14,7 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
-import { ProjectsContext } from "@/contexts";
+import { ProjectsContext, GlobalContext } from "@/contexts";
 import { useContext } from "react";
 import { Project } from "@/models";
 
@@ -30,11 +30,12 @@ function useInput(
   validationMessage: string
 ): any {
   const [value, setValue] = React.useState<string>(initValue);
+  const { errorMessage } = useContext(GlobalContext);
   return {
     value,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
       if (validation(e.target.value)) {
-        alert(validationMessage);
+        errorMessage(validationMessage);
         return;
       }
       setValue(e.target.value);

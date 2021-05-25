@@ -9,7 +9,7 @@ import {
   InputAdornment,
 } from "@material-ui/core";
 import { Question } from "@/models";
-import { QuestionsContext } from "@/contexts";
+import { QuestionsContext, GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
 import _ from "lodash";
 
@@ -32,6 +32,7 @@ const App = ({ questions, nums }: Props) => {
     })
   );
   const { registerQuestions } = useContext(QuestionsContext);
+  const { errorMessage } = useContext(GlobalContext);
 
   const handleSetPropsQuestions = async () => {
     const newQues: Array<Question> = currentQuestions.map((data, index) => {
@@ -48,7 +49,7 @@ const App = ({ questions, nums }: Props) => {
     var regex = /.*\?.*|.*\=.*|.*\/.*|.*\\.*|.*\:.*|.*\&.*/;
 
     if (regex.test(event.target.value)) {
-      alert("不正な入力があります。");
+      errorMessage("不正な入力があります。");
       return;
     }
     newQues[id].url = event.target.value;
@@ -59,10 +60,6 @@ const App = ({ questions, nums }: Props) => {
     e.preventDefault();
     const result = registerQuestions(currentQuestions);
     if (result) redirect("/projects")(e);
-    else
-      alert(
-        "問題設定の登録/更新に失敗しました\n時間をあけてから再度操作を実行してください"
-      );
   };
 
   return (

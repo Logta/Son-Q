@@ -83,9 +83,13 @@ const registerQuestion = async (
         await createQuestion(user, question, projectId);
       }
     }
-    return true;
+    return { message: "問題設定が完了しました", variant: "success" };
   } catch {
-    return false;
+    return {
+      message:
+        "問題設定の登録/更新に失敗しました\n時間をあけてから再度操作を実行してください",
+      variant: "error",
+    };
   }
 };
 

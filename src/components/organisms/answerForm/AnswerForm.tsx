@@ -1,13 +1,12 @@
 import styles from "./AnswerForm.module.scss";
 import { useState, useContext, useEffect } from "react";
 import { Paper, Card, CardContent, Button, Box, Grid } from "@material-ui/core";
-import { Answer, Question } from "@/models";
+import { Answer } from "@/models";
 import { useRouter } from "next/router";
 import { AnswersContext } from "@/contexts";
 import _ from "lodash";
 import { AnswerSelector } from "./AnswerSelector";
 import { Youtube, AnswerFormLabel } from "@/components/atoms";
-import { getAnswer } from "@/firebase";
 
 const App = () => {
   const { answers, registerAnswers, questionNum, questions, participants } =
@@ -79,11 +78,9 @@ const App = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = registerAnswers(currentAnswers);
-    if (result) redirect("/projects")(e);
-    else
-      alert(
-        "回答の登録/更新に失敗しました\n時間をあけてから再度操作を実行してください"
-      );
+    if (result) {
+      redirect("/projects")(e);
+    }
   };
 
   return (

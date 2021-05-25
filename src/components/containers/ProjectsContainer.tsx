@@ -1,5 +1,5 @@
-import { ProjectsContext } from "@/contexts";
-import React, { useState, useEffect } from "react";
+import { ProjectsContext, GlobalContext } from "@/contexts";
+import React, { useState, useEffect, useContext } from "react";
 import _ from "lodash";
 
 import { Project, User } from "@/models";
@@ -12,6 +12,8 @@ import {
 } from "@/firebase";
 
 const ProjectsContainer: React.FC = ({ children }) => {
+  const { errorMessage, successMessage, warningMessage } =
+    useContext(GlobalContext);
   const [loading, setLoading] = useState<boolean>(true);
   const [projects, setProjects] = useState<Array<Project>>([]);
   const [user, setUser] = useState<User>({
@@ -45,7 +47,16 @@ const ProjectsContainer: React.FC = ({ children }) => {
     const user = await awaitOnAuth();
     if (_.isNull(user) || !user.ok) return;
 
-    await createProject(user, data);
+    const { message, variant } = await createProject(user, data);
+    switch (variant) {
+      case "success":
+        successMessage(message);
+        break;
+
+      case "error":
+        errorMessage(message);
+        break;
+    }
     await getProjects();
   };
 
@@ -57,7 +68,16 @@ const ProjectsContainer: React.FC = ({ children }) => {
     const user = await awaitOnAuth();
     if (_.isNull(user) || !user.ok) return;
 
-    await deleteProject(id);
+    const { message, variant } = await deleteProject(id);
+    switch (variant) {
+      case "success":
+        successMessage(message);
+        break;
+
+      case "error":
+        errorMessage(message);
+        break;
+    }
     await getProjects();
   };
 
@@ -66,7 +86,22 @@ const ProjectsContainer: React.FC = ({ children }) => {
     const user = await awaitOnAuth();
     if (_.isNull(user) || !user.ok) return;
 
-    await joinProject(user, id);
+    const { message, variant } = await joinProject(user, id);
+    switch (variant) {
+      case "success":
+        successMessage(message);
+        break;
+
+      case "error":
+        errorMessage(message);
+        break;
+
+      case "warningMessage":
+        alert(message);
+        console.log("test");
+        warningMessage(message);
+        break;
+    }
     await getProjects();
   };
 

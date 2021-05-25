@@ -1,5 +1,5 @@
-import { ProjectContext } from "@/contexts";
-import React, { useState, useEffect } from "react";
+import { ProjectContext, GlobalContext } from "@/contexts";
+import React, { useState, useEffect, useContext } from "react";
 import _ from "lodash";
 
 import { Project, User } from "@/models";
@@ -11,6 +11,7 @@ type Props = {
 };
 
 const ProjectContainer: React.FC<Props> = ({ children, projectId }) => {
+  const { errorMessage, successMessage } = useContext(GlobalContext);
   const [loading, setLoading] = useState<boolean>(true);
   const [project, setProject] = useState<Project>();
   const [user, setUser] = useState<User>({
@@ -40,7 +41,16 @@ const ProjectContainer: React.FC<Props> = ({ children, projectId }) => {
   };
 
   const updateProjectInfo = async (data: Project) => {
-    updateProject(projectId, data);
+    const { message, variant } = await updateProject(projectId, data);
+    switch (variant) {
+      case "success":
+        successMessage(message);
+        break;
+
+      case "error":
+        errorMessage(message);
+        break;
+    }
   };
 
   return (

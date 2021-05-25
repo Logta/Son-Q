@@ -1,5 +1,5 @@
-import { QuestionsContext } from "@/contexts";
-import React, { useState, useEffect } from "react";
+import { QuestionsContext, GlobalContext } from "@/contexts";
+import { useState, useEffect, useContext } from "react";
 import _ from "lodash";
 
 import { Question } from "@/models";
@@ -16,6 +16,7 @@ type Props = {
 };
 
 const QuestionsContainer: React.FC<Props> = ({ children, projectId }) => {
+  const { errorMessage, successMessage } = useContext(GlobalContext);
   const [loading, setLoading] = useState<boolean>(true);
   const [questionNum, setQuestionNum] = useState<number>(0);
   const [questions, setQuestions] = useState<Array<Question>>([]);
@@ -42,6 +43,7 @@ const QuestionsContainer: React.FC<Props> = ({ children, projectId }) => {
     setLoading(false);
     if (_.isNull(user) || !user.ok) {
       setQuestions([]);
+      errorMessage("回答するにはサインインが必要です");
       return;
     }
     const questionNum = await getQuestionNum(projectId);
@@ -51,10 +53,27 @@ const QuestionsContainer: React.FC<Props> = ({ children, projectId }) => {
 
   const registerQuestions = async (questions: Array<Question>) => {
     const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) return;
+    if (_.isNull(user) || !user.ok) {
+      errorMessage("問題設定するにはサインインが必要です");
+      return false;
+    }
 
-    await registerQuestion(user, questions, projectId);
+    const { message, variant } = await registerQuestion(
+      user,
+      questions,
+      projectId
+    );
+    switch (variant) {
+      case "success":
+        successMessage(message);
+        break;
+
+      case "error":
+        errorMessage(message);
+        return false;
+    }
     await getQuestions();
+    return true;
   };
 
   return (

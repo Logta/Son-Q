@@ -1,5 +1,5 @@
-import { AnswersContext } from "@/contexts";
-import React, { useState, useEffect } from "react";
+import { AnswersContext, GlobalContext } from "@/contexts";
+import React, { useState, useEffect, useContext } from "react";
 import _ from "lodash";
 
 import { Answer, Question, Participant } from "@/models";
@@ -23,6 +23,7 @@ const AnswersContainer: React.FC<Props> = ({ children, projectId }) => {
   const [answers, setAnswers] = useState<Array<Answer>>([]);
   const [questions, setQuestions] = useState<Array<Question>>([]);
   const [participants, setParticipants] = useState<Array<Participant>>([]);
+  const { errorMessage, successMessage } = useContext(GlobalContext);
 
   useEffect(() => {
     getQuestions();
@@ -62,6 +63,10 @@ const AnswersContainer: React.FC<Props> = ({ children, projectId }) => {
       return;
     }
     const p = await getParticipants(projectId);
+    _.isNil(p) &&
+      errorMessage(
+        "参加者情報の取得に失敗しました!\n時間をおいてから再度操作を行ってください。"
+      );
     setParticipants(p);
   };
 
@@ -73,15 +78,31 @@ const AnswersContainer: React.FC<Props> = ({ children, projectId }) => {
       return;
     }
     const qn = await getQuestionNumber(projectId);
+    qn === 0 &&
+      errorMessage(
+        "問題数情報の取得に失敗しました!\n時間をおいてから再度操作を行ってください。"
+      );
     setQuestionNum(qn);
   };
 
   const registerAnswers = async (answers: Array<Answer>) => {
     const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) return;
-    console.log(answers);
-    registerAnswer(user, answers, projectId);
+    if (_.isNull(user) || !user.ok) {
+      errorMessage("回答するにはサインインが必要です");
+      return false;
+    }
+    const { message, variant } = await registerAnswer(user, answers, projectId);
+    switch (variant) {
+      case "success":
+        successMessage(message);
+        break;
+
+      case "error":
+        errorMessage(message);
+        return false;
+    }
     await getAnswers();
+    return true;
   };
 
   return (

@@ -81,7 +81,7 @@ const registerAnswer = async (
   user: Auth,
   answers: Array<Answer>,
   projectId: string
-): Promise<boolean> => {
+) => {
   try {
     answers.forEach(async (answer, index) => {
       if (answer && answer.ID !== "") {
@@ -90,9 +90,13 @@ const registerAnswer = async (
         await createAnswer(user, answer, projectId, index);
       }
     });
-    return true;
+    return { message: "回答が完了しました", variant: "success" };
   } catch {
-    return false;
+    return {
+      message:
+        "回答の登録/更新に失敗しました\n時間をあけてから再度操作を実行してください",
+      variant: "error",
+    };
   }
 };
 
@@ -103,9 +107,6 @@ const getQuestionNumber = async (projectId: string) => {
   if (proj.exists) {
     return +proj.data().question_num * +proj.data().participants.length;
   } else {
-    alert(
-      "問題数情報の取得に失敗しました!\n時間をおいてから再度操作を行ってください。"
-    );
     return 0;
   }
 };
@@ -124,9 +125,7 @@ const getParticipants = async (projectId: string) => {
       members.push(member);
     });
   } else {
-    alert(
-      "参加者情報の取得に失敗しました!\n時間をおいてから再度操作を行ってください。"
-    );
+    return undefined;
   }
   return members;
 };

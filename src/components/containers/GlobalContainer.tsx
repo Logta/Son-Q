@@ -1,6 +1,7 @@
 import { GlobalContext } from "@/contexts";
 import React, { useState, useEffect } from "react";
 import _ from "lodash";
+import { SnackbarProvider, useSnackbar } from "notistack";
 
 import { User, Auth } from "@/models";
 import {
@@ -12,13 +13,30 @@ import {
 } from "@/firebase";
 
 type Props = {
-  children: React.ReactNode;
+  children: React.ReactElement;
   handleDarkModeOff: Function;
   handleDarkModeOn: Function;
   darkMode: boolean;
 };
 
-const GlobalContainer: React.FC = (props: Props) => {
+const App: React.FC = (props: Props) => {
+  const { enqueueSnackbar } = useSnackbar();
+
+  const successMessage = (message: string) => {
+    // variant could be success, error, warning, info, or default
+    enqueueSnackbar(message, { variant: "success" });
+  };
+
+  const errorMessage = (message: string) => {
+    // variant could be success, error, warning, info, or default
+    enqueueSnackbar(message, { variant: "error" });
+  };
+
+  const warningMessage = (message: string) => {
+    // variant could be success, error, warning, info, or default
+    enqueueSnackbar(message, { variant: "warning" });
+  };
+
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User>({
     ID: "",
@@ -92,10 +110,21 @@ const GlobalContainer: React.FC = (props: Props) => {
         signUpEmail,
         signOut,
         loading,
+        successMessage,
+        errorMessage,
+        warningMessage,
       }}
     >
       {props.children}
     </GlobalContext.Provider>
+  );
+};
+
+const GlobalContainer: React.FC = (props: Props) => {
+  return (
+    <SnackbarProvider maxSnack={3}>
+      <App {...props} />
+    </SnackbarProvider>
   );
 };
 

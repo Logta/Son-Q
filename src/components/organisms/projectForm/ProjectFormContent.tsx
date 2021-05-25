@@ -9,7 +9,7 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
-import { ProjectContext } from "@/contexts";
+import { ProjectContext, GlobalContext } from "@/contexts";
 import { useContext } from "react";
 import { Project } from "@/models";
 import { useRouter } from "next/router";
@@ -21,12 +21,13 @@ function useInput(
   validation: (t: string) => boolean,
   validationMessage: string
 ): any {
+  const { errorMessage } = useContext(GlobalContext);
   const [value, setValue] = React.useState<string>(initValue);
   return {
     value,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
       if (validation(e.target.value)) {
-        alert(validationMessage);
+        errorMessage(validationMessage);
         return;
       }
       setValue(e.target.value);

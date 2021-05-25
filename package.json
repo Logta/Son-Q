@@ -17,6 +17,7 @@
     "lodash": "^4.17.21",
     "next": "10.2.0",
     "nookies": "^2.5.2",
+    "notistack": "^1.0.9",
     "prop-types": "latest",
     "react": "17.0.2",
     "react-dom": "17.0.2",

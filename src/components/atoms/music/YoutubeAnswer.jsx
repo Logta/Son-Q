@@ -4,14 +4,17 @@ import styles from "./Youtube.module.scss";
 
 //import styles from "./Youtube.module.scss";
 import YouTube from "react-youtube";
-import { IconButton, Box } from "@material-ui/core";
+import { IconButton, Box, Button, ButtonGroup } from "@material-ui/core";
 import StopIcon from "@material-ui/icons/Stop";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import VolumeDown from "@material-ui/icons/VolumeDown";
+import VolumeUp from "@material-ui/icons/VolumeUp";
 
 const App = (props) => {
   const [youtube, setYoutube] = useState([]);
   const [loading, setLoading] = useState(true);
   const [playing, setPlaying] = useState(false);
+  const [volume, setVolume] = useState(0);
   const { darkMode } = useContext(GlobalContext);
 
   const { id } = props;
@@ -26,6 +29,7 @@ const App = (props) => {
 
   const onReady = (event) => {
     event.target.pauseVideo();
+    event.target.unMute();
     setYoutube(event.target);
     setLoading(false);
   };
@@ -38,6 +42,11 @@ const App = (props) => {
   const onStop = () => {
     youtube.stopVideo();
     setPlaying(false);
+  };
+
+  const handleChangeVolume = (_, newValue) => {
+    setVolume(newValue);
+    youtube.setVolume(newValue);
   };
 
   return (
@@ -65,6 +74,32 @@ const App = (props) => {
         >
           <StopIcon fontSize="small" className={!darkMode && styles.light} />
         </IconButton>
+      )}
+      {youtube && (
+        <ButtonGroup>
+          <Button
+            aria-label="foward"
+            className={styles.margin}
+            onClick={() => {
+              const vol = youtube.getVolume();
+              youtube.setVolume(vol - 10);
+            }}
+            disabled={loading}
+          >
+            <VolumeDown fontSize="small" />
+          </Button>
+          <Button
+            aria-label="foward"
+            className={styles.margin}
+            onClick={() => {
+              const vol = youtube.getVolume();
+              youtube.setVolume(vol + 10);
+            }}
+            disabled={loading}
+          >
+            <VolumeUp fontSize="small" />
+          </Button>
+        </ButtonGroup>
       )}
     </>
   );
