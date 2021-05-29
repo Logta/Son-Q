@@ -21,8 +21,10 @@ const PageBody = () => {
     <>
       <AppBar />
       <Container maxWidth="lg">
-        <Label>回答フォーム</Label>
-        <SubLabel>誰が選んだ曲か推理しよう！</SubLabel>
+        <main className={styles.main}>
+          <Label>回答フォーム</Label>
+          <SubLabel>誰が選んだ曲か推理しよう！</SubLabel>
+        </main>
 
         {!loading && answers && questionNum !== 0 && questions && participants && (
           <Grid container alignItems="center" justify="center">
