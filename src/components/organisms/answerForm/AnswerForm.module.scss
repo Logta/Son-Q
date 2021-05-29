@@ -19,16 +19,28 @@
   padding: 2em 2em 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  .card {
-    background-color: #11181f;
-    color: #ffffff;
+.darkSubheader {
+  height: 1rem;
+  background-color: #3f50b5;
+  span {
+    color: white;
+    font-weight: bold;
+    font-size: 0.8rem;
   }
 }
 
-@media (prefers-color-scheme: light) {
-  .card {
-    background-color: #fafafa;
-    color: #11181f;
+.lightSubheader {
+  height: 1rem;
+  background-color: #b2b9e1;
+  span {
+    color: black;
+    font-weight: bold;
+    font-size: 0.8rem;
+  }
+}
+
+.formControl {
+  span {
+    font-size: 0.9rem;
   }
 }

@@ -8,6 +8,7 @@ import _ from "lodash";
 const App = () => {
   const { participants, answers, questions } = useContext(ResultsContext);
   const { darkMode } = useContext(GlobalContext);
+
   return (
     <>
       {questions.map((ques) => {
