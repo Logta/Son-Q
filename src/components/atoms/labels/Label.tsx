@@ -11,7 +11,7 @@ const App = (props: Props) => {
   return (
     <>
       <Typography component="div">
-        <Box fontSize="h5.fontSize" m={5}>
+        <Box fontSize="h6.fontSize" fontWeight="fontWeightBold" m={2}>
           <Grid container alignItems="center" justify="center">
             <Grid item>
               <Box>{children}</Box>

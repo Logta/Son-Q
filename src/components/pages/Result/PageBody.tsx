@@ -24,7 +24,8 @@ const PageBody = () => {
       <AppBar />
       <Container maxWidth="lg">
         <main className={styles.main}>
-          <Label>結果を確認しよう！</Label>
+          <Label>結果一覧</Label>
+          <SubLabel>結果を確認しよう！</SubLabel>
         </main>
         {!loading &&
           questionNum !== 0 &&
@@ -35,7 +36,7 @@ const PageBody = () => {
                 <strong>得点表</strong>
               </SubLabel>
               <ResultPointTable />
-              <Box m={10} />
+              <Box m={5} />
               <SubLabel>
                 <strong>回答一覧</strong>
               </SubLabel>

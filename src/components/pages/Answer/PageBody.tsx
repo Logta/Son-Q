@@ -3,7 +3,7 @@ import styles from "./Answer.module.scss";
 import { useContext } from "react";
 import { Container, Button, Grid } from "@material-ui/core";
 import { AppBar, AnswerForm } from "@/components/organisms";
-import { Label } from "@/components/atoms";
+import { Label, SubLabel } from "@/components/atoms";
 import { AnswersContext } from "@/contexts";
 import { useRouter } from "next/router";
 
@@ -21,7 +21,8 @@ const PageBody = () => {
     <>
       <AppBar />
       <Container maxWidth="lg">
-        <Label>誰が選んだ曲か推理しよう！</Label>
+        <Label>回答フォーム</Label>
+        <SubLabel>誰が選んだ曲か推理しよう！</SubLabel>
 
         {!loading && answers && questionNum !== 0 && questions && participants && (
           <Grid container alignItems="center" justify="center">
