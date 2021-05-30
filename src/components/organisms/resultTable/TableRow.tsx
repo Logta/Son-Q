@@ -1,5 +1,5 @@
 import { TableRow, TableCell, Chip } from "@material-ui/core";
-import { ResultsContext } from "@/contexts";
+import { ResultsContext, GlobalContext } from "@/contexts";
 import { useContext } from "react";
 import { YoutubeAnswer } from "@/components/atoms";
 import { getQuestioner, getRespondent } from "@/utils";
@@ -7,6 +7,8 @@ import _ from "lodash";
 
 const App = () => {
   const { participants, answers, questions } = useContext(ResultsContext);
+  const { darkMode } = useContext(GlobalContext);
+
   return (
     <>
       {questions.map((ques) => {
@@ -50,9 +52,17 @@ const App = () => {
                   >
                     {getQuestioner(participants, ques) ===
                     getRespondent(part, participants, ques, answers) ? (
-                      <Chip label="〇" color="secondary" variant="outlined" />
+                      <Chip
+                        label="〇"
+                        color="secondary"
+                        variant={darkMode ? "default" : "outlined"}
+                      />
                     ) : (
-                      <Chip label="×" color="primary" variant="outlined" />
+                      <Chip
+                        label="×"
+                        color="primary"
+                        variant={darkMode ? "default" : "outlined"}
+                      />
                     )}
                   </TableCell>
                   <TableCell

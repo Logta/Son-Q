@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { Container, Button } from "@material-ui/core";
 import { AppBar, ProjectTable } from "@/components/organisms";
 import { ProjectsContext } from "@/contexts";
-import { Label } from "@/components/atoms";
+import { Label, SubLabel } from "@/components/atoms";
 import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
 
 const PageBody = () => {
@@ -18,7 +18,8 @@ const PageBody = () => {
       <AppBar />
       <Container maxWidth="lg">
         <main className={styles.main}>
-          <Label>プロジェクトの作成・参加をしましょう</Label>
+          <Label>プロジェクト一覧</Label>
+          <SubLabel>プロジェクトの作成・参加をしましょう</SubLabel>
         </main>
 
         <ProjectTable rows={projects} />

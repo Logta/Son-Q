@@ -1,16 +1,25 @@
 import styles from "./AnswerForm.module.scss";
 import { useState, useContext, useEffect } from "react";
-import { Paper, Card, CardContent, Button, Box, Grid } from "@material-ui/core";
+import {
+  Paper,
+  Card,
+  CardHeader,
+  CardContent,
+  Button,
+  Box,
+  Grid,
+} from "@material-ui/core";
 import { Answer } from "@/models";
 import { useRouter } from "next/router";
-import { AnswersContext } from "@/contexts";
+import { AnswersContext, GlobalContext } from "@/contexts";
 import _ from "lodash";
 import { AnswerSelector } from "./AnswerSelector";
-import { Youtube, AnswerFormLabel } from "@/components/atoms";
+import { Youtube } from "@/components/atoms";
 
 const App = () => {
   const { answers, registerAnswers, questionNum, questions, participants } =
     useContext(AnswersContext);
+  const { darkMode } = useContext(GlobalContext);
 
   const router = useRouter();
 
@@ -89,9 +98,14 @@ const App = () => {
         {[...Array(questionNum)].map((_, value) => {
           return (
             <div className={styles.backDiv}>
-              <Card className={styles.card}>
+              <Card variant="outlined">
+                <CardHeader
+                  subheader={`${value + 1} 曲目`}
+                  className={
+                    darkMode ? styles.darkSubheader : styles.lightSubheader
+                  }
+                />
                 <CardContent>
-                  <AnswerFormLabel>{value + 1} 曲目</AnswerFormLabel>
                   <Grid container alignItems="center" justify="center">
                     <Grid item>
                       <Grid container alignItems="center" justify="center">
@@ -101,23 +115,25 @@ const App = () => {
                             endSec={60}
                           />
                           <Box m={-0.5} />
-                          <Box m={1} />
                         </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
-                  <AnswerSelector
-                    key={`Label-${+value + 1}`}
-                    index={value}
-                    participants={participants}
-                    value={
-                      currentAnswers[value] &&
-                      currentAnswers[value].guess_user_id
-                        ? currentAnswers[value].guess_user_id
-                        : ""
-                    }
-                    setValue={handleSelector(+value)}
-                  />
+
+                  <Box mt={0.5} mb={-1}>
+                    <AnswerSelector
+                      key={`Label-${+value + 1}`}
+                      index={value}
+                      participants={participants}
+                      value={
+                        currentAnswers[value] &&
+                        currentAnswers[value].guess_user_id
+                          ? currentAnswers[value].guess_user_id
+                          : ""
+                      }
+                      setValue={handleSelector(+value)}
+                    />
+                  </Box>
                 </CardContent>
               </Card>
             </div>

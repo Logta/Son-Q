@@ -4,6 +4,7 @@ import {
   RadioGroup,
   FormControlLabel,
   FormControl,
+  Box,
 } from "@material-ui/core";
 import { Participant } from "@/models";
 
@@ -31,11 +32,14 @@ const App = (props: Props) => {
         >
           {participants.map((participant) => {
             return (
-              <FormControlLabel
-                value={participant.user_id}
-                control={<Radio />}
-                label={participant.user_name}
-              />
+              <Box my={-0.25}>
+                <FormControlLabel
+                  className={styles.formControl}
+                  value={participant.user_id}
+                  control={<Radio size="small" />}
+                  label={participant.user_name}
+                />
+              </Box>
             );
           })}
         </RadioGroup>

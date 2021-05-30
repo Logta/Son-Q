@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { Container, Button } from "@material-ui/core";
 import { AppBar, ProjectForm } from "@/components/organisms";
 import { ProjectContext } from "@/contexts";
-import { Label } from "@/components/atoms";
+import { Label, SubLabel } from "@/components/atoms";
 import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
 import { useRouter } from "next/router";
 
@@ -27,7 +27,8 @@ const PageBody = () => {
         <AppBar />
         <Container maxWidth="lg">
           <main className={styles.main}>
-            <Label>プロジェクトの確認・編集をしましょう</Label>
+            <Label>プロジェクト情報</Label>
+            <SubLabel>プロジェクトの確認・編集をしましょう</SubLabel>
           </main>
 
           <ProjectForm />

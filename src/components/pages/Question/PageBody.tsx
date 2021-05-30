@@ -6,7 +6,7 @@ import { AppBar, QuestionForm } from "@/components/organisms";
 import { QuestionsContext } from "@/contexts";
 import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
 import { useRouter } from "next/router";
-import { Label } from "@/components/atoms";
+import { Label, SubLabel } from "@/components/atoms";
 import _ from "lodash";
 
 const PageBody = () => {
@@ -27,8 +27,9 @@ const PageBody = () => {
       <AppBar />
       <Container maxWidth="lg">
         <main className={styles.main}>
-          <Label>問題を設定しましょう！</Label>
-          <Typography color="primary">
+          <Label>プロジェクト一覧</Label>
+          <SubLabel>問題を設定しましょう！</SubLabel>
+          <Typography color="secondary">
             ※出題するYoutube動画IDを記入してください
           </Typography>
         </main>

@@ -7,3 +7,4 @@ export * from "./answerForm";
 export * from "./loginForm";
 export * from "./resultTable";
 export * from "./resultPointTable";
+export * from "./homeStep";
