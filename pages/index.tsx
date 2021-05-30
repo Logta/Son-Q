@@ -1,10 +1,11 @@
 import Head from "next/head";
 import { HomePage } from "../src/components/pages";
 import { Copyright } from "../src/components/atoms";
+import ScopedCssBaseline from "@material-ui/core/ScopedCssBaseline";
 
 export default function Home() {
   return (
-    <>
+    <ScopedCssBaseline>
       <Head>
         <title>Black Jukebox</title>
         <meta
@@ -16,6 +17,6 @@ export default function Home() {
 
       <HomePage />
       <Copyright />
-    </>
+    </ScopedCssBaseline>
   );
 }
