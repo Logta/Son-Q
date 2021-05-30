@@ -3,6 +3,7 @@ import { useContext } from "react";
 import styles from "./Home.module.scss";
 import { Container, Button, Box, Grid, Paper } from "@material-ui/core";
 import { Label, SubLabel } from "@/components/atoms";
+import { DarkModeSwitch } from "@/components/molecules";
 import { HomeStep } from "@/components/organisms";
 import { GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
@@ -135,7 +136,13 @@ const PageBody = () => {
           </Box>
         </Paper>
 
-        <Box m={10} />
+        <Box my={5}>
+          <Grid container alignItems="center" justify="center">
+            <Grid item>
+              <DarkModeSwitch />
+            </Grid>
+          </Grid>
+        </Box>
 
         <footer className={styles.footer}>
           <a

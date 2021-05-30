@@ -1,7 +1,7 @@
 import styles from "./AppBar.module.scss";
 import React, { useContext, useEffect } from "react";
 import { GlobalContext } from "@/contexts";
-import { AppBar, Toolbar, Button, Switch, Box } from "@material-ui/core";
+import { AppBar, Toolbar, Button, Box, Grid } from "@material-ui/core";
 import { AppBarButton } from "@/components/atoms";
 import { DarkModeSwitch } from "@/components/molecules";
 import { useRouter } from "next/router";
@@ -26,22 +26,30 @@ const App = () => {
     <>
       <AppBar position="static">
         <Toolbar>
-          <Image src="/black_jukebox.png" width={20} height={20} />
-          <Box mr={2}>
+          <Image src="/black_jukebox.png" width={25} height={25} />
+          <Box mr={2} ml={1}>
             <Button
               onClick={redirect("/")}
               style={{
                 height: "100%",
+                width: "10rem",
                 color: "white",
-                fontSize: "16px",
+                fontSize: "17px",
               }}
             >
               Black Jukebox
             </Button>
           </Box>
-          <div className={styles.button}>
-            <DarkModeSwitch />
-          </div>
+          <Grid
+            container
+            direction="row"
+            justify="flex-end"
+            alignItems="center"
+          >
+            <div className={styles.button}>
+              <DarkModeSwitch />
+            </div>
+          </Grid>
           {user.Login ? (
             <div className={styles.button}>
               <AppBarButton
