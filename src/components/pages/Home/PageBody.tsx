@@ -23,6 +23,14 @@ const PageBody = () => {
       <Container maxWidth="sm">
         <main className={styles.main}>
           <Label>Black Jukebox</Label>
+          <Box mt={-4} mb={2}>
+            <Image
+              src={"/turntable.png"}
+              alt="turntable"
+              width={250}
+              height={250}
+            />
+          </Box>
           <SubLabel>皆の好きな曲を持ち寄って、</SubLabel>
           <SubLabel>誰が持ってきた曲か当てよう！</SubLabel>
         </main>
