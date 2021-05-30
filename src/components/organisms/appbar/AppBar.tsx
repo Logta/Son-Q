@@ -26,14 +26,15 @@ const App = () => {
     <>
       <AppBar position="static">
         <Toolbar>
-          <Image src="/black_jukebox.png" width={20} height={20} />
-          <Box mr={2}>
+          <Image src="/black_jukebox.png" width={25} height={25} />
+          <Box mr={2} ml={1}>
             <Button
               onClick={redirect("/")}
               style={{
                 height: "100%",
+                width: "10rem",
                 color: "white",
-                fontSize: "16px",
+                fontSize: "17px",
               }}
             >
               Black Jukebox
