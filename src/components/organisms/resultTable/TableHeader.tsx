@@ -11,7 +11,25 @@ const App = () => {
         <TableCell
           rowSpan={2}
           align="center"
-          style={{ width: "10em", minWidth: "10em", fontWeight: "bold" }}
+          style={{
+            width: "2em",
+            minWidth: "2em",
+            fontWeight: "bold",
+          }}
+        >
+          No.
+        </TableCell>
+        <TableCell
+          rowSpan={2}
+          align="center"
+          style={{
+            width: "10em",
+            minWidth: "10em",
+            fontWeight: "bold",
+            borderLeftWidth: "1px",
+            borderLeftStyle: "solid",
+            borderLeftColor: "lightGray",
+          }}
         >
           <Chip color="secondary" label={"出題者"} />
         </TableCell>

@@ -11,7 +11,7 @@ const App = () => {
 
   return (
     <>
-      {questions.map((ques) => {
+      {questions.map((ques, index) => {
         return (
           <TableRow key={`${ques.ID}-result`}>
             <TableCell
@@ -20,6 +20,20 @@ const App = () => {
               scope="row"
               align="center"
               style={{ fontWeight: "bold" }}
+            >
+              {index + 1}
+            </TableCell>
+            <TableCell
+              key={`${ques.ID}-result-partName`}
+              component="th"
+              scope="row"
+              align="center"
+              style={{
+                fontWeight: "bold",
+                borderLeftWidth: "1px",
+                borderLeftStyle: "solid",
+                borderLeftColor: "lightGray",
+              }}
             >
               {getQuestioner(participants, ques)}
             </TableCell>
