@@ -72,6 +72,27 @@ const getOnlyOneIncorrectAnswer = (
   return point;
 };
 
+const getCorrectAnswer = (userID: string, answers: Array<Answer>): number => {
+  const otherCorrectAnswers = answers.filter(
+    (ans) =>
+      ans.select_user_id === userID &&
+      ans.answer_user_id !== userID &&
+      ans.guess_user_id === ans.select_user_id
+  );
+
+  const userQuestionIDs = getDuplicateDeletionArray(
+    answers
+      .filter((ans) => ans.select_user_id === userID)
+      .map((ans) => ans.question_id)
+  );
+
+  let point = 0;
+  for (const id of userQuestionIDs) {
+    point += otherCorrectAnswers.filter((ans) => ans.question_id === id).length;
+  }
+  return point;
+};
+
 const getPoint = (
   mode: string,
   userID: string,
@@ -90,6 +111,10 @@ const getPoint = (
       return (
         getOnlyOneCorrectAnswer(userID, answers, participantNum) +
         getCorrectPoint(userID, answers)
+      ).toString();
+    case "getCorrectAnswer":
+      return (
+        getCorrectAnswer(userID, answers) + getCorrectPoint(userID, answers)
       ).toString();
     default:
       return "error";
