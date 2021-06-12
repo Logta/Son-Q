@@ -100,20 +100,6 @@ const App = (props: Props) => {
           結果
         </PopupButton>
       </TableCell>
-      <TableCell align="center">
-        {row.creater === user.ID && (
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={(event: React.MouseEvent<HTMLInputElement>) => {
-              deleteProjects(row.ID);
-              event.stopPropagation();
-            }}
-          >
-            削除
-          </Button>
-        )}
-      </TableCell>
     </TableRow>
   );
 };
