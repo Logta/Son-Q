@@ -8,12 +8,18 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Grid,
 } from "@material-ui/core";
 import { ProjectContext, GlobalContext } from "@/contexts";
 import { useContext } from "react";
 import { Project } from "@/models";
 import { useRouter } from "next/router";
 import { FormLabel } from "@/components/atoms";
+
+import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
+
+import DeleteIcon from "@material-ui/icons/Delete";
+import SaveIcon from "@material-ui/icons/Save";
 
 // カスタムフックを定義（input 要素用の属性を生成する）
 function useInput(
@@ -37,6 +43,7 @@ function useInput(
 
 const App = () => {
   const router = useRouter();
+  const [open, setOpen] = React.useState(false);
 
   const redirect = (href: string) => (e: any) => {
     e.preventDefault();
@@ -152,21 +159,35 @@ const App = () => {
                 </Select>
               </FormControl>
             </Box>
-            <div className={styles.button}>
-              <Button onClick={redirect("/projects/")} color="secondary">
-                キャンセル
-              </Button>
-              <Button
-                type="submit"
-                color="primary"
-                variant="contained"
-                style={{ marginLeft: "2em" }}
-              >
-                更新
-              </Button>
-            </div>
+            <Box my={2}>
+              <Grid container justify="center">
+                <Grid item xs={10}>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    className={styles.submitButton}
+                    startIcon={<SaveIcon />}
+                  >
+                    更新
+                  </Button>
+                </Grid>
+                <Grid item xs={2}>
+                  <Button
+                    onClick={() => setOpen(true)}
+                    color="secondary"
+                    className={styles.deleteButton}
+                    startIcon={<DeleteIcon />}
+                    variant="outlined"
+                  >
+                    プロジェクトの削除
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
           </form>
         </div>
+        <DeleteConfirmDialog open={open} setOpen={setOpen} />
       </>
     )
   );
