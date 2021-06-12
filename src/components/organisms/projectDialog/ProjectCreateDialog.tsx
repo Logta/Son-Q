@@ -166,6 +166,9 @@ const App = (props: Props) => {
                   <MenuItem value={"getOnlyOneIncorrectAnswer"}>
                     1人だけが不正解するように
                   </MenuItem>
+                  <MenuItem value={"getCorrectAnswer"}>
+                    当ててもらった問題数が得点に
+                  </MenuItem>
                 </Select>
               </FormControl>
             </Box>
