@@ -6,6 +6,7 @@ type Props = {
   user: User;
   getProject: Function;
   updateProjectInfo: Function;
+  deleteProjectFromID: Function;
   loading: boolean;
 };
 
@@ -18,5 +19,6 @@ export const ProjectContext = React.createContext<Props>({
   },
   getProject: Function,
   updateProjectInfo: Function,
+  deleteProjectFromID: Function,
   loading: true,
 });

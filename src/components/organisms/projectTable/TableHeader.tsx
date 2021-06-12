@@ -59,13 +59,6 @@ const App = () => {
             width: "7em",
           }}
         />
-        <TableCell
-          align="center"
-          style={{
-            fontWeight: "bold",
-            width: "7em",
-          }}
-        ></TableCell>
       </TableRow>
     </TableHead>
   );
