@@ -8,6 +8,9 @@ import { HomeStep } from "@/components/organisms";
 import { GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
 
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import BookmarksIcon from "@material-ui/icons/Bookmarks";
+
 const PageBody = () => {
   const { user, signInGoogle, signInEmail, signOut } =
     useContext(GlobalContext);
@@ -45,6 +48,7 @@ const PageBody = () => {
                   color="primary"
                   variant="contained"
                   style={{ margin: "1em" }}
+                  startIcon={<BookmarksIcon />}
                 >
                   プロジェクト一覧へ
                 </Button>
@@ -56,6 +60,7 @@ const PageBody = () => {
                   color="primary"
                   variant="outlined"
                   style={{ margin: "1em" }}
+                  startIcon={<AccountCircleIcon />}
                 >
                   サインアウト
                 </Button>
@@ -67,13 +72,14 @@ const PageBody = () => {
             <Grid container alignItems="center" justify="center">
               <Grid item>
                 <Button
-                  onClick={async () => {
+                  onClick={async (e) => {
                     const result = await signInGoogle();
-                    if (result) redirect("/projects");
+                    if (result) redirect("/projects")(e);
                   }}
                   color="primary"
                   variant="contained"
                   style={{ margin: "1em" }}
+                  startIcon={<AccountCircleIcon />}
                 >
                   Google認証
                 </Button>
