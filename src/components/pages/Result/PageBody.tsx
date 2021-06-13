@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 import { Label, SubLabel } from "@/components/atoms";
 import _ from "lodash";
 
+import HomeIcon from "@material-ui/icons/Home";
+
 const PageBody = () => {
   const { questionNum, loading, answers, participants } =
     useContext(ResultsContext);
@@ -44,7 +46,11 @@ const PageBody = () => {
             </>
           )}
         <div className={styles.redirectButton}>
-          <Button onClick={redirect("/projects")} variant="outlined">
+          <Button
+            onClick={redirect("/projects")}
+            variant="outlined"
+            startIcon={<HomeIcon />}
+          >
             プロジェクト一覧に戻る
           </Button>
         </div>
