@@ -7,6 +7,9 @@ import { ProjectsContext } from "@/contexts";
 import { Label, SubLabel } from "@/components/atoms";
 import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
 
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+
 const PageBody = () => {
   const { projects } = useContext(ProjectsContext);
 
@@ -28,6 +31,7 @@ const PageBody = () => {
             onClick={() => setOpenCreateDialog(true)}
             variant="contained"
             color="primary"
+            startIcon={<AddCircleIcon />}
           >
             プロジェクト作成
           </Button>
@@ -35,6 +39,7 @@ const PageBody = () => {
             onClick={() => setOpenJoinDialog(true)}
             variant="contained"
             style={{ marginLeft: "1em" }}
+            startIcon={<PersonAddIcon />}
           >
             プロジェクト参加
           </Button>
