@@ -42,21 +42,21 @@ const App = () => {
           align="center"
           style={{
             fontWeight: "bold",
-            width: "7em",
+            width: "9em",
           }}
         />
         <TableCell
           align="center"
           style={{
             fontWeight: "bold",
-            width: "7em",
+            width: "9em",
           }}
         />
         <TableCell
           align="center"
           style={{
             fontWeight: "bold",
-            width: "7em",
+            width: "9em",
           }}
         />
       </TableRow>

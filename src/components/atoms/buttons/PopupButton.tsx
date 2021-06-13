@@ -21,10 +21,11 @@ type Props = {
   popup: string;
   popupDisable?: boolean;
   disabled: boolean;
+  startIcon?: ReactNode;
 };
 
 const App = (props: Props) => {
-  const { onClick, children, popup, popupDisable, disabled } = props;
+  const { onClick, children, popup, popupDisable, disabled, startIcon } = props;
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
@@ -50,9 +51,9 @@ const App = (props: Props) => {
       >
         <Button
           onClick={onClick}
-          style={{ marginLeft: "1em" }}
           variant="contained"
           disabled={disabled}
+          startIcon={startIcon}
         >
           {children}
         </Button>

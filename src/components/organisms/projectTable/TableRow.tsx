@@ -1,4 +1,4 @@
-import { TableRow, TableCell, Button } from "@material-ui/core";
+import { TableRow, TableCell, Button, Chip } from "@material-ui/core";
 import { Project, User } from "@/models";
 import { ProjectsContext, GlobalContext } from "@/contexts";
 import { PopupButton } from "@/components/atoms";
@@ -7,6 +7,10 @@ import { useRouter } from "next/router";
 import styles from "./ProjectTable.module.scss";
 
 import { getExistQuestionNum, getExistAnswerNum } from "@/firebase";
+
+import PollIcon from "@material-ui/icons/Poll";
+import CreateIcon from "@material-ui/icons/Create";
+import HowToVoteIcon from "@material-ui/icons/HowToVote";
 
 type Props = {
   row: Project;
@@ -70,14 +74,22 @@ const App = (props: Props) => {
       }
     >
       <TableCell component="th" scope="row">
-        {row.name}
+        <Chip label={row.name} color="primary" />
       </TableCell>
       <TableCell align="center">{row.content}</TableCell>
-      <TableCell align="center">{row.question_num}</TableCell>
-      <TableCell align="center">{row.participants.length}</TableCell>
       <TableCell align="center">
-        <Button variant="contained" onClick={redirect(`/questions/${row.ID}`)}>
-          問題設定
+        <Chip size="small" label={<strong>{row.question_num}</strong>} />
+      </TableCell>
+      <TableCell align="center">
+        <Chip size="small" label={<strong>{row.participants.length}</strong>} />
+      </TableCell>
+      <TableCell align="center">
+        <Button
+          variant="contained"
+          onClick={redirect(`/questions/${row.ID}`)}
+          startIcon={<CreateIcon />}
+        >
+          出題
         </Button>
       </TableCell>
       <TableCell align="center">
@@ -86,6 +98,7 @@ const App = (props: Props) => {
           disabled={!readyQuestion}
           popup={"参加者全員分の問題設定が完了していません"}
           popupDisable={readyQuestion}
+          startIcon={<HowToVoteIcon />}
         >
           回答
         </PopupButton>
@@ -96,6 +109,7 @@ const App = (props: Props) => {
           disabled={!readyResult}
           popup={"参加者全員分の回答が完了していません"}
           popupDisable={readyResult}
+          startIcon={<PollIcon />}
         >
           結果
         </PopupButton>

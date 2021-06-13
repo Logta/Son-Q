@@ -13,6 +13,8 @@ import { QuestionsContext, GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
 import _ from "lodash";
 
+import CreateIcon from "@material-ui/icons/Create";
+
 type Props = {
   questions: Array<Question>;
   nums: number;
@@ -93,7 +95,12 @@ const App = ({ questions, nums }: Props) => {
           );
         })}
         <div className={styles.button}>
-          <Button type="submit" variant="contained" color="primary">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            startIcon={<CreateIcon />}
+          >
             登録
           </Button>
         </div>
