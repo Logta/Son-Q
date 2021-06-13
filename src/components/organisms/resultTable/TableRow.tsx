@@ -21,7 +21,7 @@ const App = () => {
               align="center"
               style={{ fontWeight: "bold" }}
             >
-              {index + 1}
+              <Chip size="small" label={<strong>{index + 1}</strong>} />
             </TableCell>
             <TableCell
               key={`${ques.ID}-result-partName`}
