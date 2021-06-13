@@ -16,6 +16,8 @@ import _ from "lodash";
 import { AnswerSelector } from "./AnswerSelector";
 import { Youtube } from "@/components/atoms";
 
+import HowToVoteIcon from "@material-ui/icons/HowToVote";
+
 const App = () => {
   const { answers, registerAnswers, questionNum, questions, participants } =
     useContext(AnswersContext);
@@ -142,7 +144,12 @@ const App = () => {
         <Box m={5} p={2}>
           <Grid container alignItems="center" justify="center">
             <Grid item>
-              <Button type="submit" variant="contained" color="primary">
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                startIcon={<HowToVoteIcon />}
+              >
                 回答
               </Button>
             </Grid>
