@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import { Label, SubLabel } from "@/components/atoms";
 import _ from "lodash";
 
+import HomeIcon from "@material-ui/icons/Home";
+
 const PageBody = () => {
   const { questions, questionNum, loading } = useContext(QuestionsContext);
 
@@ -23,11 +25,11 @@ const PageBody = () => {
   };
 
   return (
-    <>
+    <div className={styles.body}>
       <AppBar />
       <Container maxWidth="lg">
         <main className={styles.main}>
-          <Label>プロジェクト一覧</Label>
+          <Label>出題フォーム</Label>
           <SubLabel>問題を設定しましょう！</SubLabel>
           <Typography color="secondary">
             ※出題するYoutube動画IDを記入してください
@@ -37,7 +39,11 @@ const PageBody = () => {
           <QuestionForm nums={questionNum} questions={questions} />
         )}
         <div className={styles.redirectButton}>
-          <Button onClick={redirect("/projects")} variant="outlined">
+          <Button
+            onClick={redirect("/projects")}
+            variant="outlined"
+            startIcon={<HomeIcon />}
+          >
             プロジェクト一覧に戻る
           </Button>
         </div>
@@ -64,7 +70,7 @@ const PageBody = () => {
         setOpen={setOpenCreateDialog}
       />
       <ProjectJoinDialog open={openJoinDialog} setOpen={setOpenJoinDialog} />
-    </>
+    </div>
   );
 };
 

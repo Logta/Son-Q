@@ -3,7 +3,12 @@ import React, { useState, useEffect, useContext } from "react";
 import _ from "lodash";
 
 import { Project, User } from "@/models";
-import { awaitOnAuth, getProjectFromID, updateProject } from "@/firebase";
+import {
+  awaitOnAuth,
+  getProjectFromID,
+  updateProject,
+  deleteProject,
+} from "@/firebase";
 
 type Props = {
   children: React.ReactNode;
@@ -53,6 +58,24 @@ const ProjectContainer: React.FC<Props> = ({ children, projectId }) => {
     }
   };
 
+  const deleteProjectFromID = async (id: string): Promise<boolean> => {
+    const user = await awaitOnAuth();
+    if (_.isNull(user) || !user.ok) return;
+
+    const { message, variant } = await deleteProject(id);
+    switch (variant) {
+      case "success":
+        successMessage(message);
+        break;
+
+      case "error":
+        errorMessage(message);
+        break;
+    }
+
+    return variant === "success";
+  };
+
   return (
     <ProjectContext.Provider
       value={{
@@ -60,6 +83,7 @@ const ProjectContainer: React.FC<Props> = ({ children, projectId }) => {
         user,
         getProject,
         updateProjectInfo,
+        deleteProjectFromID,
         loading,
       }}
     >

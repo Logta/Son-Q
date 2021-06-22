@@ -12,11 +12,7 @@ const App = (props: Props) => {
     <>
       <Typography component="div">
         <Box fontSize="h6.fontSize" fontWeight="fontWeightBold" m={2}>
-          <Grid container alignItems="center" justify="center">
-            <Grid item>
-              <Box>{children}</Box>
-            </Grid>
-          </Grid>
+          <Box>{children}</Box>
         </Box>
       </Typography>
     </>
