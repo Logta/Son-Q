@@ -14,13 +14,19 @@ import { useRouter } from "next/router";
 import { AnswersContext, GlobalContext } from "@/contexts";
 import _ from "lodash";
 import { AnswerSelector } from "./AnswerSelector";
-import { Youtube } from "@/components/atoms";
+import { Youtube, Popup } from "@/components/atoms";
 
 import HowToVoteIcon from "@material-ui/icons/HowToVote";
 
 const App = () => {
-  const { answers, registerAnswers, questionNum, questions, participants } =
-    useContext(AnswersContext);
+  const {
+    answers,
+    registerAnswers,
+    questionNum,
+    questions,
+    participants,
+    isUserJoinProject,
+  } = useContext(AnswersContext);
   const { darkMode } = useContext(GlobalContext);
 
   const router = useRouter();
@@ -144,14 +150,20 @@ const App = () => {
         <Box m={5} p={2}>
           <Grid container alignItems="center" justify="center">
             <Grid item>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                startIcon={<HowToVoteIcon />}
+              <Popup
+                popupLabel="プロジェクトに参加していないため回答ができません"
+                popupDisable={isUserJoinProject}
               >
-                回答
-              </Button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  startIcon={<HowToVoteIcon />}
+                  disabled={!isUserJoinProject}
+                >
+                  回答
+                </Button>
+              </Popup>
             </Grid>
           </Grid>
         </Box>

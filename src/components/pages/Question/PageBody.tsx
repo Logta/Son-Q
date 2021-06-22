@@ -25,11 +25,11 @@ const PageBody = () => {
   };
 
   return (
-    <>
+    <div className={styles.body}>
       <AppBar />
       <Container maxWidth="lg">
         <main className={styles.main}>
-          <Label>プロジェクト一覧</Label>
+          <Label>出題フォーム</Label>
           <SubLabel>問題を設定しましょう！</SubLabel>
           <Typography color="secondary">
             ※出題するYoutube動画IDを記入してください
@@ -70,7 +70,7 @@ const PageBody = () => {
         setOpen={setOpenCreateDialog}
       />
       <ProjectJoinDialog open={openJoinDialog} setOpen={setOpenJoinDialog} />
-    </>
+    </div>
   );
 };
 

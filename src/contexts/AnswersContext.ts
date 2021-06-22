@@ -8,6 +8,7 @@ type Props = {
   questionNum: number;
   participants: Array<Participant>;
   questions: Array<Question>;
+  isUserJoinProject: boolean;
   loading: boolean;
 };
 
@@ -18,5 +19,6 @@ export const AnswersContext = React.createContext<Props>({
   questionNum: 0,
   participants: [],
   questions: [],
+  isUserJoinProject: false,
   loading: true,
 });
