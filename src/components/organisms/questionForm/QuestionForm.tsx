@@ -9,6 +9,7 @@ import {
   InputAdornment,
 } from "@material-ui/core";
 import { Question } from "@/models";
+import { Popup } from "@/components/atoms";
 import { QuestionsContext, GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
 import _ from "lodash";
@@ -33,7 +34,7 @@ const App = ({ questions, nums }: Props) => {
       return { ID: "", no: index, url: "", select_user_id: "" };
     })
   );
-  const { registerQuestions } = useContext(QuestionsContext);
+  const { registerQuestions, isUserJoinProject } = useContext(QuestionsContext);
   const { errorMessage } = useContext(GlobalContext);
 
   const handleSetPropsQuestions = async () => {
@@ -95,14 +96,20 @@ const App = ({ questions, nums }: Props) => {
           );
         })}
         <div className={styles.button}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            startIcon={<CreateIcon />}
+          <Popup
+            popupLabel="プロジェクトに参加していないため登録ができません"
+            popupDisable={isUserJoinProject}
           >
-            登録
-          </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              startIcon={<CreateIcon />}
+              disabled={!isUserJoinProject}
+            >
+              登録
+            </Button>
+          </Popup>
         </div>
       </form>
     </Paper>
