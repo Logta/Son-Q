@@ -33,12 +33,16 @@ const App = (props: Props) => {
   const getReadyQuesion = async () => {
     const q_num = await getExistQuestionNum(row.ID);
     const full_q = row.participants.length * row.question_num;
+    console.log(`q_num : ${q_num}`);
+    console.log(`full_q : ${full_q}`);
     setReadyQuestion(full_q === q_num);
   };
 
   const getReadyResult = async () => {
     const a_num = await getExistAnswerNum(row.ID);
     const full_a = row.participants.length ** 2 * row.question_num;
+    console.log(`a_num : ${a_num}`);
+    console.log(`full_a : ${full_a}`);
     setReadyResult(full_a === a_num);
   };
 

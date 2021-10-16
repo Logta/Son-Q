@@ -46,7 +46,7 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
   const getAnswers = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user)) {
+    if (_.isNull(user) || !user.ok) {
       setAnswers([]);
       return;
     }
@@ -58,7 +58,7 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
   const getQuestions = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user)) {
+    if (_.isNull(user) || !user.ok) {
       setQuestions([]);
       return;
     }
@@ -69,7 +69,7 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
   const getResults = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user)) {
+    if (_.isNull(user) || !user.ok) {
       setResults([]);
       return;
     }
@@ -80,7 +80,7 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
   const getParticipant = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user)) {
+    if (_.isNull(user) || !user.ok) {
       setParticipants([]);
       return;
     }
@@ -95,7 +95,7 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
   const getQuestionsNum = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user)) {
+    if (_.isNull(user) || !user.ok) {
       setQuestionNum(0);
       return;
     }
@@ -109,7 +109,7 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
 
   const registerResults = async (answers: Array<Result>) => {
     const user = await awaitOnAuth();
-    if (_.isNull(user)) return;
+    if (_.isNull(user) || !user.ok) return;
 
     registerResult(user, answers, projectId);
     await getResults();
