@@ -1,8 +1,8 @@
 import { AnswersContext, GlobalContext } from "@/contexts";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import _ from "lodash";
 
-import { Answer, Question, Participant } from "@/models";
+import { Answer, Question, Participant, Auth } from "@/models";
 import {
   awaitOnAuth,
   getAnswer,
@@ -24,30 +24,44 @@ const AnswersContainer: React.FC<Props> = ({ children, projectId }) => {
   const [questions, setQuestions] = useState<Array<Question>>([]);
   const [participants, setParticipants] = useState<Array<Participant>>([]);
   const { errorMessage, successMessage } = useContext(GlobalContext);
+  const [user, setUser] = useState<Auth>();
 
+  // メモ化関数
+  const isUserJoinProject = useMemo(() => {
+    return participants.some((p) => p.user_id == user.id);
+  }, [questions, user]);
+
+  // useEffect
   useEffect(() => {
-    getQuestions();
-    getQuestionsNum();
-    getParticipant();
-    getAnswers();
+    getAnswersInfo();
   }, []);
+
+  // getter / setter
+  const getAnswersInfo = async () => {
+    await getQuestions();
+    await getQuestionsNum();
+    await getParticipant();
+    await getAnswers();
+    setUser(await awaitOnAuth());
+
+    setLoading(false);
+  };
 
   const getAnswers = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user)) {
+    if (_.isNull(user) || !user.ok) {
       setAnswers([]);
       return;
     }
     const ps = await getAnswer(user, projectId);
     setAnswers(ps);
-    setLoading(false);
   };
 
   const getQuestions = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user)) {
+    if (_.isNull(user) || !user.ok) {
       setQuestions([]);
       return;
     }
@@ -58,7 +72,7 @@ const AnswersContainer: React.FC<Props> = ({ children, projectId }) => {
   const getParticipant = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user)) {
+    if (_.isNull(user) || !user.ok) {
       setQuestions([]);
       return;
     }
@@ -73,7 +87,7 @@ const AnswersContainer: React.FC<Props> = ({ children, projectId }) => {
   const getQuestionsNum = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user)) {
+    if (_.isNull(user) || !user.ok) {
       setAnswers([]);
       return;
     }
@@ -87,7 +101,7 @@ const AnswersContainer: React.FC<Props> = ({ children, projectId }) => {
 
   const registerAnswers = async (answers: Array<Answer>) => {
     const user = await awaitOnAuth();
-    if (_.isNull(user)) {
+    if (_.isNull(user) || !user.ok) {
       errorMessage("回答するにはサインインが必要です");
       return false;
     }
@@ -114,6 +128,7 @@ const AnswersContainer: React.FC<Props> = ({ children, projectId }) => {
         questionNum,
         questions,
         participants,
+        isUserJoinProject,
         loading,
       }}
     >

@@ -1,13 +1,14 @@
 import { QuestionsContext, GlobalContext } from "@/contexts";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useMemo } from "react";
 import _ from "lodash";
 
-import { Question } from "@/models";
+import { Question, Participant, Auth } from "@/models";
 import {
   awaitOnAuth,
   getQuestion,
   registerQuestion,
   getQuestionNum,
+  getParticipants,
 } from "@/firebase";
 
 type Props = {
@@ -20,16 +21,33 @@ const QuestionsContainer: React.FC<Props> = ({ children, projectId }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [questionNum, setQuestionNum] = useState<number>(0);
   const [questions, setQuestions] = useState<Array<Question>>([]);
+  const [participants, setParticipants] = useState<Array<Participant>>([]);
+  const [user, setUser] = useState<Auth>();
 
+  // メモ化関数
+  const isUserJoinProject = useMemo(() => {
+    return participants.some((p) => p.user_id == user.id);
+  }, [questions, user]);
+
+  // useEffect
   useEffect(() => {
-    getQuestions();
-    getQuestionsNum();
+    getQuestionsInfo();
   }, []);
+
+  // getter / setter
+  const getQuestionsInfo = async () => {
+    await getQuestions();
+    await getQuestionsNum();
+    await getParticipant();
+    setUser(await awaitOnAuth());
+
+    setLoading(false);
+  };
 
   const getQuestions = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user)) {
+    if (_.isNull(user) || !user.ok) {
       setQuestions([]);
       return;
     }
@@ -48,15 +66,33 @@ const QuestionsContainer: React.FC<Props> = ({ children, projectId }) => {
     // }
     const questionNum = await getQuestionNum(projectId);
     setQuestionNum(questionNum);
-    setLoading(false);
+  };
+
+  const getParticipant = async () => {
+    const user = await awaitOnAuth();
+
+    if (_.isNull(user) || !user.ok) {
+      setQuestions([]);
+      return;
+    }
+    const p = await getParticipants(projectId);
+    _.isNil(p) &&
+      errorMessage(
+        "参加者情報の取得に失敗しました!\n時間をおいてから再度操作を行ってください。"
+      );
+    setParticipants(p);
   };
 
   const registerQuestions = async (questions: Array<Question>) => {
     const user = await awaitOnAuth();
-    // if (_.isNull(user)) {
-    //   errorMessage("問題設定するにはサインインが必要です");
-    //   return false;
-    // }
+    if (_.isNull(user) || !user.ok) {
+      errorMessage("問題設定するにはサインインが必要です");
+      return false;
+    }
+    //if (participants.some((p) => p.user_id === user.id)) {
+    //  errorMessage("問題設定するにはプロジェクトへの参加が必要です");
+    //  return false;
+    //}
 
     const { message, variant } = await registerQuestion(
       user,
@@ -81,6 +117,8 @@ const QuestionsContainer: React.FC<Props> = ({ children, projectId }) => {
       value={{
         questions,
         questionNum,
+        participants,
+        isUserJoinProject,
         getQuestions,
         getQuestionsNum,
         registerQuestions,
