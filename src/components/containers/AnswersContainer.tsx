@@ -35,7 +35,7 @@ const AnswersContainer: React.FC<Props> = ({ children, projectId }) => {
   const getAnswers = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user) || !user.ok) {
+    if (_.isNull(user)) {
       setAnswers([]);
       return;
     }
@@ -47,7 +47,7 @@ const AnswersContainer: React.FC<Props> = ({ children, projectId }) => {
   const getQuestions = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user) || !user.ok) {
+    if (_.isNull(user)) {
       setQuestions([]);
       return;
     }
@@ -58,7 +58,7 @@ const AnswersContainer: React.FC<Props> = ({ children, projectId }) => {
   const getParticipant = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user) || !user.ok) {
+    if (_.isNull(user)) {
       setQuestions([]);
       return;
     }
@@ -73,7 +73,7 @@ const AnswersContainer: React.FC<Props> = ({ children, projectId }) => {
   const getQuestionsNum = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user) || !user.ok) {
+    if (_.isNull(user)) {
       setAnswers([]);
       return;
     }
@@ -87,7 +87,7 @@ const AnswersContainer: React.FC<Props> = ({ children, projectId }) => {
 
   const registerAnswers = async (answers: Array<Answer>) => {
     const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) {
+    if (_.isNull(user)) {
       errorMessage("回答するにはサインインが必要です");
       return false;
     }
