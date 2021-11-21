@@ -2,7 +2,7 @@ name: Bug Report
 description: File a bug report
 title: "[Bug]: "
 labels: ["bug", "triage"]
-assignees:
+assignees: []
 body:
   - type: markdown
     attributes:
@@ -26,7 +26,7 @@ body:
     validations:
       required: true
   - type: textarea
-    id: what-happened
+    id: expected-result
     attributes:
       label: 期待していた動作（必須）
       description: バグがなかった場合に生じると期待されていた動作は何でしょうか？
@@ -56,5 +56,5 @@ body:
       label: Code of Conduct
       description: このIssueをサブミットするための情報を記入し終えましたか？
       options:
-        - label: 抜けもれなく記入をしました
+        - label: OK
           required: true
