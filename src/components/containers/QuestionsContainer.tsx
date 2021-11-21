@@ -59,11 +59,11 @@ const QuestionsContainer: React.FC<Props> = ({ children, projectId }) => {
     const user = await awaitOnAuth();
 
     setLoading(false);
-    if (_.isNull(user) || !user.ok) {
-      setQuestions([]);
-      errorMessage("回答するにはサインインが必要です");
-      return;
-    }
+    // if (_.isNull(user)) {
+    //   setQuestions([]);
+    //   errorMessage("回答するにはサインインが必要です");
+    //   return;
+    // }
     const questionNum = await getQuestionNum(projectId);
     setQuestionNum(questionNum);
   };
@@ -89,10 +89,10 @@ const QuestionsContainer: React.FC<Props> = ({ children, projectId }) => {
       errorMessage("問題設定するにはサインインが必要です");
       return false;
     }
-    if (participants.some((p) => p.user_id === user.id)) {
-      errorMessage("問題設定するにはプロジェクトへの参加が必要です");
-      return false;
-    }
+    //if (participants.some((p) => p.user_id === user.id)) {
+    //  errorMessage("問題設定するにはプロジェクトへの参加が必要です");
+    //  return false;
+    //}
 
     const { message, variant } = await registerQuestion(
       user,
