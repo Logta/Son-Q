@@ -1,7 +1,13 @@
-import { auth, firebase } from "@/plugins/firebase";
+import { auth } from "@/plugins/firebase";
 import { Auth } from "@/models";
 
-import {  signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 
 const awaitOnAuth = async (): Promise<Auth> => {
   return new Promise(function (resolve, reject) {
@@ -13,6 +19,7 @@ const awaitOnAuth = async (): Promise<Auth> => {
           name: user.displayName,
         });
       } else {
+        console.log("Failed!!");
         reject({
           ok: false,
           id: "",
@@ -39,70 +46,73 @@ const awaitOnGoogleLogin = async (): Promise<Auth> => {
           id: user.uid,
           name: user.displayName,
         });
-      }).catch((error) => {
+      })
+      .catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
         // The email of the user's account used.
         const email = error.email;
         const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log(errorCode, errorMessage);
         reject({
           ok: false,
           id: "",
           name: "",
         });
       });
-  })
-}
+  });
+};
 
 const awaitOnPasswordLogin = async (data: any): Promise<Auth> => {
-  const res = await firebase
-    .auth()
-    .signInWithEmailAndPassword(data.email, data.password);
+  return new Promise((resolve, reject) => {
+    signInWithEmailAndPassword(auth, data.email, data.password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
 
-  if (res) {
-    var user = res.user;
-    return {
-      ok: true,
-      id: user.uid,
-      name: user.displayName,
-    };
-  } else {
-    return {
-      ok: false,
-      id: "",
-      name: "",
-    };
-  }
+        resolve({
+          ok: true,
+          id: user.uid,
+          name: user.displayName,
+        });
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+        reject({
+          ok: false,
+          id: "",
+          name: "",
+        });
+      });
+  });
 };
 
 const signOutFirebase = async (): Promise<Auth> => {
   return new Promise(function (resolve, reject) {
-    auth.onAuthStateChanged((user) => {
-      auth
-        .signOut()
-        .then(() => {
-          resolve({
-            ok: true,
-            id: "",
-            name: "",
-          });
-        })
-        .catch((error) => {
-          reject({
-            ok: false,
-            id: "",
-            name: `ログアウト時にエラーが発生しました (${error})`,
-          });
+    signOut(auth)
+      .then(() => {
+        resolve({
+          ok: true,
+          id: "",
+          name: "",
         });
-    });
+      })
+      .catch((error) => {
+        reject({
+          ok: false,
+          id: "",
+          name: `ログアウト時にエラーが発生しました (${error})`,
+        });
+      });
   });
 };
 
 const createPasswordUser = async (data: any): Promise<boolean> => {
-  const auth = firebase.auth();
   try {
-    await auth.createUserWithEmailAndPassword(data.email, data.password);
+    await createUserWithEmailAndPassword(auth, data.email, data.password);
     return true;
   } catch (e) {
     alert(JSON.stringify(e.message));

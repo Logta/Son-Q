@@ -6,15 +6,17 @@ import { AppBar, ProjectTable } from "@/components/organisms";
 import { ProjectsContext } from "@/contexts";
 import { Label, SubLabel } from "@/components/atoms";
 import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
+import _ from "lodash";
 
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 
 const PageBody = () => {
-  const { projects } = useContext(ProjectsContext);
+  const { projects, user } = useContext(ProjectsContext);
 
   const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false);
   const [openJoinDialog, setOpenJoinDialog] = useState<boolean>(false);
+  if (!user.Login) return <AppBar />;
 
   return (
     <>

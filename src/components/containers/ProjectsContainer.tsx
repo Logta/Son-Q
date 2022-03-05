@@ -28,12 +28,15 @@ const ProjectsContainer: React.FC = ({ children }) => {
 
   const getProjects = async () => {
     const user = await awaitOnAuth();
-
+    console.log("done?");
     if (_.isNull(user) || !user.ok) {
       setProjects([]);
       return;
     }
+    console.log("done");
     const ps = await getProject(user);
+    console.log(ps);
+
     setProjects(ps);
     setUser({
       ID: user.id,

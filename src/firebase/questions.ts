@@ -1,38 +1,49 @@
 import { firestore } from "@/plugins/firebase";
 import { Auth, Question } from "@/models";
+import {
+  collection,
+  doc,
+  getDocs,
+  getDoc,
+  addDoc,
+  updateDoc,
+  query,
+  where,
+} from "firebase/firestore";
 import _ from "lodash";
 
 const getQuestionNum = async (projectId: string): Promise<number> => {
-  const proj = await firestore.collection("projects").doc(projectId).get();
+  const docRef = doc(firestore, "projects", projectId);
+  const proj = await getDoc(docRef);
+  if (!proj.exists) {
+    return null;
+  }
   return _.isNil(proj) || _.isNil(proj.data()) ? 0 : +proj.data().question_num;
 };
 
 const getExistQuestionNum = async (projectId: string): Promise<number> => {
-  const proj = await firestore
-    .collection("projects")
-    .doc(projectId)
-    .collection("questions")
-    .get();
+  const docRef = collection(firestore, "projects", projectId, "questions");
+  const proj = await getDocs(docRef);
   return _.isNil(proj) ? 0 : +proj.size;
 };
 
 const getQuestion = async (user: Auth, projectId: string) => {
   const questions: Array<Question> = [];
 
-  let snapShot = await firestore
-    .collection("projects")
-    .doc(projectId)
-    .collection("questions")
-    .where("select_user_id", "==", user.id)
-    .get();
-  snapShot.docs.map((doc) => {
-    questions.push({
-      ID: doc.id,
-      no: doc.data().no,
-      url: doc.data().url,
-      select_user_id: doc.data().select_user_id,
-    });
-  });
+  const docsRef = collection(firestore, "projects", projectId, "questions");
+
+  getDocs(query(docsRef, where("select_user_id", "==", user.id))).then(
+    (snapshot) => {
+      snapshot.forEach((doc) => {
+        questions.push({
+          ID: doc.id,
+          no: doc.data().no,
+          url: doc.data().url,
+          select_user_id: doc.data().select_user_id,
+        });
+      });
+    }
+  );
   return questions;
 };
 
@@ -41,15 +52,16 @@ const createQuestion = async (
   question: Question,
   projectId: string
 ) => {
-  let collection = firestore
-    .collection("projects")
-    .doc(projectId)
-    .collection("questions");
-  collection.add({
-    no: 0,
-    url: question.url,
-    select_user_id: user.id,
-  });
+  try {
+    await addDoc(collection(firestore, "projects", projectId, "questions"), {
+      no: 0,
+      url: question.url,
+      select_user_id: user.id,
+    });
+    return { message: "作成が完了しました", variant: "success" };
+  } catch {
+    return { message: "作成に失敗しました", variant: "error" };
+  }
 };
 
 const updateQuestion = async (
@@ -57,11 +69,14 @@ const updateQuestion = async (
   question: Question,
   projectId: string
 ) => {
-  let collection = firestore
-    .collection("projects")
-    .doc(projectId)
-    .collection("questions");
-  collection.doc(question.ID).set({
+  const washingtonRef = doc(
+    firestore,
+    "projects",
+    projectId,
+    "questions",
+    question.ID
+  );
+  await updateDoc(washingtonRef, {
     no: 0,
     url: question.url,
     select_user_id: user.id,
