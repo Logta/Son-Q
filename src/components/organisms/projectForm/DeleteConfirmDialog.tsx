@@ -7,7 +7,7 @@ import {
   DialogContentText,
   DialogTitle,
   Button,
-} from "@material-ui/core";
+} from "@mui/material";
 import { ProjectContext } from "@/contexts";
 import { useContext } from "react";
 import { useRouter } from "next/router";

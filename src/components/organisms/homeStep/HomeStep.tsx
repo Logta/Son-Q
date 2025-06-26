@@ -5,7 +5,7 @@ import {
   CardMedia,
   CardContent,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 type Props = {
   index: number;

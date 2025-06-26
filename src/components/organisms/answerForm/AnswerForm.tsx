@@ -8,7 +8,7 @@ import {
   Button,
   Box,
   Grid,
-} from "@material-ui/core";
+} from "@mui/material";
 import { Answer } from "@/models";
 import { useRouter } from "next/router";
 import { AnswersContext, GlobalContext } from "@/contexts";
@@ -16,7 +16,7 @@ import _ from "lodash";
 import { AnswerSelector } from "./AnswerSelector";
 import { Youtube, Popup } from "@/components/atoms";
 
-import HowToVoteIcon from "@material-ui/icons/HowToVote";
+import HowToVoteIcon from "@mui/icons-material/HowToVote";
 
 const App = () => {
   const {
@@ -114,9 +114,9 @@ const App = () => {
                   }
                 />
                 <CardContent>
-                  <Grid container alignItems="center" justify="center">
+                  <Grid container alignItems="center" justifyContent="center">
                     <Grid item>
-                      <Grid container alignItems="center" justify="center">
+                      <Grid container alignItems="center" justifyContent="center">
                         <Grid item>
                           <Youtube
                             id={questions[value] ? questions[value].url : ""}
@@ -148,7 +148,7 @@ const App = () => {
           );
         })}
         <Box m={5} p={2}>
-          <Grid container alignItems="center" justify="center">
+          <Grid container alignItems="center" justifyContent="center">
             <Grid item>
               <Popup
                 popupLabel="プロジェクトに参加していないため回答ができません"

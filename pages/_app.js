@@ -1,11 +1,11 @@
 import "../styles/globals.scss";
 import { GlobalContainer } from "../src/components/containers";
-import { ThemeProvider } from "@material-ui/styles";
-import { createMuiTheme } from "@material-ui/core/styles";
-import * as colors from "@material-ui/core/colors";
+import { ThemeProvider } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
+import * as colors from "@mui/material/colors";
 import { useState, useEffect } from "react";
 
-import CssBaseline from "@material-ui/core/CssBaseline";
+import CssBaseline from "@mui/material/CssBaseline";
 function MyApp({ Component, pageProps }) {
   const [darkMode, setDarkMode] = useState(false);
 
@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
 
-  const theme = createMuiTheme({
+  const theme = createTheme({
     typography: {
       fontFamily: [
         "Noto Sans JP",
@@ -53,7 +53,7 @@ function MyApp({ Component, pageProps }) {
       primary: {
         main: colors.blue[800],
       },
-      type: darkMode ? "dark" : "light",
+      mode: darkMode ? "dark" : "light",
     },
   });
 

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styles from "./Question.module.scss";
 import { useContext, useState } from "react";
-import { Container, Button, Typography } from "@material-ui/core";
+import { Container, Button, Typography } from "@mui/material";
 import { AppBar, QuestionForm } from "@/components/organisms";
 import { QuestionsContext } from "@/contexts";
 import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { Label, SubLabel } from "@/components/atoms";
 import _ from "lodash";
 
-import HomeIcon from "@material-ui/icons/Home";
+import HomeIcon from "@mui/icons-material/Home";
 
 const PageBody = () => {
   const { questions, questionNum, loading } = useContext(QuestionsContext);

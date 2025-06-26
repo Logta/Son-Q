@@ -1,4 +1,4 @@
-import { TableRow, TableCell, Button, Chip } from "@material-ui/core";
+import { TableRow, TableCell, Button, Chip } from "@mui/material";
 import { Project, User } from "@/models";
 import { ProjectsContext, GlobalContext } from "@/contexts";
 import { PopupButton } from "@/components/atoms";
@@ -8,9 +8,9 @@ import styles from "./ProjectTable.module.scss";
 
 import { getExistQuestionNum, getExistAnswerNum } from "@/firebase";
 
-import PollIcon from "@material-ui/icons/Poll";
-import CreateIcon from "@material-ui/icons/Create";
-import HowToVoteIcon from "@material-ui/icons/HowToVote";
+import PollIcon from "@mui/icons-material/Poll";
+import CreateIcon from "@mui/icons-material/Create";
+import HowToVoteIcon from "@mui/icons-material/HowToVote";
 
 type Props = {
   row: Project;

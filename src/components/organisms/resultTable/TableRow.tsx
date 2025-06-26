@@ -1,4 +1,4 @@
-import { TableRow, TableCell, Chip } from "@material-ui/core";
+import { TableRow, TableCell, Chip } from "@mui/material";
 import { ResultsContext, GlobalContext } from "@/contexts";
 import { useContext } from "react";
 import { YoutubeAnswer } from "@/components/atoms";

@@ -1,9 +1,9 @@
 import styles from "./DarkModeSwitch.module.scss";
-import { Switch, Grid, Box, FormGroup } from "@material-ui/core";
+import { Switch, Grid, Box, FormGroup } from "@mui/material";
 import { useContext } from "react";
 import { GlobalContext } from "@/contexts";
-import Brightness7Icon from "@material-ui/icons/Brightness7";
-import Brightness2Icon from "@material-ui/icons/Brightness2";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import Brightness2Icon from "@mui/icons-material/Brightness2";
 import _ from "lodash";
 
 const DarkModeSwitch = () => {

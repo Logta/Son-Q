@@ -1,15 +1,15 @@
 import Image from "next/image";
 import { useContext } from "react";
 import styles from "./Home.module.scss";
-import { Container, Button, Box, Grid, Paper } from "@material-ui/core";
+import { Container, Button, Box, Grid, Paper } from "@mui/material";
 import { Label, SubLabel } from "@/components/atoms";
 import { DarkModeSwitch } from "@/components/molecules";
 import { HomeStep } from "@/components/organisms";
 import { GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
 
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import BookmarksIcon from "@material-ui/icons/Bookmarks";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import BookmarksIcon from "@mui/icons-material/Bookmarks";
 
 const PageBody = () => {
   const { user, signInGoogle, signInEmail, signOut } =
@@ -41,7 +41,7 @@ const PageBody = () => {
 
         {user.Login ? (
           <Box m={2} p={2}>
-            <Grid container alignItems="center" justify="center">
+            <Grid container alignItems="center" justifyContent="center">
               <Grid item>
                 <Button
                   onClick={redirect("/projects")}
@@ -69,7 +69,7 @@ const PageBody = () => {
           </Box>
         ) : (
           <Box m={2} p={2}>
-            <Grid container alignItems="center" justify="center">
+            <Grid container alignItems="center" justifyContent="center">
               <Grid item>
                 <Button
                   onClick={async (e) => {
@@ -143,7 +143,7 @@ const PageBody = () => {
         </Paper>
 
         <Box my={5}>
-          <Grid container alignItems="center" justify="center">
+          <Grid container alignItems="center" justifyContent="center">
             <Grid item>
               <DarkModeSwitch />
             </Grid>

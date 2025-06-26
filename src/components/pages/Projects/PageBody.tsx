@@ -1,15 +1,15 @@
 import Image from "next/image";
 import styles from "./Project.module.scss";
 import { useContext, useState } from "react";
-import { Container, Button } from "@material-ui/core";
+import { Container, Button } from "@mui/material";
 import { AppBar, ProjectTable } from "@/components/organisms";
 import { ProjectsContext } from "@/contexts";
 import { Label, SubLabel } from "@/components/atoms";
 import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
 import _ from "lodash";
 
-import AddCircleIcon from "@material-ui/icons/AddCircle";
-import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 const PageBody = () => {
   const { projects, user } = useContext(ProjectsContext);

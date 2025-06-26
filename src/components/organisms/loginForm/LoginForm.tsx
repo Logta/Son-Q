@@ -1,6 +1,6 @@
 import styles from "./ProjectTable.module.scss";
 import React from "react";
-import { Button, TextField } from "@material-ui/core";
+import { Button, TextField } from "@mui/material";
 import { GlobalContext } from "@/contexts";
 import { useContext } from "react";
 

@@ -1,14 +1,14 @@
 import styles from "./ProjectForm.module.scss";
 import React from "react";
-import { List, ListItem, ListItemText, Box, Chip } from "@material-ui/core";
+import { List, ListItem, ListItemText, Box, Chip } from "@mui/material";
 import { ProjectContext } from "@/contexts";
 import { FormLabel } from "@/components/atoms";
-import useTheme from "@material-ui/core/styles/useTheme";
+import { useTheme } from "@mui/material/styles";
 import { useContext } from "react";
 
 const App = () => {
   const { project } = useContext(ProjectContext);
-  const paletteType = useTheme().palette.type;
+  const paletteType = useTheme().palette.mode;
 
   const getParticipants = (): string[] => {
     return project.participants.map((p) => {

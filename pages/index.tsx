@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { HomePage } from "../src/components/pages";
 import { Copyright } from "../src/components/atoms";
-import ScopedCssBaseline from "@material-ui/core/ScopedCssBaseline";
+import ScopedCssBaseline from "@mui/material/ScopedCssBaseline";
 
 export default function Home() {
   return (
