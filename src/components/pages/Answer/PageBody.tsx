@@ -1,13 +1,13 @@
 import Image from "next/image";
 import styles from "./Answer.module.scss";
 import { useContext } from "react";
-import { Container, Button, Grid } from "@material-ui/core";
+import { Container, Button, Grid } from "@mui/material";
 import { AppBar, AnswerForm } from "@/components/organisms";
 import { Label, SubLabel } from "@/components/atoms";
 import { AnswersContext } from "@/contexts";
 import { useRouter } from "next/router";
 
-import HomeIcon from "@material-ui/icons/Home";
+import HomeIcon from "@mui/icons-material/Home";
 
 const PageBody = () => {
   const router = useRouter();
@@ -29,7 +29,7 @@ const PageBody = () => {
         </main>
 
         {!loading && answers && questionNum !== 0 && questions && participants && (
-          <Grid container alignItems="center" justify="center">
+          <Grid container alignItems="center" justifyContent="center">
             <Grid item>
               <AnswerForm />
             </Grid>

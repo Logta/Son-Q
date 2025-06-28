@@ -1,9 +1,8 @@
-import { TableRow, TableCell, Chip } from "@material-ui/core";
+import { TableRow, TableCell, Chip } from "@mui/material";
 import { ResultsContext, GlobalContext } from "@/contexts";
 import { useContext } from "react";
 import { YoutubeAnswer } from "@/components/atoms";
 import { getQuestioner, getRespondent } from "@/utils";
-import _ from "lodash";
 
 const App = () => {
   const { participants, answers, questions } = useContext(ResultsContext);

@@ -13,7 +13,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from "@material-ui/core";
+} from "@mui/material";
 import { ProjectsContext, GlobalContext } from "@/contexts";
 import { useContext } from "react";
 import { Project } from "@/models";

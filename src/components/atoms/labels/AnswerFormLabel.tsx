@@ -1,6 +1,6 @@
 import styles from "./Label.module.scss";
 import { ReactNode } from "react";
-import { Typography, Box, Grid } from "@material-ui/core";
+import { Typography, Box, Grid } from "@mui/material";
 
 type Props = {
   children: ReactNode;

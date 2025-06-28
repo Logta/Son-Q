@@ -1,4 +1,4 @@
-import { TableHead, TableRow, TableCell, Box, Chip } from "@material-ui/core";
+import { TableHead, TableRow, TableCell, Box, Chip } from "@mui/material";
 import { Participant } from "@/models";
 import { ResultsContext } from "@/contexts";
 import { useContext } from "react";

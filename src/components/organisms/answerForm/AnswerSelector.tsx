@@ -5,7 +5,7 @@ import {
   FormControlLabel,
   FormControl,
   Box,
-} from "@material-ui/core";
+} from "@mui/material";
 import { Participant } from "@/models";
 
 type Props = {

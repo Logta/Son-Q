@@ -4,11 +4,11 @@ import styles from "./Youtube.module.scss";
 
 //import styles from "./Youtube.module.scss";
 import YouTube from "react-youtube";
-import { IconButton, Box, Button, ButtonGroup } from "@material-ui/core";
-import StopIcon from "@material-ui/icons/Stop";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
-import VolumeDown from "@material-ui/icons/VolumeDown";
-import VolumeUp from "@material-ui/icons/VolumeUp";
+import { IconButton, Box, Button, ButtonGroup } from "@mui/material";
+import StopIcon from "@mui/icons-material/Stop";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import VolumeDown from "@mui/icons-material/VolumeDown";
+import VolumeUp from "@mui/icons-material/VolumeUp";
 
 const App = (props) => {
   const [youtube, setYoutube] = useState([]);

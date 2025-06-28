@@ -1,6 +1,6 @@
 import { QuestionsContext, GlobalContext } from "@/contexts";
 import { useState, useEffect, useContext, useMemo } from "react";
-import _ from "lodash";
+import { isNull, isNil } from "es-toolkit";
 
 import { Question, Participant, Auth } from "@/models";
 import {
@@ -47,7 +47,7 @@ const QuestionsContainer: React.FC<Props> = ({ children, projectId }) => {
   const getQuestions = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user) || !user.ok) {
+    if (isNull(user) || !user.ok) {
       setQuestions([]);
       return;
     }
@@ -71,12 +71,12 @@ const QuestionsContainer: React.FC<Props> = ({ children, projectId }) => {
   const getParticipant = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user) || !user.ok) {
+    if (isNull(user) || !user.ok) {
       setQuestions([]);
       return;
     }
     const p = await getParticipants(projectId);
-    _.isNil(p) &&
+    isNil(p) &&
       errorMessage(
         "参加者情報の取得に失敗しました!\n時間をおいてから再度操作を行ってください。"
       );
@@ -85,7 +85,7 @@ const QuestionsContainer: React.FC<Props> = ({ children, projectId }) => {
 
   const registerQuestions = async (questions: Array<Question>) => {
     const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) {
+    if (isNull(user) || !user.ok) {
       errorMessage("問題設定するにはサインインが必要です");
       return false;
     }

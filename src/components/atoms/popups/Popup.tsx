@@ -1,19 +1,15 @@
 import styles from "./Popup.module.scss";
 import { ReactNode } from "react";
-import { Popover, Typography } from "@material-ui/core";
+import { Popover, Typography } from "@mui/material";
 import React from "react";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    popover: {
-      pointerEvents: "none",
-    },
-    paper: {
-      padding: theme.spacing(1),
-    },
-  })
-);
+const StyledPopover = styled(Popover)(({ theme }) => ({
+  pointerEvents: "none",
+  '& .MuiPaper-root': {
+    padding: theme.spacing(1),
+  },
+}));
 
 type Props = {
   children: ReactNode;
@@ -23,7 +19,6 @@ type Props = {
 
 const App = (props: Props) => {
   const { children, popupLabel, popupDisable } = props;
-  const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 
@@ -48,12 +43,8 @@ const App = (props: Props) => {
       >
         {children}
       </div>
-      <Popover
+      <StyledPopover
         id="mouse-over-popover"
-        className={classes.popover}
-        classes={{
-          paper: classes.paper,
-        }}
         open={open && !popupDisable}
         anchorEl={anchorEl}
         anchorOrigin={{
@@ -70,7 +61,7 @@ const App = (props: Props) => {
         <Typography variant="caption" style={{ fontWeight: "bold" }}>
           {popupLabel}
         </Typography>
-      </Popover>
+      </StyledPopover>
     </>
   );
 };

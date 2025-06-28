@@ -1,5 +1,5 @@
 import { Participant, Question, Answer } from "@/models";
-import _ from "lodash";
+import { isNil } from "es-toolkit";
 
 const getQuestioner = (
   participants: Array<Participant>,
@@ -21,7 +21,7 @@ const getRespondent = (
       ques.url === a.url &&
       ques.select_user_id === a.select_user_id
   );
-  if (_.isNil(ans)) return "";
+  if (isNil(ans)) return "";
   return participants.find((p) => p.user_id === ans.guess_user_id).user_name;
 };
 

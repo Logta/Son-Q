@@ -10,7 +10,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import _ from "lodash";
+import { isNil } from "es-toolkit";
 
 const getAnswer = async (user: Auth, projectId: string) => {
   const answers: Array<Answer> = [];
@@ -40,7 +40,7 @@ const getAnswer = async (user: Auth, projectId: string) => {
 const getExistAnswerNum = async (projectId: string): Promise<number> => {
   const docsRef = collection(firestore, "projects", projectId, "answers");
   const proj = await getDocs(docsRef);
-  return _.isNil(proj) ? 0 : +proj.size;
+  return isNil(proj) ? 0 : +proj.size;
 };
 
 const createAnswer = async (

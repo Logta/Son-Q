@@ -9,7 +9,7 @@ import {
   Select,
   MenuItem,
   Grid,
-} from "@material-ui/core";
+} from "@mui/material";
 import { ProjectContext, GlobalContext } from "@/contexts";
 import { useContext } from "react";
 import { Project } from "@/models";
@@ -18,8 +18,8 @@ import { FormLabel } from "@/components/atoms";
 
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 
-import DeleteIcon from "@material-ui/icons/Delete";
-import SaveIcon from "@material-ui/icons/Save";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SaveIcon from "@mui/icons-material/Save";
 
 // カスタムフックを定義（input 要素用の属性を生成する）
 function useInput(
@@ -163,7 +163,7 @@ const App = () => {
               </FormControl>
             </Box>
             <Box my={2}>
-              <Grid container justify="center">
+              <Grid container justifyContent="center">
                 <Grid item xs={10}>
                   <Button
                     type="submit"

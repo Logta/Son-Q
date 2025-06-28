@@ -1,6 +1,6 @@
 import styles from "./AppBarButton.module.scss";
 import { ReactNode } from "react";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 
 type Props = {
   children: ReactNode;

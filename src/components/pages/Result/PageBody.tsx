@@ -1,14 +1,14 @@
 import Image from "next/image";
 import styles from "./Result.module.scss";
 import { useContext } from "react";
-import { Container, Button, Box } from "@material-ui/core";
+import { Container, Button, Box } from "@mui/material";
 import { AppBar, ResultPointTable, ResultTable } from "@/components/organisms";
 import { ResultsContext } from "@/contexts";
 import { useRouter } from "next/router";
 import { Label, SubLabel } from "@/components/atoms";
-import _ from "lodash";
+import { isNil } from "es-toolkit";
 
-import HomeIcon from "@material-ui/icons/Home";
+import HomeIcon from "@mui/icons-material/Home";
 
 const PageBody = () => {
   const { questionNum, loading, answers, participants } =
@@ -31,8 +31,8 @@ const PageBody = () => {
         </main>
         {!loading &&
           questionNum !== 0 &&
-          !_.isNil(answers) &&
-          !_.isNil(participants) && (
+          !isNil(answers) &&
+          !isNil(participants) && (
             <>
               <SubLabel>
                 <strong>得点表</strong>

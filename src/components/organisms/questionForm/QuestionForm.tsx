@@ -7,14 +7,13 @@ import {
   InputLabel,
   OutlinedInput,
   InputAdornment,
-} from "@material-ui/core";
+} from "@mui/material";
 import { Question } from "@/models";
 import { Popup } from "@/components/atoms";
 import { QuestionsContext, GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
-import _ from "lodash";
 
-import CreateIcon from "@material-ui/icons/Create";
+import CreateIcon from "@mui/icons-material/Create";
 
 type Props = {
   questions: Array<Question>;
