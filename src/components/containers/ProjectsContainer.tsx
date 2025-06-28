@@ -1,6 +1,6 @@
 import { ProjectsContext, GlobalContext } from "@/contexts";
 import React, { useState, useEffect, useContext } from "react";
-import _ from "lodash";
+import { isNull } from "es-toolkit";
 
 import { Project, User } from "@/models";
 import {
@@ -29,7 +29,7 @@ const ProjectsContainer: React.FC = ({ children }) => {
   const getProjects = async () => {
     const user = await awaitOnAuth();
     console.log("done?");
-    if (_.isNull(user) || !user.ok) {
+    if (isNull(user) || !user.ok) {
       setProjects([]);
       return;
     }
@@ -48,7 +48,7 @@ const ProjectsContainer: React.FC = ({ children }) => {
 
   const createProjects = async (data: Project) => {
     const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) return;
+    if (isNull(user) || !user.ok) return;
 
     const { message, variant } = await createProject(user, data);
     switch (variant) {
@@ -69,7 +69,7 @@ const ProjectsContainer: React.FC = ({ children }) => {
 
   const deleteProjects = async (id: string) => {
     const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) return;
+    if (isNull(user) || !user.ok) return;
 
     const { message, variant } = await deleteProject(id);
     switch (variant) {
@@ -87,7 +87,7 @@ const ProjectsContainer: React.FC = ({ children }) => {
   ///プロジェクトに参加する
   const joinProjects = async (id: string) => {
     const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) return;
+    if (isNull(user) || !user.ok) return;
 
     const { message, variant } = await joinProject(user, id);
     switch (variant) {

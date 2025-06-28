@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { GlobalContext } from "@/contexts";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Brightness2Icon from "@mui/icons-material/Brightness2";
-import _ from "lodash";
+import { isNil } from "es-toolkit";
 
 const DarkModeSwitch = () => {
   const { handleDarkModeOff, handleDarkModeOn, darkMode } =
@@ -14,7 +14,7 @@ const DarkModeSwitch = () => {
     !darkMode ? handleDarkModeOn() : handleDarkModeOff();
   };
   return (
-    !_.isNil(darkMode) && (
+    !isNil(darkMode) && (
       <FormGroup>
         <Grid direction="row" container alignItems="center" spacing={1}>
           <Grid item>

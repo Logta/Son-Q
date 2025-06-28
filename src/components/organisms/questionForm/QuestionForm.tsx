@@ -12,7 +12,6 @@ import { Question } from "@/models";
 import { Popup } from "@/components/atoms";
 import { QuestionsContext, GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
-import _ from "lodash";
 
 import CreateIcon from "@mui/icons-material/Create";
 

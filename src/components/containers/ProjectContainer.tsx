@@ -1,6 +1,6 @@
 import { ProjectContext, GlobalContext } from "@/contexts";
 import React, { useState, useEffect, useContext } from "react";
-import _ from "lodash";
+import { isNull } from "es-toolkit";
 
 import { Project, User } from "@/models";
 import {
@@ -32,7 +32,7 @@ const ProjectContainer: React.FC<Props> = ({ children, projectId }) => {
   const getProject = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user) || !user.ok) {
+    if (isNull(user) || !user.ok) {
       return;
     }
     const ps = await getProjectFromID(projectId);
@@ -60,7 +60,7 @@ const ProjectContainer: React.FC<Props> = ({ children, projectId }) => {
 
   const deleteProjectFromID = async (id: string): Promise<boolean> => {
     const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) return;
+    if (isNull(user) || !user.ok) return;
 
     const { message, variant } = await deleteProject(id);
     switch (variant) {

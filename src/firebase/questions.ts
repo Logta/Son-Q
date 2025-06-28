@@ -10,7 +10,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import _ from "lodash";
+import { isNil } from "es-toolkit";
 
 const getQuestionNum = async (projectId: string): Promise<number> => {
   const docRef = doc(firestore, "projects", projectId);
@@ -18,13 +18,13 @@ const getQuestionNum = async (projectId: string): Promise<number> => {
   if (!proj.exists) {
     return null;
   }
-  return _.isNil(proj) || _.isNil(proj.data()) ? 0 : +proj.data().question_num;
+  return isNil(proj) || isNil(proj.data()) ? 0 : +proj.data().question_num;
 };
 
 const getExistQuestionNum = async (projectId: string): Promise<number> => {
   const docRef = collection(firestore, "projects", projectId, "questions");
   const proj = await getDocs(docRef);
-  return _.isNil(proj) ? 0 : +proj.size;
+  return isNil(proj) ? 0 : +proj.size;
 };
 
 const getQuestion = async (user: Auth, projectId: string) => {
@@ -90,7 +90,7 @@ const registerQuestion = async (
 ) => {
   try {
     for (const question of questions) {
-      if (_.isNil(question)) continue;
+      if (isNil(question)) continue;
 
       if (question.ID !== "") {
         await updateQuestion(user, question, projectId);

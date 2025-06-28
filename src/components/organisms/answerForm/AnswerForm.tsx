@@ -12,7 +12,7 @@ import {
 import { Answer } from "@/models";
 import { useRouter } from "next/router";
 import { AnswersContext, GlobalContext } from "@/contexts";
-import _ from "lodash";
+import { isNil } from "es-toolkit";
 import { AnswerSelector } from "./AnswerSelector";
 import { Youtube, Popup } from "@/components/atoms";
 
@@ -61,13 +61,13 @@ const App = () => {
   );
 
   const handleSetPropsAnswers = async () => {
-    if (_.isNil(answers)) return;
+    if (isNil(answers)) return;
     const newQues: Array<Answer> = currentAnswers.map((data) => {
       const findAns: Answer | undefined = getAnswerFromQuestionID(
         data,
         answers
       );
-      if (_.isNil(findAns)) {
+      if (isNil(findAns)) {
         return data;
       } else return { ...findAns, url: data.url };
     });
@@ -78,7 +78,7 @@ const App = () => {
     currentAnswer: Answer,
     answers: Array<Answer>
   ): Answer | undefined => {
-    if (_.isNil(currentAnswer.question_id)) return undefined;
+    if (isNil(currentAnswer.question_id)) return undefined;
     return answers.find((a) => a.question_id === currentAnswer.question_id);
   };
 

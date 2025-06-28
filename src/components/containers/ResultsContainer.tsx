@@ -1,6 +1,6 @@
 import { ResultsContext, GlobalContext } from "@/contexts";
 import React, { useState, useEffect, useContext } from "react";
-import _ from "lodash";
+import { isNull, isNil } from "es-toolkit";
 
 import { Answer, Result, Participant, Question } from "@/models";
 import {
@@ -46,7 +46,7 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
   const getAnswers = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user) || !user.ok) {
+    if (isNull(user) || !user.ok) {
       setAnswers([]);
       return;
     }
@@ -58,7 +58,7 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
   const getQuestions = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user) || !user.ok) {
+    if (isNull(user) || !user.ok) {
       setQuestions([]);
       return;
     }
@@ -69,7 +69,7 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
   const getResults = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user) || !user.ok) {
+    if (isNull(user) || !user.ok) {
       setResults([]);
       return;
     }
@@ -80,12 +80,12 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
   const getParticipant = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user) || !user.ok) {
+    if (isNull(user) || !user.ok) {
       setParticipants([]);
       return;
     }
     const p = await getParticipants(projectId);
-    _.isNil(p) &&
+    isNil(p) &&
       errorMessage(
         "参加者情報の取得に失敗しました!\n時間をおいてから再度操作を行ってください。"
       );
@@ -95,7 +95,7 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
   const getQuestionsNum = async () => {
     const user = await awaitOnAuth();
 
-    if (_.isNull(user) || !user.ok) {
+    if (isNull(user) || !user.ok) {
       setQuestionNum(0);
       return;
     }
@@ -109,7 +109,7 @@ const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
 
   const registerResults = async (answers: Array<Result>) => {
     const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) return;
+    if (isNull(user) || !user.ok) return;
 
     registerResult(user, answers, projectId);
     await getResults();

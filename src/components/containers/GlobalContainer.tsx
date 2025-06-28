@@ -1,6 +1,6 @@
 import { GlobalContext } from "@/contexts";
 import React, { useState, useEffect } from "react";
-import _ from "lodash";
+import { isNull, pick } from "es-toolkit";
 import { SnackbarProvider, useSnackbar } from "notistack";
 
 import { User, Auth } from "@/models";
@@ -49,7 +49,7 @@ const App: React.FC = (props: Props) => {
 
   const signInCheck = async () => {
     const user = await awaitOnAuth();
-    if (_.isNull(user)) return false;
+    if (isNull(user)) return false;
     if (!user.ok) return false;
     setUser({
       ID: user.id,
@@ -61,7 +61,7 @@ const App: React.FC = (props: Props) => {
   const signInGoogle = async () => {
     const user = await awaitOnGoogleLogin();
     setLoading(false);
-    if (_.isNull(user)) return false;
+    if (isNull(user)) return false;
     if (!user.ok) return false;
     setUser({
       ID: user.id,
@@ -73,7 +73,7 @@ const App: React.FC = (props: Props) => {
   const signInEmail = async (data: any) => {
     const user = await awaitOnPasswordLogin(data);
     setLoading(false);
-    if (_.isNull(user)) return false;
+    if (isNull(user)) return false;
     if (!user.ok) return false;
     setUser({
       ID: user.id,
@@ -102,7 +102,7 @@ const App: React.FC = (props: Props) => {
   return (
     <GlobalContext.Provider
       value={{
-        ..._.pick(props, ["handleDarkModeOff", "handleDarkModeOn", "darkMode"]),
+        ...pick(props, ["handleDarkModeOff", "handleDarkModeOn", "darkMode"]),
         user,
         signInCheck,
         signInGoogle,
