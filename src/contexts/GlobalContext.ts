@@ -1,38 +1,41 @@
 import React from "react";
 import { User } from "@/models";
 
-type Props = {
+/**
+ * GlobalContext: アプリケーション全体のClient State
+ */
+type GlobalContextType = {
   user: User;
-  signInCheck: Function;
-  signInGoogle: Function;
-  signInEmail: Function;
-  signUpEmail: Function;
-  signOut: Function;
-  handleDarkModeOff: Function;
-  handleDarkModeOn: Function;
+  signInCheck: () => Promise<void>;
+  signInGoogle: () => Promise<void>;
+  signInEmail: (data: any) => Promise<void>;
+  signUpEmail: (data: any) => Promise<boolean>;
+  signOut: () => Promise<string>;
+  handleDarkModeOff: () => void;
+  handleDarkModeOn: () => void;
   darkMode: boolean;
   loading: boolean;
-  errorMessage: Function;
-  warningMessage: Function;
-  successMessage: Function;
+  errorMessage: (message: string) => void;
+  warningMessage: (message: string) => void;
+  successMessage: (message: string) => void;
 };
 
-export const GlobalContext = React.createContext<Props>({
+export const GlobalContext = React.createContext<GlobalContextType>({
   user: {
     ID: "",
     Name: "",
     Login: false,
   },
-  signInCheck: Function,
-  signInGoogle: Function,
-  signInEmail: Function,
-  signUpEmail: Function,
-  signOut: Function,
-  handleDarkModeOff: Function,
-  handleDarkModeOn: Function,
+  signInCheck: async () => {},
+  signInGoogle: async () => {},
+  signInEmail: async () => {},
+  signUpEmail: async () => false,
+  signOut: async () => "",
+  handleDarkModeOff: () => {},
+  handleDarkModeOn: () => {},
   darkMode: true,
   loading: true,
-  errorMessage: Function,
-  warningMessage: Function,
-  successMessage: Function,
+  errorMessage: () => {},
+  warningMessage: () => {},
+  successMessage: () => {},
 });

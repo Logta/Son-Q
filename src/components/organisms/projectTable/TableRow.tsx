@@ -22,7 +22,7 @@ const App = (props: Props) => {
   const [readyResult, setReadyResult] = useState<boolean>(false);
 
   const { row } = props;
-  const { deleteProjects, user } = useContext(ProjectsContext);
+  const { user } = useContext(ProjectsContext);
   const { darkMode } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -33,16 +33,19 @@ const App = (props: Props) => {
   const getReadyQuesion = async () => {
     const q_num = await getExistQuestionNum(row.ID);
     const full_q = row.participants.length * row.question_num;
-    console.log(`q_num : ${q_num}`);
-    console.log(`full_q : ${full_q}`);
+    console.log("readyQuestion calculation:");
+    console.log(`- projectId: ${row.ID}`);
+    console.log(`- participants: ${row.participants.length}`);
+    console.log(`- question_num per participant: ${row.question_num}`);
+    console.log(`- existing questions (q_num): ${q_num}`);
+    console.log(`- required questions (full_q): ${full_q}`);
+    console.log(`- ready: ${full_q === q_num}`);
     setReadyQuestion(full_q === q_num);
   };
 
   const getReadyResult = async () => {
     const a_num = await getExistAnswerNum(row.ID);
     const full_a = row.participants.length ** 2 * row.question_num;
-    console.log(`a_num : ${a_num}`);
-    console.log(`full_a : ${full_a}`);
     setReadyResult(full_a === a_num);
   };
 

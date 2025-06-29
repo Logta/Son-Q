@@ -14,12 +14,12 @@ import {
 
 type Props = {
   children: React.ReactElement;
-  handleDarkModeOff: Function;
-  handleDarkModeOn: Function;
+  handleDarkModeOff: () => void;
+  handleDarkModeOn: () => void;
   darkMode: boolean;
 };
 
-const App: React.FC = (props: Props) => {
+const App: React.FC<Props> = (props: Props) => {
   const { enqueueSnackbar } = useSnackbar();
 
   const successMessage = (message: string) => {
@@ -47,10 +47,10 @@ const App: React.FC = (props: Props) => {
     signInCheck();
   }, []);
 
-  const signInCheck = async () => {
+  const signInCheck = async (): Promise<void> => {
     const user = await awaitOnAuth();
-    if (isNull(user)) return false;
-    if (!user.ok) return false;
+    if (isNull(user)) return;
+    if (!user.ok) return;
     setUser({
       ID: user.id,
       Name: user.name,
@@ -58,11 +58,11 @@ const App: React.FC = (props: Props) => {
     });
   };
 
-  const signInGoogle = async () => {
+  const signInGoogle = async (): Promise<void> => {
     const user = await awaitOnGoogleLogin();
     setLoading(false);
-    if (isNull(user)) return false;
-    if (!user.ok) return false;
+    if (isNull(user)) return;
+    if (!user.ok) return;
     setUser({
       ID: user.id,
       Name: user.name,
@@ -70,11 +70,11 @@ const App: React.FC = (props: Props) => {
     });
   };
 
-  const signInEmail = async (data: any) => {
+  const signInEmail = async (data: any): Promise<void> => {
     const user = await awaitOnPasswordLogin(data);
     setLoading(false);
-    if (isNull(user)) return false;
-    if (!user.ok) return false;
+    if (isNull(user)) return;
+    if (!user.ok) return;
     setUser({
       ID: user.id,
       Name: user.name,
@@ -120,7 +120,7 @@ const App: React.FC = (props: Props) => {
   );
 };
 
-const GlobalContainer: React.FC = (props: Props) => {
+const GlobalContainer: React.FC<Props> = (props: Props) => {
   return (
     <SnackbarProvider maxSnack={3}>
       <App {...props} />

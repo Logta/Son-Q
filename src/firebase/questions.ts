@@ -53,13 +53,23 @@ const createQuestion = async (
   projectId: string
 ) => {
   try {
-    await addDoc(collection(firestore, "projects", projectId, "questions"), {
-      no: 0,
+    console.log("createQuestion - saving to firestore:", {
+      no: question.no,
+      url: question.url,
+      select_user_id: user.id,
+      projectId
+    });
+    
+    const docRef = await addDoc(collection(firestore, "projects", projectId, "questions"), {
+      no: question.no,
       url: question.url,
       select_user_id: user.id,
     });
+    
+    console.log("createQuestion - document created with ID:", docRef.id);
     return { message: "作成が完了しました", variant: "success" };
-  } catch {
+  } catch (error) {
+    console.error("createQuestion error:", error);
     return { message: "作成に失敗しました", variant: "error" };
   }
 };
@@ -77,7 +87,7 @@ const updateQuestion = async (
     question.ID
   );
   await updateDoc(washingtonRef, {
-    no: 0,
+    no: question.no,
     url: question.url,
     select_user_id: user.id,
   });
@@ -89,17 +99,30 @@ const registerQuestion = async (
   projectId: string
 ) => {
   try {
+    console.log("registerQuestion called with:", { user: user.id, questions, projectId });
+    
     for (const question of questions) {
       if (isNil(question)) continue;
 
+      console.log("Processing question:", question);
+      
       if (question.ID !== "") {
+        console.log("Updating existing question:", question.ID);
         await updateQuestion(user, question, projectId);
       } else {
-        await createQuestion(user, question, projectId);
+        console.log("Creating new question");
+        const result = await createQuestion(user, question, projectId);
+        console.log("Create result:", result);
       }
     }
+    
+    // 登録後の確認
+    const finalCount = await getExistQuestionNum(projectId);
+    console.log("Final question count after registration:", finalCount);
+    
     return { message: "問題設定が完了しました", variant: "success" };
-  } catch {
+  } catch (error) {
+    console.error("registerQuestion error:", error);
     return {
       message:
         "問題設定の登録/更新に失敗しました\n時間をあけてから再度操作を実行してください",
@@ -108,4 +131,4 @@ const registerQuestion = async (
   }
 };
 
-export { getQuestion, registerQuestion, getQuestionNum, getExistQuestionNum };
+export { getQuestion, createQuestion, updateQuestion, registerQuestion, getQuestionNum, getExistQuestionNum };

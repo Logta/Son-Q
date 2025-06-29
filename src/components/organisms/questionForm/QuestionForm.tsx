@@ -8,10 +8,12 @@ import {
   OutlinedInput,
   InputAdornment,
 } from "@mui/material";
-import { Question } from "@/models";
+import { Question, Participant } from "@/models";
 import { Popup } from "@/components/atoms";
 import { QuestionsContext, GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { awaitOnAuth, getParticipants, registerQuestion } from "@/firebase";
 
 import CreateIcon from "@mui/icons-material/Create";
 
@@ -33,8 +35,53 @@ const App = ({ questions, nums }: Props) => {
       return { ID: "", no: index, url: "", select_user_id: "" };
     })
   );
-  const { registerQuestions, isUserJoinProject } = useContext(QuestionsContext);
+  const { projectId } = useContext(QuestionsContext);
   const { errorMessage } = useContext(GlobalContext);
+  const queryClient = useQueryClient();
+  
+  // 現在のユーザー情報を取得
+  const { data: currentUser } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: async () => {
+      const user = await awaitOnAuth();
+      if (!user || !user.ok) throw new Error("認証エラー");
+      return user;
+    },
+  });
+
+  // 参加者リストを取得
+  const { data: participants = [] } = useQuery({
+    queryKey: ["participants", projectId],
+    queryFn: () => getParticipants(projectId),
+    enabled: !!projectId,
+  });
+
+  // 現在のユーザーが参加者リストに含まれているかをチェック
+  const isUserJoinProject = Boolean(
+    currentUser && 
+    participants && 
+    participants.length > 0 && 
+    participants.some(p => p.user_id === currentUser.id)
+  );
+
+  console.log("QuestionForm Debug:");
+  console.log("- currentUser:", currentUser);
+  console.log("- currentUser.id:", currentUser?.id);
+  console.log("- participants:", participants);
+  console.log("- participants IDs:", participants.map(p => p.user_id));
+  console.log("- isUserJoinProject:", isUserJoinProject);
+  
+  // 問題登録のmutation
+  const registerQuestionsMutation = useMutation({
+    mutationFn: async (questionsData: Question[]) => {
+      const user = await awaitOnAuth();
+      if (!user || !user.ok) throw new Error("認証エラー");
+      return registerQuestion(user, questionsData, projectId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["questions", projectId] });
+    },
+  });
 
   const handleSetPropsQuestions = async () => {
     const newQues: Array<Question> = currentQuestions.map((data, index) => {
@@ -58,10 +105,47 @@ const App = ({ questions, nums }: Props) => {
     setCurrentQuestions([...newQues]);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = registerQuestions(currentQuestions);
-    if (result) redirect("/projects")(e);
+    console.log("handleSubmit called");
+    console.log("isUserJoinProject:", isUserJoinProject);
+    console.log("currentQuestions:", currentQuestions);
+    console.log("projectId:", projectId);
+    
+    if (!isUserJoinProject) {
+      console.log("User not joined project, aborting submit");
+      return;
+    }
+    
+    if (!currentUser) {
+      console.log("Current user not available");
+      errorMessage("ユーザー情報の取得に失敗しました");
+      return;
+    }
+    
+    try {
+      console.log("Starting mutation...");
+      // select_user_idを現在のユーザーIDに設定し、空のURLを除外
+      const questionsWithUserId = currentQuestions
+        .filter(q => q.url && q.url.trim() !== "") // 空のURLを除外
+        .map(q => ({
+          ...q,
+          select_user_id: currentUser.id
+        }));
+      console.log("Questions with user ID:", questionsWithUserId);
+      
+      if (questionsWithUserId.length === 0) {
+        errorMessage("少なくとも1つの問題を入力してください");
+        return;
+      }
+      
+      const result = await registerQuestionsMutation.mutateAsync(questionsWithUserId);
+      console.log("Mutation result:", result);
+      redirect("/projects")(e);
+    } catch (error) {
+      console.error("問題の登録に失敗しました:", error);
+      errorMessage("問題の登録に失敗しました");
+    }
   };
 
   return (

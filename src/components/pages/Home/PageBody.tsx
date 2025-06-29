@@ -41,50 +41,46 @@ const PageBody = () => {
 
         {user.Login ? (
           <Box m={2} p={2}>
-            <Grid container alignItems="center" justifyContent="center">
-              <Grid item>
-                <Button
-                  onClick={redirect("/projects")}
-                  color="primary"
-                  variant="contained"
-                  style={{ margin: "1em" }}
-                  startIcon={<BookmarksIcon />}
-                >
-                  プロジェクト一覧へ
-                </Button>
-                <Button
-                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                    signOut();
-                    redirect("/")(e);
-                  }}
-                  color="primary"
-                  variant="outlined"
-                  style={{ margin: "1em" }}
-                  startIcon={<AccountCircleIcon />}
-                >
-                  サインアウト
-                </Button>
-              </Grid>
-            </Grid>
+            <Box display="flex" alignItems="center" justifyContent="center">
+              <Button
+                onClick={redirect("/projects")}
+                color="primary"
+                variant="contained"
+                style={{ margin: "1em" }}
+                startIcon={<BookmarksIcon />}
+              >
+                プロジェクト一覧へ
+              </Button>
+              <Button
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                  signOut();
+                  redirect("/")(e);
+                }}
+                color="primary"
+                variant="outlined"
+                style={{ margin: "1em" }}
+                startIcon={<AccountCircleIcon />}
+              >
+                サインアウト
+              </Button>
+            </Box>
           </Box>
         ) : (
           <Box m={2} p={2}>
-            <Grid container alignItems="center" justifyContent="center">
-              <Grid item>
-                <Button
-                  onClick={async (e) => {
-                    const result = await signInGoogle();
-                    if (result) redirect("/projects")(e);
-                  }}
-                  color="primary"
-                  variant="contained"
-                  style={{ margin: "1em" }}
-                  startIcon={<AccountCircleIcon />}
-                >
-                  Google認証
-                </Button>
-              </Grid>
-            </Grid>
+            <Box display="flex" alignItems="center" justifyContent="center">
+              <Button
+                onClick={async (e) => {
+                  await signInGoogle();
+                  redirect("/projects")(e);
+                }}
+                color="primary"
+                variant="contained"
+                style={{ margin: "1em" }}
+                startIcon={<AccountCircleIcon />}
+              >
+                Google認証
+              </Button>
+            </Box>
           </Box>
         )}
 
@@ -142,12 +138,8 @@ const PageBody = () => {
           </Box>
         </Paper>
 
-        <Box my={5}>
-          <Grid container alignItems="center" justifyContent="center">
-            <Grid item>
-              <DarkModeSwitch />
-            </Grid>
-          </Grid>
+        <Box my={5} display="flex" alignItems="center" justifyContent="center">
+          <DarkModeSwitch />
         </Box>
 
         <footer className={styles.footer}>

@@ -1,5 +1,5 @@
 import styles from "./DarkModeSwitch.module.scss";
-import { Switch, Grid, Box, FormGroup } from "@mui/material";
+import { Switch, Box, FormGroup } from "@mui/material";
 import { useContext } from "react";
 import { GlobalContext } from "@/contexts";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
@@ -16,30 +16,24 @@ const DarkModeSwitch = () => {
   return (
     !isNil(darkMode) && (
       <FormGroup>
-        <Grid direction="row" container alignItems="center" spacing={1}>
-          <Grid item>
-            <Box mt={0.75}>
-              <Brightness7Icon />
-            </Box>
-          </Grid>
+        <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+          <Box mt={0.75}>
+            <Brightness7Icon />
+          </Box>
 
-          <Grid item>
-            <Box marginX={-1}>
-              <Switch
-                checked={darkMode}
-                onChange={handleChange}
-                color="default"
-                name="darkMode"
-              />
-            </Box>
-          </Grid>
+          <Box marginX={-1}>
+            <Switch
+              checked={darkMode}
+              onChange={handleChange}
+              color="default"
+              name="darkMode"
+            />
+          </Box>
 
-          <Grid item>
-            <Box mt={0.75}>
-              <Brightness2Icon />
-            </Box>
-          </Grid>
-        </Grid>
+          <Box mt={0.75}>
+            <Brightness2Icon />
+          </Box>
+        </Box>
       </FormGroup>
     )
   );

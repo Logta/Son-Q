@@ -9,25 +9,41 @@ import {
   Box,
   Grid,
 } from "@mui/material";
-import { Answer } from "@/models";
+import { Answer, Question, Participant } from "@/models";
 import { useRouter } from "next/router";
 import { AnswersContext, GlobalContext } from "@/contexts";
 import { isNil } from "es-toolkit";
 import { AnswerSelector } from "./AnswerSelector";
 import { Youtube, Popup } from "@/components/atoms";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { registerAnswer } from "@/firebase";
+import { awaitOnAuth } from "@/firebase";
 
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
 
-const App = () => {
-  const {
-    answers,
-    registerAnswers,
-    questionNum,
-    questions,
-    participants,
-    isUserJoinProject,
-  } = useContext(AnswersContext);
+type Props = {
+  answers: Answer[];
+  questionNum: number;
+  questions: Question[];
+  participants: Participant[];
+  isUserJoinProject: boolean;
+};
+
+const App = ({ answers, questionNum, questions, participants, isUserJoinProject }: Props) => {
+  const { projectId } = useContext(AnswersContext);
   const { darkMode } = useContext(GlobalContext);
+  const queryClient = useQueryClient();
+  
+  const registerAnswersMutation = useMutation({
+    mutationFn: async (answersData: Answer[]) => {
+      const user = await awaitOnAuth();
+      if (!user || !user.ok) throw new Error("認証エラー");
+      return registerAnswer(user, answersData, projectId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["answers", projectId] });
+    },
+  });
 
   const router = useRouter();
 
@@ -94,9 +110,11 @@ const App = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = registerAnswers(currentAnswers);
-    if (result) {
+    try {
+      await registerAnswersMutation.mutateAsync(currentAnswers);
       redirect("/projects")(e);
+    } catch (error) {
+      console.error("回答の登録に失敗しました:", error);
     }
   };
 
@@ -114,19 +132,15 @@ const App = () => {
                   }
                 />
                 <CardContent>
-                  <Grid container alignItems="center" justifyContent="center">
-                    <Grid item>
-                      <Grid container alignItems="center" justifyContent="center">
-                        <Grid item>
-                          <Youtube
-                            id={questions[value] ? questions[value].url : ""}
-                            endSec={60}
-                          />
-                          <Box m={-0.5} />
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
+                  <Box display="flex" alignItems="center" justifyContent="center">
+                    <Box>
+                      <Youtube
+                        id={questions[value] ? questions[value].url : ""}
+                        endSec={60}
+                      />
+                      <Box m={-0.5} />
+                    </Box>
+                  </Box>
 
                   <Box mt={0.5} mb={-1}>
                     <AnswerSelector
@@ -148,24 +162,22 @@ const App = () => {
           );
         })}
         <Box m={5} p={2}>
-          <Grid container alignItems="center" justifyContent="center">
-            <Grid item>
-              <Popup
-                popupLabel="プロジェクトに参加していないため回答ができません"
-                popupDisable={isUserJoinProject}
+          <Box display="flex" alignItems="center" justifyContent="center">
+            <Popup
+              popupLabel="プロジェクトに参加していないため回答ができません"
+              popupDisable={isUserJoinProject}
+            >
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                startIcon={<HowToVoteIcon />}
+                disabled={!isUserJoinProject}
               >
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  startIcon={<HowToVoteIcon />}
-                  disabled={!isUserJoinProject}
-                >
-                  回答
-                </Button>
-              </Popup>
-            </Grid>
-          </Grid>
+                回答
+              </Button>
+            </Popup>
+          </Box>
         </Box>
       </form>
     </Paper>

@@ -1,132 +1,40 @@
 import { ResultsContext, GlobalContext } from "@/contexts";
 import React, { useState, useEffect, useContext } from "react";
-import { isNull, isNil } from "es-toolkit";
 
-import { Answer, Result, Participant, Question } from "@/models";
-import {
-  awaitOnAuth,
-  getResult,
-  getAllAnswers,
-  getParticipants,
-  getQuestionNumber,
-  registerResult,
-  getAllQuestions,
-  getProjectMode as getPMode,
-} from "@/firebase";
+import { Auth } from "@/models";
+import { awaitOnAuth } from "@/firebase";
 
 type Props = {
   children: React.ReactNode;
   projectId: string;
 };
 
+/**
+ * ResultsContainer: Client State専用のContainer
+ * Server State（results、answers、questions、participants、questionNum、projectMode）は各コンポーネントでTanStack Queryフックを直接使用
+ */
 const ResultsContainer: React.FC<Props> = ({ children, projectId }) => {
-  const { errorMessage } = useContext(GlobalContext);
+  const { errorMessage, successMessage } = useContext(GlobalContext);
+  const [user, setUser] = useState<Auth>();
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [questionNum, setQuestionNum] = useState<number>(0);
-  const [answers, setAnswers] = useState<Array<Answer>>([]);
-  const [results, setResults] = useState<Array<Result>>([]);
-  const [participants, setParticipants] = useState<Array<Participant>>([]);
-  const [projectMode, setProjectMode] = useState<string>("normal");
-  const [questions, setQuestions] = useState<Array<Question>>([]);
+  // 認証状態を確認してユーザー情報をセット
   useEffect(() => {
-    getResults();
-    getProjectMode();
-    getQuestionsNum();
-    getParticipant();
-    getQuestions();
-    getAnswers();
+    const checkAuth = async () => {
+      const authUser = await awaitOnAuth();
+      if (authUser && authUser.ok) {
+        setUser(authUser);
+      }
+    };
+    checkAuth();
   }, []);
-
-  const getProjectMode = async () => {
-    const projectMode = await getPMode(projectId);
-    setProjectMode(projectMode);
-  };
-
-  const getAnswers = async () => {
-    const user = await awaitOnAuth();
-
-    if (isNull(user) || !user.ok) {
-      setAnswers([]);
-      return;
-    }
-    const ps = await getAllAnswers(projectId);
-    setAnswers(ps);
-    setLoading(false);
-  };
-
-  const getQuestions = async () => {
-    const user = await awaitOnAuth();
-
-    if (isNull(user) || !user.ok) {
-      setQuestions([]);
-      return;
-    }
-    const ps = await getAllQuestions(projectId);
-    setQuestions(ps);
-  };
-
-  const getResults = async () => {
-    const user = await awaitOnAuth();
-
-    if (isNull(user) || !user.ok) {
-      setResults([]);
-      return;
-    }
-    const ps = await getResult(projectId);
-    setResults(ps);
-  };
-
-  const getParticipant = async () => {
-    const user = await awaitOnAuth();
-
-    if (isNull(user) || !user.ok) {
-      setParticipants([]);
-      return;
-    }
-    const p = await getParticipants(projectId);
-    isNil(p) &&
-      errorMessage(
-        "参加者情報の取得に失敗しました!\n時間をおいてから再度操作を行ってください。"
-      );
-    setParticipants(p);
-  };
-
-  const getQuestionsNum = async () => {
-    const user = await awaitOnAuth();
-
-    if (isNull(user) || !user.ok) {
-      setQuestionNum(0);
-      return;
-    }
-    const qn = await getQuestionNumber(projectId);
-    qn === 0 &&
-      errorMessage(
-        "問題数情報の取得に失敗しました!\n時間をおいてから再度操作を行ってください。"
-      );
-    setQuestionNum(qn);
-  };
-
-  const registerResults = async (answers: Array<Result>) => {
-    const user = await awaitOnAuth();
-    if (isNull(user) || !user.ok) return;
-
-    registerResult(user, answers, projectId);
-    await getResults();
-  };
 
   return (
     <ResultsContext.Provider
       value={{
-        answers,
-        getAnswers,
-        registerResults,
-        questionNum,
-        projectMode,
-        results,
-        questions,
-        participants,
-        loading,
+        user,
+        projectId,
+        errorMessage,
+        successMessage,
       }}
     >
       {children}

@@ -1,6 +1,6 @@
 import styles from "./Label.module.scss";
 import { ReactNode } from "react";
-import { Typography, Box, Grid } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 
 type Props = {
   children: ReactNode;
@@ -12,11 +12,9 @@ const App = (props: Props) => {
     <>
       <Typography component="div">
         <Box fontSize={16} m={1}>
-          <Grid container alignItems="center" justifyContent="center">
-            <Grid item>
-              <Box>{children}</Box>
-            </Grid>
-          </Grid>
+          <Box display="flex" alignItems="center" justifyContent="center">
+            <Box>{children}</Box>
+          </Box>
         </Box>
       </Typography>
     </>

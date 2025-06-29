@@ -1,10 +1,11 @@
 import { TableHead, TableRow, TableCell, Box, Chip } from "@mui/material";
 import { Participant } from "@/models";
-import { ResultsContext } from "@/contexts";
-import { useContext } from "react";
 
-const App = () => {
-  const { participants } = useContext(ResultsContext);
+type Props = {
+  participants: Participant[];
+};
+
+const App = ({ participants }: Props) => {
   return (
     <TableHead>
       <TableRow key="header-result">

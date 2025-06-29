@@ -1,28 +1,24 @@
 import React from "react";
-import { Project, User } from "@/models";
+import { User } from "@/models";
 
-type Props = {
-  projects: Array<Project>;
+/**
+ * ProjectsContext: Client State専用のContext
+ * Server Stateは各コンポーネントでTanStack Queryフックを直接使用
+ */
+type ProjectsContextType = {
   user: User;
-  getProjects: Function;
-  createProjects: Function;
-  updateProjects: Function;
-  deleteProjects: Function;
-  joinProjects: Function;
-  loading: boolean;
+  errorMessage: (message: string) => void;
+  successMessage: (message: string) => void;
+  warningMessage: (message: string) => void;
 };
 
-export const ProjectsContext = React.createContext<Props>({
-  projects: [],
+export const ProjectsContext = React.createContext<ProjectsContextType>({
   user: {
     ID: "",
     Name: "",
     Login: false,
   },
-  getProjects: Function,
-  createProjects: Function,
-  updateProjects: Function,
-  deleteProjects: Function,
-  joinProjects: Function,
-  loading: true,
+  errorMessage: () => {},
+  successMessage: () => {},
+  warningMessage: () => {},
 });

@@ -150,7 +150,7 @@ const getAllQuestions = async (projectId: string) => {
 
   const docsRef = collection(firestore, "projects", projectId, "questions");
 
-  getDocs(docsRef).then((snapshot) => {
+  await getDocs(docsRef).then((snapshot) => {
     snapshot.forEach((doc) => {
       const question: Question = {
         ID: doc.id,
@@ -167,6 +167,8 @@ const getAllQuestions = async (projectId: string) => {
 
 export {
   getAnswer,
+  createAnswer,
+  updateAnswer,
   registerAnswer,
   getQuestionNumber,
   getParticipants,

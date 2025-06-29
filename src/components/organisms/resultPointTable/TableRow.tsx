@@ -1,10 +1,14 @@
 import { TableRow, TableCell, Chip } from "@mui/material";
-import { ResultsContext } from "@/contexts";
-import { useContext } from "react";
 import { getPoint } from "@/utils";
+import { Participant, Answer } from "@/models";
 
-const App = () => {
-  const { participants, answers, projectMode } = useContext(ResultsContext);
+type Props = {
+  participants: Participant[];
+  answers?: Answer[];
+  projectMode?: string;
+};
+
+const App = ({ participants, answers = [], projectMode = "" }: Props) => {
   return (
     <TableRow key={"result-point"}>
       <TableCell

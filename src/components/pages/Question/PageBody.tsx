@@ -1,19 +1,44 @@
 import Image from "next/image";
 import styles from "./Question.module.scss";
-import { useContext, useState } from "react";
-import { Container, Button, Typography } from "@mui/material";
+import { useContext, useState, Suspense } from "react";
+import { Container, Button, Typography, CircularProgress, Box } from "@mui/material";
 import { AppBar, QuestionForm } from "@/components/organisms";
 import { QuestionsContext } from "@/contexts";
 import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
 import { useRouter } from "next/router";
 import { Label, SubLabel } from "@/components/atoms";
 import { isNil } from "es-toolkit";
+import { useQuestions } from "@/hooks/useQuestions";
+import { useQuery } from "@tanstack/react-query";
+import { getQuestionNum } from "@/firebase";
 
 import HomeIcon from "@mui/icons-material/Home";
 
-const PageBody = () => {
-  const { questions, questionNum, loading } = useContext(QuestionsContext);
+/**
+ * 問題フォームコンテンツ（Suspense境界内で使用）
+ */
+const QuestionContent = () => {
+  const { projectId } = useContext(QuestionsContext);
+  const { data: questions = [] } = useQuestions(projectId);
+  
+  // 問題数を取得
+  const { data: questionNum = 0 } = useQuery({
+    queryKey: ["questionNum", projectId],
+    queryFn: () => getQuestionNum(projectId),
+    enabled: !!projectId,
+  });
 
+  if (questionNum === 0 || isNil(questions)) {
+    return null;
+  }
+
+  return <QuestionForm nums={questionNum} questions={questions} />;
+};
+
+/**
+ * QuestionPage: TanStack QueryとSuspenseを活用
+ */
+const PageBody = () => {
   const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false);
   const [openJoinDialog, setOpenJoinDialog] = useState<boolean>(false);
 
@@ -35,9 +60,15 @@ const PageBody = () => {
             ※出題するYoutube動画IDを記入してください
           </Typography>
         </main>
-        {!loading && questionNum !== 0 && !isNil(questions) && (
-          <QuestionForm nums={questionNum} questions={questions} />
-        )}
+        
+        <Suspense fallback={
+          <Box display="flex" justifyContent="center" mt={4}>
+            <CircularProgress />
+          </Box>
+        }>
+          <QuestionContent />
+        </Suspense>
+        
         <div className={styles.redirectButton}>
           <Button
             onClick={redirect("/projects")}

@@ -4,8 +4,29 @@ import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "@mui/material/styles";
 import * as colors from "@mui/material/colors";
 import { useState, useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import CssBaseline from "@mui/material/CssBaseline";
+
+/**
+ * QueryClientの設定（Suspense対応）
+ */
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5分間はキャッシュを使用
+      gcTime: 10 * 60 * 1000, // 10分間メモリに保持
+      retry: 3, // 失敗時に3回リトライ
+      refetchOnWindowFocus: false, // ウィンドウフォーカス時の自動再取得を無効
+      suspense: true, // Suspenseモードを有効化
+    },
+    mutations: {
+      retry: 3, // ミューテーションも3回リトライ
+    },
+  },
+});
+
 function MyApp({ Component, pageProps }) {
   const [darkMode, setDarkMode] = useState(false);
 
@@ -58,16 +79,19 @@ function MyApp({ Component, pageProps }) {
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalContainer
-        darkMode={darkMode}
-        handleDarkModeOn={handleDarkModeOn}
-        handleDarkModeOff={handleDarkModeOff}
-      >
-        <CssBaseline />
-        <Component {...pageProps} />
-      </GlobalContainer>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <GlobalContainer
+          darkMode={darkMode}
+          handleDarkModeOn={handleDarkModeOn}
+          handleDarkModeOff={handleDarkModeOff}
+        >
+          <CssBaseline />
+          <Component {...pageProps} />
+        </GlobalContainer>
+      </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 

@@ -1,26 +1,20 @@
 import React from "react";
-import { Answer, Result, Participant, Question } from "@/models";
+import { Auth } from "@/models";
 
-type Props = {
-  results: Array<Result>;
-  getAnswers: Function;
-  registerResults: Function;
-  questionNum: number;
-  projectMode: string;
-  participants: Array<Participant>;
-  questions: Array<Question>;
-  answers: Array<Answer>;
-  loading: boolean;
+/**
+ * ResultsContext: Client State専用のContext
+ * Server State（results、answers、questions、participants、questionNum、projectMode）は各コンポーネントでTanStack Queryフックを直接使用
+ */
+type ResultsContextType = {
+  user?: Auth;
+  projectId: string;
+  errorMessage: (message: string) => void;
+  successMessage: (message: string) => void;
 };
 
-export const ResultsContext = React.createContext<Props>({
-  results: [],
-  getAnswers: Function,
-  registerResults: Function,
-  questionNum: 0,
-  projectMode: "normal",
-  participants: [],
-  answers: [],
-  questions: [],
-  loading: true,
+export const ResultsContext = React.createContext<ResultsContextType>({
+  user: undefined,
+  projectId: "",
+  errorMessage: () => {},
+  successMessage: () => {},
 });
