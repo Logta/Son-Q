@@ -17,7 +17,7 @@ const getAnswer = async (user: Auth, projectId: string) => {
 
   const docsRef = collection(firestore, "projects", projectId, "answers");
 
-  getDocs(query(docsRef, where("answer_user_id", "==", user.id))).then(
+  await getDocs(query(docsRef, where("answer_user_id", "==", user.id))).then(
     (snapshot) => {
       snapshot.forEach((doc) => {
         const answer: Answer = {

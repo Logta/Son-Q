@@ -1,14 +1,16 @@
 import Image from "next/image";
 import styles from "./Answer.module.scss";
-import { useContext, Suspense } from "react";
+import { useContext } from "react";
 import { Container, Button, Box, CircularProgress } from "@mui/material";
+import { Suspense } from "react";
 import { AppBar, AnswerForm } from "@/components/organisms";
 import { Label, SubLabel } from "@/components/atoms";
 import { AnswersContext } from "@/contexts";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
-import { getAnswer, getParticipants, getAllQuestions } from "@/firebase";
+import { getAnswer, getParticipants } from "@/firebase";
 import { awaitOnAuth } from "@/firebase";
+import { useQuestions } from "@/hooks/useQuestions";
 import { isNil } from "es-toolkit";
 
 import HomeIcon from "@mui/icons-material/Home";
@@ -19,7 +21,7 @@ import HomeIcon from "@mui/icons-material/Home";
 const AnswerContent = () => {
   const { projectId } = useContext(AnswersContext);
   
-  // 必要なデータを並列で取得
+  // 必要なデータを並列で取得（Suspenseで自動的にローディング状態を管理）
   const { data: answers = [] } = useQuery({
     queryKey: ["answers", projectId],
     queryFn: async () => {
@@ -32,15 +34,14 @@ const AnswerContent = () => {
 
   const { data: participants = [] } = useQuery({
     queryKey: ["participants", projectId],
-    queryFn: () => getParticipants(projectId),
+    queryFn: async () => {
+      const result = await getParticipants(projectId);
+      return result;
+    },
     enabled: !!projectId,
   });
 
-  const { data: questions = [] } = useQuery({
-    queryKey: ["questions", projectId],
-    queryFn: () => getAllQuestions(projectId),
-    enabled: !!projectId,
-  });
+  const { data: questions = [] } = useQuestions(projectId);
 
   const { data: currentUser } = useQuery({
     queryKey: ["currentUser"],
@@ -50,6 +51,15 @@ const AnswerContent = () => {
       return user;
     },
   });
+
+  // projectIdが存在しない場合
+  if (!projectId) {
+    return (
+      <Box display="flex" justifyContent="center" mt={4}>
+        <p>プロジェクトIDが見つかりません</p>
+      </Box>
+    );
+  }
   
   // 現在のユーザーが参加者リストに含まれているかをチェック
   const isUserJoinProject = Boolean(
@@ -58,18 +68,34 @@ const AnswerContent = () => {
     participants.length > 0 && 
     participants.some(p => p.user_id === currentUser.id)
   );
-  const questionNum = questions.length;
+  const questionNum = questions ? questions.length : 0;
 
-  console.log("Answer PageBody Debug:");
-  console.log("- currentUser:", currentUser);
-  console.log("- currentUser.id:", currentUser?.id);
-  console.log("- participants:", participants);
-  console.log("- participants IDs:", participants.map(p => p.user_id));
-  console.log("- isUserJoinProject:", isUserJoinProject);
-  console.log("- questionNum:", questionNum);
+  // participants が null/undefined の場合のみエラー扱い（空配列は正常）
+  if (participants === null || participants === undefined) {
+    return (
+      <Box display="flex" justifyContent="center" mt={4}>
+        <p>参加者情報の取得に失敗しました</p>
+      </Box>
+    );
+  }
 
-  if (questionNum === 0 || isNil(questions) || isNil(participants)) {
-    return null;
+  // questions が null/undefined の場合のみエラー扱い（空配列は正常）
+  if (questions === null || questions === undefined) {
+    return (
+      <Box display="flex" justifyContent="center" mt={4}>
+        <p>問題情報の取得に失敗しました</p>
+      </Box>
+    );
+  }
+
+  // 問題が設定されていない場合の案内
+  if (questionNum === 0) {
+    return (
+      <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" mt={4}>
+        <p>このプロジェクトにはまだ問題が設定されていません。</p>
+        <p>出題者が問題を設定するまでお待ちください。</p>
+      </Box>
+    );
   }
 
   return (

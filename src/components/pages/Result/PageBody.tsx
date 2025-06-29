@@ -1,14 +1,16 @@
 import Image from "next/image";
 import styles from "./Result.module.scss";
-import { useContext, Suspense } from "react";
+import { useContext } from "react";
 import { Container, Button, Box, CircularProgress } from "@mui/material";
+import { Suspense } from "react";
 import { AppBar, ResultPointTable, ResultTable } from "@/components/organisms";
 import { ResultsContext } from "@/contexts";
 import { useRouter } from "next/router";
 import { Label, SubLabel } from "@/components/atoms";
 import { isNil } from "es-toolkit";
 import { useQuery } from "@tanstack/react-query";
-import { getAllAnswers, getParticipants, getQuestionNumber, getAllQuestions, getProjectMode } from "@/firebase";
+import { getAllAnswers, getParticipants, getQuestionNumber, getProjectMode } from "@/firebase";
+import { useQuestions } from "@/hooks/useQuestions";
 
 import HomeIcon from "@mui/icons-material/Home";
 
@@ -18,9 +20,7 @@ import HomeIcon from "@mui/icons-material/Home";
 const ResultContent = () => {
   const { projectId } = useContext(ResultsContext);
   
-  console.log("ResultContent projectId:", projectId);
-  
-  // 必要なデータを並列で取得
+  // 必要なデータを並列で取得（Suspenseで自動的にローディング状態を管理）
   const { data: questionNum = 0 } = useQuery({
     queryKey: ["questionNumber", projectId],
     queryFn: () => getQuestionNumber(projectId),
@@ -30,9 +30,7 @@ const ResultContent = () => {
   const { data: answers = [] } = useQuery({
     queryKey: ["allAnswers", projectId],
     queryFn: async () => {
-      console.log("Fetching answers for projectId:", projectId);
       const result = await getAllAnswers(projectId);
-      console.log("Answers fetched:", result);
       return result;
     },
     enabled: !!projectId,
@@ -41,38 +39,29 @@ const ResultContent = () => {
   const { data: participants = [] } = useQuery({
     queryKey: ["participants", projectId],
     queryFn: async () => {
-      console.log("Fetching participants for projectId:", projectId);
       const result = await getParticipants(projectId);
-      console.log("Participants fetched:", result);
       return result;
     },
     enabled: !!projectId,
   });
 
-  const { data: questions = [] } = useQuery({
-    queryKey: ["questions", projectId],
-    queryFn: async () => {
-      console.log("Fetching questions for projectId:", projectId);
-      const result = await getAllQuestions(projectId);
-      console.log("Questions fetched:", result);
-      return result;
-    },
-    enabled: !!projectId,
-  });
+  const { data: questions = [] } = useQuestions(projectId);
 
   const { data: projectMode = "" } = useQuery({
     queryKey: ["projectMode", projectId],
     queryFn: async () => {
-      console.log("Fetching projectMode for projectId:", projectId);
       const result = await getProjectMode(projectId);
-      console.log("ProjectMode fetched:", result);
       return result;
     },
     enabled: !!projectId,
   });
 
   if (questionNum === 0 || isNil(answers) || isNil(participants) || isNil(questions)) {
-    return null;
+    return (
+      <Box display="flex" justifyContent="center" mt={4}>
+        <p>データの取得に失敗しました</p>
+      </Box>
+    );
   }
 
   return (

@@ -1,7 +1,8 @@
 import Image from "next/image";
 import styles from "./Question.module.scss";
-import { useContext, useState, Suspense } from "react";
+import { useContext, useState } from "react";
 import { Container, Button, Typography, CircularProgress, Box } from "@mui/material";
+import { Suspense } from "react";
 import { AppBar, QuestionForm } from "@/components/organisms";
 import { QuestionsContext } from "@/contexts";
 import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
@@ -29,7 +30,11 @@ const QuestionContent = () => {
   });
 
   if (questionNum === 0 || isNil(questions)) {
-    return null;
+    return (
+      <Box display="flex" justifyContent="center" mt={4}>
+        <p>データの取得に失敗しました</p>
+      </Box>
+    );
   }
 
   return <QuestionForm nums={questionNum} questions={questions} />;

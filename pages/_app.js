@@ -15,11 +15,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000, // 5分間はキャッシュを使用
-      gcTime: 10 * 60 * 1000, // 10分間メモリに保持
+      staleTime: 0, // キャッシュを常に古いと見なしてより頻繁に再取得
+      gcTime: 5 * 60 * 1000, // 5分間メモリに保持
       retry: 3, // 失敗時に3回リトライ
-      refetchOnWindowFocus: false, // ウィンドウフォーカス時の自動再取得を無効
-      suspense: true, // Suspenseモードを有効化
+      refetchOnWindowFocus: true, // ウィンドウフォーカス時の自動再取得を有効
+      refetchOnMount: true, // マウント時に再取得
+      suspense: true, // Suspenseを有効化
     },
     mutations: {
       retry: 3, // ミューテーションも3回リトライ
