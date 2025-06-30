@@ -52,6 +52,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.0.6",
     "@son-q/config": "workspace:*",
+    "@vitest/coverage-v8": "^3.2.4",
     "globals": "^16.2.0",
     "jsdom": "^26.1.0",
     "sass": "^1.89.2",
