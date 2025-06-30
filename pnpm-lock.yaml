@@ -32,6 +32,9 @@ importers:
       '@son-q/ui':
         specifier: workspace:*
         version: link:packages/ui
+      '@son-q/utils':
+        specifier: workspace:*
+        version: link:packages/utils
       '@tanstack/react-query':
         specifier: ^5.62.11
         version: 5.81.5(react@19.1.0)
@@ -219,6 +222,22 @@ importers:
       sass:
         specifier: ^1.89.2
         version: 1.89.2
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+
+  packages/utils:
+    dependencies:
+      '@son-q/types':
+        specifier: workspace:*
+        version: link:../types
+      es-toolkit:
+        specifier: ^1.30.0
+        version: 1.39.5
+    devDependencies:
+      '@son-q/config':
+        specifier: workspace:*
+        version: link:../config
       typescript:
         specifier: ^5.8.3
         version: 5.8.3

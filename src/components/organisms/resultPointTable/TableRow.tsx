@@ -1,5 +1,5 @@
 import { TableRow, TableCell, Chip } from "@mui/material";
-import { getPoint } from "@/utils";
+import { getPoint } from "@son-q/utils";
 import type { Participant, Answer } from "@son-q/types";
 
 type Props = {

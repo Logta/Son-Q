@@ -5,7 +5,8 @@ const getQuestioner = (
   participants: Array<Participant>,
   ques: Question
 ): string => {
-  return participants.find((p) => p.user_id === ques.select_user_id).user_name;
+  const participant = participants.find((p) => p.user_id === ques.select_user_id);
+  return participant?.user_name || "";
 };
 
 const getRespondent = (
@@ -15,14 +16,15 @@ const getRespondent = (
   ques: Question,
   answers: Array<Answer>
 ): string => {
-  const ans: Answer = answers.find(
+  const ans = answers.find(
     (a) =>
       a.answer_user_id === ansUser.user_id &&
       ques.url === a.url &&
       ques.select_user_id === a.select_user_id
   );
   if (isNil(ans)) return "";
-  return participants.find((p) => p.user_id === ans.guess_user_id).user_name;
+  const participant = participants.find((p) => p.user_id === ans.guess_user_id);
+  return participant?.user_name || "";
 };
 
 // 今回使用するAPI

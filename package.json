@@ -20,6 +20,7 @@
     "@son-q/queries": "workspace:*",
     "@son-q/types": "workspace:*",
     "@son-q/ui": "workspace:*",
+    "@son-q/utils": "workspace:*",
     "@tanstack/react-query": "^5.62.11",
     "@tanstack/react-query-devtools": "^5.62.11",
     "@emotion/react": "^11.14.0",

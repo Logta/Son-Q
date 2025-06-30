@@ -3,7 +3,7 @@ import {
   getOnlyOneCorrectAnswer,
   getDuplicateDeletionArray,
   getOnlyOneIncorrectAnswer,
-} from "../../utils";
+} from "@son-q/utils";
 
 import type { Answer } from "@son-q/types";
 

@@ -2,7 +2,7 @@ import React from "react";
 import { TableRow, TableCell, Chip } from "@mui/material";
 import type { Participant, Answer, Question } from "@son-q/types";
 import { YoutubeAnswer } from "@son-q/ui";
-import { getQuestioner, getRespondent } from "@/utils";
+import { getQuestioner, getRespondent } from "@son-q/utils";
 
 type Props = {
   participants: Participant[];
