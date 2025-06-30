@@ -12,11 +12,12 @@
 
 - ES6 モジュール構文（import/export）を使用
 - 可能な限り分割代入を活用
-- 関数名は snake_case、クラス名は PascalCase で統一
+- 関数名は camelCase、クラス名は PascalCase で統一
 
 ### ワークフロー
 
 - 変更完了後は必ず型チェックを実行
+  - npm run typecheck
 - 全テストではなく単体テストを優先して実行
 
 ## 🔨 最重要ルール - 新しいルールの追加プロセス
@@ -36,3 +37,8 @@
   - class の利用は禁止
 - React では<Suspense>コンポーネントを活用すること
 - コメントは日本語で記載すること
+- State管理のアーキテクチャ
+  - ContainersはClient State（UI状態、認証状態、通知機能）のみを管理する
+  - Server State（APIデータ）はpages層やorganisms層でTanStack Queryフックを直接使用する
+  - データフェッチングには必ずTanStack Queryを使用し、useStateやuseEffectでの手動管理は避ける
+  - Suspenseコンポーネントを活用してローディング状態を宣言的に管理する

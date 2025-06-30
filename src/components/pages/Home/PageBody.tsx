@@ -2,8 +2,7 @@ import Image from "next/image";
 import { useContext } from "react";
 import styles from "./Home.module.scss";
 import { Container, Button, Box, Grid, Paper } from "@mui/material";
-import { Label, SubLabel } from "@/components/atoms";
-import { DarkModeSwitch } from "@/components/molecules";
+import { Label, SubLabel, DarkModeSwitch } from "@son-q/ui";
 import { HomeStep } from "@/components/organisms";
 import { GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
@@ -12,7 +11,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
 
 const PageBody = () => {
-  const { user, signInGoogle, signInEmail, signOut } =
+  const { user, signInGoogle, signInEmail, signOut, darkMode, handleDarkModeOn, handleDarkModeOff } =
     useContext(GlobalContext);
 
   const router = useRouter();
@@ -41,50 +40,46 @@ const PageBody = () => {
 
         {user.Login ? (
           <Box m={2} p={2}>
-            <Grid container alignItems="center" justifyContent="center">
-              <Grid item>
-                <Button
-                  onClick={redirect("/projects")}
-                  color="primary"
-                  variant="contained"
-                  style={{ margin: "1em" }}
-                  startIcon={<BookmarksIcon />}
-                >
-                  プロジェクト一覧へ
-                </Button>
-                <Button
-                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                    signOut();
-                    redirect("/")(e);
-                  }}
-                  color="primary"
-                  variant="outlined"
-                  style={{ margin: "1em" }}
-                  startIcon={<AccountCircleIcon />}
-                >
-                  サインアウト
-                </Button>
-              </Grid>
-            </Grid>
+            <Box display="flex" alignItems="center" justifyContent="center">
+              <Button
+                onClick={redirect("/projects")}
+                color="primary"
+                variant="contained"
+                style={{ margin: "1em" }}
+                startIcon={<BookmarksIcon />}
+              >
+                プロジェクト一覧へ
+              </Button>
+              <Button
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                  signOut();
+                  redirect("/")(e);
+                }}
+                color="primary"
+                variant="outlined"
+                style={{ margin: "1em" }}
+                startIcon={<AccountCircleIcon />}
+              >
+                サインアウト
+              </Button>
+            </Box>
           </Box>
         ) : (
           <Box m={2} p={2}>
-            <Grid container alignItems="center" justifyContent="center">
-              <Grid item>
-                <Button
-                  onClick={async (e) => {
-                    const result = await signInGoogle();
-                    if (result) redirect("/projects")(e);
-                  }}
-                  color="primary"
-                  variant="contained"
-                  style={{ margin: "1em" }}
-                  startIcon={<AccountCircleIcon />}
-                >
-                  Google認証
-                </Button>
-              </Grid>
-            </Grid>
+            <Box display="flex" alignItems="center" justifyContent="center">
+              <Button
+                onClick={async (e) => {
+                  await signInGoogle();
+                  redirect("/projects")(e);
+                }}
+                color="primary"
+                variant="contained"
+                style={{ margin: "1em" }}
+                startIcon={<AccountCircleIcon />}
+              >
+                Google認証
+              </Button>
+            </Box>
           </Box>
         )}
 
@@ -142,12 +137,8 @@ const PageBody = () => {
           </Box>
         </Paper>
 
-        <Box my={5}>
-          <Grid container alignItems="center" justifyContent="center">
-            <Grid item>
-              <DarkModeSwitch />
-            </Grid>
-          </Grid>
+        <Box my={5} display="flex" alignItems="center" justifyContent="center">
+          <DarkModeSwitch darkMode={darkMode} handleDarkModeOn={handleDarkModeOn} handleDarkModeOff={handleDarkModeOff} />
         </Box>
 
         <footer className={styles.footer}>

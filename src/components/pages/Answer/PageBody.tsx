@@ -1,14 +1,100 @@
 import Image from "next/image";
 import styles from "./Answer.module.scss";
 import { useContext } from "react";
-import { Container, Button, Grid } from "@mui/material";
+import { Container, Button, Box, CircularProgress } from "@mui/material";
+import { Suspense } from "react";
 import { AppBar, AnswerForm } from "@/components/organisms";
-import { Label, SubLabel } from "@/components/atoms";
+import { Label, SubLabel } from "@son-q/ui";
 import { AnswersContext } from "@/contexts";
 import { useRouter } from "next/router";
+import { useQuery } from "@tanstack/react-query";
+import { useQuestions } from "@son-q/queries";
+import { useAllAnswers, useParticipants } from "@son-q/queries";
+import { authApi } from "@son-q/api";
+import { isNil } from "es-toolkit";
 
 import HomeIcon from "@mui/icons-material/Home";
 
+/**
+ * 回答フォームコンテンツ（Suspense境界内で使用）
+ */
+const AnswerContent = () => {
+  const { projectId } = useContext(AnswersContext);
+  
+  // 必要なデータを並列で取得（Suspenseで自動的にローディング状態を管理）
+  // 境界線：コンポーネントはhooks層のみを使用し、API層に直接アクセスしない
+  const { data: answers = [] } = useAllAnswers(projectId);
+  const { data: participants = [] } = useParticipants(projectId);
+  const { data: questions = [] } = useQuestions(projectId);
+  
+  // 現在のユーザーを取得（簡略化のためにAPI層を直接使用）
+  const { data: currentUser } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: () => authApi.getCurrentUser(),
+  });
+
+  // projectIdが存在しない場合
+  if (!projectId) {
+    return (
+      <Box display="flex" justifyContent="center" mt={4}>
+        <p>プロジェクトIDが見つかりません</p>
+      </Box>
+    );
+  }
+  
+  // 現在のユーザーが参加者リストに含まれているかをチェック
+  const isUserJoinProject = Boolean(
+    currentUser && 
+    participants && 
+    participants.length > 0 && 
+    participants.some(p => p.user_id === currentUser.id)
+  );
+  const questionNum = questions ? questions.length : 0;
+
+  // participants が null/undefined の場合のみエラー扱い（空配列は正常）
+  if (participants === null || participants === undefined) {
+    return (
+      <Box display="flex" justifyContent="center" mt={4}>
+        <p>参加者情報の取得に失敗しました</p>
+      </Box>
+    );
+  }
+
+  // questions が null/undefined の場合のみエラー扱い（空配列は正常）
+  if (questions === null || questions === undefined) {
+    return (
+      <Box display="flex" justifyContent="center" mt={4}>
+        <p>問題情報の取得に失敗しました</p>
+      </Box>
+    );
+  }
+
+  // 問題が設定されていない場合の案内
+  if (questionNum === 0) {
+    return (
+      <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" mt={4}>
+        <p>このプロジェクトにはまだ問題が設定されていません。</p>
+        <p>出題者が問題を設定するまでお待ちください。</p>
+      </Box>
+    );
+  }
+
+  return (
+    <Box display="flex" alignItems="center" justifyContent="center">
+      <AnswerForm 
+        answers={answers}
+        questionNum={questionNum}
+        questions={questions}
+        participants={participants}
+        isUserJoinProject={isUserJoinProject}
+      />
+    </Box>
+  );
+};
+
+/**
+ * AnswerPage: TanStack QueryとSuspenseを活用
+ */
 const PageBody = () => {
   const router = useRouter();
 
@@ -16,8 +102,6 @@ const PageBody = () => {
     e.preventDefault();
     router.push(href);
   };
-  const { loading, answers, questionNum, questions, participants } =
-    useContext(AnswersContext);
 
   return (
     <>
@@ -28,13 +112,13 @@ const PageBody = () => {
           <SubLabel>誰が選んだ曲か推理しよう！</SubLabel>
         </main>
 
-        {!loading && answers && questionNum !== 0 && questions && participants && (
-          <Grid container alignItems="center" justifyContent="center">
-            <Grid item>
-              <AnswerForm />
-            </Grid>
-          </Grid>
-        )}
+        <Suspense fallback={
+          <Box display="flex" justifyContent="center" mt={4}>
+            <CircularProgress />
+          </Box>
+        }>
+          <AnswerContent />
+        </Suspense>
 
         <div className={styles.redirectButton}>
           <Button

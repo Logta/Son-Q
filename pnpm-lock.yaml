@@ -20,6 +20,27 @@ importers:
       '@mui/material':
         specifier: ^7.1.2
         version: 7.1.2(@emotion/react@11.14.0(@types/react@19.1.8)(react@19.1.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.1.8)(react@19.1.0))(@types/react@19.1.8)(react@19.1.0))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@son-q/api':
+        specifier: workspace:*
+        version: link:packages/api
+      '@son-q/queries':
+        specifier: workspace:*
+        version: link:packages/queries
+      '@son-q/types':
+        specifier: workspace:*
+        version: link:packages/types
+      '@son-q/ui':
+        specifier: workspace:*
+        version: link:packages/ui
+      '@son-q/utils':
+        specifier: workspace:*
+        version: link:packages/utils
+      '@tanstack/react-query':
+        specifier: ^5.62.11
+        version: 5.81.5(react@19.1.0)
+      '@tanstack/react-query-devtools':
+        specifier: ^5.62.11
+        version: 5.81.5(@tanstack/react-query@5.81.5(react@19.1.0))(react@19.1.0)
       '@types/node':
         specifier: ^24.0.4
         version: 24.0.4
@@ -29,15 +50,9 @@ importers:
       '@types/react-dom':
         specifier: ^19.1.6
         version: 19.1.6(@types/react@19.1.8)
-      clsx:
-        specifier: ^2.1.1
-        version: 2.1.1
       es-toolkit:
         specifier: ^1.30.0
         version: 1.39.5
-      firebase:
-        specifier: ^11.9.1
-        version: 11.9.1
       next:
         specifier: 15.3.4
         version: 15.3.4(@babel/core@7.27.7)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.2)
@@ -59,19 +74,59 @@ importers:
       react-youtube:
         specifier: ^10.1.0
         version: 10.1.0(react@19.1.0)
-      sass:
-        specifier: ^1.89.2
-        version: 1.89.2
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
     devDependencies:
-      '@eslint/js':
-        specifier: ^9.30.0
-        version: 9.30.0
+      '@son-q/config':
+        specifier: workspace:*
+        version: link:packages/config
       '@types/jest':
         specifier: ^30.0.0
         version: 30.0.0
+      globals:
+        specifier: ^16.2.0
+        version: 16.2.0
+      jest:
+        specifier: ^30.0.3
+        version: 30.0.3(@types/node@24.0.4)(babel-plugin-macros@3.1.0)
+      sass:
+        specifier: ^1.89.2
+        version: 1.89.2
+      ts-jest:
+        specifier: ^29.4.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@30.0.2)(@jest/types@30.0.1)(babel-jest@30.0.2(@babel/core@7.27.7))(jest-util@30.0.2)(jest@30.0.3(@types/node@24.0.4)(babel-plugin-macros@3.1.0))(typescript@5.8.3)
+
+  packages/api:
+    dependencies:
+      '@son-q/types':
+        specifier: workspace:*
+        version: link:../types
+      '@types/node':
+        specifier: ^24.0.4
+        version: 24.0.4
+      es-toolkit:
+        specifier: ^1.30.0
+        version: 1.39.5
+      firebase:
+        specifier: ^11.9.1
+        version: 11.9.1
+    devDependencies:
+      '@son-q/config':
+        specifier: workspace:*
+        version: link:../config
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+
+  packages/config:
+    devDependencies:
+      '@eslint/eslintrc':
+        specifier: ^3.2.0
+        version: 3.3.1
+      '@eslint/js':
+        specifier: ^9.30.0
+        version: 9.30.0
       eslint:
         specifier: ^9.30.0
         version: 9.30.0
@@ -81,18 +136,111 @@ importers:
       eslint-plugin-react:
         specifier: ^7.37.5
         version: 7.37.5(eslint@9.30.0)
-      globals:
-        specifier: ^16.2.0
-        version: 16.2.0
-      jest:
-        specifier: ^30.0.3
-        version: 30.0.3(@types/node@24.0.4)(babel-plugin-macros@3.1.0)
-      ts-jest:
-        specifier: ^29.4.0
-        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@30.0.2)(@jest/types@30.0.1)(babel-jest@30.0.2(@babel/core@7.27.7))(jest-util@30.0.2)(jest@30.0.3(@types/node@24.0.4)(babel-plugin-macros@3.1.0))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
       typescript-eslint:
         specifier: ^8.35.0
         version: 8.35.0(eslint@9.30.0)(typescript@5.8.3)
+
+  packages/queries:
+    dependencies:
+      '@son-q/api':
+        specifier: workspace:*
+        version: link:../api
+      '@son-q/types':
+        specifier: workspace:*
+        version: link:../types
+      '@tanstack/react-query':
+        specifier: ^5.62.11
+        version: 5.81.5(react@19.1.0)
+      '@types/react':
+        specifier: ^19.1.8
+        version: 19.1.8
+    devDependencies:
+      '@son-q/config':
+        specifier: workspace:*
+        version: link:../config
+      react:
+        specifier: 19.1.0
+        version: 19.1.0
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+
+  packages/types:
+    devDependencies:
+      '@son-q/config':
+        specifier: workspace:*
+        version: link:../config
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+
+  packages/ui:
+    dependencies:
+      '@emotion/react':
+        specifier: ^11.14.0
+        version: 11.14.0(@types/react@19.1.8)(react@19.1.0)
+      '@emotion/styled':
+        specifier: ^11.14.0
+        version: 11.14.1(@emotion/react@11.14.0(@types/react@19.1.8)(react@19.1.0))(@types/react@19.1.8)(react@19.1.0)
+      '@mui/icons-material':
+        specifier: ^7.1.2
+        version: 7.1.2(@mui/material@7.1.2(@emotion/react@11.14.0(@types/react@19.1.8)(react@19.1.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.1.8)(react@19.1.0))(@types/react@19.1.8)(react@19.1.0))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(@types/react@19.1.8)(react@19.1.0)
+      '@mui/material':
+        specifier: ^7.1.2
+        version: 7.1.2(@emotion/react@11.14.0(@types/react@19.1.8)(react@19.1.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.1.8)(react@19.1.0))(@types/react@19.1.8)(react@19.1.0))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@son-q/queries':
+        specifier: workspace:*
+        version: link:../queries
+      '@son-q/types':
+        specifier: workspace:*
+        version: link:../types
+      '@types/react':
+        specifier: ^19.1.8
+        version: 19.1.8
+      '@types/react-dom':
+        specifier: ^19.1.6
+        version: 19.1.6(@types/react@19.1.8)
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      react-youtube:
+        specifier: ^10.1.0
+        version: 10.1.0(react@19.1.0)
+    devDependencies:
+      '@son-q/config':
+        specifier: workspace:*
+        version: link:../config
+      react:
+        specifier: 19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: 19.1.0
+        version: 19.1.0(react@19.1.0)
+      sass:
+        specifier: ^1.89.2
+        version: 1.89.2
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+
+  packages/utils:
+    dependencies:
+      '@son-q/types':
+        specifier: workspace:*
+        version: link:../types
+      es-toolkit:
+        specifier: ^1.30.0
+        version: 1.39.5
+    devDependencies:
+      '@son-q/config':
+        specifier: workspace:*
+        version: link:../config
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
 
 packages:
 
@@ -1144,6 +1292,23 @@ packages:
 
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
+
+  '@tanstack/query-core@5.81.5':
+    resolution: {integrity: sha512-ZJOgCy/z2qpZXWaj/oxvodDx07XcQa9BF92c0oINjHkoqUPsmm3uG08HpTaviviZ/N9eP1f9CM7mKSEkIo7O1Q==}
+
+  '@tanstack/query-devtools@5.81.2':
+    resolution: {integrity: sha512-jCeJcDCwKfoyyBXjXe9+Lo8aTkavygHHsUHAlxQKKaDeyT0qyQNLKl7+UyqYH2dDF6UN/14873IPBHchcsU+Zg==}
+
+  '@tanstack/react-query-devtools@5.81.5':
+    resolution: {integrity: sha512-lCGMu4RX0uGnlrlLeSckBfnW/UV+KMlTBVqa97cwK7Z2ED5JKnZRSjNXwoma6sQBTJrcULvzgx2K6jEPvNUpDw==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.81.5
+      react: ^18 || ^19
+
+  '@tanstack/react-query@5.81.5':
+    resolution: {integrity: sha512-lOf2KqRRiYWpQT86eeeftAGnjuTR35myTP8MXyvHa81VlomoAWNEd8x5vkcAfQefu0qtYCvyqLropFZqgI2EQw==}
+    peerDependencies:
+      react: ^18 || ^19
 
   '@tybys/wasm-util@0.9.0':
     resolution: {integrity: sha512-6+7nlbMVX/PVDCwaIQ8nTOPveOcFLSt8GcXdx8hD0bt39uWxYT88uXzqTd4fTvqta7oeUJqudepapKNt2DYJFw==}
@@ -4554,6 +4719,21 @@ snapshots:
   '@swc/helpers@0.5.15':
     dependencies:
       tslib: 2.8.1
+
+  '@tanstack/query-core@5.81.5': {}
+
+  '@tanstack/query-devtools@5.81.2': {}
+
+  '@tanstack/react-query-devtools@5.81.5(@tanstack/react-query@5.81.5(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@tanstack/query-devtools': 5.81.2
+      '@tanstack/react-query': 5.81.5(react@19.1.0)
+      react: 19.1.0
+
+  '@tanstack/react-query@5.81.5(react@19.1.0)':
+    dependencies:
+      '@tanstack/query-core': 5.81.5
+      react: 19.1.0
 
   '@tybys/wasm-util@0.9.0':
     dependencies:

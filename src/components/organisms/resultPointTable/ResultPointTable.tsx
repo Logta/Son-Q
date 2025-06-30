@@ -7,14 +7,21 @@ import Paper from "@mui/material/Paper";
 import { TableRow } from "./TableRow";
 
 import { TableHeader } from "./TableHeader";
+import type { Participant, Answer } from "@son-q/types";
 
-const App = () => {
+type Props = {
+  participants: Participant[];
+  answers?: Answer[];
+  projectMode?: string;
+};
+
+const App = ({ participants, answers, projectMode }: Props) => {
   return (
     <TableContainer component={Paper}>
       <Table className={styles.table} aria-label="simple table">
-        <TableHeader />
+        <TableHeader participants={participants} />
         <TableBody>
-          <TableRow />
+          <TableRow participants={participants} answers={answers} projectMode={projectMode} />
         </TableBody>
       </Table>
     </TableContainer>

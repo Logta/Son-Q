@@ -2,13 +2,13 @@ import { ProjectContext, GlobalContext } from "@/contexts";
 import React, { useState, useEffect, useContext } from "react";
 import { isNull } from "es-toolkit";
 
-import { Project, User } from "@/models";
+import type { Project, User } from "@son-q/types";
 import {
   awaitOnAuth,
   getProjectFromID,
   updateProject,
   deleteProject,
-} from "@/firebase";
+} from "@son-q/api";
 
 type Props = {
   children: React.ReactNode;

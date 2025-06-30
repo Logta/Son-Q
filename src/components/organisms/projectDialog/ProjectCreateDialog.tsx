@@ -14,9 +14,10 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { ProjectsContext, GlobalContext } from "@/contexts";
+import { ProjectsContext } from "@/contexts";
 import { useContext } from "react";
-import { Project } from "@/models";
+import type { Project } from "@son-q/types";
+import { useCreateProject } from "@son-q/queries";
 
 type Props = {
   open: boolean;
@@ -30,7 +31,7 @@ function useInput(
   validationMessage: string
 ): any {
   const [value, setValue] = React.useState<string>(initValue);
-  const { errorMessage } = useContext(GlobalContext);
+  const { errorMessage } = useContext(ProjectsContext);
   return {
     value,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,15 +44,21 @@ function useInput(
   };
 }
 
+/**
+ * ProjectCreateDialog: TanStack Queryフックを直接使用
+ */
 const App = (props: Props) => {
-  const { createProjects } = useContext(ProjectsContext);
+  const { successMessage, errorMessage } = useContext(ProjectsContext);
   const { open, setOpen } = props;
+  
+  // TanStack Queryフックを直接使用
+  const createProjectMutation = useCreateProject();
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const pro: Project = {
@@ -64,8 +71,17 @@ const App = (props: Props) => {
       participants: [],
     };
 
-    createProjects(pro);
-    handleClose();
+    try {
+      const result = await createProjectMutation.mutateAsync(pro);
+      if (result?.variant === "success") {
+        successMessage(result.message);
+        handleClose();
+      } else if (result?.variant === "error") {
+        errorMessage(result.message);
+      }
+    } catch (error) {
+      errorMessage("プロジェクトの作成に失敗しました");
+    }
   };
 
   const name = useInput(

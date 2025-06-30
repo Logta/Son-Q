@@ -35,7 +35,6 @@ const App = (props: Props) => {
     e.preventDefault();
 
     const result = await deleteProjectFromID(project.ID);
-    console.log(result);
     if (result) redirect("/projects")(e);
   };
 

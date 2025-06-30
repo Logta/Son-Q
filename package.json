@@ -2,23 +2,33 @@
   "name": "son_q",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "pnpm run build:packages && next dev",
+    "build": "pnpm --filter \"@son-q/*\" build && next build",
+    "build:packages": "pnpm --filter \"@son-q/*\" build",
     "start": "next start",
     "test": "jest",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "pnpm --filter \"@son-q/*\" typecheck && tsc --noEmit",
+    "clean": "pnpm --filter \"@son-q/*\" exec rm -rf dist",
+    "clean:all": "pnpm run clean && rm -rf .next && rm -rf node_modules/.cache",
+    "dev:clean": "pnpm run clean:all && pnpm run dev"
   },
   "dependencies": {
+    "@son-q/api": "workspace:*",
+    "@son-q/queries": "workspace:*",
+    "@son-q/types": "workspace:*",
+    "@son-q/ui": "workspace:*",
+    "@son-q/utils": "workspace:*",
+    "@tanstack/react-query": "^5.62.11",
+    "@tanstack/react-query-devtools": "^5.62.11",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.1.2",
     "@mui/material": "^7.1.2",
-    "@types/node": "^24.0.4",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "clsx": "^2.1.1",
-    "firebase": "^11.9.1",
     "es-toolkit": "^1.30.0",
     "next": "15.3.4",
     "nookies": "^2.5.2",
@@ -27,21 +37,21 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-youtube": "^10.1.0",
-    "sass": "^1.89.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "@types/node": "^24.0.4",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6"
   },
   "devDependencies": {
-    "@eslint/js": "^9.30.0",
+    "@son-q/config": "workspace:*",
     "@types/jest": "^30.0.0",
-    "eslint": "^9.30.0",
-    "eslint-config-next": "15.3.4",
-    "eslint-plugin-react": "^7.37.5",
     "globals": "^16.2.0",
     "jest": "^30.0.3",
-    "ts-jest": "^29.4.0",
-    "typescript-eslint": "^8.35.0"
+    "sass": "^1.89.2",
+    "ts-jest": "^29.4.0"
   },
-  "engines": {
-    "node": ">=22.0.0"
+  "volta": {
+    "node": "24.3.0",
+    "npm": "11.4.2"
   }
 }

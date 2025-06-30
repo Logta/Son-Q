@@ -1,12 +1,17 @@
+import React from "react";
 import { TableRow, TableCell, Chip } from "@mui/material";
-import { ResultsContext, GlobalContext } from "@/contexts";
-import { useContext } from "react";
-import { YoutubeAnswer } from "@/components/atoms";
-import { getQuestioner, getRespondent } from "@/utils";
+import type { Participant, Answer, Question } from "@son-q/types";
+import { YoutubeAnswer } from "@son-q/ui";
+import { getQuestioner, getRespondent } from "@son-q/utils";
 
-const App = () => {
-  const { participants, answers, questions } = useContext(ResultsContext);
-  const { darkMode } = useContext(GlobalContext);
+type Props = {
+  participants: Participant[];
+  answers: Answer[];
+  questions: Question[];
+  darkMode?: boolean;
+};
+
+const App = ({ participants, answers, questions, darkMode = false }: Props) => {
 
   return (
     <>
@@ -14,7 +19,7 @@ const App = () => {
         return (
           <TableRow key={`${ques.ID}-result`}>
             <TableCell
-              key={`${ques.ID}-result-partName`}
+              key={`${ques.ID}-result-number`}
               component="th"
               scope="row"
               align="center"
@@ -23,7 +28,7 @@ const App = () => {
               <Chip size="small" label={<strong>{index + 1}</strong>} />
             </TableCell>
             <TableCell
-              key={`${ques.ID}-result-partName`}
+              key={`${ques.ID}-result-questioner`}
               component="th"
               scope="row"
               align="center"
@@ -51,7 +56,7 @@ const App = () => {
             </TableCell>
             {participants.map((part) => {
               return (
-                <>
+                <React.Fragment key={`${part.user_id}-${ques.ID}-fragment`}>
                   <TableCell
                     align="center"
                     style={{
@@ -68,13 +73,13 @@ const App = () => {
                       <Chip
                         label="〇"
                         color="secondary"
-                        variant={darkMode ? "default" : "outlined"}
+                        variant="outlined"
                       />
                     ) : (
                       <Chip
                         label="×"
                         color="primary"
-                        variant={darkMode ? "default" : "outlined"}
+                        variant="outlined"
                       />
                     )}
                   </TableCell>
@@ -90,7 +95,7 @@ const App = () => {
                   >
                     {getRespondent(part, participants, ques, answers)}
                   </TableCell>
-                </>
+                </React.Fragment>
               );
             })}
           </TableRow>

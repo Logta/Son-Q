@@ -1,128 +1,42 @@
 import { QuestionsContext, GlobalContext } from "@/contexts";
-import { useState, useEffect, useContext, useMemo } from "react";
-import { isNull, isNil } from "es-toolkit";
+import { useState, useContext, useEffect } from "react";
+import { isNull } from "es-toolkit";
 
-import { Question, Participant, Auth } from "@/models";
-import {
-  awaitOnAuth,
-  getQuestion,
-  registerQuestion,
-  getQuestionNum,
-  getParticipants,
-} from "@/firebase";
+import type { Auth } from "@son-q/types";
+import { awaitOnAuth } from "@son-q/api";
 
 type Props = {
   children: React.ReactNode;
   projectId: string;
 };
 
+/**
+ * QuestionsContainer: Client State専用のContainer
+ * Server State（questions、participants、questionNum）は各コンポーネントでTanStack Queryフックを直接使用
+ */
 const QuestionsContainer: React.FC<Props> = ({ children, projectId }) => {
   const { errorMessage, successMessage } = useContext(GlobalContext);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [questionNum, setQuestionNum] = useState<number>(0);
-  const [questions, setQuestions] = useState<Array<Question>>([]);
-  const [participants, setParticipants] = useState<Array<Participant>>([]);
+  
   const [user, setUser] = useState<Auth>();
 
-  // メモ化関数
-  const isUserJoinProject = useMemo(() => {
-    return participants.some((p) => p.user_id == user.id);
-  }, [questions, user]);
-
-  // useEffect
+  // 認証状態を確認してユーザー情報をセット
   useEffect(() => {
-    getQuestionsInfo();
+    const checkAuth = async () => {
+      const authUser = await awaitOnAuth();
+      if (authUser && authUser.ok) {
+        setUser(authUser);
+      }
+    };
+    checkAuth();
   }, []);
-
-  // getter / setter
-  const getQuestionsInfo = async () => {
-    await getQuestions();
-    await getQuestionsNum();
-    await getParticipant();
-    setUser(await awaitOnAuth());
-
-    setLoading(false);
-  };
-
-  const getQuestions = async () => {
-    const user = await awaitOnAuth();
-
-    if (isNull(user) || !user.ok) {
-      setQuestions([]);
-      return;
-    }
-    const ps = await getQuestion(user, projectId);
-    setQuestions(ps);
-  };
-
-  const getQuestionsNum = async (): Promise<number> => {
-    const user = await awaitOnAuth();
-
-    setLoading(false);
-    // if (_.isNull(user)) {
-    //   setQuestions([]);
-    //   errorMessage("回答するにはサインインが必要です");
-    //   return;
-    // }
-    const questionNum = await getQuestionNum(projectId);
-    setQuestionNum(questionNum);
-  };
-
-  const getParticipant = async () => {
-    const user = await awaitOnAuth();
-
-    if (isNull(user) || !user.ok) {
-      setQuestions([]);
-      return;
-    }
-    const p = await getParticipants(projectId);
-    isNil(p) &&
-      errorMessage(
-        "参加者情報の取得に失敗しました!\n時間をおいてから再度操作を行ってください。"
-      );
-    setParticipants(p);
-  };
-
-  const registerQuestions = async (questions: Array<Question>) => {
-    const user = await awaitOnAuth();
-    if (isNull(user) || !user.ok) {
-      errorMessage("問題設定するにはサインインが必要です");
-      return false;
-    }
-    //if (participants.some((p) => p.user_id === user.id)) {
-    //  errorMessage("問題設定するにはプロジェクトへの参加が必要です");
-    //  return false;
-    //}
-
-    const { message, variant } = await registerQuestion(
-      user,
-      questions,
-      projectId
-    );
-    switch (variant) {
-      case "success":
-        successMessage(message);
-        break;
-
-      case "error":
-        errorMessage(message);
-        return false;
-    }
-    await getQuestions();
-    return true;
-  };
 
   return (
     <QuestionsContext.Provider
       value={{
-        questions,
-        questionNum,
-        participants,
-        isUserJoinProject,
-        getQuestions,
-        getQuestionsNum,
-        registerQuestions,
-        loading,
+        user,
+        projectId,
+        errorMessage,
+        successMessage,
       }}
     >
       {children}

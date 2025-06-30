@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { HomePage } from "../src/components/pages";
-import { Copyright } from "../src/components/atoms";
+import { Copyright } from "@son-q/ui";
 import ScopedCssBaseline from "@mui/material/ScopedCssBaseline";
 
 export default function Home() {

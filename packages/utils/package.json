@@ -1,0 +1,19 @@
+{
+  "name": "@son-q/utils",
+  "version": "0.0.1",
+  "private": true,
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@son-q/types": "workspace:*",
+    "es-toolkit": "^1.30.0"
+  },
+  "devDependencies": {
+    "@son-q/config": "workspace:*",
+    "typescript": "^5.8.3"
+  }
+}

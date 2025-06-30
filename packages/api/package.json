@@ -1,0 +1,23 @@
+{
+  "name": "@son-q/api",
+  "version": "1.0.0",
+  "description": "Son-Q API Layer - Vanilla JavaScript data access layer",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "firebase": "^11.9.1",
+    "es-toolkit": "^1.30.0",
+    "@son-q/types": "workspace:*",
+    "@types/node": "^24.0.4"
+  },
+  "devDependencies": {
+    "@son-q/config": "workspace:*",
+    "typescript": "^5.8.3"
+  }
+}

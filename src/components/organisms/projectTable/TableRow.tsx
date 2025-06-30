@@ -1,12 +1,12 @@
 import { TableRow, TableCell, Button, Chip } from "@mui/material";
-import { Project, User } from "@/models";
+import type { Project, User } from "@son-q/types";
 import { ProjectsContext, GlobalContext } from "@/contexts";
-import { PopupButton } from "@/components/atoms";
+import { PopupButton } from "@son-q/ui";
 import { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styles from "./ProjectTable.module.scss";
 
-import { getExistQuestionNum, getExistAnswerNum } from "@/firebase";
+import { getExistQuestionNum, getExistAnswerNum } from "@son-q/api";
 
 import PollIcon from "@mui/icons-material/Poll";
 import CreateIcon from "@mui/icons-material/Create";
@@ -22,7 +22,7 @@ const App = (props: Props) => {
   const [readyResult, setReadyResult] = useState<boolean>(false);
 
   const { row } = props;
-  const { deleteProjects, user } = useContext(ProjectsContext);
+  const { user } = useContext(ProjectsContext);
   const { darkMode } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -33,16 +33,12 @@ const App = (props: Props) => {
   const getReadyQuesion = async () => {
     const q_num = await getExistQuestionNum(row.ID);
     const full_q = row.participants.length * row.question_num;
-    console.log(`q_num : ${q_num}`);
-    console.log(`full_q : ${full_q}`);
     setReadyQuestion(full_q === q_num);
   };
 
   const getReadyResult = async () => {
     const a_num = await getExistAnswerNum(row.ID);
     const full_a = row.participants.length ** 2 * row.question_num;
-    console.log(`a_num : ${a_num}`);
-    console.log(`full_a : ${full_a}`);
     setReadyResult(full_a === a_num);
   };
 

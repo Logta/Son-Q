@@ -1,0 +1,27 @@
+{
+  "name": "@son-q/queries",
+  "version": "1.0.0",
+  "description": "Son-Q React Query Layer - React-specific data fetching hooks",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.62.11",
+    "@types/react": "^19.1.8"
+  },
+  "devDependencies": {
+    "@son-q/config": "workspace:*",
+    "react": "19.1.0",
+    "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "@son-q/api": "workspace:*",
+    "@son-q/types": "workspace:*",
+    "react": "^19.0.0"
+  }
+}

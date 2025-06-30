@@ -12,9 +12,9 @@ import {
 } from "@mui/material";
 import { ProjectContext, GlobalContext } from "@/contexts";
 import { useContext } from "react";
-import { Project } from "@/models";
+import type { Project } from "@son-q/types";
 import { useRouter } from "next/router";
-import { FormLabel } from "@/components/atoms";
+import { FormLabel } from "@son-q/ui";
 
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 

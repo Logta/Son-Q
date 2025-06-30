@@ -8,10 +8,13 @@ import {
   OutlinedInput,
   InputAdornment,
 } from "@mui/material";
-import { Question } from "@/models";
-import { Popup } from "@/components/atoms";
+import type { Question, Participant } from "@son-q/types";
+import { Popup } from "@son-q/ui";
 import { QuestionsContext, GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
+import { useRegisterQuestions, useParticipants } from "@son-q/queries";
+import { authApi } from "@son-q/api";
+import { useQuery } from "@tanstack/react-query";
 
 import CreateIcon from "@mui/icons-material/Create";
 
@@ -33,8 +36,27 @@ const App = ({ questions, nums }: Props) => {
       return { ID: "", no: index, url: "", select_user_id: "" };
     })
   );
-  const { registerQuestions, isUserJoinProject } = useContext(QuestionsContext);
+  const { projectId } = useContext(QuestionsContext);
   const { errorMessage } = useContext(GlobalContext);
+  
+  // カスタムフックを使用
+  const registerQuestionsMutation = useRegisterQuestions();
+  const { data: participants = [] } = useParticipants(projectId);
+  
+  // 現在のユーザー情報を取得
+  const { data: currentUser } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: () => authApi.getCurrentUser(),
+  });
+
+  // 現在のユーザーが参加者リストに含まれているかをチェック
+  const isUserJoinProject = Boolean(
+    currentUser && 
+    participants && 
+    participants.length > 0 && 
+    participants.some(p => p.user_id === currentUser.id)
+  );
+
 
   const handleSetPropsQuestions = async () => {
     const newQues: Array<Question> = currentQuestions.map((data, index) => {
@@ -58,10 +80,41 @@ const App = ({ questions, nums }: Props) => {
     setCurrentQuestions([...newQues]);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = registerQuestions(currentQuestions);
-    if (result) redirect("/projects")(e);
+    
+    if (!isUserJoinProject) {
+      return;
+    }
+    
+    if (!currentUser) {
+      errorMessage("ユーザー情報の取得に失敗しました");
+      return;
+    }
+    
+    try {
+      // select_user_idを現在のユーザーIDに設定し、空のURLを除外
+      const questionsWithUserId = currentQuestions
+        .filter(q => q.url && q.url.trim() !== "") // 空のURLを除外
+        .map(q => ({
+          ...q,
+          select_user_id: currentUser.id
+        }));
+      
+      if (questionsWithUserId.length === 0) {
+        errorMessage("少なくとも1つの問題を入力してください");
+        return;
+      }
+      
+      const result = await registerQuestionsMutation.mutateAsync({
+        projectId,
+        questions: questionsWithUserId
+      });
+      redirect("/projects")(e);
+    } catch (error) {
+      console.error("問題の登録に失敗しました:", error);
+      errorMessage("問題の登録に失敗しました");
+    }
   };
 
   return (
