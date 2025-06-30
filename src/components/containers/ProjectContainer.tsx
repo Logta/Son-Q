@@ -20,12 +20,6 @@ const ProjectContainer: React.FC<Props> = ({ children, projectId }) => {
     Login: false,
   });
 
-  useEffect(() => {
-    getProject();
-    // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
-    // biome-ignore lint/correctness/noInvalidUseBeforeDeclaration: effect needs to run on mount
-  }, [getProject]);
-
   const getProject = async () => {
     const user = await awaitOnAuth();
 
@@ -41,6 +35,11 @@ const ProjectContainer: React.FC<Props> = ({ children, projectId }) => {
     });
     setLoading(false);
   };
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
+  useEffect(() => {
+    getProject();
+  }, []);
 
   const updateProjectInfo = async (data: Project) => {
     const { message, variant } = await updateProject(projectId, data);

@@ -23,12 +23,11 @@ const App = (props: Props) => {
   const { user } = useContext(ProjectsContext);
   const { darkMode } = useContext(GlobalContext);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
   useEffect(() => {
     getReadyQuesion();
     getReadyResult();
-    // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
-    // biome-ignore lint/correctness/noInvalidUseBeforeDeclaration: effect needs to run on mount
-  }, [getReadyQuesion, getReadyResult]);
+  }, []);
 
   const getReadyQuesion = async () => {
     const q_num = await getExistQuestionNum(row.ID);

@@ -43,11 +43,6 @@ const App: React.FC<Props> = (props: Props) => {
     Name: "",
     Login: false,
   });
-  useEffect(() => {
-    signInCheck();
-    // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
-    // biome-ignore lint/correctness/noInvalidUseBeforeDeclaration: effect needs to run on mount
-  }, [signInCheck]);
 
   const signInCheck = async (): Promise<void> => {
     const user = await awaitOnAuth();
@@ -59,6 +54,11 @@ const App: React.FC<Props> = (props: Props) => {
       Login: true,
     });
   };
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
+  useEffect(() => {
+    signInCheck();
+  }, []);
 
   const signInGoogle = async (): Promise<void> => {
     const user = await awaitOnGoogleLogin();

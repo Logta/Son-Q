@@ -75,10 +75,10 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
     return answers.find((a) => a.question_id === currentAnswer.question_id);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
   useEffect(() => {
     handleSetPropsAnswers();
-    // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
-  }, [handleSetPropsAnswers]);
+  }, []);
 
   const handleSelector = (id: number) => (value: string) => {
     const newQues = currentAnswers.slice();

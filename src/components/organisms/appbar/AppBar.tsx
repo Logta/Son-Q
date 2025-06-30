@@ -20,9 +20,10 @@ const App = () => {
 
   const router = useRouter();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
   useEffect(() => {
     signInCheck();
-  }, [signInCheck]);
+  }, []);
 
   // biome-ignore lint/suspicious/noExplicitAny: React event type
   const redirect = (href: string) => (e: any) => {

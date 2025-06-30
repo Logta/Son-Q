@@ -63,10 +63,10 @@ const App = ({ questions, nums }: Props) => {
     });
     setCurrentQuestions([...newQues]);
   };
+  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
   useEffect(() => {
     handleSetPropsQuestions();
-    // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
-  }, [handleSetPropsQuestions]);
+  }, []);
 
   // biome-ignore lint/suspicious/noExplicitAny: React event type
   const handleURL = (id: number) => (event: any) => {
