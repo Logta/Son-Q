@@ -45,6 +45,7 @@ const PageBody = () => {
 
   const router = useRouter();
 
+  // biome-ignore lint/suspicious/noExplicitAny: React event type
   const redirect = (href: string) => (e: any) => {
     e.preventDefault();
     router.push(href);

@@ -30,6 +30,7 @@ const getOnlyOneCorrectAnswer = (
 
   for (const id of userQuestionIDs) {
     const questionPoint = otherCorrectAnswers.filter((ans) => ans.question_id === id).length;
+    // biome-ignore lint/suspicious/noAssignInExpressions: point calculation shorthand
     questionPoint !== 0 && (point += participantNum - 1 - questionPoint);
   }
 
@@ -55,6 +56,7 @@ const getOnlyOneIncorrectAnswer = (
   let point = 0;
   for (const id of userQuestionIDs) {
     const questionPoint = otherCorrectAnswers.filter((ans) => ans.question_id === id).length;
+    // biome-ignore lint/suspicious/noAssignInExpressions: point calculation shorthand
     questionPoint !== participantNum - 1 && (point += questionPoint);
   }
   return point;

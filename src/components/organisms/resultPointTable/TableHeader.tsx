@@ -20,6 +20,7 @@ const App = ({ participants }: Props) => {
         {participants.map((part: Participant) => {
           return (
             <TableCell
+              key={part.user_id}
               align="center"
               style={{
                 fontWeight: "bold",

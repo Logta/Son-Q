@@ -45,6 +45,8 @@ const App: React.FC<Props> = (props: Props) => {
   });
   useEffect(() => {
     signInCheck();
+    // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
+    // biome-ignore lint/correctness/noInvalidUseBeforeDeclaration: effect needs to run on mount
   }, [signInCheck]);
 
   const signInCheck = async (): Promise<void> => {
@@ -70,6 +72,7 @@ const App: React.FC<Props> = (props: Props) => {
     });
   };
 
+  // biome-ignore lint/suspicious/noExplicitAny: Firebase auth data type
   const signInEmail = async (data: any): Promise<void> => {
     const user = await awaitOnPasswordLogin(data);
     setLoading(false);
@@ -82,6 +85,7 @@ const App: React.FC<Props> = (props: Props) => {
     });
   };
 
+  // biome-ignore lint/suspicious/noExplicitAny: Firebase auth data type
   const signUpEmail = async (data: any) => {
     const bool = await createPasswordUser(data);
     setLoading(false);

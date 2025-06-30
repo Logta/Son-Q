@@ -19,7 +19,7 @@ const App = ({ rows }: Props) => {
         <TableHeader />
         <TableBody>
           {rows.map((row: Project) => (
-            <TableRow row={row} />
+            <TableRow key={row.ID} row={row} />
           ))}
         </TableBody>
       </Table>

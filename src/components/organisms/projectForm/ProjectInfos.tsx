@@ -30,6 +30,7 @@ const App = () => {
             {getParticipants().map((p) => {
               return (
                 <Chip
+                  key={p}
                   label={p}
                   color="primary"
                   variant={paletteType === "dark" ? "default" : "outlined"}

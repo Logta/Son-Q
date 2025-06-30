@@ -25,6 +25,7 @@ type Props = {
 const App = ({ questions, nums }: Props) => {
   const router = useRouter();
 
+  // biome-ignore lint/suspicious/noExplicitAny: React event type
   const redirect = (href: string) => (e: any) => {
     e.preventDefault();
     router.push(href);
@@ -64,8 +65,10 @@ const App = ({ questions, nums }: Props) => {
   };
   useEffect(() => {
     handleSetPropsQuestions();
+    // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
   }, [handleSetPropsQuestions]);
 
+  // biome-ignore lint/suspicious/noExplicitAny: React event type
   const handleURL = (id: number) => (event: any) => {
     const newQues = currentQuestions.slice();
     const regex = /.*\?.*|.*=.*|.*\/.*|.*\\.*|.*:.*|.*&.*/;
@@ -120,7 +123,8 @@ const App = ({ questions, nums }: Props) => {
       <form onSubmit={handleSubmit}>
         {[...Array(nums)].map((_, value) => {
           return (
-            <div className={styles.textForm}>
+            // biome-ignore lint/suspicious/noArrayIndexKey: question index is stable
+            <div key={value} className={styles.textForm}>
               <FormControl fullWidth variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-amount">{`${+value + 1}題目：`}</InputLabel>
                 <OutlinedInput

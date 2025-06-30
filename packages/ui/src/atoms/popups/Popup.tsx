@@ -33,6 +33,7 @@ const App = (props: Props) => {
 
   return (
     <>
+      {/* biome-ignore lint/a11y/useSemanticElements: div required for hover interaction */}
       <div
         onMouseEnter={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}

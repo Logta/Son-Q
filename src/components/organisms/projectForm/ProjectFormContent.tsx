@@ -23,6 +23,7 @@ function useInput(
   initValue: string,
   validation: (t: string) => boolean,
   validationMessage: string
+  // biome-ignore lint/suspicious/noExplicitAny: custom hook return type
 ): any {
   const { errorMessage } = useContext(GlobalContext);
   const [value, setValue] = React.useState<string>(initValue);
@@ -42,6 +43,7 @@ const App = () => {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
 
+  // biome-ignore lint/suspicious/noExplicitAny: React event type
   const redirect = (href: string) => (e: any) => {
     e.preventDefault();
     router.push(href);

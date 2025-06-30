@@ -10,18 +10,12 @@ import { GlobalContext } from "@/contexts";
 import styles from "./Home.module.scss";
 
 const PageBody = () => {
-  const {
-    user,
-    signInGoogle,
-    signInEmail,
-    signOut,
-    darkMode,
-    handleDarkModeOn,
-    handleDarkModeOff,
-  } = useContext(GlobalContext);
+  const { user, signInGoogle, signOut, darkMode, handleDarkModeOn, handleDarkModeOff } =
+    useContext(GlobalContext);
 
   const router = useRouter();
 
+  // biome-ignore lint/suspicious/noExplicitAny: React event type
   const redirect = (href: string) => (e: any) => {
     e.preventDefault();
     router.push(href);

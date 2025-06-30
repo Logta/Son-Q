@@ -28,6 +28,7 @@ function useInput(
   initValue: string,
   validation: (t: string) => boolean,
   validationMessage: string
+  // biome-ignore lint/suspicious/noExplicitAny: custom hook return type
 ): any {
   const [value, setValue] = React.useState<string>(initValue);
   const { errorMessage } = useContext(ProjectsContext);

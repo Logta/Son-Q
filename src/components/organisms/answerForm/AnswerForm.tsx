@@ -26,6 +26,7 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
 
   const router = useRouter();
 
+  // biome-ignore lint/suspicious/noExplicitAny: React event type
   const redirect = (href: string) => (e: any) => {
     e.preventDefault();
     router.push(href);
@@ -76,6 +77,7 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
 
   useEffect(() => {
     handleSetPropsAnswers();
+    // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
   }, [handleSetPropsAnswers]);
 
   const handleSelector = (id: number) => (value: string) => {
@@ -102,6 +104,7 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
       <form onSubmit={handleSubmit}>
         {[...Array(questionNum)].map((_, value) => {
           return (
+            // biome-ignore lint/suspicious/noArrayIndexKey: question index is stable
             <div key={value} className={styles.backDiv}>
               <Card variant="outlined">
                 <CardHeader

@@ -22,6 +22,8 @@ const ProjectContainer: React.FC<Props> = ({ children, projectId }) => {
 
   useEffect(() => {
     getProject();
+    // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
+    // biome-ignore lint/correctness/noInvalidUseBeforeDeclaration: effect needs to run on mount
   }, [getProject]);
 
   const getProject = async () => {

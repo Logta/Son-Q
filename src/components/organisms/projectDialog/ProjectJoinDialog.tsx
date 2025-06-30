@@ -17,6 +17,7 @@ type Props = {
 };
 
 // カスタムフックを定義（input 要素用の属性を生成する）
+// biome-ignore lint/suspicious/noExplicitAny: custom hook return type
 function useInput(initValue: string): any {
   const [value, setValue] = React.useState<string>(initValue);
   return {

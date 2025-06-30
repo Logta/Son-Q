@@ -7,6 +7,7 @@ import { ProjectFormContent } from "./ProjectFormContent";
 import { ProjectInfos } from "./ProjectInfos";
 
 // カスタムフックを定義（input 要素用の属性を生成する）
+// biome-ignore lint/suspicious/noExplicitAny: custom hook return type
 function useInput(initValue: string): any {
   const [value, setValue] = React.useState<string>(initValue);
   return {
@@ -18,6 +19,7 @@ function useInput(initValue: string): any {
 const App = () => {
   const router = useRouter();
 
+  // biome-ignore lint/suspicious/noExplicitAny: React event type
   const redirect = (href: string) => (e: any) => {
     e.preventDefault();
     router.push(href);
