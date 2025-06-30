@@ -82,24 +82,17 @@ const App = ({ questions, nums }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("handleSubmit called");
-    console.log("isUserJoinProject:", isUserJoinProject);
-    console.log("currentQuestions:", currentQuestions);
-    console.log("projectId:", projectId);
     
     if (!isUserJoinProject) {
-      console.log("User not joined project, aborting submit");
       return;
     }
     
     if (!currentUser) {
-      console.log("Current user not available");
       errorMessage("ユーザー情報の取得に失敗しました");
       return;
     }
     
     try {
-      console.log("Starting mutation...");
       // select_user_idを現在のユーザーIDに設定し、空のURLを除外
       const questionsWithUserId = currentQuestions
         .filter(q => q.url && q.url.trim() !== "") // 空のURLを除外
@@ -107,7 +100,6 @@ const App = ({ questions, nums }: Props) => {
           ...q,
           select_user_id: currentUser.id
         }));
-      console.log("Questions with user ID:", questionsWithUserId);
       
       if (questionsWithUserId.length === 0) {
         errorMessage("少なくとも1つの問題を入力してください");
@@ -118,7 +110,6 @@ const App = ({ questions, nums }: Props) => {
         projectId,
         questions: questionsWithUserId
       });
-      console.log("Mutation result:", result);
       redirect("/projects")(e);
     } catch (error) {
       console.error("問題の登録に失敗しました:", error);

@@ -120,7 +120,7 @@ const getProjectFromID = async (projectId: string) => {
       project_mode: docSnap.data().project_mode,
     };
   } else {
-    console.log("No such document!");
+    console.warn("Project document not found for ID:", projectId);
     return null;
   }
 };

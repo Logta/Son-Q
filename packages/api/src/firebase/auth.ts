@@ -19,7 +19,7 @@ const awaitOnAuth = async (): Promise<Auth> => {
           name: user.displayName || '',
         });
       } else {
-        console.log("Failed!!");
+        console.error("Authentication failed");
         reject({
           ok: false,
           id: "",
@@ -54,7 +54,7 @@ const awaitOnGoogleLogin = async (): Promise<Auth> => {
         // The email of the user's account used.
         const email = error.email;
         const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log(errorCode, errorMessage);
+        console.error("Google login error:", errorCode, errorMessage);
         reject({
           ok: false,
           id: "",
@@ -80,7 +80,7 @@ const awaitOnPasswordLogin = async (data: any): Promise<Auth> => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        console.error("Password login error:", errorCode, errorMessage);
         reject({
           ok: false,
           id: "",

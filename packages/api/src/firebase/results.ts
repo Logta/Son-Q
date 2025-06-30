@@ -122,7 +122,7 @@ const getProjectMode = async (projectId: string) => {
     const data = proj.data();
     projectMode = data?.project_mode || "normal";
   } else {
-    console.log("No such document!");
+    console.warn("Project document not found for project mode, ID:", projectId);
   }
   return projectMode;
 };

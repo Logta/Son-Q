@@ -33,13 +33,6 @@ const App = (props: Props) => {
   const getReadyQuesion = async () => {
     const q_num = await getExistQuestionNum(row.ID);
     const full_q = row.participants.length * row.question_num;
-    console.log("readyQuestion calculation:");
-    console.log(`- projectId: ${row.ID}`);
-    console.log(`- participants: ${row.participants.length}`);
-    console.log(`- question_num per participant: ${row.question_num}`);
-    console.log(`- existing questions (q_num): ${q_num}`);
-    console.log(`- required questions (full_q): ${full_q}`);
-    console.log(`- ready: ${full_q === q_num}`);
     setReadyQuestion(full_q === q_num);
   };
 

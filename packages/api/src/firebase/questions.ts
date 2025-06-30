@@ -54,13 +54,6 @@ const createQuestion = async (
   projectId: string
 ) => {
   try {
-    console.log("createQuestion - saving to firestore:", {
-      no: question.no,
-      url: question.url,
-      select_user_id: user.id,
-      projectId,
-    });
-
     const docRef = await addDoc(
       collection(firestore, "projects", projectId, "questions"),
       {
@@ -69,8 +62,6 @@ const createQuestion = async (
         select_user_id: user.id,
       }
     );
-
-    console.log("createQuestion - document created with ID:", docRef.id);
     return { message: "作成が完了しました", variant: "success" };
   } catch (error) {
     console.error("createQuestion error:", error);
@@ -103,24 +94,13 @@ const registerQuestion = async (
   projectId: string
 ) => {
   try {
-    console.log("registerQuestion called with:", {
-      user: user.id,
-      questions,
-      projectId,
-    });
-
     for (const question of questions) {
       if (isNil(question)) continue;
 
-      console.log("Processing question:", question);
-
       if (question.ID !== "") {
-        console.log("Updating existing question:", question.ID);
         await updateQuestion(user, question, projectId);
       } else {
-        console.log("Creating new question");
         const result = await createQuestion(user, question, projectId);
-        console.log("Create result:", result);
       }
     }
 

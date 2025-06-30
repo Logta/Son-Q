@@ -9,7 +9,7 @@ import { AnswersContext } from "@/contexts";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { useQuestions } from "@son-q/queries";
-import { useUserAnswers, useParticipants } from "@son-q/queries";
+import { useAllAnswers, useParticipants } from "@son-q/queries";
 import { authApi } from "@son-q/api";
 import { isNil } from "es-toolkit";
 
@@ -23,7 +23,7 @@ const AnswerContent = () => {
   
   // 必要なデータを並列で取得（Suspenseで自動的にローディング状態を管理）
   // 境界線：コンポーネントはhooks層のみを使用し、API層に直接アクセスしない
-  const { data: answers = [] } = useUserAnswers(projectId);
+  const { data: answers = [] } = useAllAnswers(projectId);
   const { data: participants = [] } = useParticipants(projectId);
   const { data: questions = [] } = useQuestions(projectId);
   
