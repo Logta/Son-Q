@@ -13,11 +13,11 @@
   "dependencies": {
     "firebase": "^11.9.1",
     "es-toolkit": "^1.30.0",
-    "@son-q/types": "workspace:*"
+    "@son-q/types": "workspace:*",
+    "@types/node": "^24.0.4"
   },
   "devDependencies": {
     "@son-q/config": "workspace:*",
-    "@types/node": "^24.0.4",
     "typescript": "^5.8.3"
   }
 }
