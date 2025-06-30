@@ -102,6 +102,9 @@ importers:
       '@son-q/types':
         specifier: workspace:*
         version: link:../types
+      '@types/node':
+        specifier: ^24.0.4
+        version: 24.0.4
       es-toolkit:
         specifier: ^1.30.0
         version: 1.39.5
@@ -112,9 +115,6 @@ importers:
       '@son-q/config':
         specifier: workspace:*
         version: link:../config
-      '@types/node':
-        specifier: ^24.0.4
-        version: 24.0.4
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
