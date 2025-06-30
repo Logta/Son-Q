@@ -14,7 +14,9 @@ import { parseCookies, setCookie } from "nookies";
 describe("cookies", () => {
   // テスト用のモックデータ
   const mockContext: NextPageContext = {
+    // biome-ignore lint/suspicious/noExplicitAny: テスト用の簡易モックオブジェクト
     req: {} as any,
+    // biome-ignore lint/suspicious/noExplicitAny: テスト用の簡易モックオブジェクト
     res: {} as any,
     pathname: "/test",
     query: {},
