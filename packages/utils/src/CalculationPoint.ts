@@ -113,4 +113,5 @@ export {
   getOnlyOneCorrectAnswer,
   getDuplicateDeletionArray,
   getOnlyOneIncorrectAnswer,
+  getCorrectAnswer,
 };
