@@ -198,6 +198,206 @@ describe("getCorrectAnswer", (): void => {
   test("getCorrectAnswer - 空の回答配列", () => {
     expect(0).toBe(getCorrectAnswer("u1", []));
   });
+
+  test("getCorrectAnswer - 同一問題で複数の正解回答がある場合", () => {
+    // Arrange: 同一問題(q1)で複数人が正解する複雑なケース
+    const complexAnswers: Array<Answer> = [
+      {
+        ID: "1",
+        no: 1,
+        guess_user_id: "u1", // u2が正解
+        select_user_id: "u1",
+        answer_user_id: "u2",
+        url: "",
+        question_id: "q1",
+      },
+      {
+        ID: "2",
+        no: 2,
+        guess_user_id: "u1", // u3も正解
+        select_user_id: "u1",
+        answer_user_id: "u3",
+        url: "",
+        question_id: "q1",
+      },
+      {
+        ID: "3",
+        no: 3,
+        guess_user_id: "u1", // u4も正解（同じ問題で3人正解）
+        select_user_id: "u1",
+        answer_user_id: "u4",
+        url: "",
+        question_id: "q1",
+      },
+    ];
+
+    // Act & Assert: 同一問題で3つの正解があるので3ポイント
+    expect(3).toBe(getCorrectAnswer("u1", complexAnswers));
+  });
+
+  test("getCorrectAnswer - 複数問題で各問題1つずつ正解がある場合", () => {
+    // Arrange: 異なる問題でそれぞれ正解がある場合
+    const multiQuestionAnswers: Array<Answer> = [
+      {
+        ID: "1",
+        no: 1,
+        guess_user_id: "u1",
+        select_user_id: "u1",
+        answer_user_id: "u2",
+        url: "",
+        question_id: "q1",
+      },
+      {
+        ID: "2",
+        no: 2,
+        guess_user_id: "u1",
+        select_user_id: "u1",
+        answer_user_id: "u3",
+        url: "",
+        question_id: "q2",
+      },
+      {
+        ID: "3",
+        no: 3,
+        guess_user_id: "u1",
+        select_user_id: "u1",
+        answer_user_id: "u4",
+        url: "",
+        question_id: "q3",
+      },
+    ];
+
+    // Act & Assert: 3つの異なる問題でそれぞれ1つずつ正解なので3ポイント
+    expect(3).toBe(getCorrectAnswer("u1", multiQuestionAnswers));
+  });
+
+  test("getCorrectAnswer - 全て自分の回答の場合（除外される）", () => {
+    // Arrange: 全て自分が回答したケース
+    const selfAnswers: Array<Answer> = [
+      {
+        ID: "1",
+        no: 1,
+        guess_user_id: "u1",
+        select_user_id: "u1",
+        answer_user_id: "u1", // 自分の回答
+        url: "",
+        question_id: "q1",
+      },
+      {
+        ID: "2",
+        no: 2,
+        guess_user_id: "u1",
+        select_user_id: "u1",
+        answer_user_id: "u1", // 自分の回答
+        url: "",
+        question_id: "q2",
+      },
+    ];
+
+    // Act & Assert: 自分の回答は除外されるので0ポイント
+    expect(0).toBe(getCorrectAnswer("u1", selfAnswers));
+  });
+
+  test("getCorrectAnswer - 全て不正解の場合", () => {
+    // Arrange: 全て推測が間違っているケース
+    const incorrectAnswers: Array<Answer> = [
+      {
+        ID: "1",
+        no: 1,
+        guess_user_id: "u2", // 不正解（select_user_idと異なる）
+        select_user_id: "u1",
+        answer_user_id: "u3",
+        url: "",
+        question_id: "q1",
+      },
+      {
+        ID: "2",
+        no: 2,
+        guess_user_id: "u3", // 不正解
+        select_user_id: "u1",
+        answer_user_id: "u4",
+        url: "",
+        question_id: "q2",
+      },
+    ];
+
+    // Act & Assert: 全て不正解なので0ポイント
+    expect(0).toBe(getCorrectAnswer("u1", incorrectAnswers));
+  });
+
+  test("getCorrectAnswer - 他のユーザーが選択した問題は除外される", () => {
+    // Arrange: 他のユーザーが選択した問題が混在
+    const mixedSelectUserAnswers: Array<Answer> = [
+      {
+        ID: "1",
+        no: 1,
+        guess_user_id: "u1",
+        select_user_id: "u1", // u1が選択
+        answer_user_id: "u2",
+        url: "",
+        question_id: "q1",
+      },
+      {
+        ID: "2",
+        no: 2,
+        guess_user_id: "u1",
+        select_user_id: "u2", // u2が選択（除外される）
+        answer_user_id: "u3",
+        url: "",
+        question_id: "q2",
+      },
+    ];
+
+    // Act & Assert: u1が選択した問題のみカウントされるので1ポイント
+    expect(1).toBe(getCorrectAnswer("u1", mixedSelectUserAnswers));
+  });
+
+  test("getCorrectAnswer - 重複したquestion_idが正しく処理される", () => {
+    // Arrange: 同じquestion_idで複数のエントリがある場合
+    const duplicateQuestionAnswers: Array<Answer> = [
+      {
+        ID: "1",
+        no: 1,
+        guess_user_id: "u1",
+        select_user_id: "u1",
+        answer_user_id: "u2",
+        url: "",
+        question_id: "q1",
+      },
+      {
+        ID: "2",
+        no: 2,
+        guess_user_id: "u1",
+        select_user_id: "u1",
+        answer_user_id: "u3",
+        url: "",
+        question_id: "q1", // 同じquestion_id
+      },
+      {
+        ID: "3",
+        no: 3,
+        guess_user_id: "u1",
+        select_user_id: "u1",
+        answer_user_id: "u4",
+        url: "",
+        question_id: "q1", // 同じquestion_id
+      },
+    ];
+
+    // Act & Assert: getDuplicateDeletionArrayにより重複除去されるが、
+    // 正解回答は3つカウントされるので3ポイント
+    expect(3).toBe(getCorrectAnswer("u1", duplicateQuestionAnswers));
+  });
+
+  test("getCorrectAnswer - 境界値：空文字列のuserID", () => {
+    // Act & Assert: 空文字列のuserIDでは何もマッチしないので0ポイント
+    expect(0).toBe(getCorrectAnswer("", answers));
+  });
+
+  test("getCorrectAnswer - 境界値：存在しないuserID", () => {
+    // Act & Assert: 存在しないuserIDでは何もマッチしないので0ポイント
+    expect(0).toBe(getCorrectAnswer("nonexistent", answers));
+  });
 });
 
 describe("getPoint", (): void => {
