@@ -25,8 +25,7 @@ import {
 describe("questionsApi", () => {
   // テスト用のモックデータ
   const mockUser: Auth = {
-    uid: "test-uid",
-    email: "test@example.com",
+    id: "test-uid",
     name: "テストユーザー",
     ok: true,
   };

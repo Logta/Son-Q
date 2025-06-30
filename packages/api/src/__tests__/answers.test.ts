@@ -29,8 +29,9 @@ import {
 describe("answersApi", () => {
   // テスト用のモックデータ
   const mockUser: Auth = {
-    uid: "test-uid",
-    email: "test@example.com",
+    id: "test-uid",
+    name: "test-user",
+    ok: true,
   };
 
   const mockAnswer: Answer = {

@@ -20,24 +20,31 @@ import { getProjectMode } from "../firebase/results";
 describe("projectsApi", () => {
   // テスト用のモックデータ
   const mockUser: Auth = {
-    uid: "test-uid",
-    email: "test@example.com",
+    id: "test-uid",
+    name: "test-user",
+    ok: true,
   };
 
   const mockProject: Project = {
-    id: "project-123",
+    ID: "project-123",
     name: "テストプロジェクト",
-    description: "テスト用のプロジェクト",
-    created_at: new Date(),
+    content: "テスト用のプロジェクト",
+    creater: "creator-1",
+    question_num: 5,
+    project_mode: "normal",
+    participants: [],
   };
 
   const mockProjects: Project[] = [
     mockProject,
     {
-      id: "project-456",
+      ID: "project-456",
       name: "プロジェクト2",
-      description: "2番目のプロジェクト",
-      created_at: new Date(),
+      content: "2番目のプロジェクト",
+      creater: "creator-2",
+      question_num: 3,
+      project_mode: "normal",
+      participants: [],
     },
   ];
 

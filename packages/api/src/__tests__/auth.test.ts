@@ -20,8 +20,7 @@ describe("authApi", () => {
     it("正常ケース: 認証されたユーザーを正しく取得できる", async () => {
       // Arrange: 正常な認証ユーザーのモックデータを設定
       const mockUser: Auth = {
-        uid: "test-uid-123",
-        email: "test@example.com",
+        id: "test-uid-123",
         name: "テストユーザー",
         ok: true,
       };
@@ -38,8 +37,7 @@ describe("authApi", () => {
     it("異常ケース: user.ok = false の場合は認証エラーを投げる", async () => {
       // Arrange: ok = false のユーザーを設定
       const mockInvalidUser: Auth = {
-        uid: "test-uid-123",
-        email: "test@example.com",
+        id: "test-uid-123",
         name: "テストユーザー",
         ok: false,
       };
@@ -81,8 +79,7 @@ describe("authApi", () => {
     it("境界値テスト: user.ok が undefined の場合は認証エラーを投げる", async () => {
       // Arrange: ok プロパティが undefined のユーザーを設定
       const mockUserWithoutOk = {
-        uid: "test-uid-123",
-        email: "test@example.com",
+        id: "test-uid-123",
         name: "テストユーザー",
         // ok プロパティが存在しない
       } as Auth;
@@ -96,8 +93,8 @@ describe("authApi", () => {
     it("境界値テスト: 最小限の有効なユーザー情報", async () => {
       // Arrange: 最小限の有効なユーザー情報を設定
       const minimalValidUser: Auth = {
-        uid: "",
-        email: "",
+        id: "",
+        name: "",
         ok: true,
       };
       vi.mocked(awaitOnAuth).mockResolvedValue(minimalValidUser);
@@ -113,13 +110,9 @@ describe("authApi", () => {
     it("境界値テスト: すべてのプロパティが設定されたユーザー", async () => {
       // Arrange: 全プロパティが設定されたユーザーを設定
       const fullUser: Auth = {
-        uid: "full-uid-123",
-        email: "full@example.com",
+        id: "full-uid-123",
         name: "フルユーザー",
-        photoURL: "https://example.com/photo.jpg",
         ok: true,
-        id: "additional-id",
-        any: "additional-property",
       };
       vi.mocked(awaitOnAuth).mockResolvedValue(fullUser);
 
@@ -134,8 +127,8 @@ describe("authApi", () => {
     it("パフォーマンステスト: 複数回連続で呼び出した場合", async () => {
       // Arrange: 正常なユーザーデータを設定
       const mockUser: Auth = {
-        uid: "test-uid",
-        email: "test@example.com",
+        id: "test-uid",
+        name: "test-user",
         ok: true,
       };
       vi.mocked(awaitOnAuth).mockResolvedValue(mockUser);
