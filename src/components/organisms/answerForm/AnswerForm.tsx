@@ -9,15 +9,13 @@ import {
   Box,
   Grid,
 } from "@mui/material";
-import { Answer, Question, Participant } from "@/models";
+import type { Answer, Question, Participant } from "@son-q/types";
 import { useRouter } from "next/router";
 import { AnswersContext, GlobalContext } from "@/contexts";
 import { isNil } from "es-toolkit";
 import { AnswerSelector } from "./AnswerSelector";
 import { Youtube, Popup } from "@/components/atoms";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { registerAnswer } from "@/firebase";
-import { awaitOnAuth } from "@/firebase";
+import { useRegisterAnswers } from "@son-q/queries";
 
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
 
@@ -32,18 +30,8 @@ type Props = {
 const App = ({ answers, questionNum, questions, participants, isUserJoinProject }: Props) => {
   const { projectId } = useContext(AnswersContext);
   const { darkMode } = useContext(GlobalContext);
-  const queryClient = useQueryClient();
   
-  const registerAnswersMutation = useMutation({
-    mutationFn: async (answersData: Answer[]) => {
-      const user = await awaitOnAuth();
-      if (!user || !user.ok) throw new Error("認証エラー");
-      return registerAnswer(user, answersData, projectId);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["answers", projectId] });
-    },
-  });
+  const registerAnswersMutation = useRegisterAnswers();
 
   const router = useRouter();
 
@@ -111,7 +99,10 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await registerAnswersMutation.mutateAsync(currentAnswers);
+      await registerAnswersMutation.mutateAsync({
+        projectId,
+        answers: currentAnswers
+      });
       redirect("/projects")(e);
     } catch (error) {
       console.error("回答の登録に失敗しました:", error);

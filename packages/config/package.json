@@ -1,0 +1,19 @@
+{
+  "name": "@son-q/config",
+  "version": "1.0.0",
+  "description": "Son-Q Configuration - Shared build and development configurations",
+  "private": true,
+  "files": [
+    "typescript",
+    "eslint"
+  ],
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.30.0",
+    "eslint": "^9.30.0",
+    "eslint-config-next": "15.3.4",
+    "eslint-plugin-react": "^7.37.5",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.35.0"
+  }
+}

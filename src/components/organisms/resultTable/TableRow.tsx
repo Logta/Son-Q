@@ -1,6 +1,6 @@
 import React from "react";
 import { TableRow, TableCell, Chip } from "@mui/material";
-import { Participant, Answer, Question } from "@/models";
+import type { Participant, Answer, Question } from "@son-q/types";
 import { YoutubeAnswer } from "@/components/atoms";
 import { getQuestioner, getRespondent } from "@/utils";
 

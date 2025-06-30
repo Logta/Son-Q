@@ -1,5 +1,5 @@
 import React from "react";
-import { Project, User } from "@/models";
+import type { Project, User } from "@son-q/types";
 
 type Props = {
   project: Project;

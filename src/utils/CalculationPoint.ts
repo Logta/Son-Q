@@ -1,4 +1,4 @@
-import { Answer } from "@/models";
+import type { Answer } from "@son-q/types";
 
 const getCorrectPoint = (userID: string, answers: Array<Answer>): number => {
   const userAnswers = answers.filter((ans) => ans.answer_user_id === userID);

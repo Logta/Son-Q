@@ -1,5 +1,5 @@
-import { firestore } from "@/plugins/firebase";
-import { Auth, Result, Answer } from "@/models";
+import { firestore } from "../plugins/firebase";
+import type { Auth, Result, Answer } from "@son-q/types";
 import {
   collection,
   doc,
@@ -118,8 +118,9 @@ const getProjectMode = async (projectId: string) => {
   const docRef = doc(firestore, "projects", projectId);
   const proj = await getDoc(docRef);
 
-  if (proj.exists) {
-    projectMode = proj.data().project_mode;
+  if (proj.exists()) {
+    const data = proj.data();
+    projectMode = data?.project_mode || "normal";
   } else {
     console.log("No such document!");
   }

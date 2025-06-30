@@ -1,4 +1,4 @@
-import { Participant } from "./Participant";
+import type { Participant } from "./Participant";
 
 type Project = {
   ID: string;

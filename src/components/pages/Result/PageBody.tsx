@@ -8,9 +8,7 @@ import { ResultsContext } from "@/contexts";
 import { useRouter } from "next/router";
 import { Label, SubLabel } from "@/components/atoms";
 import { isNil } from "es-toolkit";
-import { useQuery } from "@tanstack/react-query";
-import { getAllAnswers, getParticipants, getQuestionNumber, getProjectMode } from "@/firebase";
-import { useQuestions } from "@/hooks/useQuestions";
+import { useQuestions, useAllAnswers, useParticipants, useQuestionNumber, useProjectMode } from "@son-q/queries";
 
 import HomeIcon from "@mui/icons-material/Home";
 
@@ -21,40 +19,11 @@ const ResultContent = () => {
   const { projectId } = useContext(ResultsContext);
   
   // 必要なデータを並列で取得（Suspenseで自動的にローディング状態を管理）
-  const { data: questionNum = 0 } = useQuery({
-    queryKey: ["questionNumber", projectId],
-    queryFn: () => getQuestionNumber(projectId),
-    enabled: !!projectId,
-  });
-
-  const { data: answers = [] } = useQuery({
-    queryKey: ["allAnswers", projectId],
-    queryFn: async () => {
-      const result = await getAllAnswers(projectId);
-      return result;
-    },
-    enabled: !!projectId,
-  });
-
-  const { data: participants = [] } = useQuery({
-    queryKey: ["participants", projectId],
-    queryFn: async () => {
-      const result = await getParticipants(projectId);
-      return result;
-    },
-    enabled: !!projectId,
-  });
-
+  const { data: questionNum = 0 } = useQuestionNumber(projectId);
+  const { data: answers = [] } = useAllAnswers(projectId);
+  const { data: participants = [] } = useParticipants(projectId);
   const { data: questions = [] } = useQuestions(projectId);
-
-  const { data: projectMode = "" } = useQuery({
-    queryKey: ["projectMode", projectId],
-    queryFn: async () => {
-      const result = await getProjectMode(projectId);
-      return result;
-    },
-    enabled: !!projectId,
-  });
+  const { data: projectMode = "" } = useProjectMode(projectId);
 
   if (questionNum === 0 || isNil(answers) || isNil(participants) || isNil(questions)) {
     return (

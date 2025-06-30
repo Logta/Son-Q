@@ -1,5 +1,5 @@
-import { auth } from "@/plugins/firebase";
-import { Auth } from "@/models";
+import { auth } from "../plugins/firebase";
+import type { Auth } from "@son-q/types";
 
 import {
   signInWithPopup,
@@ -16,7 +16,7 @@ const awaitOnAuth = async (): Promise<Auth> => {
         resolve({
           ok: true,
           id: user.uid,
-          name: user.displayName,
+          name: user.displayName || '',
         });
       } else {
         console.log("Failed!!");
@@ -38,13 +38,13 @@ const awaitOnGoogleLogin = async (): Promise<Auth> => {
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
+        const token = credential?.accessToken;
         // The signed-in user info.
         const user = result.user;
         resolve({
           ok: true,
           id: user.uid,
-          name: user.displayName,
+          name: user.displayName || '',
         });
       })
       .catch((error) => {
@@ -74,7 +74,7 @@ const awaitOnPasswordLogin = async (data: any): Promise<Auth> => {
         resolve({
           ok: true,
           id: user.uid,
-          name: user.displayName,
+          name: user.displayName || '',
         });
       })
       .catch((error) => {
@@ -115,7 +115,7 @@ const createPasswordUser = async (data: any): Promise<boolean> => {
     await createUserWithEmailAndPassword(auth, data.email, data.password);
     return true;
   } catch (e) {
-    alert(JSON.stringify(e.message));
+    console.error('Create user error:', e instanceof Error ? e.message : String(e));
     return false;
   }
 };

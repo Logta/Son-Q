@@ -1,5 +1,5 @@
 import React from "react";
-import { User } from "@/models";
+import type { User } from "@son-q/types";
 
 /**
  * GlobalContext: アプリケーション全体のClient State

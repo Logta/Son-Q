@@ -1,4 +1,4 @@
-import { Participant, Question, Answer } from "@/models";
+import type { Participant, Question, Answer } from "@son-q/types";
 import { isNil } from "es-toolkit";
 
 const getQuestioner = (

@@ -7,7 +7,7 @@ import Paper from "@mui/material/Paper";
 import { TableRow } from "./TableRow";
 
 import { TableHeader } from "./TableHeader";
-import { Participant, Answer, Question } from "@/models";
+import type { Participant, Answer, Question } from "@son-q/types";
 
 type Props = {
   participants: Participant[];

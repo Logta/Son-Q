@@ -1,5 +1,5 @@
 import React from "react";
-import { Auth } from "@/models";
+import type { Auth } from "@son-q/types";
 
 /**
  * AnswersContext: Client State専用のContext

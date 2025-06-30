@@ -8,12 +8,13 @@ import {
   OutlinedInput,
   InputAdornment,
 } from "@mui/material";
-import { Question, Participant } from "@/models";
+import type { Question, Participant } from "@son-q/types";
 import { Popup } from "@/components/atoms";
 import { QuestionsContext, GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import { awaitOnAuth, getParticipants, registerQuestion } from "@/firebase";
+import { useRegisterQuestions, useParticipants } from "@son-q/queries";
+import { authApi } from "@son-q/api";
+import { useQuery } from "@tanstack/react-query";
 
 import CreateIcon from "@mui/icons-material/Create";
 
@@ -37,23 +38,15 @@ const App = ({ questions, nums }: Props) => {
   );
   const { projectId } = useContext(QuestionsContext);
   const { errorMessage } = useContext(GlobalContext);
-  const queryClient = useQueryClient();
+  
+  // カスタムフックを使用
+  const registerQuestionsMutation = useRegisterQuestions();
+  const { data: participants = [] } = useParticipants(projectId);
   
   // 現在のユーザー情報を取得
   const { data: currentUser } = useQuery({
     queryKey: ["currentUser"],
-    queryFn: async () => {
-      const user = await awaitOnAuth();
-      if (!user || !user.ok) throw new Error("認証エラー");
-      return user;
-    },
-  });
-
-  // 参加者リストを取得
-  const { data: participants = [] } = useQuery({
-    queryKey: ["participants", projectId],
-    queryFn: () => getParticipants(projectId),
-    enabled: !!projectId,
+    queryFn: () => authApi.getCurrentUser(),
   });
 
   // 現在のユーザーが参加者リストに含まれているかをチェック
@@ -64,24 +57,6 @@ const App = ({ questions, nums }: Props) => {
     participants.some(p => p.user_id === currentUser.id)
   );
 
-  console.log("QuestionForm Debug:");
-  console.log("- currentUser:", currentUser);
-  console.log("- currentUser.id:", currentUser?.id);
-  console.log("- participants:", participants);
-  console.log("- participants IDs:", participants.map(p => p.user_id));
-  console.log("- isUserJoinProject:", isUserJoinProject);
-  
-  // 問題登録のmutation
-  const registerQuestionsMutation = useMutation({
-    mutationFn: async (questionsData: Question[]) => {
-      const user = await awaitOnAuth();
-      if (!user || !user.ok) throw new Error("認証エラー");
-      return registerQuestion(user, questionsData, projectId);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["questions", projectId] });
-    },
-  });
 
   const handleSetPropsQuestions = async () => {
     const newQues: Array<Question> = currentQuestions.map((data, index) => {
@@ -139,7 +114,10 @@ const App = ({ questions, nums }: Props) => {
         return;
       }
       
-      const result = await registerQuestionsMutation.mutateAsync(questionsWithUserId);
+      const result = await registerQuestionsMutation.mutateAsync({
+        projectId,
+        questions: questionsWithUserId
+      });
       console.log("Mutation result:", result);
       redirect("/projects")(e);
     } catch (error) {

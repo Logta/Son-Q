@@ -1,5 +1,5 @@
 import { TableHead, TableRow, TableCell, Chip, Box } from "@mui/material";
-import { Participant } from "@/models";
+import type { Participant } from "@son-q/types";
 
 type Props = {
   participants: Participant[];

@@ -9,9 +9,7 @@ import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
 import { useRouter } from "next/router";
 import { Label, SubLabel } from "@/components/atoms";
 import { isNil } from "es-toolkit";
-import { useQuestions } from "@/hooks/useQuestions";
-import { useQuery } from "@tanstack/react-query";
-import { getQuestionNum } from "@/firebase";
+import { useQuestions, useQuestionCount } from "@son-q/queries";
 
 import HomeIcon from "@mui/icons-material/Home";
 
@@ -23,11 +21,7 @@ const QuestionContent = () => {
   const { data: questions = [] } = useQuestions(projectId);
   
   // 問題数を取得
-  const { data: questionNum = 0 } = useQuery({
-    queryKey: ["questionNum", projectId],
-    queryFn: () => getQuestionNum(projectId),
-    enabled: !!projectId,
-  });
+  const { data: questionNum = 0 } = useQuestionCount(projectId);
 
   if (questionNum === 0 || isNil(questions)) {
     return (

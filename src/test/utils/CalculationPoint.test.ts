@@ -5,7 +5,7 @@ import {
   getOnlyOneIncorrectAnswer,
 } from "../../utils";
 
-import { Answer } from "@/models";
+import type { Answer } from "@son-q/types";
 
 describe("getCorrectPoint", (): void => {
   let answers: Array<Answer>;

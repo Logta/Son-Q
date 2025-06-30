@@ -5,8 +5,8 @@ type Props = {
   children: React.ReactNode;
 };
 
-import { User } from "@/models";
-import { awaitOnAuth } from "@/firebase";
+import type { User } from "@son-q/types";
+import { awaitOnAuth } from "@son-q/api";
 
 const ProjectsContainer: React.FC<Props> = ({ children }) => {
   const { errorMessage, successMessage, warningMessage } =

@@ -1,12 +1,12 @@
 import { TableRow, TableCell, Button, Chip } from "@mui/material";
-import { Project, User } from "@/models";
+import type { Project, User } from "@son-q/types";
 import { ProjectsContext, GlobalContext } from "@/contexts";
 import { PopupButton } from "@/components/atoms";
 import { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styles from "./ProjectTable.module.scss";
 
-import { getExistQuestionNum, getExistAnswerNum } from "@/firebase";
+import { getExistQuestionNum, getExistAnswerNum } from "@son-q/api";
 
 import PollIcon from "@mui/icons-material/Poll";
 import CreateIcon from "@mui/icons-material/Create";

@@ -3,14 +3,14 @@ import React, { useState, useEffect } from "react";
 import { isNull, pick } from "es-toolkit";
 import { SnackbarProvider, useSnackbar } from "notistack";
 
-import { User, Auth } from "@/models";
+import type { User, Auth } from "@son-q/types";
 import {
   awaitOnGoogleLogin,
   awaitOnAuth,
   awaitOnPasswordLogin,
   createPasswordUser,
   signOutFirebase,
-} from "@/firebase";
+} from "@son-q/api";
 
 type Props = {
   children: React.ReactElement;

@@ -1,5 +1,5 @@
-import { firestore } from "@/plugins/firebase";
-import { Auth, Project } from "@/models";
+import { firestore } from "../plugins/firebase";
+import type { Auth, Project } from "@son-q/types";
 
 import {
   collection,
@@ -82,10 +82,10 @@ const joinProject = async (user: Auth, id: string) => {
     if (!doc.exists) {
       return { message: "入力IDはありません", variant: "error" };
     }
-    const participants = JSON.parse(JSON.stringify(doc.data().participants));
-    const exist = await doc
-      .data()
-      .participants.some((p: any) => p.user_id === user.id);
+    const docData = doc.data();
+    if (!docData) return { message: "データの取得に失敗しました", variant: "error" };
+    const participants = JSON.parse(JSON.stringify(docData.participants));
+    const exist = docData.participants.some((p: any) => p.user_id === user.id);
     if (exist) return { message: "すでに参加しています", variant: "warning" };
 
     participants.push({

@@ -1,5 +1,5 @@
-import { firestore } from "@/plugins/firebase";
-import { Auth, Question } from "@/models";
+import { firestore } from "../plugins/firebase";
+import type { Auth, Question } from "@son-q/types";
 import {
   collection,
   doc,
@@ -15,10 +15,11 @@ import { isNil } from "es-toolkit";
 const getQuestionNum = async (projectId: string): Promise<number> => {
   const docRef = doc(firestore, "projects", projectId);
   const proj = await getDoc(docRef);
-  if (!proj.exists) {
-    return null;
+  if (!proj.exists()) {
+    return 0;
   }
-  return isNil(proj) || isNil(proj.data()) ? 0 : +proj.data().question_num;
+  const data = proj.data();
+  return isNil(proj) || isNil(data) ? 0 : +data.question_num;
 };
 
 const getExistQuestionNum = async (projectId: string): Promise<number> => {

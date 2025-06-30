@@ -3,7 +3,7 @@ import React from "react";
 import { Button, TextField, Paper, Box } from "@mui/material";
 import { ProjectContext } from "@/contexts";
 import { useContext } from "react";
-import { Project } from "@/models";
+import type { Project } from "@son-q/types";
 import { useRouter } from "next/router";
 import { ProjectInfos } from "./ProjectInfos";
 import { ProjectFormContent } from "./ProjectFormContent";

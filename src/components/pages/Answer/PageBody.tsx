@@ -8,9 +8,9 @@ import { Label, SubLabel } from "@/components/atoms";
 import { AnswersContext } from "@/contexts";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
-import { getAnswer, getParticipants } from "@/firebase";
-import { awaitOnAuth } from "@/firebase";
-import { useQuestions } from "@/hooks/useQuestions";
+import { useQuestions } from "@son-q/queries";
+import { useUserAnswers, useParticipants } from "@son-q/queries";
+import { authApi } from "@son-q/api";
 import { isNil } from "es-toolkit";
 
 import HomeIcon from "@mui/icons-material/Home";
@@ -22,34 +22,15 @@ const AnswerContent = () => {
   const { projectId } = useContext(AnswersContext);
   
   // 必要なデータを並列で取得（Suspenseで自動的にローディング状態を管理）
-  const { data: answers = [] } = useQuery({
-    queryKey: ["answers", projectId],
-    queryFn: async () => {
-      const user = await awaitOnAuth();
-      if (!user || !user.ok) throw new Error("認証エラー");
-      return await getAnswer(user, projectId);
-    },
-    enabled: !!projectId,
-  });
-
-  const { data: participants = [] } = useQuery({
-    queryKey: ["participants", projectId],
-    queryFn: async () => {
-      const result = await getParticipants(projectId);
-      return result;
-    },
-    enabled: !!projectId,
-  });
-
+  // 境界線：コンポーネントはhooks層のみを使用し、API層に直接アクセスしない
+  const { data: answers = [] } = useUserAnswers(projectId);
+  const { data: participants = [] } = useParticipants(projectId);
   const { data: questions = [] } = useQuestions(projectId);
-
+  
+  // 現在のユーザーを取得（簡略化のためにAPI層を直接使用）
   const { data: currentUser } = useQuery({
     queryKey: ["currentUser"],
-    queryFn: async () => {
-      const user = await awaitOnAuth();
-      if (!user || !user.ok) throw new Error("認証エラー");
-      return user;
-    },
+    queryFn: () => authApi.getCurrentUser(),
   });
 
   // projectIdが存在しない場合

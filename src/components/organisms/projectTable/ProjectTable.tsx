@@ -7,7 +7,7 @@ import Paper from "@mui/material/Paper";
 import { TableRow } from "./TableRow";
 
 import { TableHeader } from "./TableHeader";
-import { Project } from "@/models";
+import type { Project } from "@son-q/types";
 
 type Props = {
   rows: Array<Project>;

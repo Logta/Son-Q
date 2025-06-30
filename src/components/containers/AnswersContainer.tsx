@@ -1,8 +1,8 @@
 import { AnswersContext, GlobalContext } from "@/contexts";
 import React, { useState, useEffect, useContext } from "react";
 
-import { Auth } from "@/models";
-import { awaitOnAuth } from "@/firebase";
+import type { Auth } from "@son-q/types";
+import { awaitOnAuth } from "@son-q/api";
 
 type Props = {
   children: React.ReactNode;

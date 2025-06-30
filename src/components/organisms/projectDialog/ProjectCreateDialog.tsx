@@ -16,8 +16,8 @@ import {
 } from "@mui/material";
 import { ProjectsContext } from "@/contexts";
 import { useContext } from "react";
-import { Project } from "@/models";
-import { useCreateProject } from "@/hooks/useProjects";
+import type { Project } from "@son-q/types";
+import { useCreateProject } from "@son-q/queries";
 
 type Props = {
   open: boolean;

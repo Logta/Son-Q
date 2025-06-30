@@ -1,5 +1,5 @@
-import { firestore } from "@/plugins/firebase";
-import { Auth, Answer, Question, Participant } from "@/models";
+import { firestore } from "../plugins/firebase";
+import type { Auth, Answer, Question, Participant } from "@son-q/types";
 import {
   collection,
   doc,
@@ -117,8 +117,9 @@ const getQuestionNumber = async (projectId: string) => {
   const docRef = doc(firestore, "projects", projectId);
   const proj = await getDoc(docRef);
 
-  if (proj.exists) {
-    return +proj.data().question_num * +proj.data().participants.length;
+  if (proj.exists()) {
+    const data = proj.data();
+    return data ? +data.question_num * +data.participants.length : 0;
   } else {
     return 0;
   }
@@ -130,16 +131,15 @@ const getParticipants = async (projectId: string) => {
   const docRef = doc(firestore, "projects", projectId);
   const proj = await getDoc(docRef);
 
-  if (proj.exists) {
-    proj.data().participants.map((p: any) => {
+  if (proj.exists()) {
+    const data = proj.data();
+    data?.participants.map((p: any) => {
       const member: Participant = {
         user_id: p.user_id,
         user_name: p.user_name,
       };
       members.push(member);
     });
-  } else {
-    return undefined;
   }
   return members;
 };

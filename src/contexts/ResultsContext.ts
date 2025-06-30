@@ -1,5 +1,5 @@
 import React from "react";
-import { Auth } from "@/models";
+import type { Auth } from "@son-q/types";
 
 /**
  * ResultsContext: Client State専用のContext
