@@ -1,5 +1,5 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
 import type { Auth, Project } from "@son-q/types";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { projectsApi } from "../projects";
 
 // Firebase関数のモック化

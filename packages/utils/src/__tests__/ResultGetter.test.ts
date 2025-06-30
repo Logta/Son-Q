@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
 import type { Answer, Participant, Question } from "@son-q/types";
+import { describe, expect, it } from "vitest";
 import { getQuestioner, getRespondent } from "../ResultGetter";
 
 describe("ResultGetter", () => {

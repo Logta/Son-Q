@@ -1,10 +1,10 @@
 import type { Answer } from "@son-q/types";
 import {
+  getCorrectAnswer,
   getCorrectPoint,
   getDuplicateDeletionArray,
   getOnlyOneCorrectAnswer,
   getOnlyOneIncorrectAnswer,
-  getCorrectAnswer,
   getPoint,
 } from "@son-q/utils";
 
