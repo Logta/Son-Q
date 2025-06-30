@@ -2,13 +2,12 @@ import styles from "./AppBar.module.scss";
 import React, { useContext, useEffect } from "react";
 import { GlobalContext } from "@/contexts";
 import { AppBar, Toolbar, Button, Box, Grid } from "@mui/material";
-import { AppBarButton } from "@/components/atoms";
-import { DarkModeSwitch } from "@/components/molecules";
+import { AppBarButton, DarkModeSwitch } from "@son-q/ui";
 import { useRouter } from "next/router";
 import Image from "next/image";
 
 const App = () => {
-  const { user, signInCheck, signInGoogle, signOut } =
+  const { user, signInCheck, signInGoogle, signOut, darkMode, handleDarkModeOn, handleDarkModeOff } =
     useContext(GlobalContext);
 
   const router = useRouter();
@@ -26,7 +25,7 @@ const App = () => {
     <>
       <AppBar position="static">
         <Toolbar>
-          <Image src="/black_jukebox.png" width={25} height={25} />
+          <Image src="/black_jukebox.png" alt="Black Jukebox Logo" width={25} height={25} />
           <Box mr={2} ml={1}>
             <Button
               onClick={redirect("/")}
@@ -47,7 +46,7 @@ const App = () => {
             alignItems="center"
           >
             <div className={styles.button}>
-              <DarkModeSwitch />
+              <DarkModeSwitch darkMode={darkMode} handleDarkModeOn={handleDarkModeOn} handleDarkModeOff={handleDarkModeOff} />
             </div>
           </Grid>
           {user.Login ? (

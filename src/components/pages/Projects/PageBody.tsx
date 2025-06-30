@@ -5,7 +5,7 @@ import { Container, Button, CircularProgress, Box } from "@mui/material";
 import { Suspense } from "react";
 import { AppBar, ProjectTable } from "@/components/organisms";
 import { ProjectsContext } from "@/contexts";
-import { Label, SubLabel } from "@/components/atoms";
+import { Label, SubLabel } from "@son-q/ui";
 import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
 import { useProjects } from "@son-q/queries";
 

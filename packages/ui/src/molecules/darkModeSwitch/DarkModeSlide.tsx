@@ -1,14 +1,16 @@
 import styles from "./DarkModeSwitch.module.scss";
 import { Switch, Box, FormGroup } from "@mui/material";
-import { useContext } from "react";
-import { GlobalContext } from "@/contexts";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Brightness2Icon from "@mui/icons-material/Brightness2";
 import { isNil } from "es-toolkit";
 
-const DarkModeSwitch = () => {
-  const { handleDarkModeOff, handleDarkModeOn, darkMode } =
-    useContext(GlobalContext);
+type DarkModeSwitchProps = {
+  darkMode: boolean;
+  handleDarkModeOn: () => void;
+  handleDarkModeOff: () => void;
+};
+
+const DarkModeSwitch = ({ darkMode, handleDarkModeOn, handleDarkModeOff }: DarkModeSwitchProps) => {
 
   const handleChange = () => {
     !darkMode ? handleDarkModeOn() : handleDarkModeOff();

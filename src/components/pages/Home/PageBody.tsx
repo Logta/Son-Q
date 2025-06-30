@@ -2,8 +2,7 @@ import Image from "next/image";
 import { useContext } from "react";
 import styles from "./Home.module.scss";
 import { Container, Button, Box, Grid, Paper } from "@mui/material";
-import { Label, SubLabel } from "@/components/atoms";
-import { DarkModeSwitch } from "@/components/molecules";
+import { Label, SubLabel, DarkModeSwitch } from "@son-q/ui";
 import { HomeStep } from "@/components/organisms";
 import { GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
@@ -12,7 +11,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
 
 const PageBody = () => {
-  const { user, signInGoogle, signInEmail, signOut } =
+  const { user, signInGoogle, signInEmail, signOut, darkMode, handleDarkModeOn, handleDarkModeOff } =
     useContext(GlobalContext);
 
   const router = useRouter();
@@ -139,7 +138,7 @@ const PageBody = () => {
         </Paper>
 
         <Box my={5} display="flex" alignItems="center" justifyContent="center">
-          <DarkModeSwitch />
+          <DarkModeSwitch darkMode={darkMode} handleDarkModeOn={handleDarkModeOn} handleDarkModeOff={handleDarkModeOff} />
         </Box>
 
         <footer className={styles.footer}>

@@ -1,7 +1,7 @@
 import { TableRow, TableCell, Button, Chip } from "@mui/material";
 import type { Project, User } from "@son-q/types";
 import { ProjectsContext, GlobalContext } from "@/contexts";
-import { PopupButton } from "@/components/atoms";
+import { PopupButton } from "@son-q/ui";
 import { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styles from "./ProjectTable.module.scss";

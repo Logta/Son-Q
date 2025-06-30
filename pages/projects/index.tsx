@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { ProjectsPage } from "../../src/components/pages";
 import { ProjectsContainer } from "../../src/components/containers";
-import { Copyright } from "../../src/components/atoms";
+import { Copyright } from "@son-q/ui";
 
 export default function Home() {
   return (

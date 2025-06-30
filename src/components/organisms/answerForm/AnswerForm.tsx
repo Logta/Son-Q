@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import { AnswersContext, GlobalContext } from "@/contexts";
 import { isNil } from "es-toolkit";
 import { AnswerSelector } from "./AnswerSelector";
-import { Youtube, Popup } from "@/components/atoms";
+import { Youtube, Popup } from "@son-q/ui";
 import { useRegisterAnswers } from "@son-q/queries";
 
 import HowToVoteIcon from "@mui/icons-material/HowToVote";

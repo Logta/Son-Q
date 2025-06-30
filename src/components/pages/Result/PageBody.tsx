@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import { AppBar, ResultPointTable, ResultTable } from "@/components/organisms";
 import { ResultsContext } from "@/contexts";
 import { useRouter } from "next/router";
-import { Label, SubLabel } from "@/components/atoms";
+import { Label, SubLabel } from "@son-q/ui";
 import { isNil } from "es-toolkit";
 import { useQuestions, useAllAnswers, useParticipants, useQuestionNumber, useProjectMode } from "@son-q/queries";
 

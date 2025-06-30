@@ -2,7 +2,7 @@ import styles from "./ProjectForm.module.scss";
 import React from "react";
 import { List, ListItem, ListItemText, Box, Chip } from "@mui/material";
 import { ProjectContext } from "@/contexts";
-import { FormLabel } from "@/components/atoms";
+import { FormLabel } from "@son-q/ui";
 import { useTheme } from "@mui/material/styles";
 import { useContext } from "react";
 

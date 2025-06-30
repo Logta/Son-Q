@@ -36,6 +36,7 @@ const App = () => {
       content: content.value,
       creater: "",
       question_num: question_num.value,
+      project_mode: "default",
       participants: [],
     };
 

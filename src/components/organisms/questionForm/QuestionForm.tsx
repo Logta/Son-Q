@@ -9,7 +9,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import type { Question, Participant } from "@son-q/types";
-import { Popup } from "@/components/atoms";
+import { Popup } from "@son-q/ui";
 import { QuestionsContext, GlobalContext } from "@/contexts";
 import { useRouter } from "next/router";
 import { useRegisterQuestions, useParticipants } from "@son-q/queries";

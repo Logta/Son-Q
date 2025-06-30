@@ -4,9 +4,16 @@
   "description": "Son-Q UI Components - React component library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "private": true,
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node copy-styles.js",
     "dev": "tsc --watch",
     "typecheck": "tsc --noEmit"
   },

@@ -2,7 +2,7 @@ import Head from "next/head";
 import { ResultPage } from "../../src/components/pages";
 import { ResultsContainer } from "../../src/components/containers";
 import { useRouter } from "next/router";
-import { Copyright } from "../../src/components/atoms";
+import { Copyright } from "@son-q/ui";
 
 export default function Home() {
   const router = useRouter();

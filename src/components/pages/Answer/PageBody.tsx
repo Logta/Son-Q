@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { Container, Button, Box, CircularProgress } from "@mui/material";
 import { Suspense } from "react";
 import { AppBar, AnswerForm } from "@/components/organisms";
-import { Label, SubLabel } from "@/components/atoms";
+import { Label, SubLabel } from "@son-q/ui";
 import { AnswersContext } from "@/contexts";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";

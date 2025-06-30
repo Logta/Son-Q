@@ -7,7 +7,7 @@ import { AppBar, QuestionForm } from "@/components/organisms";
 import { QuestionsContext } from "@/contexts";
 import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
 import { useRouter } from "next/router";
-import { Label, SubLabel } from "@/components/atoms";
+import { Label, SubLabel } from "@son-q/ui";
 import { isNil } from "es-toolkit";
 import { useQuestions, useQuestionCount } from "@son-q/queries";
 

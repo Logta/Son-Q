@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { Container, Button } from "@mui/material";
 import { AppBar, ProjectForm } from "@/components/organisms";
 import { ProjectContext } from "@/contexts";
-import { Label, SubLabel } from "@/components/atoms";
+import { Label, SubLabel } from "@son-q/ui";
 import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
 import { useRouter } from "next/router";
 
