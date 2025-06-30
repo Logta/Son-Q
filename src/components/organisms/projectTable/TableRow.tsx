@@ -1,16 +1,14 @@
-import { TableRow, TableCell, Button, Chip } from "@mui/material";
-import type { Project, User } from "@son-q/types";
-import { ProjectsContext, GlobalContext } from "@/contexts";
-import { PopupButton } from "@son-q/ui";
-import { useContext, useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import styles from "./ProjectTable.module.scss";
-
-import { getExistQuestionNum, getExistAnswerNum } from "@son-q/api";
-
-import PollIcon from "@mui/icons-material/Poll";
 import CreateIcon from "@mui/icons-material/Create";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
+import PollIcon from "@mui/icons-material/Poll";
+import { Button, Chip, TableCell, TableRow } from "@mui/material";
+import { getExistAnswerNum, getExistQuestionNum } from "@son-q/api";
+import type { Project, User } from "@son-q/types";
+import { PopupButton } from "@son-q/ui";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import { GlobalContext, ProjectsContext } from "@/contexts";
+import styles from "./ProjectTable.module.scss";
 
 type Props = {
   row: Project;
@@ -25,6 +23,7 @@ const App = (props: Props) => {
   const { user } = useContext(ProjectsContext);
   const { darkMode } = useContext(GlobalContext);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
   useEffect(() => {
     getReadyQuesion();
     getReadyResult();
@@ -42,16 +41,14 @@ const App = (props: Props) => {
     setReadyResult(full_a === a_num);
   };
 
-  const redirect =
-    (href: string) => (event: React.MouseEvent<HTMLInputElement>) => {
-      event.preventDefault();
-      router.push(href);
-      event.stopPropagation();
-    };
+  const redirect = (href: string) => (event: React.MouseEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    router.push(href);
+    event.stopPropagation();
+  };
 
   const handleClickRow =
-    (href: string, authority: boolean) =>
-    (event: React.MouseEvent<HTMLTableRowElement>) => {
+    (href: string, authority: boolean) => (event: React.MouseEvent<HTMLTableRowElement>) => {
       event.preventDefault();
       authority && router.push(href);
     };
@@ -65,8 +62,7 @@ const App = (props: Props) => {
       key={row.ID}
       onClick={handleClickRow(`/projects/${row.ID}`, getAuthority(row, user))}
       className={
-        getAuthority(row, user) &&
-        (!darkMode ? styles.lightHovorRow : styles.darkHovorRow)
+        getAuthority(row, user) && (!darkMode ? styles.lightHovorRow : styles.darkHovorRow)
       }
     >
       <TableCell component="th" scope="row">

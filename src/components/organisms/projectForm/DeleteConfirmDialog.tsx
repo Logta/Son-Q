@@ -1,26 +1,26 @@
-import styles from "./ProjectForm.module.scss";
-import React from "react";
 import {
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Button,
 } from "@mui/material";
-import { ProjectContext } from "@/contexts";
-import { useContext } from "react";
 import { useRouter } from "next/router";
+import type React from "react";
+import { useContext } from "react";
+import { ProjectContext } from "@/contexts";
 
 type Props = {
   open: boolean;
-  setOpen: Function;
+  setOpen: (open: boolean) => void;
 };
 
 const App = (props: Props) => {
   const { open, setOpen } = props;
   const router = useRouter();
 
+  // biome-ignore lint/suspicious/noExplicitAny: React event type
   const redirect = (href: string) => (e: any) => {
     e.preventDefault();
     router.push(href);
@@ -46,13 +46,9 @@ const App = (props: Props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"プロジェクトを削除"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"プロジェクトを削除"}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            選択したプロジェクト
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-description">選択したプロジェクト</DialogContentText>
           <DialogContentText id="alert-dialog-description">
             <strong>{project.name}</strong>
           </DialogContentText>
@@ -65,12 +61,7 @@ const App = (props: Props) => {
           <Button onClick={handleClose} color="primary">
             キャンセル
           </Button>
-          <Button
-            onClick={handleSubmit}
-            color="secondary"
-            autoFocus
-            variant="contained"
-          >
+          <Button onClick={handleSubmit} color="secondary" autoFocus variant="contained">
             削除
           </Button>
         </DialogActions>

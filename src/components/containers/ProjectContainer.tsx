@@ -1,14 +1,9 @@
-import { ProjectContext, GlobalContext } from "@/contexts";
-import React, { useState, useEffect, useContext } from "react";
-import { isNull } from "es-toolkit";
-
+import { awaitOnAuth, deleteProject, getProjectFromID, updateProject } from "@son-q/api";
 import type { Project, User } from "@son-q/types";
-import {
-  awaitOnAuth,
-  getProjectFromID,
-  updateProject,
-  deleteProject,
-} from "@son-q/api";
+import { isNull } from "es-toolkit";
+import type React from "react";
+import { useContext, useEffect, useState } from "react";
+import { GlobalContext, ProjectContext } from "@/contexts";
 
 type Props = {
   children: React.ReactNode;
@@ -25,10 +20,6 @@ const ProjectContainer: React.FC<Props> = ({ children, projectId }) => {
     Login: false,
   });
 
-  useEffect(() => {
-    getProject();
-  }, []);
-
   const getProject = async () => {
     const user = await awaitOnAuth();
 
@@ -44,6 +35,11 @@ const ProjectContainer: React.FC<Props> = ({ children, projectId }) => {
     });
     setLoading(false);
   };
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
+  useEffect(() => {
+    getProject();
+  }, []);
 
   const updateProjectInfo = async (data: Project) => {
     const { message, variant } = await updateProject(projectId, data);

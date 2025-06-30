@@ -1,8 +1,8 @@
-import React from "react";
-import { TableRow, TableCell, Chip } from "@mui/material";
-import type { Participant, Answer, Question } from "@son-q/types";
+import { Chip, TableCell, TableRow } from "@mui/material";
+import type { Answer, Participant, Question } from "@son-q/types";
 import { YoutubeAnswer } from "@son-q/ui";
 import { getQuestioner, getRespondent } from "@son-q/utils";
+import React from "react";
 
 type Props = {
   participants: Participant[];
@@ -11,8 +11,7 @@ type Props = {
   darkMode?: boolean;
 };
 
-const App = ({ participants, answers, questions, darkMode = false }: Props) => {
-
+const App = ({ participants, answers, questions, darkMode: _darkMode = false }: Props) => {
   return (
     <>
       {questions.map((ques, index) => {
@@ -70,17 +69,9 @@ const App = ({ participants, answers, questions, darkMode = false }: Props) => {
                   >
                     {getQuestioner(participants, ques) ===
                     getRespondent(part, participants, ques, answers) ? (
-                      <Chip
-                        label="〇"
-                        color="secondary"
-                        variant="outlined"
-                      />
+                      <Chip label="〇" color="secondary" variant="outlined" />
                     ) : (
-                      <Chip
-                        label="×"
-                        color="primary"
-                        variant="outlined"
-                      />
+                      <Chip label="×" color="primary" variant="outlined" />
                     )}
                   </TableCell>
                   <TableCell

@@ -1,6 +1,6 @@
-import { TableRow, TableCell, Chip } from "@mui/material";
+import { Chip, TableCell, TableRow } from "@mui/material";
+import type { Answer, Participant } from "@son-q/types";
 import { getPoint } from "@son-q/utils";
-import type { Participant, Answer } from "@son-q/types";
 
 type Props = {
   participants: Participant[];

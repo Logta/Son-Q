@@ -1,10 +1,9 @@
-import styles from "./ProjectForm.module.scss";
-import React from "react";
-import { List, ListItem, ListItemText, Box, Chip } from "@mui/material";
-import { ProjectContext } from "@/contexts";
-import { FormLabel } from "@son-q/ui";
+import { Box, Chip, List, ListItem, ListItemText } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { FormLabel } from "@son-q/ui";
 import { useContext } from "react";
+import { ProjectContext } from "@/contexts";
+import styles from "./ProjectForm.module.scss";
 
 const App = () => {
   const { project } = useContext(ProjectContext);
@@ -31,6 +30,7 @@ const App = () => {
             {getParticipants().map((p) => {
               return (
                 <Chip
+                  key={p}
                   label={p}
                   color="primary"
                   variant={paletteType === "dark" ? "default" : "outlined"}

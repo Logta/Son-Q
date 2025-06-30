@@ -1,10 +1,7 @@
-import type { Participant, Question, Answer } from "@son-q/types";
+import type { Answer, Participant, Question } from "@son-q/types";
 import { isNil } from "es-toolkit";
 
-const getQuestioner = (
-  participants: Array<Participant>,
-  ques: Question
-): string => {
+const getQuestioner = (participants: Array<Participant>, ques: Question): string => {
   const participant = participants.find((p) => p.user_id === ques.select_user_id);
   return participant?.user_name || "";
 };

@@ -1,23 +1,14 @@
-import styles from "./AnswerForm.module.scss";
-import { useState, useContext, useEffect } from "react";
-import {
-  Paper,
-  Card,
-  CardHeader,
-  CardContent,
-  Button,
-  Box,
-  Grid,
-} from "@mui/material";
-import type { Answer, Question, Participant } from "@son-q/types";
-import { useRouter } from "next/router";
-import { AnswersContext, GlobalContext } from "@/contexts";
-import { isNil } from "es-toolkit";
-import { AnswerSelector } from "./AnswerSelector";
-import { Youtube, Popup } from "@son-q/ui";
-import { useRegisterAnswers } from "@son-q/queries";
-
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
+import { Box, Button, Card, CardContent, CardHeader, Paper } from "@mui/material";
+import { useRegisterAnswers } from "@son-q/queries";
+import type { Answer, Participant, Question } from "@son-q/types";
+import { Popup, Youtube } from "@son-q/ui";
+import { isNil } from "es-toolkit";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import { AnswersContext, GlobalContext } from "@/contexts";
+import styles from "./AnswerForm.module.scss";
+import { AnswerSelector } from "./AnswerSelector";
 
 type Props = {
   answers: Answer[];
@@ -30,11 +21,12 @@ type Props = {
 const App = ({ answers, questionNum, questions, participants, isUserJoinProject }: Props) => {
   const { projectId } = useContext(AnswersContext);
   const { darkMode } = useContext(GlobalContext);
-  
+
   const registerAnswersMutation = useRegisterAnswers();
 
   const router = useRouter();
 
+  // biome-ignore lint/suspicious/noExplicitAny: React event type
   const redirect = (href: string) => (e: any) => {
     e.preventDefault();
     router.push(href);
@@ -67,10 +59,7 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
   const handleSetPropsAnswers = async () => {
     if (isNil(answers)) return;
     const newQues: Array<Answer> = currentAnswers.map((data) => {
-      const findAns: Answer | undefined = getAnswerFromQuestionID(
-        data,
-        answers
-      );
+      const findAns: Answer | undefined = getAnswerFromQuestionID(data, answers);
       if (isNil(findAns)) {
         return data;
       } else return { ...findAns, url: data.url };
@@ -86,6 +75,7 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
     return answers.find((a) => a.question_id === currentAnswer.question_id);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
   useEffect(() => {
     handleSetPropsAnswers();
   }, []);
@@ -101,7 +91,7 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
     try {
       await registerAnswersMutation.mutateAsync({
         projectId,
-        answers: currentAnswers
+        answers: currentAnswers,
       });
       redirect("/projects")(e);
     } catch (error) {
@@ -114,21 +104,17 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
       <form onSubmit={handleSubmit}>
         {[...Array(questionNum)].map((_, value) => {
           return (
-            <div className={styles.backDiv}>
+            // biome-ignore lint/suspicious/noArrayIndexKey: question index is stable
+            <div key={value} className={styles.backDiv}>
               <Card variant="outlined">
                 <CardHeader
                   subheader={`${value + 1} 曲目`}
-                  className={
-                    darkMode ? styles.darkSubheader : styles.lightSubheader
-                  }
+                  className={darkMode ? styles.darkSubheader : styles.lightSubheader}
                 />
                 <CardContent>
                   <Box display="flex" alignItems="center" justifyContent="center">
                     <Box>
-                      <Youtube
-                        id={questions[value] ? questions[value].url : ""}
-                        endSec={60}
-                      />
+                      <Youtube id={questions[value] ? questions[value].url : ""} endSec={60} />
                       <Box m={-0.5} />
                     </Box>
                   </Box>
@@ -139,8 +125,7 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
                       index={value}
                       participants={participants}
                       value={
-                        currentAnswers[value] &&
-                        currentAnswers[value].guess_user_id
+                        currentAnswers[value]?.guess_user_id
                           ? currentAnswers[value].guess_user_id
                           : ""
                       }

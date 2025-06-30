@@ -1,12 +1,11 @@
-import styles from "./AppBarButton.module.scss";
-import { ReactNode } from "react";
 import { Button, Popover, Typography } from "@mui/material";
-import React from "react";
 import { styled } from "@mui/material/styles";
+import type { ReactNode } from "react";
+import React from "react";
 
 const StyledPopover = styled(Popover)(({ theme }) => ({
   pointerEvents: "none",
-  '& .MuiPaper-root': {
+  "& .MuiPaper-root": {
     padding: theme.spacing(1),
   },
 }));
@@ -25,9 +24,7 @@ const App = (props: Props) => {
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 
-  const handlePopoverOpen = (
-    event: React.MouseEvent<HTMLElement, MouseEvent>
-  ) => {
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -39,17 +36,15 @@ const App = (props: Props) => {
 
   return (
     <>
+      {/* biome-ignore lint/a11y/useSemanticElements: div required for hover interaction */}
       <div
         onMouseEnter={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}
         style={{ display: "inlineBlock" }}
+        role="button"
+        tabIndex={0}
       >
-        <Button
-          onClick={onClick}
-          variant="contained"
-          disabled={disabled}
-          startIcon={startIcon}
-        >
+        <Button onClick={onClick} variant="contained" disabled={disabled} startIcon={startIcon}>
           {children}
         </Button>
       </div>

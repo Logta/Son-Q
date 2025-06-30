@@ -1,13 +1,12 @@
-import styles from "./ResultPointTable.module.scss";
-import React from "react";
+import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-import Paper from "@mui/material/Paper";
-import { TableRow } from "./TableRow";
+import type { Answer, Participant } from "@son-q/types";
+import styles from "./ResultPointTable.module.scss";
 
 import { TableHeader } from "./TableHeader";
-import type { Participant, Answer } from "@son-q/types";
+import { TableRow } from "./TableRow";
 
 type Props = {
   participants: Participant[];

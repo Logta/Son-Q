@@ -1,7 +1,6 @@
-import firebase from "firebase/app";
-import { initializeApp } from "firebase/app"
-import { getFirestore } from "firebase/firestore"
+import firebase, { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -15,9 +14,9 @@ const firebaseConfig = {
 };
 
 // Appの初期化
-const firebaseApp = initializeApp(firebaseConfig)
+const firebaseApp = initializeApp(firebaseConfig);
 
 // 今回使用するAPI
 export { firebase };
-export const firestore = getFirestore(firebaseApp)
-export const auth = getAuth(firebaseApp)
+export const firestore = getFirestore(firebaseApp);
+export const auth = getAuth(firebaseApp);

@@ -1,7 +1,6 @@
-import styles from "./DarkModeSwitch.module.scss";
-import { Switch, Box, FormGroup } from "@mui/material";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Brightness2Icon from "@mui/icons-material/Brightness2";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { Box, FormGroup, Switch } from "@mui/material";
 import { isNil } from "es-toolkit";
 
 type DarkModeSwitchProps = {
@@ -11,7 +10,6 @@ type DarkModeSwitchProps = {
 };
 
 const DarkModeSwitch = ({ darkMode, handleDarkModeOn, handleDarkModeOff }: DarkModeSwitchProps) => {
-
   const handleChange = () => {
     !darkMode ? handleDarkModeOn() : handleDarkModeOff();
   };
@@ -24,12 +22,7 @@ const DarkModeSwitch = ({ darkMode, handleDarkModeOn, handleDarkModeOff }: DarkM
           </Box>
 
           <Box marginX={-1}>
-            <Switch
-              checked={darkMode}
-              onChange={handleChange}
-              color="default"
-              name="darkMode"
-            />
+            <Switch checked={darkMode} onChange={handleChange} color="default" name="darkMode" />
           </Box>
 
           <Box mt={0.75}>

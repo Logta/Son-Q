@@ -1,8 +1,8 @@
-import { AnswersContext, GlobalContext } from "@/contexts";
-import React, { useState, useEffect, useContext } from "react";
-
-import type { Auth } from "@son-q/types";
 import { awaitOnAuth } from "@son-q/api";
+import type { Auth } from "@son-q/types";
+import type React from "react";
+import { useContext, useEffect, useState } from "react";
+import { AnswersContext, GlobalContext } from "@/contexts";
 
 type Props = {
   children: React.ReactNode;
@@ -21,7 +21,7 @@ const AnswersContainer: React.FC<Props> = ({ children, projectId }) => {
   useEffect(() => {
     const checkAuth = async () => {
       const authUser = await awaitOnAuth();
-      if (authUser && authUser.ok) {
+      if (authUser?.ok) {
         setUser(authUser);
       }
     };

@@ -1,23 +1,19 @@
-import Image from "next/image";
-import styles from "./Question.module.scss";
-import { useContext, useState } from "react";
-import {
-  Container,
-  Button,
-  Typography,
-  CircularProgress,
-  Box,
-} from "@mui/material";
-import { Suspense } from "react";
-import { AppBar, QuestionForm } from "@/components/organisms";
-import { QuestionsContext } from "@/contexts";
-import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
-import { useRouter } from "next/router";
+import HomeIcon from "@mui/icons-material/Home";
+import { Box, Button, CircularProgress, Container, Typography } from "@mui/material";
+import { useQuestionCount, useUserQuestions } from "@son-q/queries";
 import { Label, SubLabel } from "@son-q/ui";
 import { isNil } from "es-toolkit";
-import { useUserQuestions, useQuestionCount } from "@son-q/queries";
-
-import HomeIcon from "@mui/icons-material/Home";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { Suspense, useContext, useState } from "react";
+import {
+  AppBar,
+  ProjectCreateDialog,
+  ProjectJoinDialog,
+  QuestionForm,
+} from "@/components/organisms";
+import { QuestionsContext } from "@/contexts";
+import styles from "./Question.module.scss";
 
 /**
  * 問題フォームコンテンツ（Suspense境界内で使用）
@@ -49,6 +45,7 @@ const PageBody = () => {
 
   const router = useRouter();
 
+  // biome-ignore lint/suspicious/noExplicitAny: React event type
   const redirect = (href: string) => (e: any) => {
     e.preventDefault();
     router.push(href);
@@ -61,9 +58,7 @@ const PageBody = () => {
         <main className={styles.main}>
           <Label>出題フォーム</Label>
           <SubLabel>問題を設定しましょう！</SubLabel>
-          <Typography color="secondary">
-            ※出題するYoutube動画IDを記入してください
-          </Typography>
+          <Typography color="secondary">※出題するYoutube動画IDを記入してください</Typography>
         </main>
 
         <Suspense
@@ -77,11 +72,7 @@ const PageBody = () => {
         </Suspense>
 
         <div className={styles.redirectButton}>
-          <Button
-            onClick={redirect("/projects")}
-            variant="outlined"
-            startIcon={<HomeIcon />}
-          >
+          <Button onClick={redirect("/projects")} variant="outlined" startIcon={<HomeIcon />}>
             プロジェクト一覧に戻る
           </Button>
         </div>
@@ -93,20 +84,12 @@ const PageBody = () => {
           >
             Powered by{" "}
             <span className={styles.logo}>
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                width={72}
-                height={16}
-              />
+              <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
             </span>
           </a>
         </footer>
       </Container>
-      <ProjectCreateDialog
-        open={openCreateDialog}
-        setOpen={setOpenCreateDialog}
-      />
+      <ProjectCreateDialog open={openCreateDialog} setOpen={setOpenCreateDialog} />
       <ProjectJoinDialog open={openJoinDialog} setOpen={setOpenJoinDialog} />
     </div>
   );

@@ -1,4 +1,4 @@
-import { TableHead, TableRow, TableCell, Chip, Box } from "@mui/material";
+import { Chip, TableCell, TableHead, TableRow } from "@mui/material";
 import type { Participant } from "@son-q/types";
 
 type Props = {
@@ -20,6 +20,7 @@ const App = ({ participants }: Props) => {
         {participants.map((part: Participant) => {
           return (
             <TableCell
+              key={part.user_id}
               align="center"
               style={{
                 fontWeight: "bold",

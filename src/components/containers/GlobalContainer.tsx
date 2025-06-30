@@ -1,16 +1,16 @@
-import { GlobalContext } from "@/contexts";
-import React, { useState, useEffect } from "react";
-import { isNull, pick } from "es-toolkit";
-import { SnackbarProvider, useSnackbar } from "notistack";
-
-import type { User, Auth } from "@son-q/types";
 import {
-  awaitOnGoogleLogin,
   awaitOnAuth,
+  awaitOnGoogleLogin,
   awaitOnPasswordLogin,
   createPasswordUser,
   signOutFirebase,
 } from "@son-q/api";
+import type { Auth, User } from "@son-q/types";
+import { isNull, pick } from "es-toolkit";
+import { SnackbarProvider, useSnackbar } from "notistack";
+import type React from "react";
+import { useEffect, useState } from "react";
+import { GlobalContext } from "@/contexts";
 
 type Props = {
   children: React.ReactElement;
@@ -43,9 +43,6 @@ const App: React.FC<Props> = (props: Props) => {
     Name: "",
     Login: false,
   });
-  useEffect(() => {
-    signInCheck();
-  }, []);
 
   const signInCheck = async (): Promise<void> => {
     const user = await awaitOnAuth();
@@ -57,6 +54,11 @@ const App: React.FC<Props> = (props: Props) => {
       Login: true,
     });
   };
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
+  useEffect(() => {
+    signInCheck();
+  }, []);
 
   const signInGoogle = async (): Promise<void> => {
     const user = await awaitOnGoogleLogin();
@@ -70,6 +72,7 @@ const App: React.FC<Props> = (props: Props) => {
     });
   };
 
+  // biome-ignore lint/suspicious/noExplicitAny: Firebase auth data type
   const signInEmail = async (data: any): Promise<void> => {
     const user = await awaitOnPasswordLogin(data);
     setLoading(false);
@@ -82,6 +85,7 @@ const App: React.FC<Props> = (props: Props) => {
     });
   };
 
+  // biome-ignore lint/suspicious/noExplicitAny: Firebase auth data type
   const signUpEmail = async (data: any) => {
     const bool = await createPasswordUser(data);
     setLoading(false);

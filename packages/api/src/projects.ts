@@ -1,6 +1,6 @@
-import { getProject, createProject, joinProject } from "./firebase";
-import { getProjectMode } from "./firebase/results";
 import type { Auth, Project } from "@son-q/types";
+import { createProject, getProject, joinProject } from "./firebase";
+import { getProjectMode } from "./firebase/results";
 
 /**
  * プロジェクト関連のAPI操作（Vanilla JS）
@@ -24,7 +24,7 @@ export const projectsApi = {
   /**
    * プロジェクトに参加
    */
-  join: async (user: Auth, projectId: string, userName: string) => {
+  join: async (user: Auth, projectId: string, _userName: string) => {
     return await joinProject(user, projectId);
   },
 

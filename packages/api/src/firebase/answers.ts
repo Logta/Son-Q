@@ -1,38 +1,36 @@
-import { firestore } from "../plugins/firebase";
-import type { Auth, Answer, Question, Participant } from "@son-q/types";
+import type { Answer, Auth, Participant } from "@son-q/types";
+import { isNil } from "es-toolkit";
 import {
+  addDoc,
   collection,
   doc,
-  getDocs,
   getDoc,
-  addDoc,
-  updateDoc,
+  getDocs,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
-import { isNil } from "es-toolkit";
+import { firestore } from "../plugins/firebase";
 
 const getAnswer = async (user: Auth, projectId: string) => {
   const answers: Array<Answer> = [];
 
   const docsRef = collection(firestore, "projects", projectId, "answers");
 
-  await getDocs(query(docsRef, where("answer_user_id", "==", user.id))).then(
-    (snapshot) => {
-      snapshot.forEach((doc) => {
-        const answer: Answer = {
-          ID: doc.id,
-          no: doc.data().no,
-          url: doc.data().url,
-          guess_user_id: doc.data().guess_user_id,
-          select_user_id: doc.data().select_user_id,
-          answer_user_id: doc.data().answer_user_id,
-          question_id: doc.data().question_id,
-        };
-        answers.push(answer);
-      });
-    }
-  );
+  await getDocs(query(docsRef, where("answer_user_id", "==", user.id))).then((snapshot) => {
+    snapshot.forEach((doc) => {
+      const answer: Answer = {
+        ID: doc.id,
+        no: doc.data().no,
+        url: doc.data().url,
+        guess_user_id: doc.data().guess_user_id,
+        select_user_id: doc.data().select_user_id,
+        answer_user_id: doc.data().answer_user_id,
+        question_id: doc.data().question_id,
+      };
+      answers.push(answer);
+    });
+  });
 
   return answers;
 };
@@ -43,12 +41,7 @@ const getExistAnswerNum = async (projectId: string): Promise<number> => {
   return isNil(proj) ? 0 : +proj.size;
 };
 
-const createAnswer = async (
-  user: Auth,
-  answer: Answer,
-  projectId: string,
-  questionNo: number
-) => {
+const createAnswer = async (user: Auth, answer: Answer, projectId: string, questionNo: number) => {
   const docsRef = collection(firestore, "projects", projectId, "answers");
   try {
     await addDoc(docsRef, {
@@ -66,18 +59,8 @@ const createAnswer = async (
   }
 };
 
-const updateAnswer = async (
-  answer: Answer,
-  projectId: string,
-  questionNo: number
-) => {
-  const washingtonRef = doc(
-    firestore,
-    "projects",
-    projectId,
-    "answers",
-    answer.ID
-  );
+const updateAnswer = async (answer: Answer, projectId: string, questionNo: number) => {
+  const washingtonRef = doc(firestore, "projects", projectId, "answers", answer.ID);
   const ans = {
     ...answer,
     no: questionNo,
@@ -89,11 +72,7 @@ const updateAnswer = async (
   await updateDoc(washingtonRef, ans);
 };
 
-const registerAnswer = async (
-  user: Auth,
-  answers: Array<Answer>,
-  projectId: string
-) => {
+const registerAnswer = async (user: Auth, answers: Array<Answer>, projectId: string) => {
   try {
     answers.forEach(async (answer, index) => {
       if (answer && answer.ID !== "") {
@@ -105,8 +84,7 @@ const registerAnswer = async (
     return { message: "回答が完了しました", variant: "success" };
   } catch {
     return {
-      message:
-        "回答の登録/更新に失敗しました\n時間をあけてから再度操作を実行してください",
+      message: "回答の登録/更新に失敗しました\n時間をあけてから再度操作を実行してください",
       variant: "error",
     };
   }
@@ -133,7 +111,7 @@ const getParticipants = async (projectId: string) => {
 
   if (proj.exists()) {
     const data = proj.data();
-    data?.participants.map((p: any) => {
+    data?.participants.map((p: { user_id: string; user_name: string }) => {
       const member: Participant = {
         user_id: p.user_id,
         user_name: p.user_name,

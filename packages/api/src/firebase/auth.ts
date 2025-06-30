@@ -1,22 +1,22 @@
-import { auth } from "../plugins/firebase";
 import type { Auth } from "@son-q/types";
-
 import {
-  signInWithPopup,
+  createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
+  signInWithPopup,
   signOut,
+  type User,
 } from "firebase/auth";
+import { auth } from "../plugins/firebase";
 
 const awaitOnAuth = async (): Promise<Auth> => {
-  return new Promise(function (resolve, reject) {
-    auth.onAuthStateChanged((user: any) => {
+  return new Promise((resolve, reject) => {
+    auth.onAuthStateChanged((user: User | null) => {
       if (user) {
         resolve({
           ok: true,
           id: user.uid,
-          name: user.displayName || '',
+          name: user.displayName || "",
         });
       } else {
         console.error("Authentication failed");
@@ -33,18 +33,18 @@ const awaitOnAuth = async (): Promise<Auth> => {
 const awaitOnGoogleLogin = async (): Promise<Auth> => {
   const provider = new GoogleAuthProvider();
 
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     signInWithPopup(auth, provider)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
+        const _token = credential?.accessToken;
         // The signed-in user info.
         const user = result.user;
         resolve({
           ok: true,
           id: user.uid,
-          name: user.displayName || '',
+          name: user.displayName || "",
         });
       })
       .catch((error) => {
@@ -52,8 +52,8 @@ const awaitOnGoogleLogin = async (): Promise<Auth> => {
         const errorCode = error.code;
         const errorMessage = error.message;
         // The email of the user's account used.
-        const email = error.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
+        const _email = error.email;
+        const _credential = GoogleAuthProvider.credentialFromError(error);
         console.error("Google login error:", errorCode, errorMessage);
         reject({
           ok: false,
@@ -64,7 +64,7 @@ const awaitOnGoogleLogin = async (): Promise<Auth> => {
   });
 };
 
-const awaitOnPasswordLogin = async (data: any): Promise<Auth> => {
+const awaitOnPasswordLogin = async (data: { email: string; password: string }): Promise<Auth> => {
   return new Promise((resolve, reject) => {
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
@@ -74,7 +74,7 @@ const awaitOnPasswordLogin = async (data: any): Promise<Auth> => {
         resolve({
           ok: true,
           id: user.uid,
-          name: user.displayName || '',
+          name: user.displayName || "",
         });
       })
       .catch((error) => {
@@ -91,7 +91,7 @@ const awaitOnPasswordLogin = async (data: any): Promise<Auth> => {
 };
 
 const signOutFirebase = async (): Promise<Auth> => {
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     signOut(auth)
       .then(() => {
         resolve({
@@ -110,12 +110,12 @@ const signOutFirebase = async (): Promise<Auth> => {
   });
 };
 
-const createPasswordUser = async (data: any): Promise<boolean> => {
+const createPasswordUser = async (data: { email: string; password: string }): Promise<boolean> => {
   try {
     await createUserWithEmailAndPassword(auth, data.email, data.password);
     return true;
   } catch (e) {
-    console.error('Create user error:', e instanceof Error ? e.message : String(e));
+    console.error("Create user error:", e instanceof Error ? e.message : String(e));
     return false;
   }
 };

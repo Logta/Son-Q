@@ -1,4 +1,4 @@
-import { TableHead, TableRow, TableCell } from "@mui/material";
+import { TableCell, TableHead, TableRow } from "@mui/material";
 
 const App = () => {
   return (
