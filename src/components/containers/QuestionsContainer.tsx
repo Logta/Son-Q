@@ -1,9 +1,7 @@
-import { QuestionsContext, GlobalContext } from "@/contexts";
-import { useState, useContext, useEffect } from "react";
-import { isNull } from "es-toolkit";
-
-import type { Auth } from "@son-q/types";
 import { awaitOnAuth } from "@son-q/api";
+import type { Auth } from "@son-q/types";
+import { useContext, useEffect, useState } from "react";
+import { GlobalContext, QuestionsContext } from "@/contexts";
 
 type Props = {
   children: React.ReactNode;
@@ -16,14 +14,14 @@ type Props = {
  */
 const QuestionsContainer: React.FC<Props> = ({ children, projectId }) => {
   const { errorMessage, successMessage } = useContext(GlobalContext);
-  
+
   const [user, setUser] = useState<Auth>();
 
   // 認証状態を確認してユーザー情報をセット
   useEffect(() => {
     const checkAuth = async () => {
       const authUser = await awaitOnAuth();
-      if (authUser && authUser.ok) {
+      if (authUser?.ok) {
         setUser(authUser);
       }
     };

@@ -1,5 +1,5 @@
-import React from "react";
 import type { Auth } from "@son-q/types";
+import React from "react";
 
 /**
  * ResultsContext: Client State専用のContext
@@ -15,6 +15,10 @@ type ResultsContextType = {
 export const ResultsContext = React.createContext<ResultsContextType>({
   user: undefined,
   projectId: "",
-  errorMessage: () => {},
-  successMessage: () => {},
+  errorMessage: () => {
+    // デフォルトの空実装
+  },
+  successMessage: () => {
+    // デフォルトの空実装
+  },
 });

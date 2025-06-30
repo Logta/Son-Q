@@ -1,23 +1,27 @@
-import Image from "next/image";
-import styles from "./Result.module.scss";
-import { useContext } from "react";
-import { Container, Button, Box, CircularProgress } from "@mui/material";
-import { Suspense } from "react";
-import { AppBar, ResultPointTable, ResultTable } from "@/components/organisms";
-import { ResultsContext } from "@/contexts";
-import { useRouter } from "next/router";
+import HomeIcon from "@mui/icons-material/Home";
+import { Box, Button, CircularProgress, Container } from "@mui/material";
+import {
+  useAllAnswers,
+  useParticipants,
+  useProjectMode,
+  useQuestionNumber,
+  useQuestions,
+} from "@son-q/queries";
 import { Label, SubLabel } from "@son-q/ui";
 import { isNil } from "es-toolkit";
-import { useQuestions, useAllAnswers, useParticipants, useQuestionNumber, useProjectMode } from "@son-q/queries";
-
-import HomeIcon from "@mui/icons-material/Home";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { Suspense, useContext } from "react";
+import { AppBar, ResultPointTable, ResultTable } from "@/components/organisms";
+import { ResultsContext } from "@/contexts";
+import styles from "./Result.module.scss";
 
 /**
  * 結果コンテンツ（Suspense境界内で使用）
  */
 const ResultContent = () => {
   const { projectId } = useContext(ResultsContext);
-  
+
   // 必要なデータを並列で取得（Suspenseで自動的にローディング状態を管理）
   const { data: questionNum = 0 } = useQuestionNumber(projectId);
   const { data: answers = [] } = useAllAnswers(projectId);
@@ -54,7 +58,7 @@ const ResultContent = () => {
 const PageBody = () => {
   const router = useRouter();
 
-  const redirect = (href: string) => (e: any) => {
+  const redirect = (href: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     router.push(href);
   };
@@ -67,21 +71,19 @@ const PageBody = () => {
           <Label>結果一覧</Label>
           <SubLabel>結果を確認しよう！</SubLabel>
         </main>
-        
-        <Suspense fallback={
-          <Box display="flex" justifyContent="center" mt={4}>
-            <CircularProgress />
-          </Box>
-        }>
+
+        <Suspense
+          fallback={
+            <Box display="flex" justifyContent="center" mt={4}>
+              <CircularProgress />
+            </Box>
+          }
+        >
           <ResultContent />
         </Suspense>
-        
+
         <div className={styles.redirectButton}>
-          <Button
-            onClick={redirect("/projects")}
-            variant="outlined"
-            startIcon={<HomeIcon />}
-          >
+          <Button onClick={redirect("/projects")} variant="outlined" startIcon={<HomeIcon />}>
             プロジェクト一覧に戻る
           </Button>
         </div>
@@ -93,12 +95,7 @@ const PageBody = () => {
           >
             Powered by{" "}
             <span className={styles.logo}>
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                width={72}
-                height={16}
-              />
+              <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
             </span>
           </a>
         </footer>

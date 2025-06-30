@@ -1,16 +1,18 @@
-import Image from "next/image";
-import styles from "./Project.module.scss";
-import { useContext, useState } from "react";
-import { Container, Button, CircularProgress, Box } from "@mui/material";
-import { Suspense } from "react";
-import { AppBar, ProjectTable } from "@/components/organisms";
-import { ProjectsContext } from "@/contexts";
-import { Label, SubLabel } from "@son-q/ui";
-import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
-import { useProjects } from "@son-q/queries";
-
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import { Box, Button, CircularProgress, Container } from "@mui/material";
+import { useProjects } from "@son-q/queries";
+import { Label, SubLabel } from "@son-q/ui";
+import Image from "next/image";
+import { Suspense, useContext, useState } from "react";
+import {
+  AppBar,
+  ProjectCreateDialog,
+  ProjectJoinDialog,
+  ProjectTable,
+} from "@/components/organisms";
+import { ProjectsContext } from "@/contexts";
+import styles from "./Project.module.scss";
 
 /**
  * プロジェクトテーブルコンポーネント: Suspense境界内で使用
@@ -55,20 +57,12 @@ const ProjectsContent = () => {
         >
           Powered by{" "}
           <span className={styles.logo}>
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              width={72}
-              height={16}
-            />
+            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
 
-      <ProjectCreateDialog
-        open={openCreateDialog}
-        setOpen={setOpenCreateDialog}
-      />
+      <ProjectCreateDialog open={openCreateDialog} setOpen={setOpenCreateDialog} />
       <ProjectJoinDialog open={openJoinDialog} setOpen={setOpenJoinDialog} />
     </>
   );
@@ -79,18 +73,20 @@ const ProjectsContent = () => {
  */
 const PageBody = () => {
   const { user } = useContext(ProjectsContext);
-  
+
   if (!user.Login) return <AppBar />;
 
   return (
     <>
       <AppBar />
       <Container maxWidth="lg">
-        <Suspense fallback={
-          <Box display="flex" justifyContent="center" mt={4}>
-            <CircularProgress />
-          </Box>
-        }>
+        <Suspense
+          fallback={
+            <Box display="flex" justifyContent="center" mt={4}>
+              <CircularProgress />
+            </Box>
+          }
+        >
           <ProjectsContent />
         </Suspense>
       </Container>

@@ -1,15 +1,6 @@
+import type { Answer, Auth, Result } from "@son-q/types";
+import { addDoc, collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 import { firestore } from "../plugins/firebase";
-import type { Auth, Result, Answer } from "@son-q/types";
-import {
-  collection,
-  doc,
-  getDocs,
-  getDoc,
-  addDoc,
-  updateDoc,
-  query,
-  where,
-} from "firebase/firestore";
 
 const getResult = async (projectId: string) => {
   const results: Array<Result> = [];
@@ -33,12 +24,7 @@ const getResult = async (projectId: string) => {
   return results;
 };
 
-const createResult = async (
-  user: Auth,
-  result: Result,
-  projectId: string,
-  questionNo: number
-) => {
+const createResult = async (user: Auth, result: Result, projectId: string, questionNo: number) => {
   try {
     await addDoc(collection(firestore, "projects", projectId, "results"), {
       no: questionNo,
@@ -54,18 +40,8 @@ const createResult = async (
   }
 };
 
-const updateResult = async (
-  result: Result,
-  projectId: string,
-  questionNo: number
-) => {
-  const washingtonRef = doc(
-    firestore,
-    "projects",
-    projectId,
-    "results",
-    result.ID
-  );
+const updateResult = async (result: Result, projectId: string, questionNo: number) => {
+  const washingtonRef = doc(firestore, "projects", projectId, "results", result.ID);
   await updateDoc(washingtonRef, {
     no: questionNo,
     url: result.url,
@@ -74,11 +50,7 @@ const updateResult = async (
   });
 };
 
-const registerResult = (
-  user: Auth,
-  results: Array<Result>,
-  projectId: string
-) => {
+const registerResult = (user: Auth, results: Array<Result>, projectId: string) => {
   results.forEach((result, index) => {
     if (result && result.ID !== "") {
       updateResult(result, projectId, index);

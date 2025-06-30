@@ -1,25 +1,22 @@
-import styles from "./ProjectForm.module.scss";
-import React from "react";
-import {
-  Button,
-  TextField,
-  Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Grid,
-} from "@mui/material";
-import { ProjectContext, GlobalContext } from "@/contexts";
-import { useContext } from "react";
-import type { Project } from "@son-q/types";
-import { useRouter } from "next/router";
-import { FormLabel } from "@son-q/ui";
-
-import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
+import type { Project } from "@son-q/types";
+import { FormLabel } from "@son-q/ui";
+import { useRouter } from "next/router";
+import React, { useContext } from "react";
+import { GlobalContext, ProjectContext } from "@/contexts";
+import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
+import styles from "./ProjectForm.module.scss";
 
 // カスタムフックを定義（input 要素用の属性を生成する）
 function useInput(
@@ -140,9 +137,7 @@ const App = () => {
             </Box>
             <Box marginTop={3} width={"100%"}>
               <FormControl variant="outlined" fullWidth>
-                <InputLabel id="demo-simple-select-outlined-label">
-                  ポイント計算モード
-                </InputLabel>
+                <InputLabel id="demo-simple-select-outlined-label">ポイント計算モード</InputLabel>
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
@@ -150,15 +145,9 @@ const App = () => {
                   label="ポイント計算モード"
                 >
                   <MenuItem value={"normal"}>正解数が得点に</MenuItem>
-                  <MenuItem value={"getOnlyOneCorrectAnswer"}>
-                    1人だけが正解するように
-                  </MenuItem>
-                  <MenuItem value={"getOnlyOneIncorrectAnswer"}>
-                    1人だけが不正解するように
-                  </MenuItem>
-                  <MenuItem value={"getCorrectAnswer"}>
-                    当ててもらった問題数が得点に
-                  </MenuItem>
+                  <MenuItem value={"getOnlyOneCorrectAnswer"}>1人だけが正解するように</MenuItem>
+                  <MenuItem value={"getOnlyOneIncorrectAnswer"}>1人だけが不正解するように</MenuItem>
+                  <MenuItem value={"getCorrectAnswer"}>当ててもらった問題数が得点に</MenuItem>
                 </Select>
               </FormControl>
             </Box>

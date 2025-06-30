@@ -1,5 +1,5 @@
-import { awaitOnAuth } from "./firebase";
 import type { Auth } from "@son-q/types";
+import { awaitOnAuth } from "./firebase";
 
 /**
  * 認証関連のAPI操作（Vanilla JS）

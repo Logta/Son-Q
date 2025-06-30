@@ -2,9 +2,7 @@ import type { Answer } from "@son-q/types";
 
 const getCorrectPoint = (userID: string, answers: Array<Answer>): number => {
   const userAnswers = answers.filter((ans) => ans.answer_user_id === userID);
-  const correctAnswers = userAnswers.filter(
-    (ans) => ans.guess_user_id === ans.select_user_id
-  );
+  const correctAnswers = userAnswers.filter((ans) => ans.guess_user_id === ans.select_user_id);
   return correctAnswers.length;
 };
 
@@ -25,17 +23,13 @@ const getOnlyOneCorrectAnswer = (
   );
 
   const userQuestionIDs = getDuplicateDeletionArray(
-    answers
-      .filter((ans) => ans.select_user_id === userID)
-      .map((ans) => ans.question_id)
+    answers.filter((ans) => ans.select_user_id === userID).map((ans) => ans.question_id)
   );
 
   let point = 0;
 
   for (const id of userQuestionIDs) {
-    const questionPoint = otherCorrectAnswers.filter(
-      (ans) => ans.question_id === id
-    ).length;
+    const questionPoint = otherCorrectAnswers.filter((ans) => ans.question_id === id).length;
     questionPoint !== 0 && (point += participantNum - 1 - questionPoint);
   }
 
@@ -55,16 +49,12 @@ const getOnlyOneIncorrectAnswer = (
   );
 
   const userQuestionIDs = getDuplicateDeletionArray(
-    answers
-      .filter((ans) => ans.select_user_id === userID)
-      .map((ans) => ans.question_id)
+    answers.filter((ans) => ans.select_user_id === userID).map((ans) => ans.question_id)
   );
 
   let point = 0;
   for (const id of userQuestionIDs) {
-    const questionPoint = otherCorrectAnswers.filter(
-      (ans) => ans.question_id === id
-    ).length;
+    const questionPoint = otherCorrectAnswers.filter((ans) => ans.question_id === id).length;
     questionPoint !== participantNum - 1 && (point += questionPoint);
   }
   return point;
@@ -79,9 +69,7 @@ const getCorrectAnswer = (userID: string, answers: Array<Answer>): number => {
   );
 
   const userQuestionIDs = getDuplicateDeletionArray(
-    answers
-      .filter((ans) => ans.select_user_id === userID)
-      .map((ans) => ans.question_id)
+    answers.filter((ans) => ans.select_user_id === userID).map((ans) => ans.question_id)
   );
 
   let point = 0;
@@ -107,13 +95,10 @@ const getPoint = (
       ).toString();
     case "getOnlyOneCorrectAnswer":
       return (
-        getOnlyOneCorrectAnswer(userID, answers, participantNum) +
-        getCorrectPoint(userID, answers)
+        getOnlyOneCorrectAnswer(userID, answers, participantNum) + getCorrectPoint(userID, answers)
       ).toString();
     case "getCorrectAnswer":
-      return (
-        getCorrectAnswer(userID, answers) + getCorrectPoint(userID, answers)
-      ).toString();
+      return (getCorrectAnswer(userID, answers) + getCorrectPoint(userID, answers)).toString();
     default:
       return "error";
   }

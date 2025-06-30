@@ -1,17 +1,16 @@
-import { ProjectsContext, GlobalContext } from "@/contexts";
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
+import { GlobalContext, ProjectsContext } from "@/contexts";
 
 type Props = {
   children: React.ReactNode;
 };
 
-import type { User } from "@son-q/types";
 import { awaitOnAuth } from "@son-q/api";
+import type { User } from "@son-q/types";
 
 const ProjectsContainer: React.FC<Props> = ({ children }) => {
-  const { errorMessage, successMessage, warningMessage } =
-    useContext(GlobalContext);
-  
+  const { errorMessage, successMessage, warningMessage } = useContext(GlobalContext);
+
   const [user, setUser] = useState<User>({
     ID: "",
     Name: "",
@@ -22,7 +21,7 @@ const ProjectsContainer: React.FC<Props> = ({ children }) => {
   React.useEffect(() => {
     const checkAuth = async () => {
       const authUser = await awaitOnAuth();
-      if (authUser && authUser.ok) {
+      if (authUser?.ok) {
         setUser({
           ID: authUser.id,
           Name: authUser.name,

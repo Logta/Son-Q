@@ -1,15 +1,14 @@
-import React, { useState } from "react";
-import styles from "./Youtube.module.scss";
-
-//import styles from "./Youtube.module.scss";
-import YouTube from "react-youtube";
-import { Box, Button, ButtonGroup, Grid, Slider } from "@mui/material";
 import Forward10Icon from "@mui/icons-material/Forward10";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import Replay10Icon from "@mui/icons-material/Replay10";
 import StopIcon from "@mui/icons-material/Stop";
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import VolumeDown from "@mui/icons-material/VolumeDown";
 import VolumeUp from "@mui/icons-material/VolumeUp";
+import { Box, Button, ButtonGroup, Grid, Slider } from "@mui/material";
+import { useState } from "react";
+//import styles from "./Youtube.module.scss";
+import YouTube from "react-youtube";
+import styles from "./Youtube.module.scss";
 
 const App = (props) => {
   const [youtube, setYoutube] = useState();
@@ -47,13 +46,13 @@ const App = (props) => {
   };
 
   const onBefore10Sec = () => {
-    var currentTime = youtube.getCurrentTime();
+    const currentTime = youtube.getCurrentTime();
 
     youtube.seekTo(currentTime - 10);
   };
 
   const onFoward10Sec = () => {
-    var currentTime = youtube.getCurrentTime();
+    const currentTime = youtube.getCurrentTime();
     youtube.seekTo(currentTime + 10);
   };
 

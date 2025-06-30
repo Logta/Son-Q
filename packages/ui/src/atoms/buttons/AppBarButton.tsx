@@ -1,6 +1,6 @@
-import styles from "./AppBarButton.module.scss";
-import { ReactNode } from "react";
 import { Button } from "@mui/material";
+import type { ReactNode } from "react";
+import styles from "./AppBarButton.module.scss";
 
 type Props = {
   children: ReactNode;
@@ -10,11 +10,9 @@ type Props = {
 const App = (props: Props) => {
   const { onClick, children } = props;
   return (
-    <>
-      <Button onClick={onClick} className={styles.button} variant="outlined">
-        {children}
-      </Button>
-    </>
+    <Button onClick={onClick} className={styles.button} variant="outlined">
+      {children}
+    </Button>
   );
 };
 

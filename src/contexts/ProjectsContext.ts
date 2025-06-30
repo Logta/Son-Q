@@ -1,5 +1,5 @@
-import React from "react";
 import type { User } from "@son-q/types";
+import React from "react";
 
 /**
  * ProjectsContext: Client State専用のContext
@@ -18,7 +18,13 @@ export const ProjectsContext = React.createContext<ProjectsContextType>({
     Name: "",
     Login: false,
   },
-  errorMessage: () => {},
-  successMessage: () => {},
-  warningMessage: () => {},
+  errorMessage: () => {
+    // デフォルトの空実装
+  },
+  successMessage: () => {
+    // デフォルトの空実装
+  },
+  warningMessage: () => {
+    // デフォルトの空実装
+  },
 });

@@ -1,4 +1,4 @@
-import { TableHead, TableRow, TableCell, Box, Chip } from "@mui/material";
+import { Box, Chip, TableCell, TableHead, TableRow } from "@mui/material";
 import type { Participant } from "@son-q/types";
 
 type Props = {

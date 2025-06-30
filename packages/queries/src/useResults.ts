@@ -1,5 +1,5 @@
+import { getProjectMode, getResult } from "@son-q/api";
 import { useQuery } from "@tanstack/react-query";
-import { getResult, getProjectMode } from "@son-q/api";
 
 /**
  * 結果一覧取得用のカスタムフック（Suspense対応）

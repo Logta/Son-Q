@@ -1,17 +1,16 @@
-import { firestore } from "../plugins/firebase";
 import type { Auth, Project } from "@son-q/types";
-
 import {
-  collection,
-  doc,
-  getDocs,
-  getDoc,
   addDoc,
+  collection,
   deleteDoc,
-  updateDoc,
+  doc,
+  getDoc,
+  getDocs,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
+import { firestore } from "../plugins/firebase";
 
 const getProject = async (user: Auth) => {
   const projects: Array<Project> = [];
@@ -69,7 +68,7 @@ const deleteProject = async (index: string) => {
     await deleteDoc(doc(firestore, "projects", index));
 
     return { message: "削除が完了しました", variant: "success" };
-  } catch (error) {
+  } catch (_error) {
     return { message: "削除に失敗しました", variant: "error" };
   }
 };
@@ -85,7 +84,9 @@ const joinProject = async (user: Auth, id: string) => {
     const docData = doc.data();
     if (!docData) return { message: "データの取得に失敗しました", variant: "error" };
     const participants = JSON.parse(JSON.stringify(docData.participants));
-    const exist = docData.participants.some((p: any) => p.user_id === user.id);
+    const exist = docData.participants.some(
+      (p: { user_id: string; user_name: string }) => p.user_id === user.id
+    );
     if (exist) return { message: "すでに参加しています", variant: "warning" };
 
     participants.push({
@@ -142,11 +143,4 @@ const updateProject = async (projectId: string, data: Project) => {
   }
 };
 
-export {
-  getProject,
-  createProject,
-  deleteProject,
-  joinProject,
-  getProjectFromID,
-  updateProject,
-};
+export { getProject, createProject, deleteProject, joinProject, getProjectFromID, updateProject };

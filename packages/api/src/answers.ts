@@ -1,14 +1,14 @@
-import { 
-  getAnswer, 
-  createAnswer, 
-  updateAnswer, 
-  registerAnswer, 
-  getQuestionNumber, 
-  getParticipants, 
+import type { Answer, Auth, Participant } from "@son-q/types";
+import {
+  createAnswer,
   getAllAnswers,
-  getExistAnswerNum 
+  getAnswer,
+  getExistAnswerNum,
+  getParticipants,
+  getQuestionNumber,
+  registerAnswer,
+  updateAnswer,
 } from "./firebase";
-import type { Auth, Answer, Participant } from "@son-q/types";
 
 /**
  * 回答関連のAPI操作（Vanilla JS）

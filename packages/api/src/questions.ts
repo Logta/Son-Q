@@ -1,12 +1,12 @@
-import { 
-  getQuestion, 
-  createQuestion, 
-  updateQuestion, 
-  registerQuestion,
-  getAllQuestions,
-  getQuestionNum
-} from "./firebase";
 import type { Auth, Question } from "@son-q/types";
+import {
+  createQuestion,
+  getAllQuestions,
+  getQuestion,
+  getQuestionNum,
+  registerQuestion,
+  updateQuestion,
+} from "./firebase";
 
 /**
  * 問題関連のAPI操作（Vanilla JS）

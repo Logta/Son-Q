@@ -1,20 +1,19 @@
-import React, { useState, useContext } from "react";
-import { GlobalContext } from "@/contexts";
-import styles from "./Youtube.module.scss";
-
-//import styles from "./Youtube.module.scss";
-import YouTube from "react-youtube";
-import { IconButton, Box, Button, ButtonGroup } from "@mui/material";
-import StopIcon from "@mui/icons-material/Stop";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import StopIcon from "@mui/icons-material/Stop";
 import VolumeDown from "@mui/icons-material/VolumeDown";
 import VolumeUp from "@mui/icons-material/VolumeUp";
+import { Box, Button, ButtonGroup, IconButton } from "@mui/material";
+import { useContext, useState } from "react";
+//import styles from "./Youtube.module.scss";
+import YouTube from "react-youtube";
+import { GlobalContext } from "@/contexts";
+import styles from "./Youtube.module.scss";
 
 const App = (props) => {
   const [youtube, setYoutube] = useState([]);
   const [loading, setLoading] = useState(true);
   const [playing, setPlaying] = useState(false);
-  const [volume, setVolume] = useState(0);
+  const [_volume, setVolume] = useState(0);
   const { darkMode } = useContext(GlobalContext);
 
   const { id } = props;
@@ -44,7 +43,7 @@ const App = (props) => {
     setPlaying(false);
   };
 
-  const handleChangeVolume = (_, newValue) => {
+  const _handleChangeVolume = (_, newValue) => {
     setVolume(newValue);
     youtube.setVolume(newValue);
   };
@@ -60,18 +59,10 @@ const App = (props) => {
           onClick={onStart}
           disabled={loading}
         >
-          <PlayCircleOutlineIcon
-            fontSize="small"
-            className={!darkMode && styles.light}
-          />
+          <PlayCircleOutlineIcon fontSize="small" className={!darkMode && styles.light} />
         </IconButton>
       ) : (
-        <IconButton
-          aria-label="stop"
-          className={styles.margin}
-          onClick={onStop}
-          disabled={loading}
-        >
+        <IconButton aria-label="stop" className={styles.margin} onClick={onStop} disabled={loading}>
           <StopIcon fontSize="small" className={!darkMode && styles.light} />
         </IconButton>
       )}

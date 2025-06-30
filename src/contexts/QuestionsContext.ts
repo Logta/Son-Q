@@ -1,5 +1,5 @@
-import React from "react";
 import type { Auth } from "@son-q/types";
+import React from "react";
 
 /**
  * QuestionsContext: Client State専用のContext
@@ -15,6 +15,10 @@ type QuestionsContextType = {
 export const QuestionsContext = React.createContext<QuestionsContextType>({
   user: undefined,
   projectId: "",
-  errorMessage: () => {},
-  successMessage: () => {},
+  errorMessage: () => {
+    // デフォルトの空実装
+  },
+  successMessage: () => {
+    // デフォルトの空実装
+  },
 });

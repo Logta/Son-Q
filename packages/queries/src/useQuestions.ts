@@ -1,11 +1,11 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { questionsApi, authApi } from "@son-q/api";
+import { authApi, questionsApi } from "@son-q/api";
 import type { Question } from "@son-q/types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 /**
  * 問題関連のReact Queryフック
  * API層を呼び出すReact固有のデータフェッチロジック
- * 
+ *
  * 境界線：
  * - この層はReact Query（React依存）専用
  * - 純粋なデータ操作は /api 層に委譲
@@ -88,13 +88,7 @@ export const useUpdateQuestion = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ 
-      projectId,
-      question 
-    }: { 
-      projectId: string;
-      question: Question; 
-    }) => {
+    mutationFn: async ({ projectId, question }: { projectId: string; question: Question }) => {
       const user = await authApi.getCurrentUser();
       return await questionsApi.update(user, question, projectId);
     },

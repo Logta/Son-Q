@@ -1,13 +1,12 @@
 import "../styles/globals.scss";
-import { GlobalContainer } from "../src/components/containers";
-import { ThemeProvider } from "@mui/material/styles";
-import { createTheme } from "@mui/material/styles";
-import * as colors from "@mui/material/colors";
-import { useState, useEffect } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import CssBaseline from "@mui/material/CssBaseline";
+import * as colors from "@mui/material/colors";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useEffect, useState } from "react";
+import { GlobalContainer } from "../src/components/containers";
 
 /**
  * QueryClientの設定（Suspense対応）

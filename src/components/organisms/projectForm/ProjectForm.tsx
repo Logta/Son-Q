@@ -1,20 +1,17 @@
-import styles from "./ProjectForm.module.scss";
-import React from "react";
-import { Button, TextField, Paper, Box } from "@mui/material";
-import { ProjectContext } from "@/contexts";
-import { useContext } from "react";
+import { Paper } from "@mui/material";
 import type { Project } from "@son-q/types";
 import { useRouter } from "next/router";
-import { ProjectInfos } from "./ProjectInfos";
+import React, { useContext } from "react";
+import { ProjectContext } from "@/contexts";
 import { ProjectFormContent } from "./ProjectFormContent";
+import { ProjectInfos } from "./ProjectInfos";
 
 // カスタムフックを定義（input 要素用の属性を生成する）
 function useInput(initValue: string): any {
   const [value, setValue] = React.useState<string>(initValue);
   return {
     value,
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-      setValue(e.target.value),
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value),
   };
 }
 
@@ -27,7 +24,7 @@ const App = () => {
   };
   const { project, updateProjectInfo } = useContext(ProjectContext);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const _handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     const pro: Project = {

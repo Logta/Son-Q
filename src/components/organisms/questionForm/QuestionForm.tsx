@@ -1,22 +1,21 @@
-import styles from "./QuestionForm.module.scss";
-import { useState, useContext, useEffect } from "react";
+import CreateIcon from "@mui/icons-material/Create";
 import {
-  Paper,
   Button,
   FormControl,
+  InputAdornment,
   InputLabel,
   OutlinedInput,
-  InputAdornment,
+  Paper,
 } from "@mui/material";
-import type { Question, Participant } from "@son-q/types";
-import { Popup } from "@son-q/ui";
-import { QuestionsContext, GlobalContext } from "@/contexts";
-import { useRouter } from "next/router";
-import { useRegisterQuestions, useParticipants } from "@son-q/queries";
 import { authApi } from "@son-q/api";
+import { useParticipants, useRegisterQuestions } from "@son-q/queries";
+import type { Question } from "@son-q/types";
+import { Popup } from "@son-q/ui";
 import { useQuery } from "@tanstack/react-query";
-
-import CreateIcon from "@mui/icons-material/Create";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import { GlobalContext, QuestionsContext } from "@/contexts";
+import styles from "./QuestionForm.module.scss";
 
 type Props = {
   questions: Array<Question>;
@@ -38,11 +37,11 @@ const App = ({ questions, nums }: Props) => {
   );
   const { projectId } = useContext(QuestionsContext);
   const { errorMessage } = useContext(GlobalContext);
-  
+
   // カスタムフックを使用
   const registerQuestionsMutation = useRegisterQuestions();
   const { data: participants = [] } = useParticipants(projectId);
-  
+
   // 現在のユーザー情報を取得
   const { data: currentUser } = useQuery({
     queryKey: ["currentUser"],
@@ -51,26 +50,25 @@ const App = ({ questions, nums }: Props) => {
 
   // 現在のユーザーが参加者リストに含まれているかをチェック
   const isUserJoinProject = Boolean(
-    currentUser && 
-    participants && 
-    participants.length > 0 && 
-    participants.some(p => p.user_id === currentUser.id)
+    currentUser &&
+      participants &&
+      participants.length > 0 &&
+      participants.some((p) => p.user_id === currentUser.id)
   );
-
 
   const handleSetPropsQuestions = async () => {
     const newQues: Array<Question> = currentQuestions.map((data, index) => {
-      return questions && questions[index] ? questions[index] : data;
+      return questions?.[index] ? questions[index] : data;
     });
     setCurrentQuestions([...newQues]);
   };
   useEffect(() => {
     handleSetPropsQuestions();
-  }, []);
+  }, [handleSetPropsQuestions]);
 
   const handleURL = (id: number) => (event: any) => {
     const newQues = currentQuestions.slice();
-    var regex = /.*\?.*|.*\=.*|.*\/.*|.*\\.*|.*\:.*|.*\&.*/;
+    const regex = /.*\?.*|.*=.*|.*\/.*|.*\\.*|.*:.*|.*&.*/;
 
     if (regex.test(event.target.value)) {
       errorMessage("不正な入力があります。");
@@ -82,33 +80,33 @@ const App = ({ questions, nums }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!isUserJoinProject) {
       return;
     }
-    
+
     if (!currentUser) {
       errorMessage("ユーザー情報の取得に失敗しました");
       return;
     }
-    
+
     try {
       // select_user_idを現在のユーザーIDに設定し、空のURLを除外
       const questionsWithUserId = currentQuestions
-        .filter(q => q.url && q.url.trim() !== "") // 空のURLを除外
-        .map(q => ({
+        .filter((q) => q.url && q.url.trim() !== "") // 空のURLを除外
+        .map((q) => ({
           ...q,
-          select_user_id: currentUser.id
+          select_user_id: currentUser.id,
         }));
-      
+
       if (questionsWithUserId.length === 0) {
         errorMessage("少なくとも1つの問題を入力してください");
         return;
       }
-      
-      const result = await registerQuestionsMutation.mutateAsync({
+
+      const _result = await registerQuestionsMutation.mutateAsync({
         projectId,
-        questions: questionsWithUserId
+        questions: questionsWithUserId,
       });
       redirect("/projects")(e);
     } catch (error) {
@@ -124,16 +122,10 @@ const App = ({ questions, nums }: Props) => {
           return (
             <div className={styles.textForm}>
               <FormControl fullWidth variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-amount">
-                  {`${+value + 1}題目：`}
-                </InputLabel>
+                <InputLabel htmlFor="outlined-adornment-amount">{`${+value + 1}題目：`}</InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-amount"
-                  value={
-                    currentQuestions[value] && currentQuestions[value].url
-                      ? currentQuestions[value].url
-                      : ""
-                  }
+                  value={currentQuestions[value]?.url ? currentQuestions[value].url : ""}
                   onChange={handleURL(+value)}
                   onBlur={handleURL(+value)}
                   startAdornment={

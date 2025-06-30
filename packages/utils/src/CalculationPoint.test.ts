@@ -1,11 +1,10 @@
+import type { Answer } from "@son-q/types";
 import {
   getCorrectPoint,
-  getOnlyOneCorrectAnswer,
   getDuplicateDeletionArray,
+  getOnlyOneCorrectAnswer,
   getOnlyOneIncorrectAnswer,
 } from "@son-q/utils";
-
-import type { Answer } from "@son-q/types";
 
 describe("getCorrectPoint", (): void => {
   let answers: Array<Answer>;
@@ -96,7 +95,7 @@ describe("getDuplicateDeletionArray", (): void => {
 });
 
 const getInitArray = () => {
-  let answers: Array<Answer> = [];
+  const answers: Array<Answer> = [];
   let num = 1;
 
   const ques = [...Array(6).keys()].map((i) => ++i);

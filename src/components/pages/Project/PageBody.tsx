@@ -1,14 +1,17 @@
-import Image from "next/image";
-import styles from "./Project.module.scss";
-import { useContext, useState } from "react";
-import { Container, Button } from "@mui/material";
-import { AppBar, ProjectForm } from "@/components/organisms";
-import { ProjectContext } from "@/contexts";
-import { Label, SubLabel } from "@son-q/ui";
-import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
-import { useRouter } from "next/router";
-
 import HomeIcon from "@mui/icons-material/Home";
+import { Button, Container } from "@mui/material";
+import { Label, SubLabel } from "@son-q/ui";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
+import {
+  AppBar,
+  ProjectCreateDialog,
+  ProjectForm,
+  ProjectJoinDialog,
+} from "@/components/organisms";
+import { ProjectContext } from "@/contexts";
+import styles from "./Project.module.scss";
 
 const PageBody = () => {
   const router = useRouter();
@@ -36,11 +39,7 @@ const PageBody = () => {
           <ProjectForm />
 
           <div className={styles.redirectButton}>
-            <Button
-              onClick={redirect("/projects")}
-              variant="outlined"
-              startIcon={<HomeIcon />}
-            >
+            <Button onClick={redirect("/projects")} variant="outlined" startIcon={<HomeIcon />}>
               プロジェクト一覧に戻る
             </Button>
           </div>
@@ -53,20 +52,12 @@ const PageBody = () => {
             >
               Powered by{" "}
               <span className={styles.logo}>
-                <Image
-                  src="/vercel.svg"
-                  alt="Vercel Logo"
-                  width={72}
-                  height={16}
-                />
+                <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
               </span>
             </a>
           </footer>
         </Container>
-        <ProjectCreateDialog
-          open={openCreateDialog}
-          setOpen={setOpenCreateDialog}
-        />
+        <ProjectCreateDialog open={openCreateDialog} setOpen={setOpenCreateDialog} />
         <ProjectJoinDialog open={openJoinDialog} setOpen={setOpenJoinDialog} />
       </>
     )

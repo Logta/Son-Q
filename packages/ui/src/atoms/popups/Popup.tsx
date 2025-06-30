@@ -1,12 +1,11 @@
-import styles from "./Popup.module.scss";
-import { ReactNode } from "react";
 import { Popover, Typography } from "@mui/material";
-import React from "react";
 import { styled } from "@mui/material/styles";
+import type { ReactNode } from "react";
+import React from "react";
 
 const StyledPopover = styled(Popover)(({ theme }) => ({
   pointerEvents: "none",
-  '& .MuiPaper-root': {
+  "& .MuiPaper-root": {
     padding: theme.spacing(1),
   },
 }));
@@ -22,9 +21,7 @@ const App = (props: Props) => {
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 
-  const handlePopoverOpen = (
-    event: React.MouseEvent<HTMLElement, MouseEvent>
-  ) => {
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -40,6 +37,8 @@ const App = (props: Props) => {
         onMouseEnter={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}
         style={{ display: "inlineBlock" }}
+        role="button"
+        tabIndex={0}
       >
         {children}
       </div>

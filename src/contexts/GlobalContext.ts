@@ -1,5 +1,5 @@
-import React from "react";
 import type { User } from "@son-q/types";
+import React from "react";
 
 /**
  * GlobalContext: アプリケーション全体のClient State
@@ -8,8 +8,8 @@ type GlobalContextType = {
   user: User;
   signInCheck: () => Promise<void>;
   signInGoogle: () => Promise<void>;
-  signInEmail: (data: any) => Promise<void>;
-  signUpEmail: (data: any) => Promise<boolean>;
+  signInEmail: (data: { email: string; password: string }) => Promise<void>;
+  signUpEmail: (data: { email: string; password: string }) => Promise<boolean>;
   signOut: () => Promise<string>;
   handleDarkModeOff: () => void;
   handleDarkModeOn: () => void;
@@ -26,16 +26,32 @@ export const GlobalContext = React.createContext<GlobalContextType>({
     Name: "",
     Login: false,
   },
-  signInCheck: async () => {},
-  signInGoogle: async () => {},
-  signInEmail: async () => {},
+  signInCheck: async () => {
+    // デフォルトの空実装
+  },
+  signInGoogle: async () => {
+    // デフォルトの空実装
+  },
+  signInEmail: async () => {
+    // デフォルトの空実装
+  },
   signUpEmail: async () => false,
   signOut: async () => "",
-  handleDarkModeOff: () => {},
-  handleDarkModeOn: () => {},
+  handleDarkModeOff: () => {
+    // デフォルトの空実装
+  },
+  handleDarkModeOn: () => {
+    // デフォルトの空実装
+  },
   darkMode: true,
   loading: true,
-  errorMessage: () => {},
-  warningMessage: () => {},
-  successMessage: () => {},
+  errorMessage: () => {
+    // デフォルトの空実装
+  },
+  warningMessage: () => {
+    // デフォルトの空実装
+  },
+  successMessage: () => {
+    // デフォルトの空実装
+  },
 });

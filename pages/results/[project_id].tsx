@@ -1,8 +1,8 @@
-import Head from "next/head";
-import { ResultPage } from "../../src/components/pages";
-import { ResultsContainer } from "../../src/components/containers";
-import { useRouter } from "next/router";
 import { Copyright } from "@son-q/ui";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { ResultsContainer } from "../../src/components/containers";
+import { ResultPage } from "../../src/components/pages";
 
 export default function Home() {
   const router = useRouter();
@@ -11,10 +11,7 @@ export default function Home() {
     <>
       <Head>
         <title>結果表示：選曲者あてクイズ</title>
-        <meta
-          name="description"
-          content="皆の好きな曲を持ち寄って、誰が持ってきた曲か当てよう！"
-        />
+        <meta name="description" content="皆の好きな曲を持ち寄って、誰が持ってきた曲か当てよう！" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
