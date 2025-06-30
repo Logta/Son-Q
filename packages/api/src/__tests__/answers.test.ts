@@ -142,7 +142,9 @@ describe("answersApi", () => {
       vi.mocked(createAnswer).mockRejectedValue(new Error(errorMessage));
 
       // Act & Assert: 例外が投げられることを検証
-      await expect(answersApi.create(mockUser, mockAnswer, projectId, questionNo)).rejects.toThrow(errorMessage);
+      await expect(answersApi.create(mockUser, mockAnswer, projectId, questionNo)).rejects.toThrow(
+        errorMessage
+      );
       expect(createAnswer).toHaveBeenCalledWith(mockUser, mockAnswer, projectId, questionNo);
     });
   });
@@ -169,7 +171,9 @@ describe("answersApi", () => {
       vi.mocked(updateAnswer).mockRejectedValue(new Error(errorMessage));
 
       // Act & Assert: 例外が投げられることを検証
-      await expect(answersApi.update(mockAnswer, projectId, questionNo)).rejects.toThrow(errorMessage);
+      await expect(answersApi.update(mockAnswer, projectId, questionNo)).rejects.toThrow(
+        errorMessage
+      );
       expect(updateAnswer).toHaveBeenCalledWith(mockAnswer, projectId, questionNo);
     });
   });
@@ -288,7 +292,10 @@ describe("answersApi", () => {
     it("回答の作成から取得までの一連のフロー", async () => {
       // Arrange: テストデータとモック関数の戻り値を設定
       const questionNo = 1;
-      vi.mocked(createAnswer).mockResolvedValue({ message: "回答が作成されました", variant: "success" });
+      vi.mocked(createAnswer).mockResolvedValue({
+        message: "回答が作成されました",
+        variant: "success",
+      });
       vi.mocked(getAnswer).mockResolvedValue([mockAnswer]);
       vi.mocked(getExistAnswerNum).mockResolvedValue(1);
 

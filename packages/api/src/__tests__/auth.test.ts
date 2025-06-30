@@ -134,12 +134,14 @@ describe("authApi", () => {
       vi.mocked(awaitOnAuth).mockResolvedValue(mockUser);
 
       // Act: 複数回連続で呼び出し
-      const promises = Array(5).fill(null).map(() => authApi.getCurrentUser());
+      const promises = Array(5)
+        .fill(null)
+        .map(() => authApi.getCurrentUser());
       const results = await Promise.all(promises);
 
       // Assert: すべて同じ結果が返されることを検証
       expect(awaitOnAuth).toHaveBeenCalledTimes(5);
-      results.forEach(result => {
+      results.forEach((result) => {
         expect(result).toEqual(mockUser);
       });
     });

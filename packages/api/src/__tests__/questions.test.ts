@@ -146,7 +146,9 @@ describe("questionsApi", () => {
       vi.mocked(createQuestion).mockRejectedValue(new Error(errorMessage));
 
       // Act & Assert: 例外が投げられることを検証
-      await expect(questionsApi.create(mockUser, mockQuestion, projectId)).rejects.toThrow(errorMessage);
+      await expect(questionsApi.create(mockUser, mockQuestion, projectId)).rejects.toThrow(
+        errorMessage
+      );
       expect(createQuestion).toHaveBeenCalledWith(mockUser, mockQuestion, projectId);
     });
 
@@ -190,7 +192,9 @@ describe("questionsApi", () => {
       vi.mocked(updateQuestion).mockRejectedValue(new Error(errorMessage));
 
       // Act & Assert: 例外が投げられることを検証
-      await expect(questionsApi.update(mockUser, mockQuestion, projectId)).rejects.toThrow(errorMessage);
+      await expect(questionsApi.update(mockUser, mockQuestion, projectId)).rejects.toThrow(
+        errorMessage
+      );
       expect(updateQuestion).toHaveBeenCalledWith(mockUser, mockQuestion, projectId);
     });
   });
@@ -215,7 +219,9 @@ describe("questionsApi", () => {
       vi.mocked(registerQuestion).mockRejectedValue(new Error(errorMessage));
 
       // Act & Assert: 例外が投げられることを検証
-      await expect(questionsApi.register(mockUser, mockQuestions, projectId)).rejects.toThrow(errorMessage);
+      await expect(questionsApi.register(mockUser, mockQuestions, projectId)).rejects.toThrow(
+        errorMessage
+      );
       expect(registerQuestion).toHaveBeenCalledWith(mockUser, mockQuestions, projectId);
     });
 
@@ -319,7 +325,10 @@ describe("questionsApi", () => {
 
     it("一括登録から全取得までの一連のフロー", async () => {
       // Arrange: テストデータとモック関数の戻り値を設定
-      vi.mocked(registerQuestion).mockResolvedValue({ message: "一括登録完了", variant: "success" });
+      vi.mocked(registerQuestion).mockResolvedValue({
+        message: "一括登録完了",
+        variant: "success",
+      });
       vi.mocked(getAllQuestions).mockResolvedValue(mockQuestions);
       vi.mocked(getQuestionNum).mockResolvedValue(mockQuestions.length);
 

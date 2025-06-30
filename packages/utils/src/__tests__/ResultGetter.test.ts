@@ -142,7 +142,12 @@ describe("ResultGetter", () => {
           question_id: "question1",
         },
       ];
-      const result = getRespondent(ansUser, mockParticipants, mockQuestion, differentSelectUserAnswers);
+      const result = getRespondent(
+        ansUser,
+        mockParticipants,
+        mockQuestion,
+        differentSelectUserAnswers
+      );
       expect(result).toBe("");
     });
 
@@ -178,7 +183,12 @@ describe("ResultGetter", () => {
         { user_id: "user2", user_name: "佐藤花子" },
         { user_id: "user3", user_name: undefined as unknown as string },
       ];
-      const result = getRespondent(ansUser, participantsWithUndefinedName, mockQuestion, mockAnswers);
+      const result = getRespondent(
+        ansUser,
+        participantsWithUndefinedName,
+        mockQuestion,
+        mockAnswers
+      );
       expect(result).toBe("");
     });
   });
@@ -187,8 +197,13 @@ describe("ResultGetter", () => {
     it("実際のゲームフローでの動作確認", () => {
       // シナリオ: user1が質問を選択し、user2がuser3だと推測
       const questioner = getQuestioner(mockParticipants, mockQuestion);
-      const respondent = getRespondent(mockParticipants[1], mockParticipants, mockQuestion, mockAnswers);
-      
+      const respondent = getRespondent(
+        mockParticipants[1],
+        mockParticipants,
+        mockQuestion,
+        mockAnswers
+      );
+
       expect(questioner).toBe("田中太郎");
       expect(respondent).toBe("山田次郎");
     });

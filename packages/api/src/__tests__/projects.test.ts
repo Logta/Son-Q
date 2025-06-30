@@ -146,7 +146,10 @@ describe("projectsApi", () => {
       // Arrange: テストデータとモック関数の戻り値を設定
       const projectId = "project-123";
       const userName = "テストユーザー";
-      vi.mocked(joinProject).mockResolvedValue({ message: "更新が完了しました", variant: "success" });
+      vi.mocked(joinProject).mockResolvedValue({
+        message: "更新が完了しました",
+        variant: "success",
+      });
 
       // Act: 実際の処理を実行
       await projectsApi.join(mockUser, projectId, userName);
@@ -202,8 +205,14 @@ describe("projectsApi", () => {
       // Arrange: テストデータとモック関数の戻り値を設定
       const newProjectId = "new-project";
       const userName = "テストユーザー";
-      vi.mocked(createProject).mockResolvedValue({ message: "作成が完了しました", variant: "success" });
-      vi.mocked(joinProject).mockResolvedValue({ message: "更新が完了しました", variant: "success" });
+      vi.mocked(createProject).mockResolvedValue({
+        message: "作成が完了しました",
+        variant: "success",
+      });
+      vi.mocked(joinProject).mockResolvedValue({
+        message: "更新が完了しました",
+        variant: "success",
+      });
       vi.mocked(getProjectMode).mockResolvedValue("active");
 
       // Act: 実際の処理を実行
