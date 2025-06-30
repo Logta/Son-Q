@@ -17,7 +17,33 @@ import type { Question } from "@son-q/types";
  */
 export const useQuestions = (projectId: string) => {
   return useQuery({
-    queryKey: ["questions", projectId],
+    queryKey: ["allQuestions", projectId],
+    queryFn: async () => {
+      return await questionsApi.getAll(projectId);
+    },
+    enabled: !!projectId,
+  });
+};
+
+/**
+ * 全問題取得用のカスタムフック（明示的な名前）
+ */
+export const useAllQuestions = (projectId: string) => {
+  return useQuery({
+    queryKey: ["allQuestions", projectId],
+    queryFn: async () => {
+      return await questionsApi.getAll(projectId);
+    },
+    enabled: !!projectId,
+  });
+};
+
+/**
+ * ユーザーが出題した問題のみ取得用のカスタムフック
+ */
+export const useUserQuestions = (projectId: string) => {
+  return useQuery({
+    queryKey: ["userQuestions", projectId],
     queryFn: async () => {
       const user = await authApi.getCurrentUser();
       return await questionsApi.getByProject(user, projectId);

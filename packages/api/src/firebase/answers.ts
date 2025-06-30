@@ -144,27 +144,6 @@ const getParticipants = async (projectId: string) => {
   return members;
 };
 
-// 全件取得する
-const getAllQuestions = async (projectId: string) => {
-  const questions: Array<Question> = [];
-
-  const docsRef = collection(firestore, "projects", projectId, "questions");
-
-  await getDocs(docsRef).then((snapshot) => {
-    snapshot.forEach((doc) => {
-      const question: Question = {
-        ID: doc.id,
-        no: doc.data().no,
-        url: doc.data().url,
-        select_user_id: doc.data().select_user_id,
-      };
-      questions.push(question);
-    });
-  });
-
-  return questions;
-};
-
 export {
   getAnswer,
   createAnswer,
@@ -172,6 +151,5 @@ export {
   registerAnswer,
   getQuestionNumber,
   getParticipants,
-  getAllQuestions,
   getExistAnswerNum,
 };

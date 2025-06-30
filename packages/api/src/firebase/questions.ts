@@ -48,13 +48,34 @@ const getQuestion = async (user: Auth, projectId: string) => {
   return questions;
 };
 
+// 全件取得する（フィルタリングなし）
+const getAllQuestions = async (projectId: string) => {
+  const questions: Array<Question> = [];
+
+  const docsRef = collection(firestore, "projects", projectId, "questions");
+
+  await getDocs(docsRef).then((snapshot) => {
+    snapshot.forEach((doc) => {
+      const question: Question = {
+        ID: doc.id,
+        no: doc.data().no,
+        url: doc.data().url,
+        select_user_id: doc.data().select_user_id,
+      };
+      questions.push(question);
+    });
+  });
+
+  return questions;
+};
+
 const createQuestion = async (
   user: Auth,
   question: Question,
   projectId: string
 ) => {
   try {
-    const docRef = await addDoc(
+    await addDoc(
       collection(firestore, "projects", projectId, "questions"),
       {
         no: question.no,
@@ -100,7 +121,7 @@ const registerQuestion = async (
       if (question.ID !== "") {
         await updateQuestion(user, question, projectId);
       } else {
-        const result = await createQuestion(user, question, projectId);
+        await createQuestion(user, question, projectId);
       }
     }
 
@@ -121,6 +142,7 @@ const registerQuestion = async (
 
 export {
   getQuestion,
+  getAllQuestions,
   createQuestion,
   updateQuestion,
   registerQuestion,

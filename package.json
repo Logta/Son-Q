@@ -6,14 +6,16 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "next dev",
+    "dev": "pnpm run build:packages && next dev",
     "build": "pnpm --filter \"@son-q/*\" build && next build",
     "build:packages": "pnpm --filter \"@son-q/*\" build",
     "start": "next start",
     "test": "jest",
     "lint": "next lint",
     "typecheck": "pnpm --filter \"@son-q/*\" typecheck && tsc --noEmit",
-    "clean": "pnpm --filter \"@son-q/*\" exec rm -rf dist"
+    "clean": "pnpm --filter \"@son-q/*\" exec rm -rf dist",
+    "clean:all": "pnpm run clean && rm -rf .next && rm -rf node_modules/.cache",
+    "dev:clean": "pnpm run clean:all && pnpm run dev"
   },
   "dependencies": {
     "@son-q/api": "workspace:*",

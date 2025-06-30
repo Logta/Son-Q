@@ -1,7 +1,13 @@
 import Image from "next/image";
 import styles from "./Question.module.scss";
 import { useContext, useState } from "react";
-import { Container, Button, Typography, CircularProgress, Box } from "@mui/material";
+import {
+  Container,
+  Button,
+  Typography,
+  CircularProgress,
+  Box,
+} from "@mui/material";
 import { Suspense } from "react";
 import { AppBar, QuestionForm } from "@/components/organisms";
 import { QuestionsContext } from "@/contexts";
@@ -9,7 +15,7 @@ import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
 import { useRouter } from "next/router";
 import { Label, SubLabel } from "@son-q/ui";
 import { isNil } from "es-toolkit";
-import { useQuestions, useQuestionCount } from "@son-q/queries";
+import { useUserQuestions, useQuestionCount } from "@son-q/queries";
 
 import HomeIcon from "@mui/icons-material/Home";
 
@@ -18,8 +24,8 @@ import HomeIcon from "@mui/icons-material/Home";
  */
 const QuestionContent = () => {
   const { projectId } = useContext(QuestionsContext);
-  const { data: questions = [] } = useQuestions(projectId);
-  
+  const { data: questions = [] } = useUserQuestions(projectId);
+
   // 問題数を取得
   const { data: questionNum = 0 } = useQuestionCount(projectId);
 
@@ -59,15 +65,17 @@ const PageBody = () => {
             ※出題するYoutube動画IDを記入してください
           </Typography>
         </main>
-        
-        <Suspense fallback={
-          <Box display="flex" justifyContent="center" mt={4}>
-            <CircularProgress />
-          </Box>
-        }>
+
+        <Suspense
+          fallback={
+            <Box display="flex" justifyContent="center" mt={4}>
+              <CircularProgress />
+            </Box>
+          }
+        >
           <QuestionContent />
         </Suspense>
-        
+
         <div className={styles.redirectButton}>
           <Button
             onClick={redirect("/projects")}

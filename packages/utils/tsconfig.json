@@ -1,9 +1,9 @@
 {
   "extends": "@son-q/config/typescript/base.json",
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "./lib",
     "rootDir": "./src"
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist", "lib", "src/**/*.test.ts"]
 }
