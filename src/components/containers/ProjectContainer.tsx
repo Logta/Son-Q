@@ -1,4 +1,3 @@
-import { isNull } from "es-toolkit";
 import type React from "react";
 import { Suspense, useEffect } from "react";
 import { useGlobalStore, useProjectStore } from "@/stores";
@@ -20,8 +19,8 @@ const ProjectContainerContent: React.FC<Props> = ({ children, projectId }) => {
 
   // 通知関数をストアに設定（初回のみ）
   useEffect(() => {
-    setNotificationFunctions({ errorMessage, successMessage, warningMessage: () => {} });
-  }, []);
+    setNotificationFunctions({ errorMessage, successMessage, warningMessage: () => { /* プレースホルダー */ } });
+  }, [setNotificationFunctions, errorMessage, successMessage]);
 
   // 認証状態を確認
   useEffect(() => {

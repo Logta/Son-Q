@@ -67,7 +67,6 @@ const App = ({ questions, nums }: Props) => {
     handleSetPropsQuestions();
   }, []);
 
-  // biome-ignore lint/suspicious/noExplicitAny: React event type
   const handleURLChange = (id: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
     const newQues = currentQuestions.slice();
     const regex = /.*\?.*|.*=.*|.*\/.*|.*\\.*|.*:.*|.*&.*/;

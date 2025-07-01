@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import type React from "react";
+import { useEffect } from "react";
 import { useGlobalStore, useProjectsStore } from "@/stores";
 import { awaitOnAuth } from "@son-q/api";
-import type { User } from "@son-q/types";
 
 type Props = {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ const ProjectsContainer: React.FC<Props> = ({ children }) => {
       successMessage,
       warningMessage,
     });
-  }, []);
+  }, [setNotificationFunctions, errorMessage, successMessage, warningMessage]);
 
   // 認証状態を確認してユーザー情報をセット
   useEffect(() => {

@@ -1,6 +1,5 @@
 import { Paper } from "@mui/material";
 import { useRouter } from "next/router";
-import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getProjectFromID } from "@son-q/api";
 import { useGlobalStore } from "@/stores";

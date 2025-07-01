@@ -38,7 +38,7 @@ const App: React.FC<Props> = (props: Props) => {
       errorMessage,
       warningMessage,
     });
-  }, []);
+  }, [setNotificationFunctions, successMessage, errorMessage, warningMessage]);
 
   // ダークモード設定を反映
   useEffect(() => {
@@ -47,12 +47,12 @@ const App: React.FC<Props> = (props: Props) => {
     } else {
       handleDarkModeOff();
     }
-  }, [props.darkMode]);
+  }, [props.darkMode, handleDarkModeOn, handleDarkModeOff]);
 
   // 認証状態をチェック（初回のみ）
   useEffect(() => {
     signInCheck();
-  }, []);
+  }, [signInCheck]);
 
   return props.children;
 };
