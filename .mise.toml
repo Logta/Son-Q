@@ -1,0 +1,9 @@
+[tools]
+node = "24.3.0"
+pnpm = "latest"
+
+[env]
+NODE_ENV = "development"
+
+[settings]
+legacy_version_file = true

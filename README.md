@@ -79,6 +79,7 @@ Son-Q/
 
 - Node.js 24.3.0
 - pnpm (推奨パッケージマネージャー)
+- mise (環境管理ツール) - [インストール方法](https://mise.jdx.dev/getting-started.html)
 
 ### インストール
 
@@ -87,7 +88,19 @@ Son-Q/
 git clone https://github.com/your-username/Son-Q.git
 cd Son-Q
 
+# miseを使用してNode.js環境をセットアップ
+mise install
+
 # 依存関係のインストール
+pnpm install
+```
+
+#### Voltaを使用する場合（代替方法）
+
+Voltaを既に使用している場合は、そのまま利用可能です：
+
+```bash
+# Voltaが自動的にNode.js 24.3.0とnpm 11.4.2をセットアップします
 pnpm install
 ```
 
