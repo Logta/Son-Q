@@ -9,12 +9,20 @@ NODE_ENV = "development"
 legacy_version_file = true
 
 [tasks.dev]
-description = "開発サーバーを起動"
-run = "pnpm run dev"
+description = "開発サーバーを起動（パッケージビルド込み）"
+run = ["pnpm run packages:build", "pnpm run next:dev"]
+
+[tasks."dev:clean"]
+description = "クリーンな状態で開発サーバーを起動"
+run = ["mise run clean", "mise run dev"]
 
 [tasks.build]
 description = "プロダクションビルドを実行"
 run = "pnpm run build"
+
+[tasks.start]
+description = "プロダクションサーバーを起動"
+run = "pnpm run next:start"
 
 [tasks.test]
 description = "テストを実行"
@@ -24,29 +32,53 @@ run = "pnpm test"
 description = "テストUIを起動"
 run = "pnpm test:ui"
 
+[tasks."test:run"]
+description = "テストを単発実行"
+run = "pnpm test:run"
+
 [tasks."test:coverage"]
 description = "カバレッジ付きでテストを実行"
-run = "pnpm test --coverage"
+run = "pnpm test:coverage"
 
 [tasks.lint]
 description = "リンターを実行"
-run = "pnpm run lint"
+run = "pnpm run biome:lint"
 
 [tasks."lint:fix"]
 description = "リンターで自動修正"
-run = "pnpm run lint:fix"
+run = "pnpm run biome:lint:fix"
 
 [tasks.format]
 description = "コードをフォーマット"
-run = "pnpm run format"
+run = "pnpm run biome:format"
+
+[tasks."format:check"]
+description = "フォーマットをチェック"
+run = "pnpm run biome:format:check"
 
 [tasks.typecheck]
 description = "型チェックを実行"
-run = "pnpm run typecheck"
+run = ["pnpm run packages:typecheck", "pnpm run tsc"]
+
+[tasks.check]
+description = "コード品質チェック（lint, format, typecheck）"
+run = ["mise run typecheck", "pnpm run biome:check"]
+
+[tasks."check:ci"]
+description = "CI用のコード品質チェック"
+run = ["mise run typecheck", "pnpm run biome:ci"]
 
 [tasks.clean]
 description = "ビルド成果物をクリーン"
-run = "pnpm run clean:all"
+run = ["pnpm run packages:clean", "pnpm run clean:next", "pnpm run clean:cache"]
+
+[tasks."clean:packages"]
+description = "パッケージのビルド成果物をクリーン"
+run = "pnpm run packages:clean"
+
+[tasks."clean:next"]
+description = "Next.jsのビルド成果物をクリーン"
+run = "pnpm run clean:next"
 
 [tasks.install]
 description = "依存関係をインストール"
@@ -54,12 +86,8 @@ run = "pnpm install"
 
 [tasks.setup]
 description = "プロジェクトの初期セットアップ"
-run = ["mise install", "pnpm install", "pnpm run build:packages"]
+run = ["mise install", "pnpm install", "pnpm run packages:build"]
 
 [tasks.ci]
 description = "CI環境での検証を実行"
-run = ["pnpm run typecheck", "pnpm run check:ci", "pnpm test:run"]
-
-[tasks.check]
-description = "コード品質チェック（lint, format, typecheck）"
-run = ["pnpm run typecheck", "pnpm run check"]
+run = ["mise run check:ci", "mise run test:run"]

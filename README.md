@@ -104,8 +104,8 @@ pnpm install
 ### 開発サーバーの起動
 
 ```bash
-# パッケージビルド後、開発サーバーを起動
-pnpm dev
+# 開発サーバーを起動（パッケージビルド込み）
+mise run dev
 ```
 
 http://localhost:3000 でアプリケーションにアクセスできます。
@@ -118,28 +118,35 @@ http://localhost:3000 でアプリケーションにアクセスできます。
 # 利用可能なタスクを確認
 mise tasks
 
-# 開発サーバー起動
-mise run dev
+# 開発
+mise run dev            # 開発サーバー起動（パッケージビルド込み）
+mise run dev:clean      # クリーンな状態で開発サーバー起動
+mise run start          # プロダクションサーバー起動
 
-# テスト実行
-mise run test
+# テスト
+mise run test           # テスト実行（watch mode）
 mise run test:ui        # テストUI表示
-mise run test:coverage   # カバレッジ付き
+mise run test:run       # テスト単発実行
+mise run test:coverage  # カバレッジ付きテスト
 
-# コード品質チェック
-mise run check          # lint, format, typecheckを一括実行
+# コード品質
+mise run check          # 全体チェック（typecheck + biome check）
+mise run check:ci       # CI用チェック（typecheck + biome ci）
 mise run lint           # リント実行
 mise run lint:fix       # リント自動修正
 mise run format         # フォーマット実行
-mise run typecheck      # 型チェック
+mise run format:check   # フォーマットチェック
+mise run typecheck      # 型チェック（packages + root）
 
-# ビルド関連
-mise run build          # プロダクションビルド
-mise run clean          # ビルド成果物クリーン
+# ビルド・クリーン
+mise run build          # プロダクションビルド（packages + next）
+mise run clean          # 全クリーン（packages + next + cache）
+mise run clean:packages # パッケージのみクリーン
+mise run clean:next     # Next.jsのみクリーン
 
 # セットアップ
-mise run setup          # 初期セットアップ（mise install → pnpm install → build:packages）
-mise run ci             # CI検証（typecheck → check:ci → test:run）
+mise run setup          # 初期セットアップ
+mise run ci             # CI検証（check:ci + test:run）
 ```
 
 #### pnpm を直接使用する場合
