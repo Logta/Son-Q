@@ -9,12 +9,12 @@ import styles from "./ProjectForm.module.scss";
 
 const App = () => {
   const router = useRouter();
-  const projectId = router.query.pid as string;
+  const projectId = router.query.project_id as string;
   const { user } = useGlobalStore();
   const paletteType = useTheme().palette.mode;
 
   const { data: project } = useQuery({
-    queryKey: ['project', projectId],
+    queryKey: ["project", projectId],
     queryFn: () => getProjectFromID(projectId),
     enabled: !!user && !!projectId,
   });

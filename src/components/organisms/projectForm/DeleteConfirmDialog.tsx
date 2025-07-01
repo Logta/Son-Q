@@ -20,7 +20,7 @@ type Props = {
 const App = (props: Props) => {
   const { open, setOpen } = props;
   const router = useRouter();
-  const projectId = router.query.pid as string;
+  const projectId = router.query.project_id as string;
   const { user, successMessage, errorMessage } = useGlobalStore();
   const queryClient = useQueryClient();
 
@@ -31,7 +31,7 @@ const App = (props: Props) => {
   };
 
   const { data: project } = useQuery({
-    queryKey: ['project', projectId],
+    queryKey: ["project", projectId],
     queryFn: () => getProjectFromID(projectId),
     enabled: !!user && !!projectId,
   });
@@ -42,15 +42,15 @@ const App = (props: Props) => {
       return result;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
-      if (data.variant === 'success') {
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      if (data.variant === "success") {
         successMessage(data.message);
       } else {
         errorMessage(data.message);
       }
     },
     onError: () => {
-      errorMessage('プロジェクトの削除に失敗しました');
+      errorMessage("プロジェクトの削除に失敗しました");
     },
   });
 
@@ -62,9 +62,9 @@ const App = (props: Props) => {
     e.preventDefault();
 
     if (!project) return;
-    
+
     const result = await deleteProjectMutation.mutateAsync(project.ID);
-    if (result.variant === 'success') {
+    if (result.variant === "success") {
       redirect("/projects")(e);
     }
   };
@@ -77,9 +77,13 @@ const App = (props: Props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"プロジェクトを削除"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {"プロジェクトを削除"}
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">選択したプロジェクト</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            選択したプロジェクト
+          </DialogContentText>
           <DialogContentText id="alert-dialog-description">
             <strong>{project.name}</strong>
           </DialogContentText>
@@ -92,7 +96,12 @@ const App = (props: Props) => {
           <Button onClick={handleClose} color="primary">
             キャンセル
           </Button>
-          <Button onClick={handleSubmit} color="secondary" autoFocus variant="contained">
+          <Button
+            onClick={handleSubmit}
+            color="secondary"
+            autoFocus
+            variant="contained"
+          >
             削除
           </Button>
         </DialogActions>

@@ -43,7 +43,7 @@ function useInput(
 const App = () => {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
-  const projectId = router.query.pid as string;
+  const projectId = router.query.project_id as string;
   const { user, successMessage, errorMessage } = useGlobalStore();
   const queryClient = useQueryClient();
 
@@ -54,7 +54,7 @@ const App = () => {
   };
 
   const { data: project } = useQuery({
-    queryKey: ['project', projectId],
+    queryKey: ["project", projectId],
     queryFn: () => getProjectFromID(projectId),
     enabled: !!user && !!projectId,
   });
@@ -65,15 +65,15 @@ const App = () => {
       return result;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['project', projectId] });
-      if (data.variant === 'success') {
+      queryClient.invalidateQueries({ queryKey: ["project", projectId] });
+      if (data.variant === "success") {
         successMessage(data.message);
       } else {
         errorMessage(data.message);
       }
     },
     onError: () => {
-      errorMessage('プロジェクトの更新に失敗しました');
+      errorMessage("プロジェクトの更新に失敗しました");
     },
   });
 
@@ -166,7 +166,9 @@ const App = () => {
             </Box>
             <Box marginTop={3} width={"100%"}>
               <FormControl variant="outlined" fullWidth>
-                <InputLabel id="demo-simple-select-outlined-label">ポイント計算モード</InputLabel>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  ポイント計算モード
+                </InputLabel>
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
@@ -174,9 +176,15 @@ const App = () => {
                   label="ポイント計算モード"
                 >
                   <MenuItem value={"normal"}>正解数が得点に</MenuItem>
-                  <MenuItem value={"getOnlyOneCorrectAnswer"}>1人だけが正解するように</MenuItem>
-                  <MenuItem value={"getOnlyOneIncorrectAnswer"}>1人だけが不正解するように</MenuItem>
-                  <MenuItem value={"getCorrectAnswer"}>当ててもらった問題数が得点に</MenuItem>
+                  <MenuItem value={"getOnlyOneCorrectAnswer"}>
+                    1人だけが正解するように
+                  </MenuItem>
+                  <MenuItem value={"getOnlyOneIncorrectAnswer"}>
+                    1人だけが不正解するように
+                  </MenuItem>
+                  <MenuItem value={"getCorrectAnswer"}>
+                    当ててもらった問題数が得点に
+                  </MenuItem>
                 </Select>
               </FormControl>
             </Box>

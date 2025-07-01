@@ -23,11 +23,11 @@ const PageBody = () => {
     e.preventDefault();
     router.push(href);
   };
-  const projectId = router.query.pid as string;
+  const projectId = router.query.project_id as string;
   const { user } = useGlobalStore();
-  
+
   const { data: project, isLoading } = useQuery({
-    queryKey: ['project', projectId],
+    queryKey: ["project", projectId],
     queryFn: () => getProjectFromID(projectId),
     enabled: !!user && !!projectId,
   });
@@ -49,7 +49,11 @@ const PageBody = () => {
           <ProjectForm />
 
           <div className={styles.redirectButton}>
-            <Button onClick={redirect("/projects")} variant="outlined" startIcon={<HomeIcon />}>
+            <Button
+              onClick={redirect("/projects")}
+              variant="outlined"
+              startIcon={<HomeIcon />}
+            >
               プロジェクト一覧に戻る
             </Button>
           </div>
@@ -62,12 +66,20 @@ const PageBody = () => {
             >
               Powered by{" "}
               <span className={styles.logo}>
-                <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+                <Image
+                  src="/vercel.svg"
+                  alt="Vercel Logo"
+                  width={72}
+                  height={16}
+                />
               </span>
             </a>
           </footer>
         </Container>
-        <ProjectCreateDialog open={openCreateDialog} setOpen={setOpenCreateDialog} />
+        <ProjectCreateDialog
+          open={openCreateDialog}
+          setOpen={setOpenCreateDialog}
+        />
         <ProjectJoinDialog open={openJoinDialog} setOpen={setOpenJoinDialog} />
       </>
     )
