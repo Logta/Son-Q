@@ -1,6 +1,6 @@
 import { Button, TextField } from "@mui/material";
-import React, { useContext } from "react";
-import { GlobalContext } from "@/contexts";
+import React from "react";
+import { useGlobalStore } from "@/stores";
 
 // カスタムフックを定義（input 要素用の属性を生成する）
 // biome-ignore lint/suspicious/noExplicitAny: custom hook return type
@@ -13,11 +13,11 @@ function useInput(initValue: string): any {
 }
 
 const App = () => {
-  const { signInEmail } = useContext(GlobalContext);
+  const { signInEmail } = useGlobalStore();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    signInEmail({ email: email.value, password: password.value });
+    signInEmail(email.value, password.value);
   };
 
   const email = useInput("");

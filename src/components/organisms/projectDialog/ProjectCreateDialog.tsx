@@ -14,8 +14,8 @@ import {
 } from "@mui/material";
 import { useCreateProject } from "@son-q/queries";
 import type { Project } from "@son-q/types";
-import React, { useContext } from "react";
-import { ProjectsContext } from "@/contexts";
+import React from "react";
+import { useProjectsStore } from "@/stores";
 import styles from "./ProjectDialog.module.scss";
 
 type Props = {
@@ -31,7 +31,7 @@ function useInput(
   // biome-ignore lint/suspicious/noExplicitAny: custom hook return type
 ): any {
   const [value, setValue] = React.useState<string>(initValue);
-  const { errorMessage } = useContext(ProjectsContext);
+  const { errorMessage } = useProjectsStore();
   return {
     value,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +48,7 @@ function useInput(
  * ProjectCreateDialog: TanStack Queryフックを直接使用
  */
 const App = (props: Props) => {
-  const { successMessage, errorMessage } = useContext(ProjectsContext);
+  const { successMessage, errorMessage } = useProjectsStore();
   const { open, setOpen } = props;
 
   // TanStack Queryフックを直接使用

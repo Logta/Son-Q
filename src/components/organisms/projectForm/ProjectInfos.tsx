@@ -1,13 +1,23 @@
 import { Box, Chip, List, ListItem, ListItemText } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { getProjectFromID } from "@son-q/api";
 import { FormLabel } from "@son-q/ui";
-import { useContext } from "react";
-import { ProjectContext } from "@/contexts";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import { useGlobalStore } from "@/stores";
 import styles from "./ProjectForm.module.scss";
 
 const App = () => {
-  const { project } = useContext(ProjectContext);
+  const router = useRouter();
+  const projectId = router.query.project_id as string;
+  const { user } = useGlobalStore();
   const paletteType = useTheme().palette.mode;
+
+  const { data: project } = useQuery({
+    queryKey: ["project", projectId],
+    queryFn: () => getProjectFromID(projectId),
+    enabled: !!user && !!projectId,
+  });
 
   const getParticipants = (): string[] => {
     return project.participants.map((p) => {
@@ -33,7 +43,7 @@ const App = () => {
                   key={p}
                   label={p}
                   color="primary"
-                  variant={paletteType === "dark" ? "default" : "outlined"}
+                  variant={paletteType === "dark" ? "filled" : "outlined"}
                   style={{ marginRight: "1em" }}
                 />
               );

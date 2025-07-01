@@ -37,3 +37,5 @@ yarn-error.log*
 
 # mise
 .mise.local.toml
+
+tsconfig.tsbuildinfo

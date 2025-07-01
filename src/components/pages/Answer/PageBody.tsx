@@ -6,16 +6,16 @@ import { Label, SubLabel } from "@son-q/ui";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Suspense, useContext } from "react";
+import { Suspense } from "react";
 import { AnswerForm, AppBar } from "@/components/organisms";
-import { AnswersContext } from "@/contexts";
+import { useAnswersStore } from "@/stores";
 import styles from "./Answer.module.scss";
 
 /**
  * 回答フォームコンテンツ（Suspense境界内で使用）
  */
 const AnswerContent = () => {
-  const { projectId } = useContext(AnswersContext);
+  const { projectId } = useAnswersStore();
 
   // 必要なデータを並列で取得（Suspenseで自動的にローディング状態を管理）
   // 境界線：コンポーネントはhooks層のみを使用し、API層に直接アクセスしない

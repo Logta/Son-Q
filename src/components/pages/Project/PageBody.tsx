@@ -1,34 +1,43 @@
 import HomeIcon from "@mui/icons-material/Home";
 import { Button, Container } from "@mui/material";
+import { getProjectFromID } from "@son-q/api";
 import { Label, SubLabel } from "@son-q/ui";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import {
   AppBar,
   ProjectCreateDialog,
   ProjectForm,
   ProjectJoinDialog,
 } from "@/components/organisms";
-import { ProjectContext } from "@/contexts";
+import { useProjectIdFromRouter } from "@/hooks/useProjectIdFromRouter";
+import { useGlobalStore } from "@/stores";
 import styles from "./Project.module.scss";
 
 const PageBody = () => {
   const router = useRouter();
 
-  // biome-ignore lint/suspicious/noExplicitAny: React event type
-  const redirect = (href: string) => (e: any) => {
+  const redirect = (href: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     router.push(href);
   };
-  const { project, loading } = useContext(ProjectContext);
+  const projectId = useProjectIdFromRouter();
+  const { user } = useGlobalStore();
+
+  const { data: project, isLoading } = useQuery({
+    queryKey: ["project", projectId],
+    queryFn: () => getProjectFromID(projectId),
+    enabled: !!user && !!projectId,
+  });
 
   const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false);
   const [openJoinDialog, setOpenJoinDialog] = useState<boolean>(false);
 
   return (
     project &&
-    !loading && (
+    !isLoading && (
       <>
         <AppBar />
         <Container maxWidth="lg">

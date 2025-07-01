@@ -11,16 +11,16 @@ import { Label, SubLabel } from "@son-q/ui";
 import { isNil } from "es-toolkit";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Suspense, useContext } from "react";
+import { Suspense } from "react";
 import { AppBar, ResultPointTable, ResultTable } from "@/components/organisms";
-import { ResultsContext } from "@/contexts";
+import { useResultsStore } from "@/stores";
 import styles from "./Result.module.scss";
 
 /**
  * 結果コンテンツ（Suspense境界内で使用）
  */
 const ResultContent = () => {
-  const { projectId } = useContext(ResultsContext);
+  const { projectId } = useResultsStore();
 
   // 必要なデータを並列で取得（Suspenseで自動的にローディング状態を管理）
   const { data: questionNum = 0 } = useQuestionNumber(projectId);

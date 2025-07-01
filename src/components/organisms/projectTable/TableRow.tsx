@@ -6,8 +6,8 @@ import { getExistAnswerNum, getExistQuestionNum } from "@son-q/api";
 import type { Project, User } from "@son-q/types";
 import { PopupButton } from "@son-q/ui";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
-import { GlobalContext, ProjectsContext } from "@/contexts";
+import { useEffect, useState } from "react";
+import { useGlobalStore, useProjectsStore } from "@/stores";
 import styles from "./ProjectTable.module.scss";
 
 type Props = {
@@ -20,8 +20,8 @@ const App = (props: Props) => {
   const [readyResult, setReadyResult] = useState<boolean>(false);
 
   const { row } = props;
-  const { user } = useContext(ProjectsContext);
-  const { darkMode } = useContext(GlobalContext);
+  const { user } = useProjectsStore();
+  const { darkMode } = useGlobalStore();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
   useEffect(() => {
@@ -41,7 +41,7 @@ const App = (props: Props) => {
     setReadyResult(full_a === a_num);
   };
 
-  const redirect = (href: string) => (event: React.MouseEvent<HTMLInputElement>) => {
+  const redirect = (href: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     router.push(href);
     event.stopPropagation();

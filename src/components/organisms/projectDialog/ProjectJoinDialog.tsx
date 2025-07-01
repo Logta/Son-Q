@@ -7,8 +7,9 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import React, { useContext } from "react";
-import { ProjectsContext } from "@/contexts";
+import { useJoinProject } from "@son-q/queries";
+import React from "react";
+import { useProjectsStore } from "@/stores";
 import styles from "./ProjectDialog.module.scss";
 
 type Props = {
@@ -27,18 +28,31 @@ function useInput(initValue: string): any {
 }
 
 const App = (props: Props) => {
-  const { joinProjects } = useContext(ProjectsContext);
+  const { successMessage, errorMessage } = useProjectsStore();
+  const joinProjectMutation = useJoinProject();
   const { open, setOpen } = props;
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    joinProjects(joinID.value);
-    handleClose();
+    try {
+      const result = await joinProjectMutation.mutateAsync({
+        projectId: joinID.value,
+        userName: "",
+      });
+      if (result?.variant === "success") {
+        successMessage(result.message);
+        handleClose();
+      } else if (result?.variant === "error") {
+        errorMessage(result.message);
+      }
+    } catch (_error) {
+      errorMessage("プロジェクトへの参加に失敗しました");
+    }
   };
 
   const joinID = useInput("");

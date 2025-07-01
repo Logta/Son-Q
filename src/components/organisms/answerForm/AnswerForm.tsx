@@ -5,8 +5,8 @@ import type { Answer, Participant, Question } from "@son-q/types";
 import { Popup, Youtube } from "@son-q/ui";
 import { isNil } from "es-toolkit";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
-import { AnswersContext, GlobalContext } from "@/contexts";
+import { useEffect, useState } from "react";
+import { useAnswersStore, useGlobalStore } from "@/stores";
 import styles from "./AnswerForm.module.scss";
 import { AnswerSelector } from "./AnswerSelector";
 
@@ -19,8 +19,8 @@ type Props = {
 };
 
 const App = ({ answers, questionNum, questions, participants, isUserJoinProject }: Props) => {
-  const { projectId } = useContext(AnswersContext);
-  const { darkMode } = useContext(GlobalContext);
+  const { projectId } = useAnswersStore();
+  const { darkMode } = useGlobalStore();
 
   const registerAnswersMutation = useRegisterAnswers();
 

@@ -13,8 +13,8 @@ import type { Question } from "@son-q/types";
 import { Popup } from "@son-q/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
-import { GlobalContext, QuestionsContext } from "@/contexts";
+import { useEffect, useState } from "react";
+import { useGlobalStore, useQuestionsStore } from "@/stores";
 import styles from "./QuestionForm.module.scss";
 
 type Props = {
@@ -25,8 +25,7 @@ type Props = {
 const App = ({ questions, nums }: Props) => {
   const router = useRouter();
 
-  // biome-ignore lint/suspicious/noExplicitAny: React event type
-  const redirect = (href: string) => (e: any) => {
+  const redirect = (href: string) => (e: React.MouseEvent | React.FormEvent) => {
     e.preventDefault();
     router.push(href);
   };
@@ -36,8 +35,8 @@ const App = ({ questions, nums }: Props) => {
       return { ID: "", no: index, url: "", select_user_id: "" };
     })
   );
-  const { projectId } = useContext(QuestionsContext);
-  const { errorMessage } = useContext(GlobalContext);
+  const { projectId } = useQuestionsStore();
+  const { errorMessage } = useGlobalStore();
 
   // カスタムフックを使用
   const registerQuestionsMutation = useRegisterQuestions();
@@ -68,8 +67,19 @@ const App = ({ questions, nums }: Props) => {
     handleSetPropsQuestions();
   }, []);
 
-  // biome-ignore lint/suspicious/noExplicitAny: React event type
-  const handleURL = (id: number) => (event: any) => {
+  const handleURLChange = (id: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newQues = currentQuestions.slice();
+    const regex = /.*\?.*|.*=.*|.*\/.*|.*\\.*|.*:.*|.*&.*/;
+
+    if (regex.test(event.target.value)) {
+      errorMessage("不正な入力があります。");
+      return;
+    }
+    newQues[id].url = event.target.value;
+    setCurrentQuestions([...newQues]);
+  };
+
+  const handleURLBlur = (id: number) => (event: React.FocusEvent<HTMLInputElement>) => {
     const newQues = currentQuestions.slice();
     const regex = /.*\?.*|.*=.*|.*\/.*|.*\\.*|.*:.*|.*&.*/;
 
@@ -130,14 +140,13 @@ const App = ({ questions, nums }: Props) => {
                 <OutlinedInput
                   id="outlined-adornment-amount"
                   value={currentQuestions[value]?.url ? currentQuestions[value].url : ""}
-                  onChange={handleURL(+value)}
-                  onBlur={handleURL(+value)}
+                  onChange={handleURLChange(+value)}
+                  onBlur={handleURLBlur(+value)}
                   startAdornment={
                     <InputAdornment position="start">
                       https://www.youtube.com/watch?v=
                     </InputAdornment>
                   }
-                  labelWidth={60}
                 />
               </FormControl>
             </div>
