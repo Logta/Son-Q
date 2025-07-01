@@ -79,6 +79,7 @@ Son-Q/
 
 - Node.js 24.3.0
 - pnpm (推奨パッケージマネージャー)
+- mise (環境管理ツール) - [インストール方法](https://mise.jdx.dev/getting-started.html)
 
 ### インストール
 
@@ -87,20 +88,68 @@ Son-Q/
 git clone https://github.com/your-username/Son-Q.git
 cd Son-Q
 
-# 依存関係のインストール
+# miseを使用してNode.js環境をセットアップ
+mise setup
+```
+
+#### Volta を使用する場合（代替方法）
+
+Volta を既に使用している場合は、そのまま利用可能です：
+
+```bash
+# Voltaが自動的にNode.js 24.3.0とnpm 11.4.2をセットアップします
 pnpm install
 ```
 
 ### 開発サーバーの起動
 
 ```bash
-# パッケージビルド後、開発サーバーを起動
-pnpm dev
+# 開発サーバーを起動（パッケージビルド込み）
+mise run dev
 ```
 
 http://localhost:3000 でアプリケーションにアクセスできます。
 
 ### その他の便利なコマンド
+
+#### mise タスクを使用する場合（推奨）
+
+```bash
+# 利用可能なタスクを確認
+mise tasks
+
+# 開発
+mise run dev            # 開発サーバー起動（パッケージビルド込み）
+mise run dev:clean      # クリーンな状態で開発サーバー起動
+mise run start          # プロダクションサーバー起動
+
+# テスト
+mise run test           # テスト実行（watch mode）
+mise run test:ui        # テストUI表示
+mise run test:run       # テスト単発実行
+mise run test:coverage  # カバレッジ付きテスト
+
+# コード品質
+mise run check          # 全体チェック（typecheck + biome check）
+mise run check:ci       # CI用チェック（typecheck + biome ci）
+mise run lint           # リント実行
+mise run lint:fix       # リント自動修正
+mise run format         # フォーマット実行
+mise run format:check   # フォーマットチェック
+mise run typecheck      # 型チェック（packages + root）
+
+# ビルド・クリーン
+mise run build          # プロダクションビルド（packages + next）
+mise run clean          # 全クリーン（packages + next + cache）
+mise run clean:packages # パッケージのみクリーン
+mise run clean:next     # Next.jsのみクリーン
+
+# セットアップ
+mise run setup          # 初期セットアップ
+mise run ci             # CI検証（check:ci + test:run）
+```
+
+#### pnpm を直接使用する場合
 
 ```bash
 # テスト実行
