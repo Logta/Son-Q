@@ -11,21 +11,25 @@ import {
 } from "@mui/material";
 import type { Project } from "@son-q/types";
 import { FormLabel } from "@son-q/ui";
-import { useRouter } from "next/router";
 import React from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProjectFromID, updateProject } from "@son-q/api";
 import { useGlobalStore } from "@/stores";
+import { useProjectIdFromRouter } from "@/hooks/useProjectIdFromRouter";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 import styles from "./ProjectForm.module.scss";
+
+type UseInputReturn = {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
 // カスタムフックを定義（input 要素用の属性を生成する）
 function useInput(
   initValue: string,
   validation: (t: string) => boolean,
   validationMessage: string
-  // biome-ignore lint/suspicious/noExplicitAny: custom hook return type
-): any {
+): UseInputReturn {
   const { errorMessage } = useGlobalStore();
   const [value, setValue] = React.useState<string>(initValue);
   return {
@@ -41,16 +45,14 @@ function useInput(
 }
 
 const App = () => {
-  const router = useRouter();
   const [open, setOpen] = React.useState(false);
-  const projectId = router.query.project_id as string;
+  const projectId = useProjectIdFromRouter();
   const { user, successMessage, errorMessage } = useGlobalStore();
   const queryClient = useQueryClient();
 
-  // biome-ignore lint/suspicious/noExplicitAny: React event type
-  const redirect = (href: string) => (e: any) => {
+  const redirect = (href: string) => (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
-    router.push(href);
+    window.location.href = href;
   };
 
   const { data: project } = useQuery({
@@ -85,7 +87,7 @@ const App = () => {
       name: name.value,
       content: content.value,
       creater: "",
-      question_num: question_num.value,
+      question_num: Number(question_num.value),
       project_mode: project_mode.value,
       participants: [],
     };

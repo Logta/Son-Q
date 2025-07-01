@@ -13,17 +13,17 @@ import {
   ProjectJoinDialog,
 } from "@/components/organisms";
 import { useGlobalStore } from "@/stores";
+import { useProjectIdFromRouter } from "@/hooks/useProjectIdFromRouter";
 import styles from "./Project.module.scss";
 
 const PageBody = () => {
   const router = useRouter();
 
-  // biome-ignore lint/suspicious/noExplicitAny: React event type
-  const redirect = (href: string) => (e: any) => {
+  const redirect = (href: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     router.push(href);
   };
-  const projectId = router.query.project_id as string;
+  const projectId = useProjectIdFromRouter();
   const { user } = useGlobalStore();
 
   const { data: project, isLoading } = useQuery({

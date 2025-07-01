@@ -25,8 +25,7 @@ type Props = {
 const App = ({ questions, nums }: Props) => {
   const router = useRouter();
 
-  // biome-ignore lint/suspicious/noExplicitAny: React event type
-  const redirect = (href: string) => (e: any) => {
+  const redirect = (href: string) => (e: React.MouseEvent | React.FormEvent) => {
     e.preventDefault();
     router.push(href);
   };
@@ -69,7 +68,19 @@ const App = ({ questions, nums }: Props) => {
   }, []);
 
   // biome-ignore lint/suspicious/noExplicitAny: React event type
-  const handleURL = (id: number) => (event: any) => {
+  const handleURLChange = (id: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newQues = currentQuestions.slice();
+    const regex = /.*\?.*|.*=.*|.*\/.*|.*\\.*|.*:.*|.*&.*/;
+
+    if (regex.test(event.target.value)) {
+      errorMessage("不正な入力があります。");
+      return;
+    }
+    newQues[id].url = event.target.value;
+    setCurrentQuestions([...newQues]);
+  };
+
+  const handleURLBlur = (id: number) => (event: React.FocusEvent<HTMLInputElement>) => {
     const newQues = currentQuestions.slice();
     const regex = /.*\?.*|.*=.*|.*\/.*|.*\\.*|.*:.*|.*&.*/;
 
@@ -130,8 +141,8 @@ const App = ({ questions, nums }: Props) => {
                 <OutlinedInput
                   id="outlined-adornment-amount"
                   value={currentQuestions[value]?.url ? currentQuestions[value].url : ""}
-                  onChange={handleURL(+value)}
-                  onBlur={handleURL(+value)}
+                  onChange={handleURLChange(+value)}
+                  onBlur={handleURLBlur(+value)}
                   startAdornment={
                     <InputAdornment position="start">
                       https://www.youtube.com/watch?v=

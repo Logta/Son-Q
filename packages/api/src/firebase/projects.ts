@@ -83,9 +83,9 @@ const joinProject = async (user: Auth, id: string) => {
     }
     const docData = doc.data();
     if (!docData) return { message: "データの取得に失敗しました", variant: "error" };
-    const participants = JSON.parse(JSON.stringify(docData.participants));
-    const exist = docData.participants.some(
-      (p: { user_id: string; user_name: string }) => p.user_id === user.id
+    const participants = structuredClone(docData.participants);
+    const exist = Array.isArray(docData.participants) && docData.participants.some(
+      (p) => typeof p === "object" && p !== null && "user_id" in p && p.user_id === user.id
     );
     if (exist) return { message: "すでに参加しています", variant: "warning" };
 
@@ -107,18 +107,23 @@ const joinProject = async (user: Auth, id: string) => {
 };
 
 const getProjectFromID = async (projectId: string) => {
+  if (!projectId || typeof projectId !== "string" || projectId.trim().length === 0) {
+    throw new Error("Invalid project ID provided");
+  }
+
   const docRef = doc(firestore, "projects", projectId);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
+    const data = docSnap.data();
     return {
-      name: docSnap.data().name,
-      content: docSnap.data().content,
-      creater: docSnap.data().creater,
-      question_num: docSnap.data().question_num,
+      name: data.name,
+      content: data.content,
+      creater: data.creater,
+      question_num: data.question_num,
       ID: docSnap.id,
-      participants: docSnap.data().participants,
-      project_mode: docSnap.data().project_mode,
+      participants: data.participants,
+      project_mode: data.project_mode,
     };
   } else {
     console.warn("Project document not found for ID:", projectId);

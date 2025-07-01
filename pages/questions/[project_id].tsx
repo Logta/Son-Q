@@ -1,12 +1,12 @@
 import { Copyright } from "@son-q/ui";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { QuestionsContainer } from "../../src/components/containers";
 import { QuestionPage } from "../../src/components/pages";
+import { useProjectIdFromRouter } from "../../src/hooks/useProjectIdFromRouter";
 
 export default function Home() {
-  const router = useRouter();
-  const { project_id } = router.query;
+  const projectId = useProjectIdFromRouter();
+  
   return (
     <>
       <Head>
@@ -15,8 +15,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {project_id && (
-        <QuestionsContainer projectId={project_id as string}>
+      {projectId && (
+        <QuestionsContainer projectId={projectId}>
           <QuestionPage />
         </QuestionsContainer>
       )}
