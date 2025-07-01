@@ -1,8 +1,8 @@
+import { getProjectFromID } from "@son-q/api";
+import { useQuery } from "@tanstack/react-query";
 import type React from "react";
 import { Suspense, useEffect } from "react";
 import { useGlobalStore, useProjectStore } from "@/stores";
-import { useQuery } from "@tanstack/react-query";
-import { getProjectFromID } from "@son-q/api";
 
 type Props = {
   children: React.ReactNode;
@@ -19,7 +19,13 @@ const ProjectContainerContent: React.FC<Props> = ({ children, projectId }) => {
 
   // 通知関数をストアに設定（初回のみ）
   useEffect(() => {
-    setNotificationFunctions({ errorMessage, successMessage, warningMessage: () => { /* プレースホルダー */ } });
+    setNotificationFunctions({
+      errorMessage,
+      successMessage,
+      warningMessage: () => {
+        /* プレースホルダー */
+      },
+    });
   }, [setNotificationFunctions, errorMessage, successMessage]);
 
   // 認証状態を確認
@@ -29,7 +35,7 @@ const ProjectContainerContent: React.FC<Props> = ({ children, projectId }) => {
 
   // TanStack Queryでプロジェクトデータを取得
   const { data: project } = useQuery({
-    queryKey: ['project', projectId],
+    queryKey: ["project", projectId],
     queryFn: () => getProjectFromID(projectId),
     enabled: !!user && !!projectId,
   });

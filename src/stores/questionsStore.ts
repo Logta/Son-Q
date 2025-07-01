@@ -1,6 +1,6 @@
-import { create } from "zustand";
 import type { Auth } from "@son-q/types";
 import { notImplemented } from "packages/utils/lib";
+import { create } from "zustand";
 
 type NotificationFunction = (message: string) => void;
 

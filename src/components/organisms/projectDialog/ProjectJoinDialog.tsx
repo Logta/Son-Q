@@ -7,8 +7,8 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import React from "react";
 import { useJoinProject } from "@son-q/queries";
+import React from "react";
 import { useProjectsStore } from "@/stores";
 import styles from "./ProjectDialog.module.scss";
 
@@ -42,16 +42,16 @@ const App = (props: Props) => {
     try {
       const result = await joinProjectMutation.mutateAsync({
         projectId: joinID.value,
-        userName: '',
+        userName: "",
       });
-      if (result?.variant === 'success') {
+      if (result?.variant === "success") {
         successMessage(result.message);
         handleClose();
-      } else if (result?.variant === 'error') {
+      } else if (result?.variant === "error") {
         errorMessage(result.message);
       }
     } catch (_error) {
-      errorMessage('プロジェクトへの参加に失敗しました');
+      errorMessage("プロジェクトへの参加に失敗しました");
     }
   };
 

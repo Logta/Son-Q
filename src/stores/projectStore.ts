@@ -1,7 +1,7 @@
-import { create } from "zustand";
+import { deleteProject, getProjectFromID, updateProject } from "@son-q/api";
 import type { Project, User } from "@son-q/types";
-import { getProjectFromID, updateProject, deleteProject } from "@son-q/api";
 import { notImplemented } from "packages/utils/lib";
+import { create } from "zustand";
 
 type NotificationFunction = (message: string) => void;
 

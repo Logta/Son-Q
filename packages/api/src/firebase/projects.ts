@@ -84,9 +84,11 @@ const joinProject = async (user: Auth, id: string) => {
     const docData = doc.data();
     if (!docData) return { message: "データの取得に失敗しました", variant: "error" };
     const participants = structuredClone(docData.participants);
-    const exist = Array.isArray(docData.participants) && docData.participants.some(
-      (p) => typeof p === "object" && p !== null && "user_id" in p && p.user_id === user.id
-    );
+    const exist =
+      Array.isArray(docData.participants) &&
+      docData.participants.some(
+        (p) => typeof p === "object" && p !== null && "user_id" in p && p.user_id === user.id
+      );
     if (exist) return { message: "すでに参加しています", variant: "warning" };
 
     participants.push({

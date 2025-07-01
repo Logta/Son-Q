@@ -12,24 +12,29 @@ type Props = {
 
 const App: React.FC<Props> = (props: Props) => {
   const { enqueueSnackbar } = useSnackbar();
-  const {
-    setNotificationFunctions,
-    handleDarkModeOn,
-    handleDarkModeOff,
-    signInCheck,
-  } = useGlobalStore();
+  const { setNotificationFunctions, handleDarkModeOn, handleDarkModeOff, signInCheck } =
+    useGlobalStore();
 
-  const successMessage = useCallback((message: string) => {
-    enqueueSnackbar(message, { variant: "success" });
-  }, [enqueueSnackbar]);
+  const successMessage = useCallback(
+    (message: string) => {
+      enqueueSnackbar(message, { variant: "success" });
+    },
+    [enqueueSnackbar]
+  );
 
-  const errorMessage = useCallback((message: string) => {
-    enqueueSnackbar(message, { variant: "error" });
-  }, [enqueueSnackbar]);
+  const errorMessage = useCallback(
+    (message: string) => {
+      enqueueSnackbar(message, { variant: "error" });
+    },
+    [enqueueSnackbar]
+  );
 
-  const warningMessage = useCallback((message: string) => {
-    enqueueSnackbar(message, { variant: "warning" });
-  }, [enqueueSnackbar]);
+  const warningMessage = useCallback(
+    (message: string) => {
+      enqueueSnackbar(message, { variant: "warning" });
+    },
+    [enqueueSnackbar]
+  );
 
   // 通知関数を設定（初回のみ）
   useEffect(() => {

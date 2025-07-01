@@ -6,7 +6,7 @@ import { useProjectIdFromRouter } from "../../src/hooks/useProjectIdFromRouter";
 
 export default function Home() {
   const projectId = useProjectIdFromRouter();
-  
+
   return (
     <>
       <Head>

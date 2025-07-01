@@ -1,7 +1,7 @@
+import { awaitOnAuth } from "@son-q/api";
 import type React from "react";
 import { useEffect } from "react";
 import { useGlobalStore, useProjectsStore } from "@/stores";
-import { awaitOnAuth } from "@son-q/api";
 
 type Props = {
   children: React.ReactNode;

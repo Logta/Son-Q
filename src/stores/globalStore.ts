@@ -1,13 +1,13 @@
-import { create } from "zustand";
-import type { User } from "@son-q/types";
 import {
+  awaitOnAuth,
   awaitOnGoogleLogin,
   awaitOnPasswordLogin,
   createPasswordUser,
   signOutFirebase,
-  awaitOnAuth,
 } from "@son-q/api";
+import type { User } from "@son-q/types";
 import { notImplemented } from "packages/utils/lib";
+import { create } from "zustand";
 
 type NotificationFunction = (message: string) => void;
 
@@ -47,11 +47,7 @@ type GlobalState = {
   /** メールでサインイン */
   signInEmail: (email: string, password: string) => Promise<User | null>;
   /** メールでサインアップ */
-  signUpEmail: (
-    email: string,
-    password: string,
-    name: string
-  ) => Promise<User | null>;
+  signUpEmail: (email: string, password: string, name: string) => Promise<User | null>;
   /** サインアウト */
   signOut: () => Promise<void>;
 };
@@ -67,12 +63,13 @@ export const useGlobalStore = create<GlobalState>((set, get) => ({
   warningMessage: notImplemented,
   successMessage: notImplemented,
 
-  setNotificationFunctions: (functions) => set((state) => ({
-    ...state,
-    errorMessage: functions.errorMessage,
-    warningMessage: functions.warningMessage,
-    successMessage: functions.successMessage,
-  })),
+  setNotificationFunctions: (functions) =>
+    set((state) => ({
+      ...state,
+      errorMessage: functions.errorMessage,
+      warningMessage: functions.warningMessage,
+      successMessage: functions.successMessage,
+    })),
 
   setUser: (user) => set({ user }),
 

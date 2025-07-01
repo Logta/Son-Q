@@ -1,7 +1,7 @@
 import { Paper } from "@mui/material";
-import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
 import { getProjectFromID } from "@son-q/api";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import { useGlobalStore } from "@/stores";
 import { ProjectFormContent } from "./ProjectFormContent";
 import { ProjectInfos } from "./ProjectInfos";

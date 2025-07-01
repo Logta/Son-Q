@@ -6,10 +6,10 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
+import { deleteProject, getProjectFromID } from "@son-q/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import type React from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteProject, getProjectFromID } from "@son-q/api";
 import { useGlobalStore } from "@/stores";
 
 type Props = {
@@ -77,13 +77,9 @@ const App = (props: Props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"プロジェクトを削除"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"プロジェクトを削除"}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            選択したプロジェクト
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-description">選択したプロジェクト</DialogContentText>
           <DialogContentText id="alert-dialog-description">
             <strong>{project.name}</strong>
           </DialogContentText>
@@ -96,12 +92,7 @@ const App = (props: Props) => {
           <Button onClick={handleClose} color="primary">
             キャンセル
           </Button>
-          <Button
-            onClick={handleSubmit}
-            color="secondary"
-            autoFocus
-            variant="contained"
-          >
+          <Button onClick={handleSubmit} color="secondary" autoFocus variant="contained">
             削除
           </Button>
         </DialogActions>

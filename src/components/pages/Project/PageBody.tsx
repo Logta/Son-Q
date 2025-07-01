@@ -1,19 +1,19 @@
 import HomeIcon from "@mui/icons-material/Home";
 import { Button, Container } from "@mui/material";
+import { getProjectFromID } from "@son-q/api";
 import { Label, SubLabel } from "@son-q/ui";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getProjectFromID } from "@son-q/api";
 import {
   AppBar,
   ProjectCreateDialog,
   ProjectForm,
   ProjectJoinDialog,
 } from "@/components/organisms";
-import { useGlobalStore } from "@/stores";
 import { useProjectIdFromRouter } from "@/hooks/useProjectIdFromRouter";
+import { useGlobalStore } from "@/stores";
 import styles from "./Project.module.scss";
 
 const PageBody = () => {
@@ -49,11 +49,7 @@ const PageBody = () => {
           <ProjectForm />
 
           <div className={styles.redirectButton}>
-            <Button
-              onClick={redirect("/projects")}
-              variant="outlined"
-              startIcon={<HomeIcon />}
-            >
+            <Button onClick={redirect("/projects")} variant="outlined" startIcon={<HomeIcon />}>
               プロジェクト一覧に戻る
             </Button>
           </div>
@@ -66,20 +62,12 @@ const PageBody = () => {
             >
               Powered by{" "}
               <span className={styles.logo}>
-                <Image
-                  src="/vercel.svg"
-                  alt="Vercel Logo"
-                  width={72}
-                  height={16}
-                />
+                <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
               </span>
             </a>
           </footer>
         </Container>
-        <ProjectCreateDialog
-          open={openCreateDialog}
-          setOpen={setOpenCreateDialog}
-        />
+        <ProjectCreateDialog open={openCreateDialog} setOpen={setOpenCreateDialog} />
         <ProjectJoinDialog open={openJoinDialog} setOpen={setOpenJoinDialog} />
       </>
     )

@@ -11,7 +11,7 @@ export const useProjectIdFromRouter = (paramName = "project_id") => {
   const router = useRouter();
   const rawProjectId = router.query[paramName];
   const projectId = extractStringFromQuery(rawProjectId);
-  
+
   // デバッグログ
   useEffect(() => {
     console.log("[useProjectIdFromRouter] Router ready:", router.isReady);
