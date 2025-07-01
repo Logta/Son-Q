@@ -3,8 +3,8 @@ import { AppBarButton, DarkModeSwitch } from "@son-q/ui";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import type React from "react";
-import { useContext, useEffect } from "react";
-import { GlobalContext } from "@/contexts";
+import { useEffect } from "react";
+import { useGlobalStore } from "@/stores";
 import styles from "./AppBar.module.scss";
 
 const App = () => {
@@ -16,7 +16,7 @@ const App = () => {
     darkMode,
     handleDarkModeOn,
     handleDarkModeOff,
-  } = useContext(GlobalContext);
+  } = useGlobalStore();
 
   const router = useRouter();
 
@@ -57,12 +57,12 @@ const App = () => {
             />
           </div>
         </Grid>
-        {user.Login ? (
+        {user?.Login ? (
           <div className={styles.button}>
             <AppBarButton
-              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                const result = signOut();
-                if (result) redirect("/")(e);
+              onClick={async (e: React.MouseEvent<HTMLButtonElement>) => {
+                await signOut();
+                redirect("/")(e);
               }}
             >
               サインアウト

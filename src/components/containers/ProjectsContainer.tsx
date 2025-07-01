@@ -1,24 +1,27 @@
-import React, { useContext, useState } from "react";
-import { GlobalContext, ProjectsContext } from "@/contexts";
+import React, { useEffect } from "react";
+import { useGlobalStore, useProjectsStore } from "@/stores";
+import { awaitOnAuth } from "@son-q/api";
+import type { User } from "@son-q/types";
 
 type Props = {
   children: React.ReactNode;
 };
 
-import { awaitOnAuth } from "@son-q/api";
-import type { User } from "@son-q/types";
-
 const ProjectsContainer: React.FC<Props> = ({ children }) => {
-  const { errorMessage, successMessage, warningMessage } = useContext(GlobalContext);
+  const { errorMessage, successMessage, warningMessage } = useGlobalStore();
+  const { setUser, setNotificationFunctions } = useProjectsStore();
 
-  const [user, setUser] = useState<User>({
-    ID: "",
-    Name: "",
-    Login: false,
-  });
+  // 通知関数を設定（初回のみ）
+  useEffect(() => {
+    setNotificationFunctions({
+      errorMessage,
+      successMessage,
+      warningMessage,
+    });
+  }, []);
 
   // 認証状態を確認してユーザー情報をセット
-  React.useEffect(() => {
+  useEffect(() => {
     const checkAuth = async () => {
       const authUser = await awaitOnAuth();
       if (authUser?.ok) {
@@ -27,23 +30,14 @@ const ProjectsContainer: React.FC<Props> = ({ children }) => {
           Name: authUser.name,
           Login: true,
         });
+      } else {
+        setUser(null);
       }
     };
     checkAuth();
-  }, []);
+  }, [setUser]);
 
-  return (
-    <ProjectsContext.Provider
-      value={{
-        user,
-        errorMessage,
-        successMessage,
-        warningMessage,
-      }}
-    >
-      {children}
-    </ProjectsContext.Provider>
-  );
+  return <>{children}</>;
 };
 
 export { ProjectsContainer };

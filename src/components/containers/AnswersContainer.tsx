@@ -1,8 +1,6 @@
-import { awaitOnAuth } from "@son-q/api";
-import type { Auth } from "@son-q/types";
 import type React from "react";
-import { useContext, useEffect, useState } from "react";
-import { AnswersContext, GlobalContext } from "@/contexts";
+import { useEffect } from "react";
+import { useAnswersStore, useGlobalStore } from "@/stores";
 
 type Props = {
   children: React.ReactNode;
@@ -14,32 +12,20 @@ type Props = {
  * Server State（answers、questions、participants、questionNum）は各コンポーネントでTanStack Queryフックを直接使用
  */
 const AnswersContainer: React.FC<Props> = ({ children, projectId }) => {
-  const { errorMessage, successMessage } = useContext(GlobalContext);
-  const [user, setUser] = useState<Auth>();
+  const checkAuth = useGlobalStore((state) => state.checkAuth);
+  const { setProjectId } = useAnswersStore();
 
-  // 認証状態を確認してユーザー情報をセット
+  // 認証状態を確認
   useEffect(() => {
-    const checkAuth = async () => {
-      const authUser = await awaitOnAuth();
-      if (authUser?.ok) {
-        setUser(authUser);
-      }
-    };
     checkAuth();
-  }, []);
+  }, [checkAuth]);
 
-  return (
-    <AnswersContext.Provider
-      value={{
-        user,
-        projectId,
-        errorMessage,
-        successMessage,
-      }}
-    >
-      {children}
-    </AnswersContext.Provider>
-  );
+  // projectIdをストアに設定
+  useEffect(() => {
+    setProjectId(projectId);
+  }, [projectId, setProjectId]);
+
+  return <>{children}</>;
 };
 
 export { AnswersContainer };

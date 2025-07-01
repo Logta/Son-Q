@@ -1,16 +1,7 @@
-import {
-  awaitOnAuth,
-  awaitOnGoogleLogin,
-  awaitOnPasswordLogin,
-  createPasswordUser,
-  signOutFirebase,
-} from "@son-q/api";
-import type { Auth, User } from "@son-q/types";
-import { isNull, pick } from "es-toolkit";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import type React from "react";
-import { useEffect, useState } from "react";
-import { GlobalContext } from "@/contexts";
+import { useCallback, useEffect } from "react";
+import { useGlobalStore } from "@/stores";
 
 type Props = {
   children: React.ReactElement;
@@ -21,107 +12,49 @@ type Props = {
 
 const App: React.FC<Props> = (props: Props) => {
   const { enqueueSnackbar } = useSnackbar();
+  const {
+    setNotificationFunctions,
+    handleDarkModeOn,
+    handleDarkModeOff,
+    signInCheck,
+  } = useGlobalStore();
 
-  const successMessage = (message: string) => {
-    // variant could be success, error, warning, info, or default
+  const successMessage = useCallback((message: string) => {
     enqueueSnackbar(message, { variant: "success" });
-  };
+  }, [enqueueSnackbar]);
 
-  const errorMessage = (message: string) => {
-    // variant could be success, error, warning, info, or default
+  const errorMessage = useCallback((message: string) => {
     enqueueSnackbar(message, { variant: "error" });
-  };
+  }, [enqueueSnackbar]);
 
-  const warningMessage = (message: string) => {
-    // variant could be success, error, warning, info, or default
+  const warningMessage = useCallback((message: string) => {
     enqueueSnackbar(message, { variant: "warning" });
-  };
+  }, [enqueueSnackbar]);
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [user, setUser] = useState<User>({
-    ID: "",
-    Name: "",
-    Login: false,
-  });
-
-  const signInCheck = async (): Promise<void> => {
-    const user = await awaitOnAuth();
-    if (isNull(user)) return;
-    if (!user.ok) return;
-    setUser({
-      ID: user.id,
-      Name: user.name,
-      Login: true,
+  // 通知関数を設定（初回のみ）
+  useEffect(() => {
+    setNotificationFunctions({
+      successMessage,
+      errorMessage,
+      warningMessage,
     });
-  };
+  }, []);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
+  // ダークモード設定を反映
+  useEffect(() => {
+    if (props.darkMode) {
+      handleDarkModeOn();
+    } else {
+      handleDarkModeOff();
+    }
+  }, [props.darkMode]);
+
+  // 認証状態をチェック（初回のみ）
   useEffect(() => {
     signInCheck();
   }, []);
 
-  const signInGoogle = async (): Promise<void> => {
-    const user = await awaitOnGoogleLogin();
-    setLoading(false);
-    if (isNull(user)) return;
-    if (!user.ok) return;
-    setUser({
-      ID: user.id,
-      Name: user.name,
-      Login: true,
-    });
-  };
-
-  // biome-ignore lint/suspicious/noExplicitAny: Firebase auth data type
-  const signInEmail = async (data: any): Promise<void> => {
-    const user = await awaitOnPasswordLogin(data);
-    setLoading(false);
-    if (isNull(user)) return;
-    if (!user.ok) return;
-    setUser({
-      ID: user.id,
-      Name: user.name,
-      Login: true,
-    });
-  };
-
-  // biome-ignore lint/suspicious/noExplicitAny: Firebase auth data type
-  const signUpEmail = async (data: any) => {
-    const bool = await createPasswordUser(data);
-    setLoading(false);
-    return bool;
-  };
-
-  const signOut = async (): Promise<string> => {
-    const user: Auth = await signOutFirebase();
-    user.ok &&
-      setUser({
-        ID: "",
-        Name: "",
-        Login: false,
-      });
-    return user.name;
-  };
-
-  return (
-    <GlobalContext.Provider
-      value={{
-        ...pick(props, ["handleDarkModeOff", "handleDarkModeOn", "darkMode"]),
-        user,
-        signInCheck,
-        signInGoogle,
-        signInEmail,
-        signUpEmail,
-        signOut,
-        loading,
-        successMessage,
-        errorMessage,
-        warningMessage,
-      }}
-    >
-      {props.children}
-    </GlobalContext.Provider>
-  );
+  return props.children;
 };
 
 const GlobalContainer: React.FC<Props> = (props: Props) => {

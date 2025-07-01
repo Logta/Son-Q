@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   FormControl,
-  Grid,
   InputLabel,
   MenuItem,
   Select,
@@ -13,8 +12,10 @@ import {
 import type { Project } from "@son-q/types";
 import { FormLabel } from "@son-q/ui";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
-import { GlobalContext, ProjectContext } from "@/contexts";
+import React from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getProjectFromID, updateProject } from "@son-q/api";
+import { useGlobalStore } from "@/stores";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 import styles from "./ProjectForm.module.scss";
 
@@ -25,7 +26,7 @@ function useInput(
   validationMessage: string
   // biome-ignore lint/suspicious/noExplicitAny: custom hook return type
 ): any {
-  const { errorMessage } = useContext(GlobalContext);
+  const { errorMessage } = useGlobalStore();
   const [value, setValue] = React.useState<string>(initValue);
   return {
     value,
@@ -42,15 +43,41 @@ function useInput(
 const App = () => {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
+  const projectId = router.query.pid as string;
+  const { user, successMessage, errorMessage } = useGlobalStore();
+  const queryClient = useQueryClient();
 
   // biome-ignore lint/suspicious/noExplicitAny: React event type
   const redirect = (href: string) => (e: any) => {
     e.preventDefault();
     router.push(href);
   };
-  const { project, updateProjectInfo } = useContext(ProjectContext);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { data: project } = useQuery({
+    queryKey: ['project', projectId],
+    queryFn: () => getProjectFromID(projectId),
+    enabled: !!user && !!projectId,
+  });
+
+  const updateProjectMutation = useMutation({
+    mutationFn: async (data: Project) => {
+      const result = await updateProject(projectId, data);
+      return result;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['project', projectId] });
+      if (data.variant === 'success') {
+        successMessage(data.message);
+      } else {
+        errorMessage(data.message);
+      }
+    },
+    onError: () => {
+      errorMessage('プロジェクトの更新に失敗しました');
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const pro: Project = {
@@ -63,33 +90,33 @@ const App = () => {
       participants: [],
     };
 
-    updateProjectInfo(pro);
+    await updateProjectMutation.mutateAsync(pro);
     redirect("/projects")(e);
   };
 
   const name = useInput(
-    project.name,
+    project?.name || "",
     (t: string): boolean => {
       return t.length > 10;
     },
     "10文字以下で入力してください"
   );
   const content = useInput(
-    project.content,
+    project?.content || "",
     (t: string): boolean => {
       return t.length > 30;
     },
     "30文字以下で入力してください"
   );
   const question_num = useInput(
-    project.question_num.toString(),
+    project?.question_num.toString() || "0",
     (t: string): boolean => {
       return +t <= 0;
     },
     "1以上の数値を入力してください"
   );
   const project_mode = useInput(
-    project.project_mode,
+    project?.project_mode || "normal",
     (_: string): boolean => {
       return false;
     },
@@ -153,31 +180,25 @@ const App = () => {
                 </Select>
               </FormControl>
             </Box>
-            <Box my={2}>
-              <Grid container justifyContent="center">
-                <Grid item xs={10}>
-                  <Button
-                    type="submit"
-                    color="primary"
-                    variant="contained"
-                    className={styles.submitButton}
-                    startIcon={<SaveIcon />}
-                  >
-                    更新
-                  </Button>
-                </Grid>
-                <Grid item xs={2}>
-                  <Button
-                    onClick={() => setOpen(true)}
-                    color="secondary"
-                    className={styles.deleteButton}
-                    startIcon={<DeleteIcon />}
-                    variant="outlined"
-                  >
-                    プロジェクトの削除
-                  </Button>
-                </Grid>
-              </Grid>
+            <Box my={2} display="flex" justifyContent="center" gap={2}>
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                className={styles.submitButton}
+                startIcon={<SaveIcon />}
+              >
+                更新
+              </Button>
+              <Button
+                onClick={() => setOpen(true)}
+                color="secondary"
+                className={styles.deleteButton}
+                startIcon={<DeleteIcon />}
+                variant="outlined"
+              >
+                プロジェクトの削除
+              </Button>
             </Box>
           </form>
         </div>

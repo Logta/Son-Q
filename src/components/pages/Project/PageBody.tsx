@@ -3,14 +3,16 @@ import { Button, Container } from "@mui/material";
 import { Label, SubLabel } from "@son-q/ui";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getProjectFromID } from "@son-q/api";
 import {
   AppBar,
   ProjectCreateDialog,
   ProjectForm,
   ProjectJoinDialog,
 } from "@/components/organisms";
-import { ProjectContext } from "@/contexts";
+import { useGlobalStore } from "@/stores";
 import styles from "./Project.module.scss";
 
 const PageBody = () => {
@@ -21,14 +23,21 @@ const PageBody = () => {
     e.preventDefault();
     router.push(href);
   };
-  const { project, loading } = useContext(ProjectContext);
+  const projectId = router.query.pid as string;
+  const { user } = useGlobalStore();
+  
+  const { data: project, isLoading } = useQuery({
+    queryKey: ['project', projectId],
+    queryFn: () => getProjectFromID(projectId),
+    enabled: !!user && !!projectId,
+  });
 
   const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false);
   const [openJoinDialog, setOpenJoinDialog] = useState<boolean>(false);
 
   return (
     project &&
-    !loading && (
+    !isLoading && (
       <>
         <AppBar />
         <Container maxWidth="lg">

@@ -8,8 +8,9 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import type React from "react";
-import { useContext } from "react";
-import { ProjectContext } from "@/contexts";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteProject, getProjectFromID } from "@son-q/api";
+import { useGlobalStore } from "@/stores";
 
 type Props = {
   open: boolean;
@@ -19,13 +20,39 @@ type Props = {
 const App = (props: Props) => {
   const { open, setOpen } = props;
   const router = useRouter();
+  const projectId = router.query.pid as string;
+  const { user, successMessage, errorMessage } = useGlobalStore();
+  const queryClient = useQueryClient();
 
   // biome-ignore lint/suspicious/noExplicitAny: React event type
   const redirect = (href: string) => (e: any) => {
     e.preventDefault();
     router.push(href);
   };
-  const { project, deleteProjectFromID } = useContext(ProjectContext);
+
+  const { data: project } = useQuery({
+    queryKey: ['project', projectId],
+    queryFn: () => getProjectFromID(projectId),
+    enabled: !!user && !!projectId,
+  });
+
+  const deleteProjectMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const result = await deleteProject(id);
+      return result;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      if (data.variant === 'success') {
+        successMessage(data.message);
+      } else {
+        errorMessage(data.message);
+      }
+    },
+    onError: () => {
+      errorMessage('プロジェクトの削除に失敗しました');
+    },
+  });
 
   const handleClose = () => {
     setOpen(false);
@@ -34,8 +61,12 @@ const App = (props: Props) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const result = await deleteProjectFromID(project.ID);
-    if (result) redirect("/projects")(e);
+    if (!project) return;
+    
+    const result = await deleteProjectMutation.mutateAsync(project.ID);
+    if (result.variant === 'success') {
+      redirect("/projects")(e);
+    }
   };
 
   return (

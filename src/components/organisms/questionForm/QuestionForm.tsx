@@ -13,8 +13,8 @@ import type { Question } from "@son-q/types";
 import { Popup } from "@son-q/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
-import { GlobalContext, QuestionsContext } from "@/contexts";
+import { useEffect, useState } from "react";
+import { useGlobalStore, useQuestionsStore } from "@/stores";
 import styles from "./QuestionForm.module.scss";
 
 type Props = {
@@ -36,8 +36,8 @@ const App = ({ questions, nums }: Props) => {
       return { ID: "", no: index, url: "", select_user_id: "" };
     })
   );
-  const { projectId } = useContext(QuestionsContext);
-  const { errorMessage } = useContext(GlobalContext);
+  const { projectId } = useQuestionsStore();
+  const { errorMessage } = useGlobalStore();
 
   // カスタムフックを使用
   const registerQuestionsMutation = useRegisterQuestions();
@@ -137,7 +137,6 @@ const App = ({ questions, nums }: Props) => {
                       https://www.youtube.com/watch?v=
                     </InputAdornment>
                   }
-                  labelWidth={60}
                 />
               </FormControl>
             </div>

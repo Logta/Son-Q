@@ -3,10 +3,10 @@ import StopIcon from "@mui/icons-material/Stop";
 import VolumeDown from "@mui/icons-material/VolumeDown";
 import VolumeUp from "@mui/icons-material/VolumeUp";
 import { Box, Button, ButtonGroup, IconButton } from "@mui/material";
-import { useContext, useState } from "react";
+import { useState } from "react";
 //import styles from "./Youtube.module.scss";
 import YouTube from "react-youtube";
-import { GlobalContext } from "@/contexts";
+import { useGlobalStore } from "@/stores/globalStore";
 import styles from "./Youtube.module.scss";
 
 const App = (props) => {
@@ -14,7 +14,7 @@ const App = (props) => {
   const [loading, setLoading] = useState(true);
   const [playing, setPlaying] = useState(false);
   const [_volume, setVolume] = useState(0);
-  const { darkMode } = useContext(GlobalContext);
+  const darkMode = useGlobalStore((state) => state.darkMode);
 
   const { id } = props;
   const opts = {

@@ -1,90 +1,50 @@
-import { awaitOnAuth, deleteProject, getProjectFromID, updateProject } from "@son-q/api";
-import type { Project, User } from "@son-q/types";
 import { isNull } from "es-toolkit";
 import type React from "react";
-import { useContext, useEffect, useState } from "react";
-import { GlobalContext, ProjectContext } from "@/contexts";
+import { Suspense, useEffect } from "react";
+import { useGlobalStore, useProjectStore } from "@/stores";
+import { useQuery } from "@tanstack/react-query";
+import { getProjectFromID } from "@son-q/api";
 
 type Props = {
   children: React.ReactNode;
   projectId: string;
 };
 
-const ProjectContainer: React.FC<Props> = ({ children, projectId }) => {
-  const { errorMessage, successMessage } = useContext(GlobalContext);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [project, setProject] = useState<Project>();
-  const [user, setUser] = useState<User>({
-    ID: "",
-    Name: "",
-    Login: false,
-  });
+/**
+ * ProjectContainer: Client State専用のContainer
+ * Server State（projectデータ）はTanStack Queryで管理
+ */
+const ProjectContainerContent: React.FC<Props> = ({ children, projectId }) => {
+  const { user, checkAuth, errorMessage, successMessage } = useGlobalStore();
+  const { setNotificationFunctions } = useProjectStore();
 
-  const getProject = async () => {
-    const user = await awaitOnAuth();
-
-    if (isNull(user) || !user.ok) {
-      return;
-    }
-    const ps = await getProjectFromID(projectId);
-    setProject(ps);
-    setUser({
-      ID: user.id,
-      Name: user.name,
-      Login: true,
-    });
-    setLoading(false);
-  };
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
+  // 通知関数をストアに設定（初回のみ）
   useEffect(() => {
-    getProject();
+    setNotificationFunctions({ errorMessage, successMessage, warningMessage: () => {} });
   }, []);
 
-  const updateProjectInfo = async (data: Project) => {
-    const { message, variant } = await updateProject(projectId, data);
-    switch (variant) {
-      case "success":
-        successMessage(message);
-        break;
+  // 認証状態を確認
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
-      case "error":
-        errorMessage(message);
-        break;
-    }
-  };
+  // TanStack Queryでプロジェクトデータを取得
+  const { data: project } = useQuery({
+    queryKey: ['project', projectId],
+    queryFn: () => getProjectFromID(projectId),
+    enabled: !!user && !!projectId,
+  });
 
-  const deleteProjectFromID = async (id: string): Promise<boolean> => {
-    const user = await awaitOnAuth();
-    if (isNull(user) || !user.ok) return;
+  if (!project || !user) return null;
 
-    const { message, variant } = await deleteProject(id);
-    switch (variant) {
-      case "success":
-        successMessage(message);
-        break;
+  return <>{children}</>;
+};
 
-      case "error":
-        errorMessage(message);
-        break;
-    }
-
-    return variant === "success";
-  };
-
+const ProjectContainer: React.FC<Props> = (props) => {
   return (
-    <ProjectContext.Provider
-      value={{
-        project,
-        user,
-        getProject,
-        updateProjectInfo,
-        deleteProjectFromID,
-        loading,
-      }}
-    >
-      {project && children}
-    </ProjectContext.Provider>
+    <Suspense fallback={<div>読み込み中...</div>}>
+      <ProjectContainerContent {...props} />
+    </Suspense>
   );
 };
 

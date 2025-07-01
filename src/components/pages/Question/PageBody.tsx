@@ -5,21 +5,21 @@ import { Label, SubLabel } from "@son-q/ui";
 import { isNil } from "es-toolkit";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Suspense, useContext, useState } from "react";
+import { Suspense, useState } from "react";
 import {
   AppBar,
   ProjectCreateDialog,
   ProjectJoinDialog,
   QuestionForm,
 } from "@/components/organisms";
-import { QuestionsContext } from "@/contexts";
+import { useQuestionsStore } from "@/stores";
 import styles from "./Question.module.scss";
 
 /**
  * 問題フォームコンテンツ（Suspense境界内で使用）
  */
 const QuestionContent = () => {
-  const { projectId } = useContext(QuestionsContext);
+  const { projectId } = useQuestionsStore();
   const { data: questions = [] } = useUserQuestions(projectId);
 
   // 問題数を取得

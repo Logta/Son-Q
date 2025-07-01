@@ -4,14 +4,14 @@ import { Box, Button, CircularProgress, Container } from "@mui/material";
 import { useProjects } from "@son-q/queries";
 import { Label, SubLabel } from "@son-q/ui";
 import Image from "next/image";
-import { Suspense, useContext, useState } from "react";
+import { Suspense, useState } from "react";
 import {
   AppBar,
   ProjectCreateDialog,
   ProjectJoinDialog,
   ProjectTable,
 } from "@/components/organisms";
-import { ProjectsContext } from "@/contexts";
+import { useProjectsStore } from "@/stores";
 import styles from "./Project.module.scss";
 
 /**
@@ -72,9 +72,9 @@ const ProjectsContent = () => {
  * ProjectsPage: TanStack QueryとSuspenseを活用
  */
 const PageBody = () => {
-  const { user } = useContext(ProjectsContext);
+  const { user } = useProjectsStore();
 
-  if (!user.Login) return <AppBar />;
+  if (!user?.Login) return <AppBar />;
 
   return (
     <>

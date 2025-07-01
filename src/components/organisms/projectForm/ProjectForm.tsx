@@ -1,8 +1,10 @@
 import { Paper } from "@mui/material";
 import type { Project } from "@son-q/types";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
-import { ProjectContext } from "@/contexts";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getProjectFromID } from "@son-q/api";
+import { useGlobalStore } from "@/stores";
 import { ProjectFormContent } from "./ProjectFormContent";
 import { ProjectInfos } from "./ProjectInfos";
 
@@ -18,34 +20,14 @@ function useInput(initValue: string): any {
 
 const App = () => {
   const router = useRouter();
+  const projectId = router.query.pid as string;
+  const { user } = useGlobalStore();
 
-  // biome-ignore lint/suspicious/noExplicitAny: React event type
-  const redirect = (href: string) => (e: any) => {
-    e.preventDefault();
-    router.push(href);
-  };
-  const { project, updateProjectInfo } = useContext(ProjectContext);
-
-  const _handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const pro: Project = {
-      ID: "",
-      name: name.value,
-      content: content.value,
-      creater: "",
-      question_num: question_num.value,
-      project_mode: "default",
-      participants: [],
-    };
-
-    updateProjectInfo(pro);
-    redirect("/projects")(e);
-  };
-
-  const name = useInput(project.name);
-  const content = useInput(project.content);
-  const question_num = useInput(project.question_num.toString());
+  const { data: project } = useQuery({
+    queryKey: ['project', projectId],
+    queryFn: () => getProjectFromID(projectId),
+    enabled: !!user && !!projectId,
+  });
 
   return (
     project && (

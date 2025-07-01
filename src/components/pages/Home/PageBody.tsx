@@ -4,14 +4,13 @@ import { Box, Button, Container, Paper } from "@mui/material";
 import { DarkModeSwitch, Label, SubLabel } from "@son-q/ui";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useContext } from "react";
 import { HomeStep } from "@/components/organisms";
-import { GlobalContext } from "@/contexts";
+import { useGlobalStore } from "@/stores";
 import styles from "./Home.module.scss";
 
 const PageBody = () => {
   const { user, signInGoogle, signOut, darkMode, handleDarkModeOn, handleDarkModeOff } =
-    useContext(GlobalContext);
+    useGlobalStore();
 
   const router = useRouter();
 
@@ -32,7 +31,7 @@ const PageBody = () => {
         <SubLabel>誰が持ってきた曲か当てよう！</SubLabel>
       </main>
 
-      {user.Login ? (
+      {user?.Login ? (
         <Box m={2} p={2}>
           <Box display="flex" alignItems="center" justifyContent="center">
             <Button
@@ -45,8 +44,8 @@ const PageBody = () => {
               プロジェクト一覧へ
             </Button>
             <Button
-              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                signOut();
+              onClick={async (e: React.MouseEvent<HTMLButtonElement>) => {
+                await signOut();
                 redirect("/")(e);
               }}
               color="primary"
