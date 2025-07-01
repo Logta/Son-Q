@@ -89,15 +89,12 @@ git clone https://github.com/your-username/Son-Q.git
 cd Son-Q
 
 # miseを使用してNode.js環境をセットアップ
-mise install
-
-# 依存関係のインストール
-pnpm install
+mise setup
 ```
 
-#### Voltaを使用する場合（代替方法）
+#### Volta を使用する場合（代替方法）
 
-Voltaを既に使用している場合は、そのまま利用可能です：
+Volta を既に使用している場合は、そのまま利用可能です：
 
 ```bash
 # Voltaが自動的にNode.js 24.3.0とnpm 11.4.2をセットアップします
@@ -114,6 +111,38 @@ pnpm dev
 http://localhost:3000 でアプリケーションにアクセスできます。
 
 ### その他の便利なコマンド
+
+#### mise タスクを使用する場合（推奨）
+
+```bash
+# 利用可能なタスクを確認
+mise tasks
+
+# 開発サーバー起動
+mise run dev
+
+# テスト実行
+mise run test
+mise run test:ui        # テストUI表示
+mise run test:coverage   # カバレッジ付き
+
+# コード品質チェック
+mise run check          # lint, format, typecheckを一括実行
+mise run lint           # リント実行
+mise run lint:fix       # リント自動修正
+mise run format         # フォーマット実行
+mise run typecheck      # 型チェック
+
+# ビルド関連
+mise run build          # プロダクションビルド
+mise run clean          # ビルド成果物クリーン
+
+# セットアップ
+mise run setup          # 初期セットアップ（mise install → pnpm install → build:packages）
+mise run ci             # CI検証（typecheck → check:ci → test:run）
+```
+
+#### pnpm を直接使用する場合
 
 ```bash
 # テスト実行

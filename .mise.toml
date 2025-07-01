@@ -7,3 +7,59 @@ NODE_ENV = "development"
 
 [settings]
 legacy_version_file = true
+
+[tasks.dev]
+description = "開発サーバーを起動"
+run = "pnpm run dev"
+
+[tasks.build]
+description = "プロダクションビルドを実行"
+run = "pnpm run build"
+
+[tasks.test]
+description = "テストを実行"
+run = "pnpm test"
+
+[tasks."test:ui"]
+description = "テストUIを起動"
+run = "pnpm test:ui"
+
+[tasks."test:coverage"]
+description = "カバレッジ付きでテストを実行"
+run = "pnpm test --coverage"
+
+[tasks.lint]
+description = "リンターを実行"
+run = "pnpm run lint"
+
+[tasks."lint:fix"]
+description = "リンターで自動修正"
+run = "pnpm run lint:fix"
+
+[tasks.format]
+description = "コードをフォーマット"
+run = "pnpm run format"
+
+[tasks.typecheck]
+description = "型チェックを実行"
+run = "pnpm run typecheck"
+
+[tasks.clean]
+description = "ビルド成果物をクリーン"
+run = "pnpm run clean:all"
+
+[tasks.install]
+description = "依存関係をインストール"
+run = "pnpm install"
+
+[tasks.setup]
+description = "プロジェクトの初期セットアップ"
+run = ["mise install", "pnpm install", "pnpm run build:packages"]
+
+[tasks.ci]
+description = "CI環境での検証を実行"
+run = ["pnpm run typecheck", "pnpm run check:ci", "pnpm test:run"]
+
+[tasks.check]
+description = "コード品質チェック（lint, format, typecheck）"
+run = ["pnpm run typecheck", "pnpm run check"]
