@@ -1,5 +1,6 @@
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
-import { Box, Button, Card, CardContent, CardHeader, Paper } from "@mui/material";
+import { Box, Card, CardContent, CardHeader, Paper } from "@mui/material";
+import { Button } from "@son-q/ui-tailwind";
 import { useRegisterAnswers } from "@son-q/queries";
 import type { Answer, Participant, Question } from "@son-q/types";
 import { Popup, Youtube } from "@son-q/ui";
@@ -143,13 +144,8 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
               popupLabel="プロジェクトに参加していないため回答ができません"
               popupDisable={isUserJoinProject}
             >
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                startIcon={<HowToVoteIcon />}
-                disabled={!isUserJoinProject}
-              >
+              <Button type="submit" variant="primary" disabled={!isUserJoinProject}>
+                <HowToVoteIcon className="mr-2" />
                 回答
               </Button>
             </Popup>

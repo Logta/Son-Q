@@ -1,6 +1,7 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
-import { Box, Button, Container, Paper } from "@mui/material";
+import { Box, Container, Paper } from "@mui/material";
+import { Button } from "@son-q/ui-tailwind";
 import { DarkModeSwitch, Label, SubLabel } from "@son-q/ui";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -34,13 +35,8 @@ const PageBody = () => {
       {user?.Login ? (
         <Box m={2} p={2}>
           <Box display="flex" alignItems="center" justifyContent="center">
-            <Button
-              onClick={redirect("/projects")}
-              color="primary"
-              variant="contained"
-              style={{ margin: "1em" }}
-              startIcon={<BookmarksIcon />}
-            >
+            <Button onClick={redirect("/projects")} variant="primary" className="m-4">
+              <BookmarksIcon className="mr-2" />
               プロジェクト一覧へ
             </Button>
             <Button
@@ -48,11 +44,10 @@ const PageBody = () => {
                 await signOut();
                 redirect("/")(e);
               }}
-              color="primary"
-              variant="outlined"
-              style={{ margin: "1em" }}
-              startIcon={<AccountCircleIcon />}
+              variant="outline"
+              className="m-4"
             >
+              <AccountCircleIcon className="mr-2" />
               サインアウト
             </Button>
           </Box>
@@ -65,11 +60,10 @@ const PageBody = () => {
                 await signInGoogle();
                 redirect("/projects")(e);
               }}
-              color="primary"
-              variant="contained"
-              style={{ margin: "1em" }}
-              startIcon={<AccountCircleIcon />}
+              variant="primary"
+              className="m-4"
             >
+              <AccountCircleIcon className="mr-2" />
               Google認証
             </Button>
           </Box>

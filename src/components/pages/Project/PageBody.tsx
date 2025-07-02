@@ -1,5 +1,6 @@
 import HomeIcon from "@mui/icons-material/Home";
-import { Button, Container } from "@mui/material";
+import { Container } from "@mui/material";
+import { Button } from "@son-q/ui-tailwind";
 import { getProjectFromID } from "@son-q/api";
 import { Label, SubLabel } from "@son-q/ui";
 import { useQuery } from "@tanstack/react-query";
@@ -49,7 +50,8 @@ const PageBody = () => {
           <ProjectForm />
 
           <div className={styles.redirectButton}>
-            <Button onClick={redirect("/projects")} variant="outlined" startIcon={<HomeIcon />}>
+            <Button onClick={redirect("/projects")} variant="outline">
+              <HomeIcon className="mr-2" />
               プロジェクト一覧に戻る
             </Button>
           </div>
