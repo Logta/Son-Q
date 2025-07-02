@@ -1,16 +1,10 @@
 import CreateIcon from "@mui/icons-material/Create";
-import {
-  Button,
-  FormControl,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Paper,
-} from "@mui/material";
+import { FormControl, InputAdornment, InputLabel, OutlinedInput, Paper } from "@mui/material";
 import { authApi } from "@son-q/api";
 import { useParticipants, useRegisterQuestions } from "@son-q/queries";
 import type { Question } from "@son-q/types";
 import { Popup } from "@son-q/ui";
+import { Button } from "@son-q/ui-tailwind";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -159,11 +153,11 @@ const App = ({ questions, nums }: Props) => {
           >
             <Button
               type="submit"
-              variant="contained"
-              color="primary"
-              startIcon={<CreateIcon />}
+              variant="primary"
               disabled={!isUserJoinProject}
+              className="inline-flex items-center gap-2"
             >
+              <CreateIcon />
               登録
             </Button>
           </Popup>

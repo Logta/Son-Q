@@ -1,5 +1,6 @@
-import { AppBar, Box, Button, Grid, Toolbar } from "@mui/material";
+import { AppBar, Box, Grid, Toolbar } from "@mui/material";
 import { AppBarButton, DarkModeSwitch } from "@son-q/ui";
+import { Button } from "@son-q/ui-tailwind";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import type React from "react";
@@ -38,12 +39,8 @@ const App = () => {
         <Box mr={2} ml={1}>
           <Button
             onClick={redirect("/")}
-            style={{
-              height: "100%",
-              width: "10rem",
-              color: "white",
-              fontSize: "17px",
-            }}
+            variant="ghost"
+            className="h-full w-40 text-white text-lg"
           >
             Black Jukebox
           </Button>

@@ -6,7 +6,7 @@
 
 ### 技術スタック
 - **Frontend**: Next.js 15 + React 19 + TypeScript
-- **UI**: Material-UI (@mui/material) + SCSS Modules  
+- **UI**: Tailwind CSS + Headless UI (Material-UIから移行中)
 - **State Management**: Zustand + TanStack Query
 - **Backend**: Firebase (Firestore)
 - **Monorepo**: pnpm workspaces

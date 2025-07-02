@@ -1,5 +1,4 @@
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -7,6 +6,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { deleteProject, getProjectFromID } from "@son-q/api";
+import { Button } from "@son-q/ui-tailwind";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import type React from "react";
@@ -89,10 +89,10 @@ const App = (props: Props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} variant="ghost">
             キャンセル
           </Button>
-          <Button onClick={handleSubmit} color="secondary" autoFocus variant="contained">
+          <Button onClick={handleSubmit} variant="secondary" autoFocus>
             削除
           </Button>
         </DialogActions>
