@@ -1,6 +1,5 @@
 import { AppBar, Box, Toolbar } from "@mui/material";
-import { AppBarButton } from "@son-q/ui";
-import { Button } from "@son-q/ui-tailwind";
+import { AppBarButton, Button } from "@son-q/ui-tailwind";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import type React from "react";
