@@ -1,26 +1,26 @@
-import styles from "./ProjectDialog.module.scss";
-import React from "react";
 import {
+  Box,
   Button,
-  TextField,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Box,
   FormControl,
   InputLabel,
-  Select,
   MenuItem,
-} from "@material-ui/core";
-import { ProjectsContext, GlobalContext } from "@/contexts";
-import { useContext } from "react";
-import { Project } from "@/models";
+  Select,
+  TextField,
+} from "@mui/material";
+import { useCreateProject } from "@son-q/queries";
+import type { Project } from "@son-q/types";
+import React from "react";
+import { useProjectsStore } from "@/stores";
+import styles from "./ProjectDialog.module.scss";
 
 type Props = {
   open: boolean;
-  setOpen: Function;
+  setOpen: (open: boolean) => void;
 };
 
 // カスタムフックを定義（input 要素用の属性を生成する）
@@ -28,9 +28,10 @@ function useInput(
   initValue: string,
   validation: (t: string) => boolean,
   validationMessage: string
+  // biome-ignore lint/suspicious/noExplicitAny: custom hook return type
 ): any {
   const [value, setValue] = React.useState<string>(initValue);
-  const { errorMessage } = useContext(GlobalContext);
+  const { errorMessage } = useProjectsStore();
   return {
     value,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,15 +44,21 @@ function useInput(
   };
 }
 
+/**
+ * ProjectCreateDialog: TanStack Queryフックを直接使用
+ */
 const App = (props: Props) => {
-  const { createProjects } = useContext(ProjectsContext);
+  const { successMessage, errorMessage } = useProjectsStore();
   const { open, setOpen } = props;
+
+  // TanStack Queryフックを直接使用
+  const createProjectMutation = useCreateProject();
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const pro: Project = {
@@ -64,8 +71,17 @@ const App = (props: Props) => {
       participants: [],
     };
 
-    createProjects(pro);
-    handleClose();
+    try {
+      const result = await createProjectMutation.mutateAsync(pro);
+      if (result?.variant === "success") {
+        successMessage(result.message);
+        handleClose();
+      } else if (result?.variant === "error") {
+        errorMessage(result.message);
+      }
+    } catch (_error) {
+      errorMessage("プロジェクトの作成に失敗しました");
+    }
   };
 
   const name = useInput(
@@ -108,9 +124,7 @@ const App = (props: Props) => {
         <DialogTitle id="form-dialog-title">プログラムの作成</DialogTitle>
         <form onSubmit={handleSubmit}>
           <DialogContent classes={{ root: styles.dialogContent }}>
-            <DialogContentText>
-              作成したいプログラムの情報を入力してください
-            </DialogContentText>
+            <DialogContentText>作成したいプログラムの情報を入力してください</DialogContentText>
             <Box mt={3}>
               <TextField
                 variant="outlined"
@@ -150,9 +164,7 @@ const App = (props: Props) => {
             </Box>
             <Box mt={3}>
               <FormControl variant="outlined" fullWidth>
-                <InputLabel id="demo-simple-select-outlined-label">
-                  ポイント計算モード
-                </InputLabel>
+                <InputLabel id="demo-simple-select-outlined-label">ポイント計算モード</InputLabel>
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
@@ -160,15 +172,9 @@ const App = (props: Props) => {
                   label="ポイント計算モード"
                 >
                   <MenuItem value={"normal"}>正解数が得点に</MenuItem>
-                  <MenuItem value={"getOnlyOneCorrectAnswer"}>
-                    1人だけが正解するように
-                  </MenuItem>
-                  <MenuItem value={"getOnlyOneIncorrectAnswer"}>
-                    1人だけが不正解するように
-                  </MenuItem>
-                  <MenuItem value={"getCorrectAnswer"}>
-                    当ててもらった問題数が得点に
-                  </MenuItem>
+                  <MenuItem value={"getOnlyOneCorrectAnswer"}>1人だけが正解するように</MenuItem>
+                  <MenuItem value={"getOnlyOneIncorrectAnswer"}>1人だけが不正解するように</MenuItem>
+                  <MenuItem value={"getCorrectAnswer"}>当ててもらった問題数が得点に</MenuItem>
                 </Select>
               </FormControl>
             </Box>
@@ -177,12 +183,7 @@ const App = (props: Props) => {
             <Button onClick={handleClose} color="secondary">
               キャンセル
             </Button>
-            <Button
-              type="submit"
-              color="primary"
-              variant="contained"
-              style={{ margin: "2em" }}
-            >
+            <Button type="submit" color="primary" variant="contained" style={{ margin: "2em" }}>
               作成
             </Button>
           </DialogActions>

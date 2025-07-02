@@ -1,33 +1,28 @@
-import styles from "./ProjectForm.module.scss";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SaveIcon from "@mui/icons-material/Save";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { getProjectFromID, updateProject } from "@son-q/api";
+import type { Project } from "@son-q/types";
+import { FormLabel } from "@son-q/ui";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
-import {
-  Button,
-  TextField,
-  Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Grid,
-} from "@material-ui/core";
-import { ProjectContext, GlobalContext } from "@/contexts";
-import { useContext } from "react";
-import { Project } from "@/models";
-import { useRouter } from "next/router";
-import { FormLabel } from "@/components/atoms";
-
+import { useProjectIdFromRouter } from "@/hooks/useProjectIdFromRouter";
+import { useGlobalStore } from "@/stores";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
+import styles from "./ProjectForm.module.scss";
 
-import DeleteIcon from "@material-ui/icons/Delete";
-import SaveIcon from "@material-ui/icons/Save";
+type UseInputReturn = {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
 // カスタムフックを定義（input 要素用の属性を生成する）
 function useInput(
   initValue: string,
   validation: (t: string) => boolean,
   validationMessage: string
-): any {
-  const { errorMessage } = useContext(GlobalContext);
+): UseInputReturn {
+  const { errorMessage } = useGlobalStore();
   const [value, setValue] = React.useState<string>(initValue);
   return {
     value,
@@ -42,16 +37,41 @@ function useInput(
 }
 
 const App = () => {
-  const router = useRouter();
   const [open, setOpen] = React.useState(false);
+  const projectId = useProjectIdFromRouter();
+  const { user, successMessage, errorMessage } = useGlobalStore();
+  const queryClient = useQueryClient();
 
-  const redirect = (href: string) => (e: any) => {
+  const redirect = (href: string) => (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
-    router.push(href);
+    window.location.href = href;
   };
-  const { project, updateProjectInfo } = useContext(ProjectContext);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { data: project } = useQuery({
+    queryKey: ["project", projectId],
+    queryFn: () => getProjectFromID(projectId),
+    enabled: !!user && !!projectId,
+  });
+
+  const updateProjectMutation = useMutation({
+    mutationFn: async (data: Project) => {
+      const result = await updateProject(projectId, data);
+      return result;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["project", projectId] });
+      if (data.variant === "success") {
+        successMessage(data.message);
+      } else {
+        errorMessage(data.message);
+      }
+    },
+    onError: () => {
+      errorMessage("プロジェクトの更新に失敗しました");
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const pro: Project = {
@@ -59,38 +79,38 @@ const App = () => {
       name: name.value,
       content: content.value,
       creater: "",
-      question_num: question_num.value,
+      question_num: Number(question_num.value),
       project_mode: project_mode.value,
       participants: [],
     };
 
-    updateProjectInfo(pro);
+    await updateProjectMutation.mutateAsync(pro);
     redirect("/projects")(e);
   };
 
   const name = useInput(
-    project.name,
+    project?.name || "",
     (t: string): boolean => {
       return t.length > 10;
     },
     "10文字以下で入力してください"
   );
   const content = useInput(
-    project.content,
+    project?.content || "",
     (t: string): boolean => {
       return t.length > 30;
     },
     "30文字以下で入力してください"
   );
   const question_num = useInput(
-    project.question_num.toString(),
+    project?.question_num.toString() || "0",
     (t: string): boolean => {
       return +t <= 0;
     },
     "1以上の数値を入力してください"
   );
   const project_mode = useInput(
-    project.project_mode,
+    project?.project_mode || "normal",
     (_: string): boolean => {
       return false;
     },
@@ -140,9 +160,7 @@ const App = () => {
             </Box>
             <Box marginTop={3} width={"100%"}>
               <FormControl variant="outlined" fullWidth>
-                <InputLabel id="demo-simple-select-outlined-label">
-                  ポイント計算モード
-                </InputLabel>
+                <InputLabel id="demo-simple-select-outlined-label">ポイント計算モード</InputLabel>
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
@@ -150,43 +168,31 @@ const App = () => {
                   label="ポイント計算モード"
                 >
                   <MenuItem value={"normal"}>正解数が得点に</MenuItem>
-                  <MenuItem value={"getOnlyOneCorrectAnswer"}>
-                    1人だけが正解するように
-                  </MenuItem>
-                  <MenuItem value={"getOnlyOneIncorrectAnswer"}>
-                    1人だけが不正解するように
-                  </MenuItem>
-                  <MenuItem value={"getCorrectAnswer"}>
-                    当ててもらった問題数が得点に
-                  </MenuItem>
+                  <MenuItem value={"getOnlyOneCorrectAnswer"}>1人だけが正解するように</MenuItem>
+                  <MenuItem value={"getOnlyOneIncorrectAnswer"}>1人だけが不正解するように</MenuItem>
+                  <MenuItem value={"getCorrectAnswer"}>当ててもらった問題数が得点に</MenuItem>
                 </Select>
               </FormControl>
             </Box>
-            <Box my={2}>
-              <Grid container justify="center">
-                <Grid item xs={10}>
-                  <Button
-                    type="submit"
-                    color="primary"
-                    variant="contained"
-                    className={styles.submitButton}
-                    startIcon={<SaveIcon />}
-                  >
-                    更新
-                  </Button>
-                </Grid>
-                <Grid item xs={2}>
-                  <Button
-                    onClick={() => setOpen(true)}
-                    color="secondary"
-                    className={styles.deleteButton}
-                    startIcon={<DeleteIcon />}
-                    variant="outlined"
-                  >
-                    プロジェクトの削除
-                  </Button>
-                </Grid>
-              </Grid>
+            <Box my={2} display="flex" justifyContent="center" gap={2}>
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                className={styles.submitButton}
+                startIcon={<SaveIcon />}
+              >
+                更新
+              </Button>
+              <Button
+                onClick={() => setOpen(true)}
+                color="secondary"
+                className={styles.deleteButton}
+                startIcon={<DeleteIcon />}
+                variant="outlined"
+              >
+                プロジェクトの削除
+              </Button>
             </Box>
           </form>
         </div>

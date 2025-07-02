@@ -1,7 +1,7 @@
-const path = require("path");
+const path = require("node:path");
 
 module.exports = {
-  webpack(config, options) {
+  webpack(config, _options) {
     config.resolve.alias["@"] = path.join(__dirname, "src");
     return config;
   },

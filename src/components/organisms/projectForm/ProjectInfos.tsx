@@ -1,14 +1,23 @@
+import { Box, Chip, List, ListItem, ListItemText } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { getProjectFromID } from "@son-q/api";
+import { FormLabel } from "@son-q/ui";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import { useGlobalStore } from "@/stores";
 import styles from "./ProjectForm.module.scss";
-import React from "react";
-import { List, ListItem, ListItemText, Box, Chip } from "@material-ui/core";
-import { ProjectContext } from "@/contexts";
-import { FormLabel } from "@/components/atoms";
-import useTheme from "@material-ui/core/styles/useTheme";
-import { useContext } from "react";
 
 const App = () => {
-  const { project } = useContext(ProjectContext);
-  const paletteType = useTheme().palette.type;
+  const router = useRouter();
+  const projectId = router.query.project_id as string;
+  const { user } = useGlobalStore();
+  const paletteType = useTheme().palette.mode;
+
+  const { data: project } = useQuery({
+    queryKey: ["project", projectId],
+    queryFn: () => getProjectFromID(projectId),
+    enabled: !!user && !!projectId,
+  });
 
   const getParticipants = (): string[] => {
     return project.participants.map((p) => {
@@ -31,9 +40,10 @@ const App = () => {
             {getParticipants().map((p) => {
               return (
                 <Chip
+                  key={p}
                   label={p}
                   color="primary"
-                  variant={paletteType === "dark" ? "default" : "outlined"}
+                  variant={paletteType === "dark" ? "filled" : "outlined"}
                   style={{ marginRight: "1em" }}
                 />
               );

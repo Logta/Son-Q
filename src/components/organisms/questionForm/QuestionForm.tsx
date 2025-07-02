@@ -1,20 +1,21 @@
-import styles from "./QuestionForm.module.scss";
-import { useState, useContext, useEffect } from "react";
+import CreateIcon from "@mui/icons-material/Create";
 import {
-  Paper,
   Button,
   FormControl,
+  InputAdornment,
   InputLabel,
   OutlinedInput,
-  InputAdornment,
-} from "@material-ui/core";
-import { Question } from "@/models";
-import { Popup } from "@/components/atoms";
-import { QuestionsContext, GlobalContext } from "@/contexts";
+  Paper,
+} from "@mui/material";
+import { authApi } from "@son-q/api";
+import { useParticipants, useRegisterQuestions } from "@son-q/queries";
+import type { Question } from "@son-q/types";
+import { Popup } from "@son-q/ui";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import _ from "lodash";
-
-import CreateIcon from "@material-ui/icons/Create";
+import { useEffect, useState } from "react";
+import { useGlobalStore, useQuestionsStore } from "@/stores";
+import styles from "./QuestionForm.module.scss";
 
 type Props = {
   questions: Array<Question>;
@@ -24,7 +25,7 @@ type Props = {
 const App = ({ questions, nums }: Props) => {
   const router = useRouter();
 
-  const redirect = (href: string) => (e: any) => {
+  const redirect = (href: string) => (e: React.MouseEvent | React.FormEvent) => {
     e.preventDefault();
     router.push(href);
   };
@@ -34,22 +35,41 @@ const App = ({ questions, nums }: Props) => {
       return { ID: "", no: index, url: "", select_user_id: "" };
     })
   );
-  const { registerQuestions, isUserJoinProject } = useContext(QuestionsContext);
-  const { errorMessage } = useContext(GlobalContext);
+  const { projectId } = useQuestionsStore();
+  const { errorMessage } = useGlobalStore();
+
+  // カスタムフックを使用
+  const registerQuestionsMutation = useRegisterQuestions();
+  const { data: participants = [] } = useParticipants(projectId);
+
+  // 現在のユーザー情報を取得
+  const { data: currentUser } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: () => authApi.getCurrentUser(),
+  });
+
+  // 現在のユーザーが参加者リストに含まれているかをチェック
+  const isUserJoinProject = Boolean(
+    currentUser &&
+      participants &&
+      participants.length > 0 &&
+      participants.some((p) => p.user_id === currentUser.id)
+  );
 
   const handleSetPropsQuestions = async () => {
     const newQues: Array<Question> = currentQuestions.map((data, index) => {
-      return questions && questions[index] ? questions[index] : data;
+      return questions?.[index] ? questions[index] : data;
     });
     setCurrentQuestions([...newQues]);
   };
+  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
   useEffect(() => {
     handleSetPropsQuestions();
   }, []);
 
-  const handleURL = (id: number) => (event: any) => {
+  const handleURLChange = (id: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
     const newQues = currentQuestions.slice();
-    var regex = /.*\?.*|.*\=.*|.*\/.*|.*\\.*|.*\:.*|.*\&.*/;
+    const regex = /.*\?.*|.*=.*|.*\/.*|.*\\.*|.*:.*|.*&.*/;
 
     if (regex.test(event.target.value)) {
       errorMessage("不正な入力があります。");
@@ -59,10 +79,53 @@ const App = ({ questions, nums }: Props) => {
     setCurrentQuestions([...newQues]);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleURLBlur = (id: number) => (event: React.FocusEvent<HTMLInputElement>) => {
+    const newQues = currentQuestions.slice();
+    const regex = /.*\?.*|.*=.*|.*\/.*|.*\\.*|.*:.*|.*&.*/;
+
+    if (regex.test(event.target.value)) {
+      errorMessage("不正な入力があります。");
+      return;
+    }
+    newQues[id].url = event.target.value;
+    setCurrentQuestions([...newQues]);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = registerQuestions(currentQuestions);
-    if (result) redirect("/projects")(e);
+
+    if (!isUserJoinProject) {
+      return;
+    }
+
+    if (!currentUser) {
+      errorMessage("ユーザー情報の取得に失敗しました");
+      return;
+    }
+
+    try {
+      // select_user_idを現在のユーザーIDに設定し、空のURLを除外
+      const questionsWithUserId = currentQuestions
+        .filter((q) => q.url && q.url.trim() !== "") // 空のURLを除外
+        .map((q) => ({
+          ...q,
+          select_user_id: currentUser.id,
+        }));
+
+      if (questionsWithUserId.length === 0) {
+        errorMessage("少なくとも1つの問題を入力してください");
+        return;
+      }
+
+      const _result = await registerQuestionsMutation.mutateAsync({
+        projectId,
+        questions: questionsWithUserId,
+      });
+      redirect("/projects")(e);
+    } catch (error) {
+      console.error("問題の登録に失敗しました:", error);
+      errorMessage("問題の登録に失敗しました");
+    }
   };
 
   return (
@@ -70,26 +133,20 @@ const App = ({ questions, nums }: Props) => {
       <form onSubmit={handleSubmit}>
         {[...Array(nums)].map((_, value) => {
           return (
-            <div className={styles.textForm}>
+            // biome-ignore lint/suspicious/noArrayIndexKey: question index is stable
+            <div key={value} className={styles.textForm}>
               <FormControl fullWidth variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-amount">
-                  {`${+value + 1}題目：`}
-                </InputLabel>
+                <InputLabel htmlFor="outlined-adornment-amount">{`${+value + 1}題目：`}</InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-amount"
-                  value={
-                    currentQuestions[value] && currentQuestions[value].url
-                      ? currentQuestions[value].url
-                      : ""
-                  }
-                  onChange={handleURL(+value)}
-                  onBlur={handleURL(+value)}
+                  value={currentQuestions[value]?.url ? currentQuestions[value].url : ""}
+                  onChange={handleURLChange(+value)}
+                  onBlur={handleURLBlur(+value)}
                   startAdornment={
                     <InputAdornment position="start">
                       https://www.youtube.com/watch?v=
                     </InputAdornment>
                   }
-                  labelWidth={60}
                 />
               </FormControl>
             </div>

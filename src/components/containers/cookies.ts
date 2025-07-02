@@ -1,9 +1,9 @@
+import type { NextPageContext } from "next";
 import { parseCookies, setCookie } from "nookies";
-import { NextPageContext } from "next";
 
 // cookie取得
 export function getCookies(ctx?: NextPageContext) {
-  const cookie = parseCookies(ctx);
+  const _cookie = parseCookies(ctx);
   // .cookie名と続ければ任意のキーの値が取れる
   // const cookie = parseCookies(ctx).cookie名;
 }

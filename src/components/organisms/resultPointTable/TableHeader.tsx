@@ -1,10 +1,11 @@
-import { TableHead, TableRow, TableCell, Chip, Box } from "@material-ui/core";
-import { Participant } from "@/models";
-import { ResultsContext } from "@/contexts";
-import { useContext } from "react";
+import { Chip, TableCell, TableHead, TableRow } from "@mui/material";
+import type { Participant } from "@son-q/types";
 
-const App = () => {
-  const { participants } = useContext(ResultsContext);
+type Props = {
+  participants: Participant[];
+};
+
+const App = ({ participants }: Props) => {
   return (
     <TableHead>
       <TableRow key="header-result-point">
@@ -19,6 +20,7 @@ const App = () => {
         {participants.map((part: Participant) => {
           return (
             <TableCell
+              key={part.user_id}
               align="center"
               style={{
                 fontWeight: "bold",

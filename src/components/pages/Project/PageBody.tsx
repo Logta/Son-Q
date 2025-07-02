@@ -1,30 +1,43 @@
+import HomeIcon from "@mui/icons-material/Home";
+import { Button, Container } from "@mui/material";
+import { getProjectFromID } from "@son-q/api";
+import { Label, SubLabel } from "@son-q/ui";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import styles from "./Project.module.scss";
-import { useContext, useState } from "react";
-import { Container, Button } from "@material-ui/core";
-import { AppBar, ProjectForm } from "@/components/organisms";
-import { ProjectContext } from "@/contexts";
-import { Label, SubLabel } from "@/components/atoms";
-import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
 import { useRouter } from "next/router";
-
-import HomeIcon from "@material-ui/icons/Home";
+import { useState } from "react";
+import {
+  AppBar,
+  ProjectCreateDialog,
+  ProjectForm,
+  ProjectJoinDialog,
+} from "@/components/organisms";
+import { useProjectIdFromRouter } from "@/hooks/useProjectIdFromRouter";
+import { useGlobalStore } from "@/stores";
+import styles from "./Project.module.scss";
 
 const PageBody = () => {
   const router = useRouter();
 
-  const redirect = (href: string) => (e: any) => {
+  const redirect = (href: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     router.push(href);
   };
-  const { project, loading } = useContext(ProjectContext);
+  const projectId = useProjectIdFromRouter();
+  const { user } = useGlobalStore();
+
+  const { data: project, isLoading } = useQuery({
+    queryKey: ["project", projectId],
+    queryFn: () => getProjectFromID(projectId),
+    enabled: !!user && !!projectId,
+  });
 
   const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false);
   const [openJoinDialog, setOpenJoinDialog] = useState<boolean>(false);
 
   return (
     project &&
-    !loading && (
+    !isLoading && (
       <>
         <AppBar />
         <Container maxWidth="lg">
@@ -36,11 +49,7 @@ const PageBody = () => {
           <ProjectForm />
 
           <div className={styles.redirectButton}>
-            <Button
-              onClick={redirect("/projects")}
-              variant="outlined"
-              startIcon={<HomeIcon />}
-            >
+            <Button onClick={redirect("/projects")} variant="outlined" startIcon={<HomeIcon />}>
               プロジェクト一覧に戻る
             </Button>
           </div>
@@ -53,20 +62,12 @@ const PageBody = () => {
             >
               Powered by{" "}
               <span className={styles.logo}>
-                <Image
-                  src="/vercel.svg"
-                  alt="Vercel Logo"
-                  width={72}
-                  height={16}
-                />
+                <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
               </span>
             </a>
           </footer>
         </Container>
-        <ProjectCreateDialog
-          open={openCreateDialog}
-          setOpen={setOpenCreateDialog}
-        />
+        <ProjectCreateDialog open={openCreateDialog} setOpen={setOpenCreateDialog} />
         <ProjectJoinDialog open={openJoinDialog} setOpen={setOpenJoinDialog} />
       </>
     )

@@ -1,13 +1,12 @@
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableContainer from "@mui/material/TableContainer";
+import type { Project } from "@son-q/types";
 import styles from "./ProjectTable.module.scss";
-import React from "react";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableContainer from "@material-ui/core/TableContainer";
-import Paper from "@material-ui/core/Paper";
-import { TableRow } from "./TableRow";
 
 import { TableHeader } from "./TableHeader";
-import { Project } from "@/models";
+import { TableRow } from "./TableRow";
 
 type Props = {
   rows: Array<Project>;
@@ -20,7 +19,7 @@ const App = ({ rows }: Props) => {
         <TableHeader />
         <TableBody>
           {rows.map((row: Project) => (
-            <TableRow row={row} />
+            <TableRow key={row.ID} row={row} />
           ))}
         </TableBody>
       </Table>

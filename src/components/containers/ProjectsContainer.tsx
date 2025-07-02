@@ -1,126 +1,43 @@
-import { ProjectsContext, GlobalContext } from "@/contexts";
-import React, { useState, useEffect, useContext } from "react";
-import _ from "lodash";
+import { awaitOnAuth } from "@son-q/api";
+import type React from "react";
+import { useEffect } from "react";
+import { useGlobalStore, useProjectsStore } from "@/stores";
 
-import { Project, User } from "@/models";
-import {
-  awaitOnAuth,
-  getProject,
-  createProject,
-  deleteProject,
-  joinProject,
-} from "@/firebase";
+type Props = {
+  children: React.ReactNode;
+};
 
-const ProjectsContainer: React.FC = ({ children }) => {
-  const { errorMessage, successMessage, warningMessage } =
-    useContext(GlobalContext);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [projects, setProjects] = useState<Array<Project>>([]);
-  const [user, setUser] = useState<User>({
-    ID: "",
-    Name: "",
-    Login: false,
-  });
+const ProjectsContainer: React.FC<Props> = ({ children }) => {
+  const { errorMessage, successMessage, warningMessage } = useGlobalStore();
+  const { setUser, setNotificationFunctions } = useProjectsStore();
 
+  // 通知関数を設定（初回のみ）
   useEffect(() => {
-    getProjects();
-  }, []);
-
-  const getProjects = async () => {
-    const user = await awaitOnAuth();
-
-    if (_.isNull(user) || !user.ok) {
-      setProjects([]);
-      return;
-    }
-    const ps = await getProject(user);
-    setProjects(ps);
-    setUser({
-      ID: user.id,
-      Name: user.name,
-      Login: true,
+    setNotificationFunctions({
+      errorMessage,
+      successMessage,
+      warningMessage,
     });
-    setLoading(false);
-  };
+  }, [setNotificationFunctions, errorMessage, successMessage, warningMessage]);
 
-  const createProjects = async (data: Project) => {
-    const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) return;
+  // 認証状態を確認してユーザー情報をセット
+  useEffect(() => {
+    const checkAuth = async () => {
+      const authUser = await awaitOnAuth();
+      if (authUser?.ok) {
+        setUser({
+          ID: authUser.id,
+          Name: authUser.name,
+          Login: true,
+        });
+      } else {
+        setUser(null);
+      }
+    };
+    checkAuth();
+  }, [setUser]);
 
-    const { message, variant } = await createProject(user, data);
-    switch (variant) {
-      case "success":
-        successMessage(message);
-        break;
-
-      case "error":
-        errorMessage(message);
-        break;
-    }
-    await getProjects();
-  };
-
-  const updateProjects = async () => {
-    setProjects([]);
-  };
-
-  const deleteProjects = async (id: string) => {
-    const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) return;
-
-    const { message, variant } = await deleteProject(id);
-    switch (variant) {
-      case "success":
-        successMessage(message);
-        break;
-
-      case "error":
-        errorMessage(message);
-        break;
-    }
-    await getProjects();
-  };
-
-  ///プロジェクトに参加する
-  const joinProjects = async (id: string) => {
-    const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) return;
-
-    const { message, variant } = await joinProject(user, id);
-    switch (variant) {
-      case "success":
-        successMessage(message);
-        break;
-
-      case "error":
-        errorMessage(message);
-        break;
-
-      case "warningMessage":
-        alert(message);
-        console.log("test");
-        warningMessage(message);
-        break;
-    }
-    await getProjects();
-  };
-
-  return (
-    <ProjectsContext.Provider
-      value={{
-        projects,
-        user,
-        getProjects,
-        createProjects,
-        updateProjects,
-        deleteProjects,
-        joinProjects,
-        loading,
-      }}
-    >
-      {children}
-    </ProjectsContext.Provider>
-  );
+  return <>{children}</>;
 };
 
 export { ProjectsContainer };

@@ -1,94 +1,55 @@
-import { ProjectContext, GlobalContext } from "@/contexts";
-import React, { useState, useEffect, useContext } from "react";
-import _ from "lodash";
-
-import { Project, User } from "@/models";
-import {
-  awaitOnAuth,
-  getProjectFromID,
-  updateProject,
-  deleteProject,
-} from "@/firebase";
+import { getProjectFromID } from "@son-q/api";
+import { useQuery } from "@tanstack/react-query";
+import type React from "react";
+import { Suspense, useEffect } from "react";
+import { useGlobalStore, useProjectStore } from "@/stores";
 
 type Props = {
   children: React.ReactNode;
   projectId: string;
 };
 
-const ProjectContainer: React.FC<Props> = ({ children, projectId }) => {
-  const { errorMessage, successMessage } = useContext(GlobalContext);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [project, setProject] = useState<Project>();
-  const [user, setUser] = useState<User>({
-    ID: "",
-    Name: "",
-    Login: false,
+/**
+ * ProjectContainer: Client State専用のContainer
+ * Server State（projectデータ）はTanStack Queryで管理
+ */
+const ProjectContainerContent: React.FC<Props> = ({ children, projectId }) => {
+  const { user, checkAuth, errorMessage, successMessage } = useGlobalStore();
+  const { setNotificationFunctions } = useProjectStore();
+
+  // 通知関数をストアに設定（初回のみ）
+  useEffect(() => {
+    setNotificationFunctions({
+      errorMessage,
+      successMessage,
+      warningMessage: () => {
+        /* プレースホルダー */
+      },
+    });
+  }, [setNotificationFunctions, errorMessage, successMessage]);
+
+  // 認証状態を確認
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  // TanStack Queryでプロジェクトデータを取得
+  const { data: project } = useQuery({
+    queryKey: ["project", projectId],
+    queryFn: () => getProjectFromID(projectId),
+    enabled: !!user && !!projectId,
   });
 
-  useEffect(() => {
-    getProject();
-  }, []);
+  if (!project || !user) return null;
 
-  const getProject = async () => {
-    const user = await awaitOnAuth();
+  return <>{children}</>;
+};
 
-    if (_.isNull(user) || !user.ok) {
-      return;
-    }
-    const ps = await getProjectFromID(projectId);
-    setProject(ps);
-    setUser({
-      ID: user.id,
-      Name: user.name,
-      Login: true,
-    });
-    setLoading(false);
-  };
-
-  const updateProjectInfo = async (data: Project) => {
-    const { message, variant } = await updateProject(projectId, data);
-    switch (variant) {
-      case "success":
-        successMessage(message);
-        break;
-
-      case "error":
-        errorMessage(message);
-        break;
-    }
-  };
-
-  const deleteProjectFromID = async (id: string): Promise<boolean> => {
-    const user = await awaitOnAuth();
-    if (_.isNull(user) || !user.ok) return;
-
-    const { message, variant } = await deleteProject(id);
-    switch (variant) {
-      case "success":
-        successMessage(message);
-        break;
-
-      case "error":
-        errorMessage(message);
-        break;
-    }
-
-    return variant === "success";
-  };
-
+const ProjectContainer: React.FC<Props> = (props) => {
   return (
-    <ProjectContext.Provider
-      value={{
-        project,
-        user,
-        getProject,
-        updateProjectInfo,
-        deleteProjectFromID,
-        loading,
-      }}
-    >
-      {project && children}
-    </ProjectContext.Provider>
+    <Suspense fallback={<div>読み込み中...</div>}>
+      <ProjectContainerContent {...props} />
+    </Suspense>
   );
 };
 

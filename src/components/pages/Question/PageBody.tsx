@@ -1,24 +1,51 @@
+import HomeIcon from "@mui/icons-material/Home";
+import { Box, Button, CircularProgress, Container, Typography } from "@mui/material";
+import { useQuestionCount, useUserQuestions } from "@son-q/queries";
+import { Label, SubLabel } from "@son-q/ui";
+import { isNil } from "es-toolkit";
 import Image from "next/image";
-import styles from "./Question.module.scss";
-import { useContext, useState } from "react";
-import { Container, Button, Typography } from "@material-ui/core";
-import { AppBar, QuestionForm } from "@/components/organisms";
-import { QuestionsContext } from "@/contexts";
-import { ProjectCreateDialog, ProjectJoinDialog } from "@/components/organisms";
 import { useRouter } from "next/router";
-import { Label, SubLabel } from "@/components/atoms";
-import _ from "lodash";
+import { Suspense, useState } from "react";
+import {
+  AppBar,
+  ProjectCreateDialog,
+  ProjectJoinDialog,
+  QuestionForm,
+} from "@/components/organisms";
+import { useQuestionsStore } from "@/stores";
+import styles from "./Question.module.scss";
 
-import HomeIcon from "@material-ui/icons/Home";
+/**
+ * 問題フォームコンテンツ（Suspense境界内で使用）
+ */
+const QuestionContent = () => {
+  const { projectId } = useQuestionsStore();
+  const { data: questions = [] } = useUserQuestions(projectId);
 
+  // 問題数を取得
+  const { data: questionNum = 0 } = useQuestionCount(projectId);
+
+  if (questionNum === 0 || isNil(questions)) {
+    return (
+      <Box display="flex" justifyContent="center" mt={4}>
+        <p>データの取得に失敗しました</p>
+      </Box>
+    );
+  }
+
+  return <QuestionForm nums={questionNum} questions={questions} />;
+};
+
+/**
+ * QuestionPage: TanStack QueryとSuspenseを活用
+ */
 const PageBody = () => {
-  const { questions, questionNum, loading } = useContext(QuestionsContext);
-
   const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false);
   const [openJoinDialog, setOpenJoinDialog] = useState<boolean>(false);
 
   const router = useRouter();
 
+  // biome-ignore lint/suspicious/noExplicitAny: React event type
   const redirect = (href: string) => (e: any) => {
     e.preventDefault();
     router.push(href);
@@ -31,19 +58,21 @@ const PageBody = () => {
         <main className={styles.main}>
           <Label>出題フォーム</Label>
           <SubLabel>問題を設定しましょう！</SubLabel>
-          <Typography color="secondary">
-            ※出題するYoutube動画IDを記入してください
-          </Typography>
+          <Typography color="secondary">※出題するYoutube動画IDを記入してください</Typography>
         </main>
-        {!loading && questionNum !== 0 && !_.isNil(questions) && (
-          <QuestionForm nums={questionNum} questions={questions} />
-        )}
+
+        <Suspense
+          fallback={
+            <Box display="flex" justifyContent="center" mt={4}>
+              <CircularProgress />
+            </Box>
+          }
+        >
+          <QuestionContent />
+        </Suspense>
+
         <div className={styles.redirectButton}>
-          <Button
-            onClick={redirect("/projects")}
-            variant="outlined"
-            startIcon={<HomeIcon />}
-          >
+          <Button onClick={redirect("/projects")} variant="outlined" startIcon={<HomeIcon />}>
             プロジェクト一覧に戻る
           </Button>
         </div>
@@ -55,20 +84,12 @@ const PageBody = () => {
           >
             Powered by{" "}
             <span className={styles.logo}>
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                width={72}
-                height={16}
-              />
+              <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
             </span>
           </a>
         </footer>
       </Container>
-      <ProjectCreateDialog
-        open={openCreateDialog}
-        setOpen={setOpenCreateDialog}
-      />
+      <ProjectCreateDialog open={openCreateDialog} setOpen={setOpenCreateDialog} />
       <ProjectJoinDialog open={openJoinDialog} setOpen={setOpenJoinDialog} />
     </div>
   );

@@ -1,16 +1,14 @@
-import { TableRow, TableCell, Button, Chip } from "@material-ui/core";
-import { Project, User } from "@/models";
-import { ProjectsContext, GlobalContext } from "@/contexts";
-import { PopupButton } from "@/components/atoms";
-import { useContext, useState, useEffect } from "react";
+import CreateIcon from "@mui/icons-material/Create";
+import HowToVoteIcon from "@mui/icons-material/HowToVote";
+import PollIcon from "@mui/icons-material/Poll";
+import { Button, Chip, TableCell, TableRow } from "@mui/material";
+import { getExistAnswerNum, getExistQuestionNum } from "@son-q/api";
+import type { Project, User } from "@son-q/types";
+import { PopupButton } from "@son-q/ui";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useGlobalStore, useProjectsStore } from "@/stores";
 import styles from "./ProjectTable.module.scss";
-
-import { getExistQuestionNum, getExistAnswerNum } from "@/firebase";
-
-import PollIcon from "@material-ui/icons/Poll";
-import CreateIcon from "@material-ui/icons/Create";
-import HowToVoteIcon from "@material-ui/icons/HowToVote";
 
 type Props = {
   row: Project;
@@ -22,9 +20,10 @@ const App = (props: Props) => {
   const [readyResult, setReadyResult] = useState<boolean>(false);
 
   const { row } = props;
-  const { deleteProjects, user } = useContext(ProjectsContext);
-  const { darkMode } = useContext(GlobalContext);
+  const { user } = useProjectsStore();
+  const { darkMode } = useGlobalStore();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
   useEffect(() => {
     getReadyQuesion();
     getReadyResult();
@@ -33,29 +32,23 @@ const App = (props: Props) => {
   const getReadyQuesion = async () => {
     const q_num = await getExistQuestionNum(row.ID);
     const full_q = row.participants.length * row.question_num;
-    console.log(`q_num : ${q_num}`);
-    console.log(`full_q : ${full_q}`);
     setReadyQuestion(full_q === q_num);
   };
 
   const getReadyResult = async () => {
     const a_num = await getExistAnswerNum(row.ID);
     const full_a = row.participants.length ** 2 * row.question_num;
-    console.log(`a_num : ${a_num}`);
-    console.log(`full_a : ${full_a}`);
     setReadyResult(full_a === a_num);
   };
 
-  const redirect =
-    (href: string) => (event: React.MouseEvent<HTMLInputElement>) => {
-      event.preventDefault();
-      router.push(href);
-      event.stopPropagation();
-    };
+  const redirect = (href: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    router.push(href);
+    event.stopPropagation();
+  };
 
   const handleClickRow =
-    (href: string, authority: boolean) =>
-    (event: React.MouseEvent<HTMLTableRowElement>) => {
+    (href: string, authority: boolean) => (event: React.MouseEvent<HTMLTableRowElement>) => {
       event.preventDefault();
       authority && router.push(href);
     };
@@ -69,8 +62,7 @@ const App = (props: Props) => {
       key={row.ID}
       onClick={handleClickRow(`/projects/${row.ID}`, getAuthority(row, user))}
       className={
-        getAuthority(row, user) &&
-        (!darkMode ? styles.lightHovorRow : styles.darkHovorRow)
+        getAuthority(row, user) && (!darkMode ? styles.lightHovorRow : styles.darkHovorRow)
       }
     >
       <TableCell component="th" scope="row">

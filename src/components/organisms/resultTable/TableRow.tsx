@@ -1,21 +1,24 @@
-import { TableRow, TableCell, Chip } from "@material-ui/core";
-import { ResultsContext, GlobalContext } from "@/contexts";
-import { useContext } from "react";
-import { YoutubeAnswer } from "@/components/atoms";
-import { getQuestioner, getRespondent } from "@/utils";
-import _ from "lodash";
+import { Chip, TableCell, TableRow } from "@mui/material";
+import type { Answer, Participant, Question } from "@son-q/types";
+import { YoutubeAnswer } from "@son-q/ui";
+import { getQuestioner, getRespondent } from "@son-q/utils";
+import React from "react";
 
-const App = () => {
-  const { participants, answers, questions } = useContext(ResultsContext);
-  const { darkMode } = useContext(GlobalContext);
+type Props = {
+  participants: Participant[];
+  answers: Answer[];
+  questions: Question[];
+  darkMode?: boolean;
+};
 
+const App = ({ participants, answers, questions, darkMode: _darkMode = false }: Props) => {
   return (
     <>
       {questions.map((ques, index) => {
         return (
           <TableRow key={`${ques.ID}-result`}>
             <TableCell
-              key={`${ques.ID}-result-partName`}
+              key={`${ques.ID}-result-number`}
               component="th"
               scope="row"
               align="center"
@@ -24,7 +27,7 @@ const App = () => {
               <Chip size="small" label={<strong>{index + 1}</strong>} />
             </TableCell>
             <TableCell
-              key={`${ques.ID}-result-partName`}
+              key={`${ques.ID}-result-questioner`}
               component="th"
               scope="row"
               align="center"
@@ -52,7 +55,7 @@ const App = () => {
             </TableCell>
             {participants.map((part) => {
               return (
-                <>
+                <React.Fragment key={`${part.user_id}-${ques.ID}-fragment`}>
                   <TableCell
                     align="center"
                     style={{
@@ -66,17 +69,9 @@ const App = () => {
                   >
                     {getQuestioner(participants, ques) ===
                     getRespondent(part, participants, ques, answers) ? (
-                      <Chip
-                        label="〇"
-                        color="secondary"
-                        variant={darkMode ? "default" : "outlined"}
-                      />
+                      <Chip label="〇" color="secondary" variant="outlined" />
                     ) : (
-                      <Chip
-                        label="×"
-                        color="primary"
-                        variant={darkMode ? "default" : "outlined"}
-                      />
+                      <Chip label="×" color="primary" variant="outlined" />
                     )}
                   </TableCell>
                   <TableCell
@@ -91,7 +86,7 @@ const App = () => {
                   >
                     {getRespondent(part, participants, ques, answers)}
                   </TableCell>
-                </>
+                </React.Fragment>
               );
             })}
           </TableRow>

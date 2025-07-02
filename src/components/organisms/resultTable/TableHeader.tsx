@@ -1,10 +1,11 @@
-import { TableHead, TableRow, TableCell, Box, Chip } from "@material-ui/core";
-import { Participant } from "@/models";
-import { ResultsContext } from "@/contexts";
-import { useContext } from "react";
+import { Box, Chip, TableCell, TableHead, TableRow } from "@mui/material";
+import type { Participant } from "@son-q/types";
 
-const App = () => {
-  const { participants } = useContext(ResultsContext);
+type Props = {
+  participants: Participant[];
+};
+
+const App = ({ participants }: Props) => {
   return (
     <TableHead>
       <TableRow key="header-result">

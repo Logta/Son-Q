@@ -1,11 +1,32 @@
 import "../styles/globals.scss";
-import { GlobalContainer } from "../src/components/containers";
-import { ThemeProvider } from "@material-ui/styles";
-import { createMuiTheme } from "@material-ui/core/styles";
-import * as colors from "@material-ui/core/colors";
-import { useState, useEffect } from "react";
 
-import CssBaseline from "@material-ui/core/CssBaseline";
+import CssBaseline from "@mui/material/CssBaseline";
+import * as colors from "@mui/material/colors";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useEffect, useState } from "react";
+import { GlobalContainer } from "../src/components/containers";
+
+/**
+ * QueryClientの設定（Suspense対応）
+ */
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 0, // キャッシュを常に古いと見なしてより頻繁に再取得
+      gcTime: 5 * 60 * 1000, // 5分間メモリに保持
+      retry: 3, // 失敗時に3回リトライ
+      refetchOnWindowFocus: true, // ウィンドウフォーカス時の自動再取得を有効
+      refetchOnMount: true, // マウント時に再取得
+      suspense: true, // Suspenseを有効化
+    },
+    mutations: {
+      retry: 3, // ミューテーションも3回リトライ
+    },
+  },
+});
+
 function MyApp({ Component, pageProps }) {
   const [darkMode, setDarkMode] = useState(false);
 
@@ -31,7 +52,7 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
 
-  const theme = createMuiTheme({
+  const theme = createTheme({
     typography: {
       fontFamily: [
         "Noto Sans JP",
@@ -53,21 +74,24 @@ function MyApp({ Component, pageProps }) {
       primary: {
         main: colors.blue[800],
       },
-      type: darkMode ? "dark" : "light",
+      mode: darkMode ? "dark" : "light",
     },
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalContainer
-        darkMode={darkMode}
-        handleDarkModeOn={handleDarkModeOn}
-        handleDarkModeOff={handleDarkModeOff}
-      >
-        <CssBaseline />
-        <Component {...pageProps} />
-      </GlobalContainer>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <GlobalContainer
+          darkMode={darkMode}
+          handleDarkModeOn={handleDarkModeOn}
+          handleDarkModeOff={handleDarkModeOff}
+        >
+          <CssBaseline />
+          <Component {...pageProps} />
+        </GlobalContainer>
+      </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 

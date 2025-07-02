@@ -1,45 +1,58 @@
-import styles from "./ProjectDialog.module.scss";
-import React from "react";
 import {
   Button,
-  TextField,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "@material-ui/core";
-import { ProjectsContext } from "@/contexts";
-import { useContext } from "react";
+  TextField,
+} from "@mui/material";
+import { useJoinProject } from "@son-q/queries";
+import React from "react";
+import { useProjectsStore } from "@/stores";
+import styles from "./ProjectDialog.module.scss";
 
 type Props = {
   open: boolean;
-  setOpen: Function;
+  setOpen: (open: boolean) => void;
 };
 
 // カスタムフックを定義（input 要素用の属性を生成する）
+// biome-ignore lint/suspicious/noExplicitAny: custom hook return type
 function useInput(initValue: string): any {
   const [value, setValue] = React.useState<string>(initValue);
   return {
     value,
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-      setValue(e.target.value),
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value),
   };
 }
 
 const App = (props: Props) => {
-  const { joinProjects } = useContext(ProjectsContext);
+  const { successMessage, errorMessage } = useProjectsStore();
+  const joinProjectMutation = useJoinProject();
   const { open, setOpen } = props;
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    joinProjects(joinID.value);
-    handleClose();
+    try {
+      const result = await joinProjectMutation.mutateAsync({
+        projectId: joinID.value,
+        userName: "",
+      });
+      if (result?.variant === "success") {
+        successMessage(result.message);
+        handleClose();
+      } else if (result?.variant === "error") {
+        errorMessage(result.message);
+      }
+    } catch (_error) {
+      errorMessage("プロジェクトへの参加に失敗しました");
+    }
   };
 
   const joinID = useInput("");
@@ -54,9 +67,7 @@ const App = (props: Props) => {
       <DialogTitle id="form-dialog-title">プログラムへの参加</DialogTitle>
       <form onSubmit={handleSubmit} className={styles.form}>
         <DialogContent classes={{ root: styles.dialogContent }}>
-          <DialogContentText>
-            参加したいプログラムIDを入力してください
-          </DialogContentText>
+          <DialogContentText>参加したいプログラムIDを入力してください</DialogContentText>
           <TextField
             variant="outlined"
             autoFocus
@@ -71,12 +82,7 @@ const App = (props: Props) => {
           <Button onClick={handleClose} color="secondary">
             キャンセル
           </Button>
-          <Button
-            type="submit"
-            color="primary"
-            variant="contained"
-            style={{ margin: "2em" }}
-          >
+          <Button type="submit" color="primary" variant="contained" style={{ margin: "2em" }}>
             参加
           </Button>
         </DialogActions>

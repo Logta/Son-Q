@@ -1,36 +1,32 @@
-import styles from "./AnswerForm.module.scss";
-import { useState, useContext, useEffect } from "react";
-import {
-  Paper,
-  Card,
-  CardHeader,
-  CardContent,
-  Button,
-  Box,
-  Grid,
-} from "@material-ui/core";
-import { Answer } from "@/models";
+import HowToVoteIcon from "@mui/icons-material/HowToVote";
+import { Box, Button, Card, CardContent, CardHeader, Paper } from "@mui/material";
+import { useRegisterAnswers } from "@son-q/queries";
+import type { Answer, Participant, Question } from "@son-q/types";
+import { Popup, Youtube } from "@son-q/ui";
+import { isNil } from "es-toolkit";
 import { useRouter } from "next/router";
-import { AnswersContext, GlobalContext } from "@/contexts";
-import _ from "lodash";
+import { useEffect, useState } from "react";
+import { useAnswersStore, useGlobalStore } from "@/stores";
+import styles from "./AnswerForm.module.scss";
 import { AnswerSelector } from "./AnswerSelector";
-import { Youtube, Popup } from "@/components/atoms";
 
-import HowToVoteIcon from "@material-ui/icons/HowToVote";
+type Props = {
+  answers: Answer[];
+  questionNum: number;
+  questions: Question[];
+  participants: Participant[];
+  isUserJoinProject: boolean;
+};
 
-const App = () => {
-  const {
-    answers,
-    registerAnswers,
-    questionNum,
-    questions,
-    participants,
-    isUserJoinProject,
-  } = useContext(AnswersContext);
-  const { darkMode } = useContext(GlobalContext);
+const App = ({ answers, questionNum, questions, participants, isUserJoinProject }: Props) => {
+  const { projectId } = useAnswersStore();
+  const { darkMode } = useGlobalStore();
+
+  const registerAnswersMutation = useRegisterAnswers();
 
   const router = useRouter();
 
+  // biome-ignore lint/suspicious/noExplicitAny: React event type
   const redirect = (href: string) => (e: any) => {
     e.preventDefault();
     router.push(href);
@@ -61,13 +57,10 @@ const App = () => {
   );
 
   const handleSetPropsAnswers = async () => {
-    if (_.isNil(answers)) return;
+    if (isNil(answers)) return;
     const newQues: Array<Answer> = currentAnswers.map((data) => {
-      const findAns: Answer | undefined = getAnswerFromQuestionID(
-        data,
-        answers
-      );
-      if (_.isNil(findAns)) {
+      const findAns: Answer | undefined = getAnswerFromQuestionID(data, answers);
+      if (isNil(findAns)) {
         return data;
       } else return { ...findAns, url: data.url };
     });
@@ -78,10 +71,11 @@ const App = () => {
     currentAnswer: Answer,
     answers: Array<Answer>
   ): Answer | undefined => {
-    if (_.isNil(currentAnswer.question_id)) return undefined;
+    if (isNil(currentAnswer.question_id)) return undefined;
     return answers.find((a) => a.question_id === currentAnswer.question_id);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
   useEffect(() => {
     handleSetPropsAnswers();
   }, []);
@@ -94,9 +88,14 @@ const App = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = registerAnswers(currentAnswers);
-    if (result) {
+    try {
+      await registerAnswersMutation.mutateAsync({
+        projectId,
+        answers: currentAnswers,
+      });
       redirect("/projects")(e);
+    } catch (error) {
+      console.error("回答の登録に失敗しました:", error);
     }
   };
 
@@ -105,28 +104,20 @@ const App = () => {
       <form onSubmit={handleSubmit}>
         {[...Array(questionNum)].map((_, value) => {
           return (
-            <div className={styles.backDiv}>
+            // biome-ignore lint/suspicious/noArrayIndexKey: question index is stable
+            <div key={value} className={styles.backDiv}>
               <Card variant="outlined">
                 <CardHeader
                   subheader={`${value + 1} 曲目`}
-                  className={
-                    darkMode ? styles.darkSubheader : styles.lightSubheader
-                  }
+                  className={darkMode ? styles.darkSubheader : styles.lightSubheader}
                 />
                 <CardContent>
-                  <Grid container alignItems="center" justify="center">
-                    <Grid item>
-                      <Grid container alignItems="center" justify="center">
-                        <Grid item>
-                          <Youtube
-                            id={questions[value] ? questions[value].url : ""}
-                            endSec={60}
-                          />
-                          <Box m={-0.5} />
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
+                  <Box display="flex" alignItems="center" justifyContent="center">
+                    <Box>
+                      <Youtube id={questions[value] ? questions[value].url : ""} endSec={60} />
+                      <Box m={-0.5} />
+                    </Box>
+                  </Box>
 
                   <Box mt={0.5} mb={-1}>
                     <AnswerSelector
@@ -134,8 +125,7 @@ const App = () => {
                       index={value}
                       participants={participants}
                       value={
-                        currentAnswers[value] &&
-                        currentAnswers[value].guess_user_id
+                        currentAnswers[value]?.guess_user_id
                           ? currentAnswers[value].guess_user_id
                           : ""
                       }
@@ -148,24 +138,22 @@ const App = () => {
           );
         })}
         <Box m={5} p={2}>
-          <Grid container alignItems="center" justify="center">
-            <Grid item>
-              <Popup
-                popupLabel="プロジェクトに参加していないため回答ができません"
-                popupDisable={isUserJoinProject}
+          <Box display="flex" alignItems="center" justifyContent="center">
+            <Popup
+              popupLabel="プロジェクトに参加していないため回答ができません"
+              popupDisable={isUserJoinProject}
+            >
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                startIcon={<HowToVoteIcon />}
+                disabled={!isUserJoinProject}
               >
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  startIcon={<HowToVoteIcon />}
-                  disabled={!isUserJoinProject}
-                >
-                  回答
-                </Button>
-              </Popup>
-            </Grid>
-          </Grid>
+                回答
+              </Button>
+            </Popup>
+          </Box>
         </Box>
       </form>
     </Paper>

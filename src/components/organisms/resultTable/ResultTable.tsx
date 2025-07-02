@@ -1,20 +1,26 @@
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableContainer from "@mui/material/TableContainer";
+import type { Answer, Participant, Question } from "@son-q/types";
 import styles from "./ResultTable.module.scss";
-import React from "react";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableContainer from "@material-ui/core/TableContainer";
-import Paper from "@material-ui/core/Paper";
-import { TableRow } from "./TableRow";
 
 import { TableHeader } from "./TableHeader";
+import { TableRow } from "./TableRow";
 
-const App = () => {
+type Props = {
+  participants: Participant[];
+  answers: Answer[];
+  questions: Question[];
+};
+
+const App = ({ participants, answers, questions }: Props) => {
   return (
     <TableContainer component={Paper}>
       <Table className={styles.table} aria-label="simple table">
-        <TableHeader />
+        <TableHeader participants={participants} />
         <TableBody>
-          <TableRow />
+          <TableRow participants={participants} answers={answers} questions={questions} />
         </TableBody>
       </Table>
     </TableContainer>

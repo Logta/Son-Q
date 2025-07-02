@@ -1,10 +1,14 @@
-import { TableRow, TableCell, Chip } from "@material-ui/core";
-import { ResultsContext } from "@/contexts";
-import { useContext } from "react";
-import { getPoint } from "@/utils";
+import { Chip, TableCell, TableRow } from "@mui/material";
+import type { Answer, Participant } from "@son-q/types";
+import { getPoint } from "@son-q/utils";
 
-const App = () => {
-  const { participants, answers, projectMode } = useContext(ResultsContext);
+type Props = {
+  participants: Participant[];
+  answers?: Answer[];
+  projectMode?: string;
+};
+
+const App = ({ participants, answers = [], projectMode = "" }: Props) => {
   return (
     <TableRow key={"result-point"}>
       <TableCell
