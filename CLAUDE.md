@@ -1,24 +1,88 @@
-## 開発のススメ
+# Son-Q プロジェクト開発ガイド
 
-### 基本事項
+## 🎯 プロジェクト概要
 
-- ./spotify_playlist_analyzer_spec.md を仕様書として遵守してください
-- t-wada の推奨する進め方に従ってください
-- ドキュメント: 関数やコンポーネントには JSDoc コメントを必ず追加
-- 規約: ハードコードは絶対にしないでください。環境変数や設定ファイルを使用して、柔軟に対応できるようにします。
-- TypeScript の型は基本的に interface ではなく type で記載してください
+**Son-Q** は Quiz/Survey アプリケーションです。ユーザーがプロジェクトを作成し、質問を設定し、回答を収集して結果を分析できるWebアプリケーションです。
 
-### コードスタイル
+### 技術スタック
+- **Frontend**: Next.js 15 + React 19 + TypeScript
+- **UI**: Material-UI (@mui/material) + SCSS Modules  
+- **State Management**: Zustand + TanStack Query
+- **Backend**: Firebase (Firestore)
+- **Monorepo**: pnpm workspaces
+- **Testing**: Vitest + jsdom
+- **Linting/Formatting**: Biome
 
-- ES6 モジュール構文（import/export）を使用
-- 可能な限り分割代入を活用
-- 関数名は camelCase、クラス名は PascalCase で統一
+### アーキテクチャ
+```
+Son-Q/
+├── packages/           # 共通パッケージ群
+│   ├── api/           # Firebase API層
+│   ├── queries/       # TanStack Query hooks
+│   ├── types/         # TypeScript型定義
+│   ├── ui/            # 共通UIコンポーネント
+│   ├── utils/         # ユーティリティ関数
+│   └── config/        # 設定ファイル
+├── src/               # メインアプリケーション
+│   ├── components/    # コンポーネント
+│   │   ├── containers/  # State管理コンテナ
+│   │   ├── organisms/   # 複合コンポーネント
+│   │   └── pages/       # ページコンポーネント
+│   ├── hooks/         # カスタムフック
+│   └── stores/        # Zustand ストア
+└── pages/             # Next.js ページ
 
-### ワークフロー
+```
 
-- 変更完了後は必ず型チェックを実行
-  - npm run typecheck
-- 全テストではなく単体テストを優先して実行
+## 🔧 開発ルール
+
+### 基本方針
+- **型安全性**: TypeScript型は `type` で定義（`interface` 禁止）
+- **コンポーネント設計**: `class` 禁止、関数コンポーネントのみ
+- **非同期処理**: `<Suspense>` コンポーネント活用必須
+- **ドキュメント**: JSDoc コメントを日本語で記載
+- **設定値**: ハードコード禁止、環境変数・設定ファイル使用
+
+### コーディング規約
+- ES6 モジュール構文（import/export）
+- 分割代入を積極活用
+- 関数名: camelCase、型名: PascalCase
+
+### State管理アーキテクチャ
+- **Client State**: Containers層でZustandを使用（UI状態、認証状態、通知機能）
+- **Server State**: TanStack Query を pages/organisms層で直接使用
+- **データフェッチング**: TanStack Query必須、useStateやuseEffectでの手動管理禁止
+- **ローディング状態**: Suspenseコンポーネントで宣言的に管理
+
+## 🚀 開発ワークフロー
+
+### セットアップ
+```bash
+pnpm install                 # 依存関係インストール
+pnpm next:dev               # 開発サーバー起動
+```
+
+### 開発コマンド
+```bash
+# ビルド
+pnpm build                  # 全体ビルド
+pnpm packages:build         # パッケージのみビルド
+
+# 型チェック・Lint
+pnpm tsc                    # 型チェック（必須）
+pnpm packages:typecheck     # パッケージ型チェック
+pnpm biome:lint             # Lint実行
+pnpm biome:format           # フォーマット
+
+# テスト
+pnpm test                   # テスト実行
+pnpm test:coverage          # カバレッジ測定
+```
+
+### 変更後の必須チェック
+1. `pnpm tsc` で型チェック
+2. 関連する単体テスト実行
+3. `pnpm biome:lint` でLint確認
 
 ## 🔨 最重要ルール - 新しいルールの追加プロセス
 
