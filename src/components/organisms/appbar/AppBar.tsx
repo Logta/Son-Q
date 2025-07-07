@@ -33,9 +33,7 @@ const App = () => {
             className="h-full px-3 text-white hover:bg-white/10 transition-colors duration-200"
           >
             <span className="text-2xl font-bold flex items-center gap-2">
-              <span className="bg-black text-white px-2 py-1 rounded shadow-lg">
-                Black
-              </span>
+              <span className="bg-black text-white px-2 py-1 rounded shadow-lg">Black</span>
               <span className="text-white drop-shadow-lg">Jukebox</span>
               <Image
                 src="/black_jukebox.png"

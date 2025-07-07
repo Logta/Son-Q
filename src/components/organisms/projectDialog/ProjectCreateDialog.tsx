@@ -12,8 +12,8 @@ import {
   TextField,
 } from "@mui/material";
 import { useCreateProject } from "@son-q/queries";
-import { Button } from "@son-q/ui-tailwind";
 import type { Project } from "@son-q/types";
+import { Button } from "@son-q/ui-tailwind";
 import React from "react";
 import { useProjectsStore } from "@/stores";
 import styles from "./ProjectDialog.module.scss";

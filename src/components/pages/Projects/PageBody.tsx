@@ -1,9 +1,9 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { Box, CircularProgress, Container } from "@mui/material";
-import { Button } from "@son-q/ui-tailwind";
 import { useProjects } from "@son-q/queries";
 import { Label, SubLabel } from "@son-q/ui";
+import { Button } from "@son-q/ui-tailwind";
 import Image from "next/image";
 import { Suspense, useState } from "react";
 import {

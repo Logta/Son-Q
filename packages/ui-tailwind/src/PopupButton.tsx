@@ -63,10 +63,7 @@ export const PopupButton = ({
               variant={variant}
               size={size}
               disabled={disabled}
-              className={clsx(
-                startIcon && "inline-flex items-center gap-2",
-                className
-              )}
+              className={clsx(startIcon && "inline-flex items-center gap-2", className)}
               {...props}
             >
               {startIcon && <span className="shrink-0">{startIcon}</span>}

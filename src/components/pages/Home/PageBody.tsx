@@ -1,8 +1,8 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import { Box, Container, Paper } from "@mui/material";
-import { Button } from "@son-q/ui-tailwind";
 import { DarkModeSwitch, Label, SubLabel } from "@son-q/ui";
+import { Button } from "@son-q/ui-tailwind";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { HomeStep } from "@/components/organisms";
