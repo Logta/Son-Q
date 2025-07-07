@@ -1,9 +1,10 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { getProjectFromID, updateProject } from "@son-q/api";
 import type { Project } from "@son-q/types";
 import { FormLabel } from "@son-q/ui";
+import { Button } from "@son-q/ui-tailwind";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useProjectIdFromRouter } from "@/hooks/useProjectIdFromRouter";
@@ -177,20 +178,18 @@ const App = () => {
             <Box my={2} display="flex" justifyContent="center" gap={2}>
               <Button
                 type="submit"
-                color="primary"
-                variant="contained"
-                className={styles.submitButton}
-                startIcon={<SaveIcon />}
+                variant="primary"
+                className={`${styles.submitButton} inline-flex items-center gap-2`}
               >
+                <SaveIcon />
                 更新
               </Button>
               <Button
                 onClick={() => setOpen(true)}
-                color="secondary"
-                className={styles.deleteButton}
-                startIcon={<DeleteIcon />}
-                variant="outlined"
+                variant="outline"
+                className={`${styles.deleteButton} inline-flex items-center gap-2`}
               >
+                <DeleteIcon />
                 プロジェクトの削除
               </Button>
             </Box>

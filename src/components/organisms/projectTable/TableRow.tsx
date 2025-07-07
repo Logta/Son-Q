@@ -1,10 +1,10 @@
 import CreateIcon from "@mui/icons-material/Create";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
 import PollIcon from "@mui/icons-material/Poll";
-import { Button, Chip, TableCell, TableRow } from "@mui/material";
+import { Chip, TableCell, TableRow } from "@mui/material";
 import { getExistAnswerNum, getExistQuestionNum } from "@son-q/api";
 import type { Project, User } from "@son-q/types";
-import { PopupButton } from "@son-q/ui";
+import { Button, PopupButton } from "@son-q/ui-tailwind";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useGlobalStore, useProjectsStore } from "@/stores";
@@ -76,11 +76,8 @@ const App = (props: Props) => {
         <Chip size="small" label={<strong>{row.participants.length}</strong>} />
       </TableCell>
       <TableCell align="center">
-        <Button
-          variant="contained"
-          onClick={redirect(`/questions/${row.ID}`)}
-          startIcon={<CreateIcon />}
-        >
+        <Button variant="primary" onClick={redirect(`/questions/${row.ID}`)}>
+          <CreateIcon className="mr-2" />
           出題
         </Button>
       </TableCell>

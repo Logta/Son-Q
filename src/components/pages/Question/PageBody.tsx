@@ -1,7 +1,8 @@
 import HomeIcon from "@mui/icons-material/Home";
-import { Box, Button, CircularProgress, Container, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Typography } from "@mui/material";
 import { useQuestionCount, useUserQuestions } from "@son-q/queries";
 import { Label, SubLabel } from "@son-q/ui";
+import { Button } from "@son-q/ui-tailwind";
 import { isNil } from "es-toolkit";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -72,7 +73,8 @@ const PageBody = () => {
         </Suspense>
 
         <div className={styles.redirectButton}>
-          <Button onClick={redirect("/projects")} variant="outlined" startIcon={<HomeIcon />}>
+          <Button onClick={redirect("/projects")} variant="outline">
+            <HomeIcon className="mr-2" />
             プロジェクト一覧に戻る
           </Button>
         </div>

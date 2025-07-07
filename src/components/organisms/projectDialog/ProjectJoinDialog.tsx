@@ -1,5 +1,4 @@
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -8,6 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useJoinProject } from "@son-q/queries";
+import { Button } from "@son-q/ui-tailwind";
 import React from "react";
 import { useProjectsStore } from "@/stores";
 import styles from "./ProjectDialog.module.scss";
@@ -79,10 +79,10 @@ const App = (props: Props) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="secondary">
+          <Button onClick={handleClose} variant="ghost">
             キャンセル
           </Button>
-          <Button type="submit" color="primary" variant="contained" style={{ margin: "2em" }}>
+          <Button type="submit" variant="primary" className="m-8">
             参加
           </Button>
         </DialogActions>

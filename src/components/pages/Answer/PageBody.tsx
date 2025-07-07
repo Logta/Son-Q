@@ -1,8 +1,9 @@
 import HomeIcon from "@mui/icons-material/Home";
-import { Box, Button, CircularProgress, Container } from "@mui/material";
+import { Box, CircularProgress, Container } from "@mui/material";
 import { authApi } from "@son-q/api";
 import { useAllAnswers, useParticipants, useQuestions } from "@son-q/queries";
 import { Label, SubLabel } from "@son-q/ui";
+import { Button } from "@son-q/ui-tailwind";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -120,7 +121,8 @@ const PageBody = () => {
         </Suspense>
 
         <div className={styles.redirectButton}>
-          <Button onClick={redirect("/projects")} variant="outlined" startIcon={<HomeIcon />}>
+          <Button onClick={redirect("/projects")} variant="outline">
+            <HomeIcon className="mr-2" />
             プロジェクト一覧に戻る
           </Button>
         </div>

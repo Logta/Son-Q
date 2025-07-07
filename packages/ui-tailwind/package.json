@@ -1,7 +1,7 @@
 {
-  "name": "@son-q/ui",
+  "name": "@son-q/ui-tailwind",
   "version": "1.0.0",
-  "description": "[DEPRECATED] Son-Q UI Components - Material-UI based (use @son-q/ui-tailwind instead)",
+  "description": "Son-Q UI Components - Tailwind CSS + Headless UI based",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -13,17 +13,13 @@
   },
   "private": true,
   "scripts": {
-    "build": "tsc && node copy-styles.js",
+    "build": "tsc",
     "dev": "tsc --watch",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^7.1.2",
-    "@mui/material": "^7.1.2",
+    "@headlessui/react": "^2.2.4",
     "clsx": "^2.1.1",
-    "react-youtube": "^10.1.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6"
   },
@@ -31,12 +27,10 @@
     "@son-q/config": "workspace:*",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "sass": "^1.89.2",
+    "tailwindcss": "^4.1.11",
     "typescript": "^5.8.3"
   },
   "peerDependencies": {
-    "@son-q/queries": "workspace:*",
-    "@son-q/types": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   }

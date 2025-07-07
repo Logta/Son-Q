@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -14,6 +13,7 @@ import {
 } from "@mui/material";
 import { useCreateProject } from "@son-q/queries";
 import type { Project } from "@son-q/types";
+import { Button } from "@son-q/ui-tailwind";
 import React from "react";
 import { useProjectsStore } from "@/stores";
 import styles from "./ProjectDialog.module.scss";
@@ -180,10 +180,10 @@ const App = (props: Props) => {
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="secondary">
+            <Button onClick={handleClose} variant="ghost">
               キャンセル
             </Button>
-            <Button type="submit" color="primary" variant="contained" style={{ margin: "2em" }}>
+            <Button type="submit" variant="primary" className="m-8">
               作成
             </Button>
           </DialogActions>

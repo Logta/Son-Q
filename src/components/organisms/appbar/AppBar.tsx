@@ -1,5 +1,5 @@
-import { AppBar, Box, Button, Grid, Toolbar } from "@mui/material";
-import { AppBarButton, DarkModeSwitch } from "@son-q/ui";
+import { AppBar, Box, Toolbar } from "@mui/material";
+import { AppBarButton, Button } from "@son-q/ui-tailwind";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import type React from "react";
@@ -8,15 +8,7 @@ import { useGlobalStore } from "@/stores";
 import styles from "./AppBar.module.scss";
 
 const App = () => {
-  const {
-    user,
-    signInCheck,
-    signInGoogle,
-    signOut,
-    darkMode,
-    handleDarkModeOn,
-    handleDarkModeOff,
-  } = useGlobalStore();
+  const { user, signInCheck, signInGoogle, signOut } = useGlobalStore();
 
   const router = useRouter();
 
@@ -34,29 +26,25 @@ const App = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Image src="/black_jukebox.png" alt="Black Jukebox Logo" width={25} height={25} />
         <Box mr={2} ml={1}>
           <Button
             onClick={redirect("/")}
-            style={{
-              height: "100%",
-              width: "10rem",
-              color: "white",
-              fontSize: "17px",
-            }}
+            variant="ghost"
+            className="h-full px-3 text-white hover:bg-white/10 transition-colors duration-200"
           >
-            Black Jukebox
+            <span className="text-2xl font-bold flex items-center gap-2">
+              <span className="bg-black text-white px-2 py-1 rounded shadow-lg">Black</span>
+              <span className="text-white drop-shadow-lg">Jukebox</span>
+              <Image
+                src="/black_jukebox.png"
+                alt="Black Jukebox Logo"
+                width={24}
+                height={24}
+                className="drop-shadow-lg"
+              />
+            </span>
           </Button>
         </Box>
-        <Grid container direction="row" justifyContent="flex-end" alignItems="center">
-          <div className={styles.button}>
-            <DarkModeSwitch
-              darkMode={darkMode}
-              handleDarkModeOn={handleDarkModeOn}
-              handleDarkModeOff={handleDarkModeOff}
-            />
-          </div>
-        </Grid>
         {user?.Login ? (
           <div className={styles.button}>
             <AppBarButton
