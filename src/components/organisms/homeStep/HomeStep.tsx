@@ -13,11 +13,11 @@ const App = (props: Props) => {
   const { index, text, mediaUrl, mediaAlt, height } = props;
 
   return (
-    <Card>
+    <Card className="mx-2 shadow-md">
       <CardHeader title={`${index} STEP`} className={styles.header} />
       <CardMedia height={height} image={mediaUrl} title={mediaAlt} />
-      <CardContent>
-        <Typography variant="body2" component="p">
+      <CardContent className="px-6 py-4">
+        <Typography variant="body2" component="p" className="leading-relaxed">
           {text}
         </Typography>
       </CardContent>

@@ -1,5 +1,13 @@
 import { Bookmark, User } from "lucide-react";
-import { Box, Button, Container, DarkModeSwitch, Paper, StandardLabel, SubLabel } from "@son-q/ui-tailwind";
+import {
+  Box,
+  Button,
+  Container,
+  DarkModeSwitch,
+  Paper,
+  StandardLabel,
+  SubLabel,
+} from "@son-q/ui-tailwind";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { HomeStep } from "@/components/organisms";
@@ -7,8 +15,14 @@ import { useGlobalStore } from "@/stores";
 import styles from "./Home.module.scss";
 
 const PageBody = () => {
-  const { user, signInGoogle, signOut, darkMode, handleDarkModeOn, handleDarkModeOff } =
-    useGlobalStore();
+  const {
+    user,
+    signInGoogle,
+    signOut,
+    darkMode,
+    handleDarkModeOn,
+    handleDarkModeOff,
+  } = useGlobalStore();
 
   const router = useRouter();
 
@@ -19,11 +33,16 @@ const PageBody = () => {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <main className={styles.main}>
         <StandardLabel>Black Jukebox</StandardLabel>
         <Box className="-mt-4 mb-2">
-          <Image src={"/turntable.png"} alt="turntable" width={250} height={250} />
+          <Image
+            src={"/turntable.png"}
+            alt="turntable"
+            width={250}
+            height={250}
+          />
         </Box>
         <SubLabel>皆の好きな曲を持ち寄って、</SubLabel>
         <SubLabel>誰が持ってきた曲か当てよう！</SubLabel>
@@ -32,7 +51,11 @@ const PageBody = () => {
       {user?.Login ? (
         <Box m={2} p={2}>
           <Box display="flex" alignItems="center" justifyContent="center">
-            <Button onClick={redirect("/projects")} variant="primary" className="m-4">
+            <Button
+              onClick={redirect("/projects")}
+              variant="primary"
+              className="m-4"
+            >
               <Bookmark className="mr-2 h-4 w-4" />
               プロジェクト一覧へ
             </Button>
@@ -68,13 +91,13 @@ const PageBody = () => {
       )}
 
       <Paper variant="outlined">
-        <Box mt={5}>
+        <div className="mt-6 mb-4 px-6">
           <SubLabel>プロジェクトを作成した後に、</SubLabel>
           <SubLabel>問題を設定しましょう。</SubLabel>
           <SubLabel>参加者が回答した後に結果を確認しましょう。</SubLabel>
-        </Box>
+        </div>
 
-        <Box mt={5} px={2}>
+        <div className="my-8 px-6">
           <HomeStep
             index={1}
             text={
@@ -84,19 +107,21 @@ const PageBody = () => {
             mediaAlt={"プロジェクト一覧"}
             height={190}
           />
-        </Box>
+        </div>
 
-        <Box my={5} px={2}>
+        <div className="my-8 px-6">
           <HomeStep
             index={2}
-            text={"作成したプロジェクトに問題を設定しましょう。問題はYoutubeのIDで設定します。"}
+            text={
+              "作成したプロジェクトに問題を設定しましょう。問題はYoutubeのIDで設定します。"
+            }
             mediaUrl={"/問題設定-2Step.png"}
             mediaAlt={"問題設定"}
             height={260}
           />
-        </Box>
+        </div>
 
-        <Box my={5} px={2}>
+        <div className="my-8 px-6">
           <HomeStep
             index={3}
             text={"問題設定が完了したら、回答をしましょう。"}
@@ -104,9 +129,9 @@ const PageBody = () => {
             mediaAlt={"回答"}
             height={450}
           />
-        </Box>
+        </div>
 
-        <Box my={5} px={2}>
+        <div className="my-8 px-6">
           <HomeStep
             index={4}
             text={
@@ -116,7 +141,7 @@ const PageBody = () => {
             mediaAlt={"結果"}
             height={400}
           />
-        </Box>
+        </div>
       </Paper>
 
       <Box my={5} display="flex" alignItems="center" justifyContent="center">

@@ -4,6 +4,20 @@ import { cn } from "./utils/utils";
 
 const containerVariants = cva("mx-auto px-4", {
   variants: {
+    minWidth: {
+      xs: "min-w-xs",
+      sm: "min-w-sm",
+      md: "min-w-md",
+      lg: "min-w-lg",
+      xl: "min-w-xl",
+      "2xl": "min-w-2xl",
+      "3xl": "min-w-3xl",
+      "4xl": "min-w-4xl",
+      "5xl": "min-w-5xl",
+      "6xl": "min-w-6xl",
+      "7xl": "min-w-7xl",
+      full: "min-w-full",
+    },
     maxWidth: {
       xs: "max-w-xs",
       sm: "max-w-sm",
@@ -48,7 +62,16 @@ export type ContainerProps = React.HTMLAttributes<HTMLDivElement> &
  */
 const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
   (
-    { className, component = "div", maxWidth, disableGutters, fixed, children, ...props },
+    {
+      className,
+      component = "div",
+      maxWidth,
+      minWidth,
+      disableGutters,
+      fixed,
+      children,
+      ...props
+    },
     ref
   ) => {
     const Component = component as React.ElementType;
@@ -56,7 +79,15 @@ const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
     return (
       <Component
         ref={ref}
-        className={cn(containerVariants({ maxWidth, disableGutters, fixed, className }))}
+        className={cn(
+          containerVariants({
+            maxWidth,
+            minWidth,
+            disableGutters,
+            fixed,
+            className,
+          })
+        )}
         {...props}
       >
         {children}
