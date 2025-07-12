@@ -35,7 +35,6 @@
     "@son-q/api": "workspace:*",
     "@son-q/queries": "workspace:*",
     "@son-q/types": "workspace:*",
-    "@son-q/ui": "workspace:*",
     "@son-q/ui-tailwind": "workspace:*",
     "@son-q/utils": "workspace:*",
     "@tailwindcss/forms": "^0.5.10",

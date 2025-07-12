@@ -2,8 +2,7 @@ import HowToVoteIcon from "@mui/icons-material/HowToVote";
 import { Box, Card, CardContent, CardHeader, Paper } from "@mui/material";
 import { useRegisterAnswers } from "@son-q/queries";
 import type { Answer, Participant, Question } from "@son-q/types";
-import { Popup, Youtube } from "@son-q/ui";
-import { Button } from "@son-q/ui-tailwind";
+import { Button, Popup, Youtube } from "@son-q/ui-tailwind";
 import { isNil } from "es-toolkit";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -76,10 +75,10 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
     return answers.find((a) => a.question_id === currentAnswer.question_id);
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
+  // answersが更新されたときにマージ処理を実行
   useEffect(() => {
     handleSetPropsAnswers();
-  }, []);
+  }, [answers]);
 
   const handleSelector = (id: number) => (value: string) => {
     const newQues = currentAnswers.slice();

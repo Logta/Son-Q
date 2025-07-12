@@ -33,9 +33,7 @@ const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
     return (
       <label
         ref={ref}
-        className={cn(
-          labelVariants({ variant: required ? "required" : variant, className })
-        )}
+        className={cn(labelVariants({ variant: required ? "required" : variant, className }))}
         {...props}
       >
         {children}
@@ -51,11 +49,7 @@ Label.displayName = "Label";
 const StandardLabel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, children, ...props }, ref) => {
     return (
-      <div
-        ref={ref}
-        className={cn("text-lg font-bold m-8", className)}
-        {...props}
-      >
+      <div ref={ref} className={cn("text-lg font-bold m-8", className)} {...props}>
         {children}
       </div>
     );
@@ -71,10 +65,7 @@ const FormLabel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivE
     return (
       <div
         ref={ref}
-        className={cn(
-          "text-lg pt-12 flex items-center justify-center",
-          className
-        )}
+        className={cn("text-lg pt-12 flex items-center justify-center", className)}
         {...props}
       >
         {children}
@@ -90,11 +81,7 @@ FormLabel.displayName = "FormLabel";
 const AnswerFormLabel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, children, ...props }, ref) => {
     return (
-      <div
-        ref={ref}
-        className={cn("text-lg m-4", className)}
-        {...props}
-      >
+      <div ref={ref} className={cn("text-lg m-4", className)} {...props}>
         {children}
       </div>
     );
@@ -110,10 +97,7 @@ const SubLabel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
     return (
       <div
         ref={ref}
-        className={cn(
-          "text-base m-4 flex items-center justify-center",
-          className
-        )}
+        className={cn("text-base m-4 flex items-center justify-center", className)}
         {...props}
       >
         {children}

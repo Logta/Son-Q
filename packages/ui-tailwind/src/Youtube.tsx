@@ -1,13 +1,6 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { 
-  Play, 
-  RotateCcw, 
-  RotateCw, 
-  Square, 
-  Volume2,
-  VolumeX 
-} from "lucide-react";
+import { Play, RotateCcw, RotateCw, Square, Volume2, VolumeX } from "lucide-react";
 import YouTube from "react-youtube";
 import { Button } from "./Button";
 import { cn } from "./utils/utils";
@@ -28,21 +21,18 @@ declare global {
   }
 }
 
-const youtubeVariants = cva(
-  "flex flex-col items-center space-y-4",
-  {
-    variants: {
-      size: {
-        sm: "space-y-2",
-        md: "space-y-4",
-        lg: "space-y-6",
-      },
+const youtubeVariants = cva("flex flex-col items-center space-y-4", {
+  variants: {
+    size: {
+      sm: "space-y-2",
+      md: "space-y-4",
+      lg: "space-y-6",
     },
-    defaultVariants: {
-      size: "md",
-    },
-  }
-);
+  },
+  defaultVariants: {
+    size: "md",
+  },
+});
 
 export type YoutubeProps = React.HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof youtubeVariants> & {
@@ -60,20 +50,13 @@ export type YoutubeProps = React.HTMLAttributes<HTMLDivElement> &
     showVolumeSlider?: boolean;
   };
 
-export type YoutubeAnswerProps = Omit<YoutubeProps, 'endSec' | 'showVolumeSlider'>;
+export type YoutubeAnswerProps = Omit<YoutubeProps, "endSec" | "showVolumeSlider">;
 
 /**
  * YouTube動画プレイヤーコンポーネント（shadcn/ui形式）
  */
 const Youtube = React.forwardRef<HTMLDivElement, YoutubeProps>(
-  ({ 
-    className, 
-    size, 
-    id, 
-    endSec = 15, 
-    showVolumeSlider = true,
-    ...props 
-  }, ref) => {
+  ({ className, size, id, endSec = 15, showVolumeSlider = true, ...props }, ref) => {
     const [youtube, setYoutube] = React.useState<YT.Player | null>(null);
     const [loading, setLoading] = React.useState(true);
     const [playing, setPlaying] = React.useState(false);
@@ -94,6 +77,22 @@ const Youtube = React.forwardRef<HTMLDivElement, YoutubeProps>(
       setYoutube(event.target);
       setVolume(event.target.getVolume());
       setLoading(false);
+    };
+
+    const onError = (error: any) => {
+      console.error("YouTube player error:", error);
+      setLoading(false);
+    };
+
+    const onStateChange = (event: any) => {
+      // YouTube Player State: -1 (unstarted), 0 (ended), 1 (playing), 2 (paused), 3 (buffering), 5 (video cued)
+      if (event.data === 0) { // ended
+        setPlaying(false);
+      } else if (event.data === 1) { // playing
+        setPlaying(true);
+      } else if (event.data === 2) { // paused
+        setPlaying(false);
+      }
     };
 
     const onStart = () => {
@@ -127,17 +126,25 @@ const Youtube = React.forwardRef<HTMLDivElement, YoutubeProps>(
     };
 
     return (
-      <div
-        ref={ref}
-        className={cn(youtubeVariants({ size, className }))}
+      <div 
+        ref={ref} 
+        className={cn(youtubeVariants({ size, className }))} 
+        onClick={(e) => e.stopPropagation()}
         {...props}
       >
         <div className="-mb-12">
-          <YouTube videoId={id} opts={opts} onReady={onReady} />
+          <YouTube 
+            videoId={id} 
+            opts={opts} 
+            onReady={onReady} 
+            onError={onError}
+            onStateChange={onStateChange}
+          />
         </div>
-        
+
         <div className="flex items-center space-x-2">
           <Button
+            type="button"
             variant="outline"
             size="sm"
             onClick={onRewind}
@@ -146,9 +153,10 @@ const Youtube = React.forwardRef<HTMLDivElement, YoutubeProps>(
           >
             <RotateCcw className="h-4 w-4" />
           </Button>
-          
+
           {!playing ? (
             <Button
+              type="button"
               variant="outline"
               size="sm"
               onClick={onStart}
@@ -159,6 +167,7 @@ const Youtube = React.forwardRef<HTMLDivElement, YoutubeProps>(
             </Button>
           ) : (
             <Button
+              type="button"
               variant="outline"
               size="sm"
               onClick={onStop}
@@ -168,8 +177,9 @@ const Youtube = React.forwardRef<HTMLDivElement, YoutubeProps>(
               <Square className="h-4 w-4" />
             </Button>
           )}
-          
+
           <Button
+            type="button"
             variant="outline"
             size="sm"
             onClick={onForward}
@@ -225,6 +235,22 @@ const YoutubeAnswer = React.forwardRef<HTMLDivElement, YoutubeAnswerProps>(
       setLoading(false);
     };
 
+    const onError = (error: any) => {
+      console.error("YouTube player error:", error);
+      setLoading(false);
+    };
+
+    const onStateChange = (event: any) => {
+      // YouTube Player State: -1 (unstarted), 0 (ended), 1 (playing), 2 (paused), 3 (buffering), 5 (video cued)
+      if (event.data === 0) { // ended
+        setPlaying(false);
+      } else if (event.data === 1) { // playing
+        setPlaying(true);
+      } else if (event.data === 2) { // paused
+        setPlaying(false);
+      }
+    };
+
     const onStart = () => {
       youtube?.playVideo();
       setPlaying(true);
@@ -241,18 +267,26 @@ const YoutubeAnswer = React.forwardRef<HTMLDivElement, YoutubeAnswerProps>(
     };
 
     return (
-      <div
-        ref={ref}
-        className={cn(youtubeVariants({ size, className }))}
+      <div 
+        ref={ref} 
+        className={cn(youtubeVariants({ size, className }))} 
+        onClick={(e) => e.stopPropagation()}
         {...props}
       >
         <div className="-mb-12">
-          <YouTube videoId={id} opts={opts} onReady={onReady} />
+          <YouTube 
+            videoId={id} 
+            opts={opts} 
+            onReady={onReady} 
+            onError={onError}
+            onStateChange={onStateChange}
+          />
         </div>
-        
+
         <div className="flex items-center space-x-2">
           {!playing ? (
             <Button
+              type="button"
               variant="ghost"
               size="sm"
               onClick={onStart}
@@ -262,20 +296,22 @@ const YoutubeAnswer = React.forwardRef<HTMLDivElement, YoutubeAnswerProps>(
               <Play className="h-4 w-4" />
             </Button>
           ) : (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onStop}
-              disabled={loading}
+            <Button 
+              type="button"
+              variant="ghost" 
+              size="sm" 
+              onClick={onStop} 
+              disabled={loading} 
               aria-label="停止"
             >
               <Square className="h-4 w-4" />
             </Button>
           )}
-          
+
           {youtube && (
             <>
               <Button
+                type="button"
                 variant="ghost"
                 size="sm"
                 onClick={() => adjustVolume(-10)}
@@ -285,6 +321,7 @@ const YoutubeAnswer = React.forwardRef<HTMLDivElement, YoutubeAnswerProps>(
                 <VolumeX className="h-4 w-4" />
               </Button>
               <Button
+                type="button"
                 variant="ghost"
                 size="sm"
                 onClick={() => adjustVolume(10)}

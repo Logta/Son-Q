@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Tooltip, type TooltipProps } from "./Tooltip";
 
-export type PopupProps = Omit<TooltipProps, 'content'> & {
+export type PopupProps = Omit<TooltipProps, "content"> & {
   /**
    * ポップアップに表示するラベル
    */
@@ -19,12 +19,7 @@ export type PopupProps = Omit<TooltipProps, 'content'> & {
 const Popup = React.forwardRef<HTMLDivElement, PopupProps>(
   ({ popupLabel, popupDisable = false, children, ...props }, ref) => {
     return (
-      <Tooltip
-        ref={ref}
-        content={popupLabel}
-        disabled={popupDisable}
-        {...props}
-      >
+      <Tooltip ref={ref} content={popupLabel} disabled={popupDisable} {...props}>
         {children}
       </Tooltip>
     );

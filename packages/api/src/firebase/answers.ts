@@ -60,7 +60,14 @@ const createAnswer = async (user: Auth, answer: Answer, projectId: string, quest
 };
 
 const updateAnswer = async (answer: Answer, projectId: string, questionNo: number) => {
-  const washingtonRef = doc(firestore, "projects", projectId, "answers", answer.ID);
+  const docRef = doc(firestore, "projects", projectId, "answers", answer.ID);
+  
+  // ドキュメントの存在確認
+  const docSnap = await getDoc(docRef);
+  if (!docSnap.exists()) {
+    throw new Error(`Document with ID ${answer.ID} does not exist`);
+  }
+  
   const ans = {
     ...answer,
     no: questionNo,
@@ -69,20 +76,24 @@ const updateAnswer = async (answer: Answer, projectId: string, questionNo: numbe
     select_user_id: answer.select_user_id,
     question_id: answer.question_id,
   };
-  await updateDoc(washingtonRef, ans);
+  await updateDoc(docRef, ans);
 };
 
 const registerAnswer = async (user: Auth, answers: Array<Answer>, projectId: string) => {
   try {
-    answers.forEach(async (answer, index) => {
-      if (answer && answer.ID !== "") {
-        await updateAnswer(answer, projectId, index);
-      } else {
-        await createAnswer(user, answer, projectId, index);
-      }
-    });
+    // Promise.allを使用して非同期処理を適切に待機
+    await Promise.all(
+      answers.map(async (answer, index) => {
+        if (answer && answer.ID !== "") {
+          await updateAnswer(answer, projectId, index);
+        } else {
+          await createAnswer(user, answer, projectId, index);
+        }
+      })
+    );
     return { message: "回答が完了しました", variant: "success" };
-  } catch {
+  } catch (error) {
+    console.error("Answer registration failed:", error);
     return {
       message: "回答の登録/更新に失敗しました\n時間をあけてから再度操作を実行してください",
       variant: "error",

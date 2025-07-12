@@ -1,6 +1,6 @@
 import { Chip, TableCell, TableRow } from "@mui/material";
 import type { Answer, Participant, Question } from "@son-q/types";
-import { YoutubeAnswer } from "@son-q/ui";
+import { YoutubeAnswer } from "@son-q/ui-tailwind";
 import { getQuestioner, getRespondent } from "@son-q/utils";
 import React from "react";
 

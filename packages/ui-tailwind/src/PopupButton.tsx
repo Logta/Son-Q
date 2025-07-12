@@ -26,13 +26,12 @@ export type PopupButtonProps = ButtonProps & {
  * ホバー時にツールチップが表示されるボタンコンポーネント（Headless UI使用）
  */
 const PopupButton = React.forwardRef<HTMLButtonElement, PopupButtonProps>(
-  ({ popup, popupDisable = false, startIcon, children, className, placement = "top", ...props }, ref) => {
+  (
+    { popup, popupDisable = false, startIcon, children, className, placement = "top", ...props },
+    ref
+  ) => {
     const buttonContent = (
-      <Button
-        ref={ref}
-        className={cn(startIcon && "gap-2", className)}
-        {...props}
-      >
+      <Button ref={ref} className={cn(startIcon && "gap-2", className)} {...props}>
         {startIcon && <span className="shrink-0">{startIcon}</span>}
         {children}
       </Button>

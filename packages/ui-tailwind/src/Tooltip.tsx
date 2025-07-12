@@ -39,22 +39,26 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
         case "top":
           return {
             panel: "bottom-full left-1/2 transform -translate-x-1/2 mb-2",
-            arrow: 'after:content-[""] after:absolute after:top-full after:left-1/2 after:transform after:-translate-x-1/2 after:border-4 after:border-transparent after:border-t-gray-900',
+            arrow:
+              'after:content-[""] after:absolute after:top-full after:left-1/2 after:transform after:-translate-x-1/2 after:border-4 after:border-transparent after:border-t-gray-900',
           };
         case "bottom":
           return {
             panel: "top-full left-1/2 transform -translate-x-1/2 mt-2",
-            arrow: 'before:content-[""] before:absolute before:bottom-full before:left-1/2 before:transform before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-gray-900',
+            arrow:
+              'before:content-[""] before:absolute before:bottom-full before:left-1/2 before:transform before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-gray-900',
           };
         case "left":
           return {
             panel: "right-full top-1/2 transform -translate-y-1/2 mr-2",
-            arrow: 'after:content-[""] after:absolute after:left-full after:top-1/2 after:transform after:-translate-y-1/2 after:border-4 after:border-transparent after:border-l-gray-900',
+            arrow:
+              'after:content-[""] after:absolute after:left-full after:top-1/2 after:transform after:-translate-y-1/2 after:border-4 after:border-transparent after:border-l-gray-900',
           };
         case "right":
           return {
             panel: "left-full top-1/2 transform -translate-y-1/2 ml-2",
-            arrow: 'before:content-[""] before:absolute before:right-full before:top-1/2 before:transform before:-translate-y-1/2 before:border-4 before:border-transparent before:border-r-gray-900',
+            arrow:
+              'before:content-[""] before:absolute before:right-full before:top-1/2 before:transform before:-translate-y-1/2 before:border-4 before:border-transparent before:border-r-gray-900',
           };
       }
     };
@@ -99,9 +103,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
 Tooltip.displayName = "Tooltip";
 
 // 下位互換性のために、以前のAPIも提供
-const TooltipProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <>{children}</>
-);
+const TooltipProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => <>{children}</>;
 
 const TooltipTrigger = React.forwardRef<
   HTMLButtonElement,
@@ -118,23 +120,22 @@ const TooltipTrigger = React.forwardRef<
 });
 TooltipTrigger.displayName = "TooltipTrigger";
 
-const TooltipContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ children, className, ...props }, ref) => {
-  return (
-    <div
-      ref={ref}
-      className={cn(
-        "z-50 overflow-hidden rounded-md bg-gray-900 px-3 py-1.5 text-xs text-white",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-});
+const TooltipContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ children, className, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "z-50 overflow-hidden rounded-md bg-gray-900 px-3 py-1.5 text-xs text-white",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);
 TooltipContent.displayName = "TooltipContent";
 
 export { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent };

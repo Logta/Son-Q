@@ -8,10 +8,8 @@ const appBarButtonVariants = cva(
     variants: {
       variant: {
         primary: "bg-primary text-primary-foreground hover:bg-primary/90",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        outline:
-          "border-2 border-white text-white hover:bg-white hover:text-foreground",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        outline: "border-2 border-white text-white hover:bg-white hover:text-foreground",
       },
     },
     defaultVariants: {
@@ -35,10 +33,7 @@ const AppBarButton = React.forwardRef<HTMLButtonElement, AppBarButtonProps>(
   ({ className, variant, ...props }, ref) => {
     return (
       <button
-        className={cn(
-          appBarButtonVariants({ variant, className }),
-          "px-4 py-2"
-        )}
+        className={cn(appBarButtonVariants({ variant, className }), "px-4 py-2")}
         ref={ref}
         {...props}
       />

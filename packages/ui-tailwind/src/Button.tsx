@@ -8,10 +8,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary:
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+        primary: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         outline:
           "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         ghost: "hover:bg-accent hover:text-accent-foreground",
@@ -47,19 +45,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
  * 汎用ボタンコンポーネント（shadcn/ui形式）
  */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      className,
-      variant,
-      size,
-      loading,
-      fullWidth,
-      children,
-      disabled,
-      ...props
-    },
-    ref
-  ) => {
+  ({ className, variant, size, loading, fullWidth, children, disabled, ...props }, ref) => {
     return (
       <button
         className={cn(

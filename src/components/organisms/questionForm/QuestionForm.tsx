@@ -3,8 +3,7 @@ import { FormControl, InputAdornment, InputLabel, OutlinedInput, Paper } from "@
 import { authApi } from "@son-q/api";
 import { useParticipants, useRegisterQuestions } from "@son-q/queries";
 import type { Question } from "@son-q/types";
-import { Popup } from "@son-q/ui";
-import { Button } from "@son-q/ui-tailwind";
+import { Button, Popup } from "@son-q/ui-tailwind";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";

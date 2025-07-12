@@ -20,17 +20,8 @@ const Copyright = React.forwardRef<HTMLDivElement, CopyrightProps>(
     const displayText = children || `Copyright © ${year} ${owner}`;
 
     return (
-      <div
-        ref={ref}
-        className={cn(
-          "flex items-center justify-center m-20",
-          className
-        )}
-        {...props}
-      >
-        <small className="text-sm text-muted-foreground">
-          {displayText}
-        </small>
+      <div ref={ref} className={cn("flex items-center justify-center m-20", className)} {...props}>
+        <small className="text-sm text-muted-foreground">{displayText}</small>
       </div>
     );
   }

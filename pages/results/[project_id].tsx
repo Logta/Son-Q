@@ -1,4 +1,4 @@
-import { Copyright } from "@son-q/ui";
+import { Copyright } from "@son-q/ui-tailwind";
 import Head from "next/head";
 import { ResultsContainer } from "../../src/components/containers";
 import { ResultPage } from "../../src/components/pages";
@@ -11,7 +11,10 @@ export default function Home() {
     <>
       <Head>
         <title>結果表示：選曲者あてクイズ</title>
-        <meta name="description" content="皆の好きな曲を持ち寄って、誰が持ってきた曲か当てよう！" />
+        <meta
+          name="description"
+          content="皆の好きな曲を持ち寄って、誰が持ってきた曲か当てよう！"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
