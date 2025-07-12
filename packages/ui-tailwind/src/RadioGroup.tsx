@@ -1,8 +1,8 @@
 "use client";
 
+import { Circle } from "lucide-react";
 import * as React from "react";
 import { RadioGroup as HeadlessRadioGroup } from "@headlessui/react";
-import { Circle } from "lucide-react";
 import { cn } from "./utils/utils";
 
 export type RadioGroupProps = {
@@ -13,7 +13,7 @@ export type RadioGroupProps = {
   /**
    * 値変更時のコールバック
    */
-  onValueChange?: (value: string) => void;
+  onValueChange?: (value: string | undefined) => void;
   /**
    * 無効状態
    */
@@ -41,10 +41,14 @@ export type RadioGroupProps = {
  */
 const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
   ({ className, value, onValueChange, disabled, children, ...props }, ref) => {
+    const handleChange = React.useCallback((newValue: string | undefined) => {
+      onValueChange?.(newValue);
+    }, [onValueChange]);
+
     return (
       <HeadlessRadioGroup
         value={value}
-        onChange={onValueChange || (() => {})}
+        onChange={handleChange}
         disabled={disabled || false}
         className={cn("grid gap-2", className)}
         {...props}
@@ -138,9 +142,8 @@ export function FormControlLabel({
   labelPlacement = "end",
   disabled = false,
   value,
-  onClick,
   className,
-}: FormControlLabelProps) {
+}: Omit<FormControlLabelProps, 'onClick'>) {
   const isVertical = labelPlacement === "top" || labelPlacement === "bottom";
   const isReversed = labelPlacement === "start" || labelPlacement === "top";
 
@@ -162,22 +165,26 @@ export function FormControlLabel({
       ? (control.props.className as string) 
       : '';
   
-  const controlElement = React.cloneElement(control as React.ReactElement<any>, {
-    ...(value !== undefined && { value }),
+  const cloneProps: Record<string, unknown> = {
     className: cn(existingClassName, "peer"),
-  });
+  };
+  
+  if (value !== undefined) {
+    cloneProps.value = value;
+  }
+  
+  const controlElement = React.cloneElement(control as React.ReactElement, cloneProps);
 
   return (
-    <label
+    <div
       className={cn(
-        "flex items-center gap-2 cursor-pointer",
+        "flex items-center gap-2",
         isVertical && "flex-col",
         isReversed && !isVertical && "flex-row-reverse",
         isReversed && isVertical && "flex-col-reverse",
         disabled && "cursor-not-allowed",
         className
       )}
-      onClick={onClick}
     >
       {isReversed ? (
         <>
@@ -190,7 +197,7 @@ export function FormControlLabel({
           {labelElement}
         </>
       )}
-    </label>
+    </div>
   );
 }
 

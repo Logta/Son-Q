@@ -105,17 +105,15 @@ export type TableHeadProps = TableCellProps;
  */
 const Table = React.forwardRef<HTMLTableElement, TableProps>(
   ({ className, size, stickyHeader, ...props }, ref) => (
-    <div className="relative w-full overflow-auto">
-      <table
-        ref={ref}
-        className={cn(
-          tableVariants(),
-          stickyHeader && "table-fixed",
-          className
-        )}
-        {...props}
-      />
-    </div>
+    <table
+      ref={ref}
+      className={cn(
+        tableVariants(),
+        stickyHeader && "table-fixed",
+        className
+      )}
+      {...props}
+    />
   )
 );
 Table.displayName = "Table";

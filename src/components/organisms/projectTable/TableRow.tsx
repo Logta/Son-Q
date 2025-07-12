@@ -63,23 +63,23 @@ const App = (props: Props) => {
         getAuthority(row, user) && (!darkMode ? styles.lightHovorRow : styles.darkHovorRow)
       }
     >
-      <TableCell component="th" scope="row">
+      <TableCell component="th" scope="row" className="w-48">
         <Chip variant="default">{row.name}</Chip>
       </TableCell>
       <TableCell align="center">{row.content}</TableCell>
-      <TableCell align="center">
+      <TableCell align="center" className="w-32">
         <Chip size="sm">{row.question_num}</Chip>
       </TableCell>
-      <TableCell align="center">
+      <TableCell align="center" className="w-32">
         <Chip size="sm">{row.participants.length}</Chip>
       </TableCell>
-      <TableCell align="center">
+      <TableCell align="center" className="w-36">
         <Button variant="primary" onClick={redirect(`/questions/${row.ID}`)}>
           <Edit3 className="mr-2" />
           出題
         </Button>
       </TableCell>
-      <TableCell align="center">
+      <TableCell align="center" className="w-36">
         <PopupButton
           onClick={redirect(`/answers/${row.ID}`)}
           disabled={!readyQuestion}
@@ -90,7 +90,7 @@ const App = (props: Props) => {
           回答
         </PopupButton>
       </TableCell>
-      <TableCell align="center">
+      <TableCell align="center" className="w-36">
         <PopupButton
           onClick={redirect(`/results/${row.ID}`)}
           disabled={!readyResult}

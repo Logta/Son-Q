@@ -22,7 +22,11 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
               component="th"
               scope="row"
               align="center"
-              style={{ fontWeight: "bold" }}
+              style={{
+                width: "2em",
+                minWidth: "2em",
+                fontWeight: "bold"
+              }}
             >
               <Chip size="sm" label={`${index + 1}`} />
             </TableCell>
@@ -32,6 +36,8 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
               scope="row"
               align="center"
               style={{
+                width: "10em",
+                minWidth: "10em",
                 fontWeight: "bold",
                 borderLeftWidth: "1px",
                 borderLeftStyle: "solid",
@@ -46,6 +52,8 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
               scope="row"
               align="center"
               style={{
+                width: "5em",
+                minWidth: "5em",
                 borderLeftWidth: "2px",
                 borderLeftStyle: "dotted",
                 borderLeftColor: "lightGray",
@@ -59,8 +67,8 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
                   <TableCell
                     align="center"
                     style={{
-                      width: "5em",
-                      minWidth: "5em",
+                      width: `calc(45% / ${participants.length})`,
+                      minWidth: `calc(45% / ${participants.length})`,
                       borderLeftWidth: "3px",
                       borderLeftStyle: "solid",
                       borderLeftColor: "lightGray",
@@ -81,7 +89,8 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
                       borderLeftWidth: "2px",
                       borderLeftStyle: "dotted",
                       borderLeftColor: "lightGray",
-                      width: `calc(90% / ${participants.length})`,
+                      width: `calc(45% / ${participants.length})`,
+                      minWidth: `calc(45% / ${participants.length})`,
                     }}
                   >
                     {getRespondent(part, participants, ques, answers)}
