@@ -1,4 +1,4 @@
-import "../styles/globals.scss";
+import "../app.css";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import * as colors from "@mui/material/colors";
