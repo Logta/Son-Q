@@ -1,55 +1,50 @@
-import { clsx } from "clsx";
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "./utils/utils";
 
-type AppBarButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  /**
-   * ボタンの内容
-   */
-  children: ReactNode;
-  /**
-   * クリック時のハンドラー
-   */
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  /**
-   * ボタンのバリアント
-   */
-  variant?: "primary" | "secondary" | "outline";
-  /**
-   * ボタンが無効かどうか
-   */
-  disabled?: boolean;
-};
+const appBarButtonVariants = cva(
+  "inline-flex items-center justify-center font-medium rounded-md transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background",
+  {
+    variants: {
+      variant: {
+        primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        outline:
+          "border-2 border-white text-white hover:bg-white hover:text-foreground",
+      },
+    },
+    defaultVariants: {
+      variant: "outline",
+    },
+  }
+);
 
-/**
- * AppBar用のボタンコンポーネント（Tailwind CSS使用）
- */
-export const AppBarButton = ({
-  children,
-  onClick,
-  variant = "outline",
-  disabled = false,
-  className,
-  ...props
-}: AppBarButtonProps) => {
-  const baseStyles =
-    "px-4 py-2 rounded font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2";
-
-  const variantStyles = {
-    primary: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
-    secondary: "bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500",
-    outline: "border-2 border-white text-white hover:bg-white hover:text-gray-900 focus:ring-white",
+export type AppBarButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  VariantProps<typeof appBarButtonVariants> & {
+    /**
+     * ボタンのバリアント
+     */
+    variant?: "primary" | "secondary" | "outline";
   };
 
-  const disabledStyles = "opacity-50 cursor-not-allowed";
+/**
+ * AppBar用のボタンコンポーネント（shadcn/ui形式）
+ */
+const AppBarButton = React.forwardRef<HTMLButtonElement, AppBarButtonProps>(
+  ({ className, variant, ...props }, ref) => {
+    return (
+      <button
+        className={cn(
+          appBarButtonVariants({ variant, className }),
+          "px-4 py-2"
+        )}
+        ref={ref}
+        {...props}
+      />
+    );
+  }
+);
+AppBarButton.displayName = "AppBarButton";
 
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className={clsx(baseStyles, variantStyles[variant], disabled && disabledStyles, className)}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-};
+export { AppBarButton };

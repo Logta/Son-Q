@@ -1,8 +1,7 @@
 import HomeIcon from "@mui/icons-material/Home";
 import { Box, CircularProgress, Container, Typography } from "@mui/material";
 import { useQuestionCount, useUserQuestions } from "@son-q/queries";
-import { Label, SubLabel } from "@son-q/ui";
-import { Button } from "@son-q/ui-tailwind";
+import { Button, StandardLabel, SubLabel } from "@son-q/ui-tailwind";
 import { isNil } from "es-toolkit";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -57,7 +56,7 @@ const PageBody = () => {
       <AppBar />
       <Container maxWidth="lg">
         <main className={styles.main}>
-          <Label>出題フォーム</Label>
+          <StandardLabel>出題フォーム</StandardLabel>
           <SubLabel>問題を設定しましょう！</SubLabel>
           <Typography color="secondary">※出題するYoutube動画IDを記入してください</Typography>
         </main>

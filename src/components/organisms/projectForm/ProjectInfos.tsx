@@ -1,7 +1,7 @@
 import { Box, Chip, List, ListItem, ListItemText } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { getProjectFromID } from "@son-q/api";
-import { FormLabel } from "@son-q/ui";
+import { FormLabel } from "@son-q/ui-tailwind";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useGlobalStore } from "@/stores";

@@ -1,8 +1,8 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import { Box, Container, Paper } from "@mui/material";
-import { DarkModeSwitch, Label, SubLabel } from "@son-q/ui";
-import { Button } from "@son-q/ui-tailwind";
+import { DarkModeSwitch } from "@son-q/ui";
+import { Button, StandardLabel, SubLabel } from "@son-q/ui-tailwind";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { HomeStep } from "@/components/organisms";
@@ -24,7 +24,7 @@ const PageBody = () => {
   return (
     <Container maxWidth="sm">
       <main className={styles.main}>
-        <Label>Black Jukebox</Label>
+        <StandardLabel>Black Jukebox</StandardLabel>
         <Box mt={-4} mb={2}>
           <Image src={"/turntable.png"} alt="turntable" width={250} height={250} />
         </Box>

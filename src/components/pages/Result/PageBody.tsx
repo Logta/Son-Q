@@ -7,8 +7,7 @@ import {
   useQuestionNumber,
   useQuestions,
 } from "@son-q/queries";
-import { Label, SubLabel } from "@son-q/ui";
-import { Button } from "@son-q/ui-tailwind";
+import { Button, StandardLabel, SubLabel } from "@son-q/ui-tailwind";
 import { isNil } from "es-toolkit";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -69,7 +68,7 @@ const PageBody = () => {
       <AppBar />
       <Container maxWidth="lg">
         <main className={styles.main}>
-          <Label>結果一覧</Label>
+          <StandardLabel>結果一覧</StandardLabel>
           <SubLabel>結果を確認しよう！</SubLabel>
         </main>
 

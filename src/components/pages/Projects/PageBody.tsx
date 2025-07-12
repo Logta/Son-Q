@@ -2,8 +2,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { Box, CircularProgress, Container } from "@mui/material";
 import { useProjects } from "@son-q/queries";
-import { Label, SubLabel } from "@son-q/ui";
-import { Button } from "@son-q/ui-tailwind";
+import { Button, StandardLabel, SubLabel } from "@son-q/ui-tailwind";
 import Image from "next/image";
 import { Suspense, useState } from "react";
 import {
@@ -26,7 +25,7 @@ const ProjectsContent = () => {
   return (
     <>
       <main className={styles.main}>
-        <Label>プロジェクト一覧</Label>
+        <StandardLabel>プロジェクト一覧</StandardLabel>
         <SubLabel>プロジェクトの作成・参加をしましょう</SubLabel>
       </main>
 
