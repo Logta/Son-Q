@@ -1,9 +1,8 @@
 import { Table, TableBody, TableContainer, TableHeader } from "@son-q/ui-tailwind";
 import type { Answer, Participant, Question } from "@son-q/types";
-import styles from "./ResultTable.module.scss";
-
 import { TableHeader as TableHeaderRows } from "./TableHeader";
 import { TableRow } from "./TableRow";
+import styles from "./ResultTable.module.scss";
 
 type Props = {
   participants: Participant[];
@@ -13,8 +12,9 @@ type Props = {
 
 const App = ({ participants, answers, questions }: Props) => {
   return (
-    <TableContainer>
-      <Table className={styles.table} aria-label="simple table">
+    <div className="mx-4">
+      <TableContainer className="w-full">
+      <Table className={`${styles.table} w-full`} aria-label="simple table">
         <TableHeader>
           <TableHeaderRows participants={participants} />
         </TableHeader>
@@ -23,6 +23,7 @@ const App = ({ participants, answers, questions }: Props) => {
         </TableBody>
       </Table>
     </TableContainer>
+    </div>
   );
 };
 

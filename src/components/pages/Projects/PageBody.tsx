@@ -70,7 +70,7 @@ const PageBody = () => {
   return (
     <>
       <AppBar />
-      <Container maxWidth="lg">
+      <Container maxWidth="7xl" disableGutters>
         <Suspense
           fallback={
             <Box display="flex" justifyContent="center" mt={4}>

@@ -1,5 +1,5 @@
-import { Box, Chip, TableHead, TableRow } from "@son-q/ui-tailwind";
 import type { Participant } from "@son-q/types";
+import { Box, Chip, TableHead, TableRow } from "@son-q/ui-tailwind";
 
 type Props = {
   participants: Participant[];

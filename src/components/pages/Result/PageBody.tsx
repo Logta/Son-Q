@@ -66,7 +66,7 @@ const PageBody = () => {
   return (
     <>
       <AppBar />
-      <Container maxWidth="lg">
+      <Container maxWidth="7xl" disableGutters>
         <main className={styles.main}>
           <StandardLabel>結果一覧</StandardLabel>
           <SubLabel>結果を確認しよう！</SubLabel>

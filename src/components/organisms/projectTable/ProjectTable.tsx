@@ -1,9 +1,8 @@
 import { Paper, Table, TableBody, TableContainer, TableHeader } from "@son-q/ui-tailwind";
 import type { Project } from "@son-q/types";
-import styles from "./ProjectTable.module.scss";
-
 import { TableHeader as TableHeaderRow } from "./TableHeader";
 import { TableRow } from "./TableRow";
+import styles from "./ProjectTable.module.scss";
 
 type Props = {
   rows: Array<Project>;
@@ -11,9 +10,9 @@ type Props = {
 
 const App = ({ rows }: Props) => {
   return (
-    <Paper>
-      <TableContainer>
-      <Table className={styles.table} aria-label="simple table">
+    <Paper className="w-full mx-4">
+      <TableContainer className="w-full">
+      <Table className={`${styles.table} w-full`} aria-label="simple table">
         <TableHeader>
           <TableHeaderRow />
         </TableHeader>
