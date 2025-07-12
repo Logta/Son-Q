@@ -1,6 +1,13 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { Play, RotateCcw, RotateCw, Square, Volume2, VolumeX } from "lucide-react";
+import {
+  Play,
+  RotateCcw,
+  RotateCw,
+  Square,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import YouTube from "react-youtube";
 import { Button } from "./Button";
 import { cn } from "./utils/utils";
@@ -21,18 +28,21 @@ declare global {
   }
 }
 
-const youtubeVariants = cva("flex flex-col items-center space-y-4", {
-  variants: {
-    size: {
-      sm: "space-y-2",
-      md: "space-y-4",
-      lg: "space-y-6",
+const youtubeVariants = cva(
+  "flex flex-col items-center justify-center space-y-4",
+  {
+    variants: {
+      size: {
+        sm: "space-y-2",
+        md: "space-y-4",
+        lg: "space-y-6",
+      },
     },
-  },
-  defaultVariants: {
-    size: "md",
-  },
-});
+    defaultVariants: {
+      size: "md",
+    },
+  }
+);
 
 export type YoutubeProps = React.HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof youtubeVariants> & {
@@ -50,13 +60,19 @@ export type YoutubeProps = React.HTMLAttributes<HTMLDivElement> &
     showVolumeSlider?: boolean;
   };
 
-export type YoutubeAnswerProps = Omit<YoutubeProps, "endSec" | "showVolumeSlider">;
+export type YoutubeAnswerProps = Omit<
+  YoutubeProps,
+  "endSec" | "showVolumeSlider"
+>;
 
 /**
  * YouTube動画プレイヤーコンポーネント（shadcn/ui形式）
  */
 const Youtube = React.forwardRef<HTMLDivElement, YoutubeProps>(
-  ({ className, size, id, endSec = 15, showVolumeSlider = true, ...props }, ref) => {
+  (
+    { className, size, id, endSec = 15, showVolumeSlider = true, ...props },
+    ref
+  ) => {
     const [youtube, setYoutube] = React.useState<YT.Player | null>(null);
     const [loading, setLoading] = React.useState(true);
     const [playing, setPlaying] = React.useState(false);
@@ -86,11 +102,14 @@ const Youtube = React.forwardRef<HTMLDivElement, YoutubeProps>(
 
     const onStateChange = (event: any) => {
       // YouTube Player State: -1 (unstarted), 0 (ended), 1 (playing), 2 (paused), 3 (buffering), 5 (video cued)
-      if (event.data === 0) { // ended
+      if (event.data === 0) {
+        // ended
         setPlaying(false);
-      } else if (event.data === 1) { // playing
+      } else if (event.data === 1) {
+        // playing
         setPlaying(true);
-      } else if (event.data === 2) { // paused
+      } else if (event.data === 2) {
+        // paused
         setPlaying(false);
       }
     };
@@ -126,17 +145,17 @@ const Youtube = React.forwardRef<HTMLDivElement, YoutubeProps>(
     };
 
     return (
-      <div 
-        ref={ref} 
-        className={cn(youtubeVariants({ size, className }))} 
+      <div
+        ref={ref}
+        className={cn(youtubeVariants({ size, className }))}
         onClick={(e) => e.stopPropagation()}
         {...props}
       >
-        <div className="-mb-12">
-          <YouTube 
-            videoId={id} 
-            opts={opts} 
-            onReady={onReady} 
+        <div>
+          <YouTube
+            videoId={id}
+            opts={opts}
+            onReady={onReady}
             onError={onError}
             onStateChange={onStateChange}
           />
@@ -242,11 +261,14 @@ const YoutubeAnswer = React.forwardRef<HTMLDivElement, YoutubeAnswerProps>(
 
     const onStateChange = (event: any) => {
       // YouTube Player State: -1 (unstarted), 0 (ended), 1 (playing), 2 (paused), 3 (buffering), 5 (video cued)
-      if (event.data === 0) { // ended
+      if (event.data === 0) {
+        // ended
         setPlaying(false);
-      } else if (event.data === 1) { // playing
+      } else if (event.data === 1) {
+        // playing
         setPlaying(true);
-      } else if (event.data === 2) { // paused
+      } else if (event.data === 2) {
+        // paused
         setPlaying(false);
       }
     };
@@ -267,23 +289,26 @@ const YoutubeAnswer = React.forwardRef<HTMLDivElement, YoutubeAnswerProps>(
     };
 
     return (
-      <div 
-        ref={ref} 
-        className={cn(youtubeVariants({ size, className }))} 
+      <div
+        ref={ref}
+        className={cn(
+          "relative flex items-center justify-center h-full min-h-12",
+          className
+        )}
         onClick={(e) => e.stopPropagation()}
         {...props}
       >
-        <div className="-mb-12">
-          <YouTube 
-            videoId={id} 
-            opts={opts} 
-            onReady={onReady} 
+        <div className="absolute opacity-0 pointer-events-none -z-10">
+          <YouTube
+            videoId={id}
+            opts={opts}
+            onReady={onReady}
             onError={onError}
             onStateChange={onStateChange}
           />
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center justify-center space-x-1 z-10">
           {!playing ? (
             <Button
               type="button"
@@ -292,19 +317,21 @@ const YoutubeAnswer = React.forwardRef<HTMLDivElement, YoutubeAnswerProps>(
               onClick={onStart}
               disabled={loading}
               aria-label="再生"
+              className="h-8 w-8 p-0"
             >
-              <Play className="h-4 w-4" />
+              <Play className="h-3 w-3" />
             </Button>
           ) : (
-            <Button 
+            <Button
               type="button"
-              variant="ghost" 
-              size="sm" 
-              onClick={onStop} 
-              disabled={loading} 
+              variant="ghost"
+              size="sm"
+              onClick={onStop}
+              disabled={loading}
               aria-label="停止"
+              className="h-8 w-8 p-0"
             >
-              <Square className="h-4 w-4" />
+              <Square className="h-3 w-3" />
             </Button>
           )}
 
@@ -317,8 +344,9 @@ const YoutubeAnswer = React.forwardRef<HTMLDivElement, YoutubeAnswerProps>(
                 onClick={() => adjustVolume(-10)}
                 disabled={loading}
                 aria-label="音量を下げる"
+                className="h-8 w-8 p-0"
               >
-                <VolumeX className="h-4 w-4" />
+                <VolumeX className="h-3 w-3" />
               </Button>
               <Button
                 type="button"
@@ -327,8 +355,9 @@ const YoutubeAnswer = React.forwardRef<HTMLDivElement, YoutubeAnswerProps>(
                 onClick={() => adjustVolume(10)}
                 disabled={loading}
                 aria-label="音量を上げる"
+                className="h-8 w-8 p-0"
               >
-                <Volume2 className="h-4 w-4" />
+                <Volume2 className="h-3 w-3" />
               </Button>
             </>
           )}

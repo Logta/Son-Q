@@ -22,6 +22,7 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
               component="th"
               scope="row"
               align="center"
+              className="min-h-16 py-2"
               style={{
                 width: "2em",
                 minWidth: "2em",
@@ -35,6 +36,7 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
               component="th"
               scope="row"
               align="center"
+              className="min-h-16 py-2"
               style={{
                 width: "10em",
                 minWidth: "10em",
@@ -51,6 +53,7 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
               component="th"
               scope="row"
               align="center"
+              className="min-h-16 py-2"
               style={{
                 width: "5em",
                 minWidth: "5em",
@@ -66,6 +69,7 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
                 <React.Fragment key={`${part.user_id}-${ques.ID}-fragment`}>
                   <TableCell
                     align="center"
+                    className="min-h-16 py-2"
                     style={{
                       width: `calc(45% / ${participants.length})`,
                       minWidth: `calc(45% / ${participants.length})`,
@@ -85,6 +89,7 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
                   <TableCell
                     key={`${part.user_id}-${ques.ID}-result`}
                     align="center"
+                    className="min-h-16 py-2"
                     style={{
                       borderLeftWidth: "2px",
                       borderLeftStyle: "dotted",
