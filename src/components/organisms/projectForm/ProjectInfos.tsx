@@ -1,5 +1,4 @@
-import { Box, Chip, List, ListItem, ListItemText } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { Box, Chip, List, ListItem, ListItemText } from "@son-q/ui-tailwind";
 import { getProjectFromID } from "@son-q/api";
 import { FormLabel } from "@son-q/ui-tailwind";
 import { useQuery } from "@tanstack/react-query";
@@ -11,7 +10,7 @@ const App = () => {
   const router = useRouter();
   const projectId = router.query.project_id as string;
   const { user } = useGlobalStore();
-  const paletteType = useTheme().palette.mode;
+  // Note: Dark mode detection can be handled via CSS classes or other means
 
   const { data: project } = useQuery({
     queryKey: ["project", projectId],
@@ -27,7 +26,7 @@ const App = () => {
 
   return (
     project && (
-      <Box m={"2em"}>
+      <Box className="m-8">
         <FormLabel>プロジェクト情報</FormLabel>
         <List className={styles.list}>
           <ListItem>
@@ -42,9 +41,8 @@ const App = () => {
                 <Chip
                   key={p}
                   label={p}
-                  color="primary"
-                  variant={paletteType === "dark" ? "filled" : "outlined"}
-                  style={{ marginRight: "1em" }}
+                  variant="filled"
+                  className="mr-4"
                 />
               );
             })}

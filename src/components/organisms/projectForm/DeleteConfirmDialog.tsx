@@ -1,12 +1,12 @@
+import { deleteProject, getProjectFromID } from "@son-q/api";
 import {
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "@mui/material";
-import { deleteProject, getProjectFromID } from "@son-q/api";
-import { Button } from "@son-q/ui-tailwind";
+} from "@son-q/ui-tailwind";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import type React from "react";

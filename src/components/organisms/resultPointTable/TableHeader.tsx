@@ -1,4 +1,4 @@
-import { Chip, TableCell, TableHead, TableRow } from "@mui/material";
+import { Chip, TableCell, TableHead, TableRow } from "@son-q/ui-tailwind";
 import type { Participant } from "@son-q/types";
 
 type Props = {
@@ -11,7 +11,6 @@ const App = ({ participants }: Props) => {
       <TableRow key="header-result-point">
         <TableCell
           component="th"
-          padding="none"
           align="center"
           style={{ width: "15em", minWidth: "15em", fontWeight: "bold" }}
         >

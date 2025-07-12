@@ -5,7 +5,7 @@ import {
   DialogContentText,
   DialogTitle,
   TextField,
-} from "@mui/material";
+} from "@son-q/ui-tailwind";
 import { useJoinProject } from "@son-q/queries";
 import { Button } from "@son-q/ui-tailwind";
 import React from "react";
@@ -62,16 +62,15 @@ const App = (props: Props) => {
       open={open}
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
-      classes={{ paper: styles.dialog }}
+      className={styles.dialog}
     >
       <DialogTitle id="form-dialog-title">プログラムへの参加</DialogTitle>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <DialogContent classes={{ root: styles.dialogContent }}>
+        <DialogContent className={styles.dialogContent}>
           <DialogContentText>参加したいプログラムIDを入力してください</DialogContentText>
           <TextField
             variant="outlined"
             autoFocus
-            margin="dense"
             id="name"
             label="プログラムID"
             fullWidth

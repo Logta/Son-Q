@@ -1,8 +1,7 @@
-import HowToVoteIcon from "@mui/icons-material/HowToVote";
-import { Box, Card, CardContent, CardHeader, Paper } from "@mui/material";
+import { Vote } from "lucide-react";
 import { useRegisterAnswers } from "@son-q/queries";
 import type { Answer, Participant, Question } from "@son-q/types";
-import { Button, Popup, Youtube } from "@son-q/ui-tailwind";
+import { Box, Button, Card, CardContent, CardHeader, Paper, Popup, Youtube } from "@son-q/ui-tailwind";
 import { isNil } from "es-toolkit";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -115,11 +114,11 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
                   <Box display="flex" alignItems="center" justifyContent="center">
                     <Box>
                       <Youtube id={questions[value] ? questions[value].url : ""} endSec={60} />
-                      <Box m={-0.5} />
+                      <Box className="-m-0.5" />
                     </Box>
                   </Box>
 
-                  <Box mt={0.5} mb={-1}>
+                  <Box className="mt-0.5 -mb-1">
                     <AnswerSelector
                       key={`Label-${+value + 1}`}
                       index={value}
@@ -144,7 +143,7 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
               popupDisable={isUserJoinProject}
             >
               <Button type="submit" variant="primary" disabled={!isUserJoinProject}>
-                <HowToVoteIcon className="mr-2" />
+                <Vote className="mr-2 h-4 w-4" />
                 回答
               </Button>
             </Popup>

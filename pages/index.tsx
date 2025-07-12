@@ -1,11 +1,10 @@
-import ScopedCssBaseline from "@mui/material/ScopedCssBaseline";
 import { Copyright } from "@son-q/ui-tailwind";
 import Head from "next/head";
 import { HomePage } from "../src/components/pages";
 
 export default function Home() {
   return (
-    <ScopedCssBaseline>
+    <div>
       <Head>
         <title>Black Jukebox</title>
         <meta
@@ -17,6 +16,6 @@ export default function Home() {
 
       <HomePage />
       <Copyright />
-    </ScopedCssBaseline>
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-import { Chip, TableCell, TableRow } from "@mui/material";
+import { Chip, TableCell, TableRow } from "@son-q/ui-tailwind";
 import type { Answer, Participant } from "@son-q/types";
 import { getPoint } from "@son-q/utils";
 
@@ -17,7 +17,7 @@ const App = ({ participants, answers = [], projectMode = "" }: Props) => {
         style={{ width: "10em", fontWeight: "bold" }}
         align="center"
       >
-        <Chip color="primary" label={"得点"} variant="outlined" />
+        <Chip color="primary" label={"得点"} variant="outline" />
       </TableCell>
       {participants.map((r) => {
         return (

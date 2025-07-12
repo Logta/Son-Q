@@ -1,6 +1,5 @@
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { Box, CircularProgress, Container } from "@mui/material";
+import { Plus, UserPlus } from "lucide-react";
+import { Box, CircularProgress, Container } from "@son-q/ui-tailwind";
 import { useProjects } from "@son-q/queries";
 import { Button, StandardLabel, SubLabel } from "@son-q/ui-tailwind";
 import Image from "next/image";
@@ -32,11 +31,11 @@ const ProjectsContent = () => {
       <ProjectTable rows={projects || []} />
       <div className={styles.redirectButton}>
         <Button onClick={() => setOpenCreateDialog(true)} variant="primary">
-          <AddCircleIcon className="mr-2" />
+          <Plus className="mr-2" />
           プロジェクト作成
         </Button>
         <Button onClick={() => setOpenJoinDialog(true)} variant="primary" className="ml-4">
-          <PersonAddIcon className="mr-2" />
+          <UserPlus className="mr-2" />
           プロジェクト参加
         </Button>
       </div>

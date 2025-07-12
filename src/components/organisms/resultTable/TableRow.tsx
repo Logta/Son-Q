@@ -1,4 +1,4 @@
-import { Chip, TableCell, TableRow } from "@mui/material";
+import { Chip, TableCell, TableRow } from "@son-q/ui-tailwind";
 import type { Answer, Participant, Question } from "@son-q/types";
 import { YoutubeAnswer } from "@son-q/ui-tailwind";
 import { getQuestioner, getRespondent } from "@son-q/utils";
@@ -24,7 +24,7 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
               align="center"
               style={{ fontWeight: "bold" }}
             >
-              <Chip size="small" label={<strong>{index + 1}</strong>} />
+              <Chip size="sm" label={`${index + 1}`} />
             </TableCell>
             <TableCell
               key={`${ques.ID}-result-questioner`}
@@ -69,9 +69,9 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
                   >
                     {getQuestioner(participants, ques) ===
                     getRespondent(part, participants, ques, answers) ? (
-                      <Chip label="〇" color="secondary" variant="outlined" />
+                      <Chip label="〇" color="secondary" variant="outline" />
                     ) : (
-                      <Chip label="×" color="primary" variant="outlined" />
+                      <Chip label="×" color="primary" variant="outline" />
                     )}
                   </TableCell>
                   <TableCell

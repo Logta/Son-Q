@@ -1,7 +1,4 @@
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
+import { Paper, Table, TableBody, TableContainer } from "@son-q/ui-tailwind";
 import type { Project } from "@son-q/types";
 import styles from "./ProjectTable.module.scss";
 
@@ -14,7 +11,8 @@ type Props = {
 
 const App = ({ rows }: Props) => {
   return (
-    <TableContainer component={Paper}>
+    <Paper>
+      <TableContainer>
       <Table className={styles.table} aria-label="simple table">
         <TableHeader />
         <TableBody>
@@ -23,7 +21,8 @@ const App = ({ rows }: Props) => {
           ))}
         </TableBody>
       </Table>
-    </TableContainer>
+      </TableContainer>
+    </Paper>
   );
 };
 

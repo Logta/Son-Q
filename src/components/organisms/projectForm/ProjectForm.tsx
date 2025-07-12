@@ -1,4 +1,4 @@
-import { Paper } from "@mui/material";
+import { Paper } from "@son-q/ui-tailwind";
 import { getProjectFromID } from "@son-q/api";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";

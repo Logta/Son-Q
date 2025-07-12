@@ -1,5 +1,5 @@
-import HomeIcon from "@mui/icons-material/Home";
-import { Box, CircularProgress, Container, Typography } from "@mui/material";
+import { Home } from "lucide-react";
+import { Box, CircularProgress, Container, Typography } from "@son-q/ui-tailwind";
 import { useQuestionCount, useUserQuestions } from "@son-q/queries";
 import { Button, StandardLabel, SubLabel } from "@son-q/ui-tailwind";
 import { isNil } from "es-toolkit";
@@ -73,7 +73,7 @@ const PageBody = () => {
 
         <div className={styles.redirectButton}>
           <Button onClick={redirect("/projects")} variant="outline">
-            <HomeIcon className="mr-2" />
+            <Home className="mr-2" />
             プロジェクト一覧に戻る
           </Button>
         </div>

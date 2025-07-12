@@ -1,64 +1,24 @@
-import { TableCell, TableHead, TableRow } from "@mui/material";
+import { TableCell, TableHead, TableRow } from "@son-q/ui-tailwind";
 
 const App = () => {
   return (
     <TableHead>
       <TableRow key="header">
-        <TableCell
-          style={{
-            fontWeight: "bold",
-            width: "12em",
-          }}
-        >
+        <TableCell className="font-bold w-48">
           プロジェクト名
         </TableCell>
-        <TableCell
-          align="center"
-          style={{
-            fontWeight: "bold",
-          }}
-        >
+        <TableCell align="center" className="font-bold">
           内容
         </TableCell>
-        <TableCell
-          align="center"
-          style={{
-            fontWeight: "bold",
-            width: "8em",
-          }}
-        >
+        <TableCell align="center" className="font-bold w-32">
           出題数
         </TableCell>
-        <TableCell
-          align="center"
-          style={{
-            fontWeight: "bold",
-            width: "8em",
-          }}
-        >
+        <TableCell align="center" className="font-bold w-32">
           参加人数
         </TableCell>
-        <TableCell
-          align="center"
-          style={{
-            fontWeight: "bold",
-            width: "9em",
-          }}
-        />
-        <TableCell
-          align="center"
-          style={{
-            fontWeight: "bold",
-            width: "9em",
-          }}
-        />
-        <TableCell
-          align="center"
-          style={{
-            fontWeight: "bold",
-            width: "9em",
-          }}
-        />
+        <TableCell align="center" className="font-bold w-36" />
+        <TableCell align="center" className="font-bold w-36" />
+        <TableCell align="center" className="font-bold w-36" />
       </TableRow>
     </TableHead>
   );

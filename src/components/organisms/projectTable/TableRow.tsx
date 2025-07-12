@@ -1,7 +1,5 @@
-import CreateIcon from "@mui/icons-material/Create";
-import HowToVoteIcon from "@mui/icons-material/HowToVote";
-import PollIcon from "@mui/icons-material/Poll";
-import { Chip, TableCell, TableRow } from "@mui/material";
+import { Edit3, Vote, BarChart3 } from "lucide-react";
+import { Chip, TableCell, TableRow } from "@son-q/ui-tailwind";
 import { getExistAnswerNum, getExistQuestionNum } from "@son-q/api";
 import type { Project, User } from "@son-q/types";
 import { Button, PopupButton } from "@son-q/ui-tailwind";
@@ -66,18 +64,18 @@ const App = (props: Props) => {
       }
     >
       <TableCell component="th" scope="row">
-        <Chip label={row.name} color="primary" />
+        <Chip variant="default">{row.name}</Chip>
       </TableCell>
       <TableCell align="center">{row.content}</TableCell>
       <TableCell align="center">
-        <Chip size="small" label={<strong>{row.question_num}</strong>} />
+        <Chip size="sm">{row.question_num}</Chip>
       </TableCell>
       <TableCell align="center">
-        <Chip size="small" label={<strong>{row.participants.length}</strong>} />
+        <Chip size="sm">{row.participants.length}</Chip>
       </TableCell>
       <TableCell align="center">
         <Button variant="primary" onClick={redirect(`/questions/${row.ID}`)}>
-          <CreateIcon className="mr-2" />
+          <Edit3 className="mr-2" />
           出題
         </Button>
       </TableCell>
@@ -87,7 +85,7 @@ const App = (props: Props) => {
           disabled={!readyQuestion}
           popup={"参加者全員分の問題設定が完了していません"}
           popupDisable={readyQuestion}
-          startIcon={<HowToVoteIcon />}
+          startIcon={<Vote />}
         >
           回答
         </PopupButton>
@@ -98,7 +96,7 @@ const App = (props: Props) => {
           disabled={!readyResult}
           popup={"参加者全員分の回答が完了していません"}
           popupDisable={readyResult}
-          startIcon={<PollIcon />}
+          startIcon={<BarChart3 />}
         >
           結果
         </PopupButton>

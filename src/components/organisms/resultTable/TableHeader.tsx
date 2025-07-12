@@ -1,4 +1,4 @@
-import { Box, Chip, TableCell, TableHead, TableRow } from "@mui/material";
+import { Box, Chip, TableCell, TableHead, TableRow } from "@son-q/ui-tailwind";
 import type { Participant } from "@son-q/types";
 
 type Props = {
@@ -59,7 +59,7 @@ const App = ({ participants }: Props) => {
             borderLeftColor: "lightGray",
           }}
         >
-          <Box ml={2}>
+          <Box className="ml-2">
             <Chip color="primary" label={"回答者"} />
           </Box>
         </TableCell>

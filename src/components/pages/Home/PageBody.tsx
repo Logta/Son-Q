@@ -1,7 +1,5 @@
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import BookmarksIcon from "@mui/icons-material/Bookmarks";
-import { Box, Container, Paper } from "@mui/material";
-import { Button, DarkModeSwitch, StandardLabel, SubLabel } from "@son-q/ui-tailwind";
+import { Bookmark, User } from "lucide-react";
+import { Box, Button, Container, DarkModeSwitch, Paper, StandardLabel, SubLabel } from "@son-q/ui-tailwind";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { HomeStep } from "@/components/organisms";
@@ -24,7 +22,7 @@ const PageBody = () => {
     <Container maxWidth="sm">
       <main className={styles.main}>
         <StandardLabel>Black Jukebox</StandardLabel>
-        <Box mt={-4} mb={2}>
+        <Box className="-mt-4 mb-2">
           <Image src={"/turntable.png"} alt="turntable" width={250} height={250} />
         </Box>
         <SubLabel>皆の好きな曲を持ち寄って、</SubLabel>
@@ -35,7 +33,7 @@ const PageBody = () => {
         <Box m={2} p={2}>
           <Box display="flex" alignItems="center" justifyContent="center">
             <Button onClick={redirect("/projects")} variant="primary" className="m-4">
-              <BookmarksIcon className="mr-2" />
+              <Bookmark className="mr-2 h-4 w-4" />
               プロジェクト一覧へ
             </Button>
             <Button
@@ -46,7 +44,7 @@ const PageBody = () => {
               variant="outline"
               className="m-4"
             >
-              <AccountCircleIcon className="mr-2" />
+              <User className="mr-2 h-4 w-4" />
               サインアウト
             </Button>
           </Box>
@@ -62,7 +60,7 @@ const PageBody = () => {
               variant="primary"
               className="m-4"
             >
-              <AccountCircleIcon className="mr-2" />
+              <User className="mr-2 h-4 w-4" />
               Google認証
             </Button>
           </Box>
