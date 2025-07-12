@@ -1,6 +1,6 @@
-import { Chip, TableCell, TableRow } from "@son-q/ui-tailwind";
 import type { Answer, Participant } from "@son-q/types";
 import { getPoint } from "@son-q/utils";
+import { Chip, TableCell, TableRow } from "@son-q/ui-tailwind";
 
 type Props = {
   participants: Participant[];
@@ -14,7 +14,7 @@ const App = ({ participants, answers = [], projectMode = "" }: Props) => {
       <TableCell
         component="th"
         scope="row"
-        style={{ width: "10em", fontWeight: "bold" }}
+        style={{ width: "15em", minWidth: "15em", fontWeight: "bold" }}
         align="center"
       >
         <Chip color="primary" label={"得点"} variant="outline" />
@@ -30,6 +30,8 @@ const App = ({ participants, answers = [], projectMode = "" }: Props) => {
               borderLeftWidth: "2px",
               borderLeftStyle: "dotted",
               borderLeftColor: "lightGray",
+              width: `calc(90% / ${participants.length})`,
+              minWidth: `calc(90% / ${participants.length})`,
             }}
           >
             {getPoint(projectMode, r.user_id, answers, participants.length)}
