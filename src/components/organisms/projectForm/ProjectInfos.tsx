@@ -1,4 +1,4 @@
-import { Box, Chip, List, ListItem, ListItemText } from "@son-q/ui-tailwind";
+import { Box, Chip, List, ListItem, ListItemText, Container, Paper } from "@son-q/ui-tailwind";
 import { getProjectFromID } from "@son-q/api";
 import { FormLabel } from "@son-q/ui-tailwind";
 import { useQuery } from "@tanstack/react-query";
@@ -26,29 +26,30 @@ const App = () => {
 
   return (
     project && (
-      <Box className="m-8">
-        <FormLabel>プロジェクト情報</FormLabel>
-        <List className={styles.list}>
-          <ListItem>
-            <ListItemText primary="プロジェクトID" secondary={project.ID} />
-          </ListItem>
-          <ListItem>
-            <ListItemText primary="参加者" />
-          </ListItem>
-          <ListItem>
-            {getParticipants().map((p) => {
-              return (
-                <Chip
-                  key={p}
-                  label={p}
-                  variant="filled"
-                  className="mr-4"
-                />
-              );
-            })}
-          </ListItem>
-        </List>
-      </Box>
+      <Container maxWidth="md" className="mt-8">
+        <Paper className="p-6">
+          <FormLabel className="mb-4">プロジェクト情報</FormLabel>
+          <List>
+            <ListItem>
+              <ListItemText primary="プロジェクトID" secondary={project.ID} />
+            </ListItem>
+            <ListItem>
+              <ListItemText primary="参加者" />
+            </ListItem>
+            <ListItem className="flex flex-wrap gap-2">
+              {getParticipants().map((p) => {
+                return (
+                  <Chip
+                    key={p}
+                    label={p}
+                    variant="filled"
+                  />
+                );
+              })}
+            </ListItem>
+          </List>
+        </Paper>
+      </Container>
     )
   );
 };
