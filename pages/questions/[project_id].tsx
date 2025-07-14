@@ -11,10 +11,7 @@ export default function Home() {
     <>
       <Head>
         <title>選曲：Black Jukebox</title>
-        <meta
-          name="description"
-          content="皆の好きな曲を持ち寄って、誰が持ってきた曲か当てよう！"
-        />
+        <meta name="description" content="皆の好きな曲を持ち寄って、誰が持ってきた曲か当てよう！" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

@@ -61,13 +61,13 @@ const createAnswer = async (user: Auth, answer: Answer, projectId: string, quest
 
 const updateAnswer = async (answer: Answer, projectId: string, questionNo: number) => {
   const docRef = doc(firestore, "projects", projectId, "answers", answer.ID);
-  
+
   // ドキュメントの存在確認
   const docSnap = await getDoc(docRef);
   if (!docSnap.exists()) {
     throw new Error(`Document with ID ${answer.ID} does not exist`);
   }
-  
+
   const ans = {
     ...answer,
     no: questionNo,

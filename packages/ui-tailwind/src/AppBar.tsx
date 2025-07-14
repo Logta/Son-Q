@@ -2,41 +2,36 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "./utils/utils";
 
-const appBarVariants = cva(
-  "w-full shadow-md relative",
-  {
-    variants: {
-      position: {
-        static: "relative",
-        fixed: "fixed top-0 left-0 right-0 z-50",
-        sticky: "sticky top-0 z-50",
-        absolute: "absolute top-0 left-0 right-0",
-      },
-      color: {
-        default: "bg-primary text-primary-foreground",
-        primary: "bg-primary text-primary-foreground",
-        secondary: "bg-secondary text-secondary-foreground",
-        transparent: "bg-transparent shadow-none",
-      },
-      elevation: {
-        0: "shadow-none",
-        1: "shadow-sm",
-        2: "shadow",
-        3: "shadow-md",
-        4: "shadow-lg",
-      },
+const appBarVariants = cva("w-full shadow-md relative", {
+  variants: {
+    position: {
+      static: "relative",
+      fixed: "fixed top-0 left-0 right-0 z-50",
+      sticky: "sticky top-0 z-50",
+      absolute: "absolute top-0 left-0 right-0",
     },
-    defaultVariants: {
-      position: "static",
-      color: "primary",
-      elevation: 2,
+    color: {
+      default: "bg-primary text-primary-foreground",
+      primary: "bg-primary text-primary-foreground",
+      secondary: "bg-secondary text-secondary-foreground",
+      transparent: "bg-transparent shadow-none",
     },
-  }
-);
+    elevation: {
+      0: "shadow-none",
+      1: "shadow-sm",
+      2: "shadow",
+      3: "shadow-md",
+      4: "shadow-lg",
+    },
+  },
+  defaultVariants: {
+    position: "static",
+    color: "primary",
+    elevation: 2,
+  },
+});
 
-const toolbarVariants = cva(
-  "flex items-center justify-between w-full px-4 py-2 min-h-16"
-);
+const toolbarVariants = cva("flex items-center justify-between w-full px-4 py-2 min-h-16");
 
 export type AppBarProps = React.HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof appBarVariants> & {

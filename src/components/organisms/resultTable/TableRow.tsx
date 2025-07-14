@@ -26,7 +26,7 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
               style={{
                 width: "2em",
                 minWidth: "2em",
-                fontWeight: "bold"
+                fontWeight: "bold",
               }}
             >
               <Chip size="sm" label={`${index + 1}`} />

@@ -14,15 +14,15 @@ const App = ({ participants, answers, questions }: Props) => {
   return (
     <div className="mx-4">
       <TableContainer className="w-full">
-      <Table className={`${styles.table} w-full`} aria-label="simple table">
-        <TableHeader>
-          <TableHeaderRows participants={participants} />
-        </TableHeader>
-        <TableBody>
-          <TableRow participants={participants} answers={answers} questions={questions} />
-        </TableBody>
-      </Table>
-    </TableContainer>
+        <Table className={`${styles.table} w-full`} aria-label="simple table">
+          <TableHeader>
+            <TableHeaderRows participants={participants} />
+          </TableHeader>
+          <TableBody>
+            <TableRow participants={participants} answers={answers} questions={questions} />
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };

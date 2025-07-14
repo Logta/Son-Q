@@ -135,7 +135,7 @@ const App = () => {
               <TextField
                 variant="outlined"
                 autoFocus
-                  id="content"
+                id="content"
                 label="内容"
                 required
                 fullWidth
@@ -146,7 +146,7 @@ const App = () => {
               <TextField
                 variant="outlined"
                 autoFocus
-                  id="question_num"
+                id="question_num"
                 label="出題数"
                 type="number"
                 required
@@ -162,7 +162,7 @@ const App = () => {
                   value={project_mode.value}
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                     const fakeEvent = {
-                      target: { value: e.target.value }
+                      target: { value: e.target.value },
                     } as React.ChangeEvent<HTMLInputElement>;
                     project_mode.onChange(fakeEvent);
                   }}

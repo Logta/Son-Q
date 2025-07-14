@@ -12,9 +12,6 @@ type Props = {
 const App = (props: Props) => {
   const { value, setValue, participants, index } = props;
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
-  };
   return (
     <FormControl key={`${index}-radio`}>
       <RadioGroup

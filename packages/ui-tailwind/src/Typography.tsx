@@ -65,17 +65,7 @@ export type TypographyProps = React.HTMLAttributes<HTMLElement> &
  */
 const Typography = React.forwardRef<HTMLElement, TypographyProps>(
   (
-    {
-      className,
-      component,
-      variant,
-      align,
-      color,
-      gutterBottom,
-      noWrap,
-      children,
-      ...props
-    },
+    { className, component, variant, align, color, gutterBottom, noWrap, children, ...props },
     ref
   ) => {
     // デフォルトのHTML要素を決定

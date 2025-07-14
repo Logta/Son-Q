@@ -8,10 +8,7 @@ type Props = {
 const App = ({ participants }: Props) => {
   return (
     <TableRow key="header-result-point">
-      <TableHead
-        align="center"
-        style={{ width: "15em", minWidth: "15em", fontWeight: "bold" }}
-      >
+      <TableHead align="center" style={{ width: "15em", minWidth: "15em", fontWeight: "bold" }}>
         <Chip color="primary" label={"回答者"} />
       </TableHead>
       {participants.map((part: Participant) => {

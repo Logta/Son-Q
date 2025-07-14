@@ -162,10 +162,7 @@ const App = (props: Props) => {
             <Box className="mt-3">
               <FormControl variant="outlined" fullWidth>
                 <InputLabel id="demo-simple-select-outlined-label">ポイント計算モード</InputLabel>
-                <Select
-                  id="demo-simple-select-outlined"
-                  {...project_mode}
-                >
+                <Select id="demo-simple-select-outlined" {...project_mode}>
                   <MenuItem value={"normal"}>正解数が得点に</MenuItem>
                   <MenuItem value={"getOnlyOneCorrectAnswer"}>1人だけが正解するように</MenuItem>
                   <MenuItem value={"getOnlyOneIncorrectAnswer"}>1人だけが不正解するように</MenuItem>

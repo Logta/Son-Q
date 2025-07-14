@@ -93,7 +93,6 @@ const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(
     },
     ref
   ) => {
-
     return (
       <Transition appear show={open} as={React.Fragment}>
         <HeadlessDialog
@@ -153,10 +152,7 @@ const DialogTitle = React.forwardRef<HTMLDivElement, DialogTitleProps>(
   ({ className, children, showCloseButton = false, onClose, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn(
-        "flex items-center justify-between border-b border-border p-6",
-        className
-      )}
+      className={cn("flex items-center justify-between border-b border-border p-6", className)}
       {...props}
     >
       <HeadlessDialog.Title as="h3" className="text-lg font-semibold">
@@ -180,9 +176,7 @@ DialogTitle.displayName = "DialogTitle";
  * DialogContentコンポーネント
  */
 const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("p-6", className)} {...props} />
-  )
+  ({ className, ...props }, ref) => <div ref={ref} className={cn("p-6", className)} {...props} />
 );
 DialogContent.displayName = "DialogContent";
 
@@ -191,11 +185,7 @@ DialogContent.displayName = "DialogContent";
  */
 const DialogContentText = React.forwardRef<HTMLParagraphElement, DialogContentTextProps>(
   ({ className, ...props }, ref) => (
-    <p
-      ref={ref}
-      className={cn("text-sm text-muted-foreground", className)}
-      {...props}
-    />
+    <p ref={ref} className={cn("text-sm text-muted-foreground", className)} {...props} />
   )
 );
 DialogContentText.displayName = "DialogContentText";
@@ -217,11 +207,4 @@ const DialogActions = React.forwardRef<HTMLDivElement, DialogActionsProps>(
 );
 DialogActions.displayName = "DialogActions";
 
-export {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  dialogVariants,
-};
+export { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, dialogVariants };

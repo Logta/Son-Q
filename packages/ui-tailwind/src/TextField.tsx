@@ -2,31 +2,28 @@ import * as React from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "./utils/utils";
 
-const textFieldVariants = cva(
-  "flex flex-col space-y-2",
-  {
-    variants: {
-      variant: {
-        standard: "",
-        outlined: "",
-        filled: "",
-      },
-      size: {
-        small: "",
-        medium: "",
-      },
-      fullWidth: {
-        true: "w-full",
-        false: "",
-      },
+const textFieldVariants = cva("flex flex-col space-y-2", {
+  variants: {
+    variant: {
+      standard: "",
+      outlined: "",
+      filled: "",
     },
-    defaultVariants: {
-      variant: "outlined",
-      size: "medium",
-      fullWidth: false,
+    size: {
+      small: "",
+      medium: "",
     },
-  }
-);
+    fullWidth: {
+      true: "w-full",
+      false: "",
+    },
+  },
+  defaultVariants: {
+    variant: "outlined",
+    size: "medium",
+    fullWidth: false,
+  },
+});
 
 const inputVariants = cva(
   "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
@@ -136,16 +133,15 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           ref={ref as any}
           className={cn(inputVariants({ variant, size, error }))}
           rows={multiline ? rows : undefined}
-          style={multiline && maxRows ? { maxHeight: `${maxRows * 1.5}em`, resize: "vertical" } : undefined}
+          style={
+            multiline && maxRows
+              ? { maxHeight: `${maxRows * 1.5}em`, resize: "vertical" }
+              : undefined
+          }
           {...(props as any)}
         />
         {helperText && (
-          <p
-            className={cn(
-              "text-sm text-muted-foreground",
-              error && "text-destructive"
-            )}
-          >
+          <p className={cn("text-sm text-muted-foreground", error && "text-destructive")}>
             {helperText}
           </p>
         )}

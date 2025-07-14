@@ -34,18 +34,19 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
       <HeadlessSwitch
         ref={ref}
         checked={checked}
-        onChange={onChange || (() => {
-          // No-op function
-        })}
+        onChange={
+          onChange ||
+          (() => {
+            // No-op function
+          })
+        }
         disabled={disabled}
         className={cn(
           // ベーススタイル
           "relative inline-flex h-6 w-11 items-center rounded-full transition-colors",
           "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           // 状態による色変更
-          checked 
-            ? "bg-primary" 
-            : "bg-input",
+          checked ? "bg-primary" : "bg-input",
           // 無効状態
           disabled && "opacity-50 cursor-not-allowed",
           className

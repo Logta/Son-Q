@@ -1,5 +1,5 @@
 import { Edit3 } from "lucide-react";
-import { FormControl, Paper, TextField } from "@son-q/ui-tailwind";
+import { Paper, TextField } from "@son-q/ui-tailwind";
 import { authApi } from "@son-q/api";
 import { useParticipants, useRegisterQuestions } from "@son-q/queries";
 import type { Question } from "@son-q/types";
@@ -129,12 +129,13 @@ const App = ({ questions, nums }: Props) => {
             // biome-ignore lint/suspicious/noArrayIndexKey: question index is stable
             <div key={value} className={styles.textForm}>
               <div className="space-y-2">
-                <label className="text-sm font-medium">{`${+value + 1}題目：`}</label>
+                <label htmlFor={`question-${value}`} className="text-sm font-medium">{`${+value + 1}題目：`}</label>
                 <div className="flex items-center">
                   <span className="text-sm text-muted-foreground whitespace-nowrap pr-2">
                     https://www.youtube.com/watch?v=
                   </span>
                   <TextField
+                    id={`question-${value}`}
                     value={currentQuestions[value]?.url ? currentQuestions[value].url : ""}
                     onChange={handleURLChange(+value)}
                     onBlur={handleURLBlur(+value)}

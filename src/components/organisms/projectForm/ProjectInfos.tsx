@@ -1,10 +1,9 @@
-import { Box, Chip, List, ListItem, ListItemText, Container, Paper } from "@son-q/ui-tailwind";
+import { Chip, List, ListItem, ListItemText, Container, Paper } from "@son-q/ui-tailwind";
 import { getProjectFromID } from "@son-q/api";
 import { FormLabel } from "@son-q/ui-tailwind";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useGlobalStore } from "@/stores";
-import styles from "./ProjectForm.module.scss";
 
 const App = () => {
   const router = useRouter();
@@ -38,13 +37,7 @@ const App = () => {
             </ListItem>
             <ListItem className="flex flex-wrap gap-2">
               {getParticipants().map((p) => {
-                return (
-                  <Chip
-                    key={p}
-                    label={p}
-                    variant="filled"
-                  />
-                );
+                return <Chip key={p} label={p} variant="filled" />;
               })}
             </ListItem>
           </List>

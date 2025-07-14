@@ -37,21 +37,13 @@ const DarkModeSwitch = React.forwardRef<HTMLDivElement, DarkModeSwitchProps>(
     }
 
     return (
-      <div
-        ref={ref}
-        className={cn("flex items-center gap-3", className)}
-        {...props}
-      >
+      <div ref={ref} className={cn("flex items-center gap-3", className)} {...props}>
         <div className="flex items-center">
           <Sun className="h-5 w-5 text-muted-foreground" />
         </div>
-        
-        <Switch
-          checked={darkMode}
-          onChange={handleChange}
-          aria-label="ダークモード切り替え"
-        />
-        
+
+        <Switch checked={darkMode} onChange={handleChange} aria-label="ダークモード切り替え" />
+
         <div className="flex items-center">
           <Moon className="h-5 w-5 text-muted-foreground" />
         </div>

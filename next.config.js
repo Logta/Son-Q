@@ -6,7 +6,7 @@ module.exports = {
     return config;
   },
   experimental: {
-    cssChunking: 'strict',
+    cssChunking: "strict",
   },
   env: {
     API_KEY: process.env.API_KEY,

@@ -1,5 +1,10 @@
 export { AppBarButton } from "./AppBarButton";
-export { AppBarComponent as AppBar, Toolbar, appBarVariants, toolbarVariants } from "./AppBarComponent";
+export {
+  AppBarComponent as AppBar,
+  Toolbar,
+  appBarVariants,
+  toolbarVariants,
+} from "./AppBarComponent";
 export { Box, boxVariants } from "./Box";
 export { Button, buttonVariants } from "./Button";
 export { Card, CardContent, CardHeader, CardMedia, cardVariants } from "./Card";

@@ -177,7 +177,7 @@ FormControl.displayName = "FormControl";
 const InputLabel = React.forwardRef<HTMLLabelElement, InputLabelProps>(
   ({ className, variant, size, error, focused, required, children, ...props }, ref) => {
     const context = useFormControlContext();
-    
+
     return (
       <label
         ref={ref}
@@ -193,9 +193,7 @@ const InputLabel = React.forwardRef<HTMLLabelElement, InputLabelProps>(
         {...props}
       >
         {children}
-        {(required || context?.required) && (
-          <span className="ml-1 text-destructive">*</span>
-        )}
+        {(required || context?.required) && <span className="ml-1 text-destructive">*</span>}
       </label>
     );
   }
@@ -208,7 +206,7 @@ InputLabel.displayName = "InputLabel";
 const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
   ({ className, variant, size, error, children, ...props }, ref) => {
     const context = useFormControlContext();
-    
+
     return (
       <select
         ref={ref}

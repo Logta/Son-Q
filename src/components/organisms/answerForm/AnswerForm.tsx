@@ -1,10 +1,19 @@
 import { Vote } from "lucide-react";
 import { useRegisterAnswers } from "@son-q/queries";
 import type { Answer, Participant, Question } from "@son-q/types";
-import { Box, Button, Card, CardContent, CardHeader, Paper, Popup, Youtube } from "@son-q/ui-tailwind";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Paper,
+  Popup,
+  Youtube,
+} from "@son-q/ui-tailwind";
 import { isNil } from "es-toolkit";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAnswersStore, useGlobalStore } from "@/stores";
 import styles from "./AnswerForm.module.scss";
 import { AnswerSelector } from "./AnswerSelector";
@@ -55,7 +64,15 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
     })
   );
 
-  const handleSetPropsAnswers = async () => {
+  const getAnswerFromQuestionID = useCallback((
+    currentAnswer: Answer,
+    answers: Array<Answer>
+  ): Answer | undefined => {
+    if (isNil(currentAnswer.question_id)) return undefined;
+    return answers.find((a) => a.question_id === currentAnswer.question_id);
+  }, []);
+
+  const handleSetPropsAnswers = useCallback(async () => {
     if (isNil(answers)) return;
     const newQues: Array<Answer> = currentAnswers.map((data) => {
       const findAns: Answer | undefined = getAnswerFromQuestionID(data, answers);
@@ -64,20 +81,12 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
       } else return { ...findAns, url: data.url };
     });
     setCurrentAnswers([...newQues]);
-  };
-
-  const getAnswerFromQuestionID = (
-    currentAnswer: Answer,
-    answers: Array<Answer>
-  ): Answer | undefined => {
-    if (isNil(currentAnswer.question_id)) return undefined;
-    return answers.find((a) => a.question_id === currentAnswer.question_id);
-  };
+  }, [answers, currentAnswers, getAnswerFromQuestionID]);
 
   // answersが更新されたときにマージ処理を実行
   useEffect(() => {
     handleSetPropsAnswers();
-  }, [answers]);
+  }, [handleSetPropsAnswers]);
 
   const handleSelector = (id: number) => (value: string) => {
     const newQues = currentAnswers.slice();

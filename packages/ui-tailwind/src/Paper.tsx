@@ -2,30 +2,27 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "./utils/utils";
 
-const paperVariants = cva(
-  "bg-background rounded-lg border border-border shadow-sm",
-  {
-    variants: {
-      variant: {
-        elevation: "shadow-md",
-        outlined: "border-2 shadow-none",
-      },
-      elevation: {
-        0: "shadow-none",
-        1: "shadow-sm",
-        2: "shadow",
-        3: "shadow-md",
-        4: "shadow-lg",
-        8: "shadow-xl",
-        12: "shadow-2xl",
-      },
+const paperVariants = cva("bg-background rounded-lg border border-border shadow-sm", {
+  variants: {
+    variant: {
+      elevation: "shadow-md",
+      outlined: "border-2 shadow-none",
     },
-    defaultVariants: {
-      variant: "elevation",
-      elevation: 1,
+    elevation: {
+      0: "shadow-none",
+      1: "shadow-sm",
+      2: "shadow",
+      3: "shadow-md",
+      4: "shadow-lg",
+      8: "shadow-xl",
+      12: "shadow-2xl",
     },
-  }
-);
+  },
+  defaultVariants: {
+    variant: "elevation",
+    elevation: 1,
+  },
+});
 
 export type PaperProps = React.HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof paperVariants> & {
@@ -50,10 +47,7 @@ const Paper = React.forwardRef<HTMLDivElement, PaperProps>(
     return (
       <Component
         ref={ref}
-        className={cn(
-          paperVariants({ variant, elevation, className }),
-          square && "rounded-none"
-        )}
+        className={cn(paperVariants({ variant, elevation, className }), square && "rounded-none")}
         {...props}
       >
         {children}

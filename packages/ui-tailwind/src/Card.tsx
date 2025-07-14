@@ -2,21 +2,18 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "./utils/utils";
 
-const cardVariants = cva(
-  "rounded-lg border bg-card text-card-foreground shadow-sm",
-  {
-    variants: {
-      variant: {
-        default: "",
-        outlined: "border-2 shadow-none",
-        elevation: "shadow-md",
-      },
+const cardVariants = cva("rounded-lg border bg-card text-card-foreground shadow-sm", {
+  variants: {
+    variant: {
+      default: "",
+      outlined: "border-2 shadow-none",
+      elevation: "shadow-md",
     },
-    defaultVariants: {
-      variant: "default",
-    },
-  }
-);
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
 
 const cardHeaderVariants = cva("flex flex-col space-y-1.5 p-6");
 
@@ -24,8 +21,7 @@ const cardContentVariants = cva("p-6 pt-0");
 
 const cardMediaVariants = cva("overflow-hidden");
 
-export type CardProps = React.HTMLAttributes<HTMLDivElement> &
-  VariantProps<typeof cardVariants>;
+export type CardProps = React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof cardVariants>;
 
 export type CardHeaderProps = React.HTMLAttributes<HTMLDivElement> & {
   /**
@@ -71,12 +67,8 @@ Card.displayName = "Card";
 const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
   ({ className, title, subheader, children, ...props }, ref) => (
     <div ref={ref} className={cn(cardHeaderVariants(), className)} {...props}>
-      {title && (
-        <h3 className="text-2xl font-semibold leading-none tracking-tight">{title}</h3>
-      )}
-      {subheader && (
-        <p className="text-sm text-muted-foreground">{subheader}</p>
-      )}
+      {title && <h3 className="text-2xl font-semibold leading-none tracking-tight">{title}</h3>}
+      {subheader && <p className="text-sm text-muted-foreground">{subheader}</p>}
       {children}
     </div>
   )
@@ -99,7 +91,7 @@ CardContent.displayName = "CardContent";
 const CardMedia = React.forwardRef<HTMLDivElement, CardMediaProps>(
   ({ className, component = "div", image, height, style, ...props }, ref) => {
     const Component = component as React.ElementType;
-    
+
     return (
       <Component
         ref={ref}

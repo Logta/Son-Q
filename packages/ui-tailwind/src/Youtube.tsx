@@ -1,13 +1,6 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import {
-  Play,
-  RotateCcw,
-  RotateCw,
-  Square,
-  Volume2,
-  VolumeX,
-} from "lucide-react";
+import { Play, RotateCcw, RotateCw, Square, Volume2, VolumeX } from "lucide-react";
 import YouTube from "react-youtube";
 import { Button } from "./Button";
 import { cn } from "./utils/utils";
@@ -28,21 +21,18 @@ declare global {
   }
 }
 
-const youtubeVariants = cva(
-  "flex flex-col items-center justify-center space-y-4",
-  {
-    variants: {
-      size: {
-        sm: "space-y-2",
-        md: "space-y-4",
-        lg: "space-y-6",
-      },
+const youtubeVariants = cva("flex flex-col items-center justify-center space-y-4", {
+  variants: {
+    size: {
+      sm: "space-y-2",
+      md: "space-y-4",
+      lg: "space-y-6",
     },
-    defaultVariants: {
-      size: "md",
-    },
-  }
-);
+  },
+  defaultVariants: {
+    size: "md",
+  },
+});
 
 export type YoutubeProps = React.HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof youtubeVariants> & {
@@ -60,19 +50,13 @@ export type YoutubeProps = React.HTMLAttributes<HTMLDivElement> &
     showVolumeSlider?: boolean;
   };
 
-export type YoutubeAnswerProps = Omit<
-  YoutubeProps,
-  "endSec" | "showVolumeSlider"
->;
+export type YoutubeAnswerProps = Omit<YoutubeProps, "endSec" | "showVolumeSlider">;
 
 /**
  * YouTube動画プレイヤーコンポーネント（shadcn/ui形式）
  */
 const Youtube = React.forwardRef<HTMLDivElement, YoutubeProps>(
-  (
-    { className, size, id, endSec = 15, showVolumeSlider = true, ...props },
-    ref
-  ) => {
+  ({ className, size, id, endSec = 15, showVolumeSlider = true, ...props }, ref) => {
     const [youtube, setYoutube] = React.useState<YT.Player | null>(null);
     const [loading, setLoading] = React.useState(true);
     const [playing, setPlaying] = React.useState(false);
@@ -291,10 +275,7 @@ const YoutubeAnswer = React.forwardRef<HTMLDivElement, YoutubeAnswerProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          "relative flex items-center justify-center h-full min-h-12",
-          className
-        )}
+        className={cn("relative flex items-center justify-center h-full min-h-12", className)}
         onClick={(e) => e.stopPropagation()}
         {...props}
       >

@@ -107,11 +107,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
   ({ className, size, stickyHeader, ...props }, ref) => (
     <table
       ref={ref}
-      className={cn(
-        tableVariants(),
-        stickyHeader && "table-fixed",
-        className
-      )}
+      className={cn(tableVariants(), stickyHeader && "table-fixed", className)}
       {...props}
     />
   )
@@ -184,7 +180,7 @@ TableRow.displayName = "TableRow";
 const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   ({ className, variant, size, align, component = "td", sortDirection, ...props }, ref) => {
     const Component = component;
-    
+
     return (
       <Component
         ref={ref}
@@ -204,13 +200,7 @@ TableCell.displayName = "TableCell";
  */
 const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
   ({ className, ...props }, ref) => (
-    <TableCell
-      ref={ref}
-      component="th"
-      variant="head"
-      className={cn("", className)}
-      {...props}
-    />
+    <TableCell ref={ref} component="th" variant="head" className={cn("", className)} {...props} />
   )
 );
 TableHead.displayName = "TableHead";

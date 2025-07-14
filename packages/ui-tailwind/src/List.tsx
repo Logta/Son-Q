@@ -7,25 +7,22 @@ import type { ComponentProps } from "react";
 /**
  * Listコンポーネントのバリアント定義
  */
-export const listVariants = cva(
-  "divide-y divide-border",
-  {
-    variants: {
-      variant: {
-        default: "",
-        inset: "pl-6",
-      },
-      dense: {
-        true: "divide-y-0",
-        false: "",
-      },
+export const listVariants = cva("divide-y divide-border", {
+  variants: {
+    variant: {
+      default: "",
+      inset: "pl-6",
     },
-    defaultVariants: {
-      variant: "default",
-      dense: false,
+    dense: {
+      true: "divide-y-0",
+      false: "",
     },
-  }
-);
+  },
+  defaultVariants: {
+    variant: "default",
+    dense: false,
+  },
+});
 
 /**
  * ListItemコンポーネントのバリアント定義
@@ -53,8 +50,7 @@ export const listItemVariants = cva(
 /**
  * Listコンポーネントのプロパティ型
  */
-export type ListProps = ComponentProps<"ul"> & 
-  VariantProps<typeof listVariants>;
+export type ListProps = ComponentProps<"ul"> & VariantProps<typeof listVariants>;
 
 /**
  * ListItemコンポーネントのプロパティ型
@@ -84,18 +80,8 @@ export type ListItemTextProps = ComponentProps<"div"> & {
 /**
  * リスト表示用のListコンポーネント
  */
-export function List({
-  className,
-  variant,
-  dense,
-  ...props
-}: ListProps) {
-  return (
-    <ul
-      className={cn(listVariants({ variant, dense }), className)}
-      {...props}
-    />
-  );
+export function List({ className, variant, dense, ...props }: ListProps) {
+  return <ul className={cn(listVariants({ variant, dense }), className)} {...props} />;
 }
 
 /**
@@ -115,10 +101,10 @@ export function ListItem({
     return (
       <button
         className={cn(
-          listItemVariants({ 
-            variant: "button", 
-            dense 
-          }), 
+          listItemVariants({
+            variant: "button",
+            dense,
+          }),
           disabled && "opacity-50 cursor-not-allowed",
           className
         )}
@@ -130,14 +116,14 @@ export function ListItem({
       </button>
     );
   }
-  
+
   return (
     <li
       className={cn(
-        listItemVariants({ 
-          variant, 
-          dense 
-        }), 
+        listItemVariants({
+          variant,
+          dense,
+        }),
         className
       )}
       onClick={onClick}
@@ -161,23 +147,11 @@ export function ListItemText({
 }: ListItemTextProps) {
   return (
     <div
-      className={cn(
-        "flex flex-col gap-1 min-w-0 flex-1",
-        disabled && "opacity-50",
-        className
-      )}
+      className={cn("flex flex-col gap-1 min-w-0 flex-1", disabled && "opacity-50", className)}
       {...props}
     >
-      {primary && (
-        <span className="text-sm font-medium leading-none">
-          {primary}
-        </span>
-      )}
-      {secondary && (
-        <span className="text-xs text-muted-foreground">
-          {secondary}
-        </span>
-      )}
+      {primary && <span className="text-sm font-medium leading-none">{primary}</span>}
+      {secondary && <span className="text-xs text-muted-foreground">{secondary}</span>}
       {children}
     </div>
   );

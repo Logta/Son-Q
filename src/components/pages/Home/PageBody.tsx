@@ -15,14 +15,8 @@ import { useGlobalStore } from "@/stores";
 import styles from "./Home.module.scss";
 
 const PageBody = () => {
-  const {
-    user,
-    signInGoogle,
-    signOut,
-    darkMode,
-    handleDarkModeOn,
-    handleDarkModeOff,
-  } = useGlobalStore();
+  const { user, signInGoogle, signOut, darkMode, handleDarkModeOn, handleDarkModeOff } =
+    useGlobalStore();
 
   const router = useRouter();
 
@@ -38,12 +32,7 @@ const PageBody = () => {
         <main className={styles.main}>
           <StandardLabel>Black Jukebox</StandardLabel>
           <Box className="-mt-4 mb-2">
-            <Image
-              src={"/turntable.png"}
-              alt="turntable"
-              width={250}
-              height={250}
-            />
+            <Image src={"/turntable.png"} alt="turntable" width={250} height={250} />
           </Box>
           <SubLabel>皆の好きな曲を持ち寄って、</SubLabel>
           <SubLabel>誰が持ってきた曲か当てよう！</SubLabel>
@@ -52,11 +41,7 @@ const PageBody = () => {
         {user?.Login ? (
           <Box m={2} p={2}>
             <Box display="flex" alignItems="center" justifyContent="center">
-              <Button
-                onClick={redirect("/projects")}
-                variant="primary"
-                className="m-4"
-              >
+              <Button onClick={redirect("/projects")} variant="primary" className="m-4">
                 <Bookmark className="mr-2 h-4 w-4" />
                 プロジェクト一覧へ
               </Button>
@@ -115,9 +100,7 @@ const PageBody = () => {
           <div className="my-8 px-6">
             <HomeStep
               index={2}
-              text={
-                "作成したプロジェクトに問題を設定しましょう。問題はYoutubeのIDで設定します。"
-              }
+              text={"作成したプロジェクトに問題を設定しましょう。問題はYoutubeのIDで設定します。"}
               mediaUrl={"/問題設定-2Step.png"}
               mediaAlt={"問題設定"}
               height={500}
@@ -165,12 +148,7 @@ const PageBody = () => {
           >
             Powered by{" "}
             <span className={styles.logo}>
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                width={72}
-                height={16}
-              />
+              <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
             </span>
           </a>
         </footer>

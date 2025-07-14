@@ -41,9 +41,12 @@ export type RadioGroupProps = {
  */
 const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
   ({ className, value, onValueChange, disabled, children, ...props }, ref) => {
-    const handleChange = React.useCallback((newValue: string | undefined) => {
-      onValueChange?.(newValue);
-    }, [onValueChange]);
+    const handleChange = React.useCallback(
+      (newValue: string | undefined) => {
+        onValueChange?.(newValue);
+      },
+      [onValueChange]
+    );
 
     return (
       <HeadlessRadioGroup
@@ -53,9 +56,7 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
         className={cn("grid gap-2", className)}
         {...props}
       >
-        <div ref={ref}>
-          {children}
-        </div>
+        <div ref={ref}>{children}</div>
       </HeadlessRadioGroup>
     );
   }
@@ -143,7 +144,7 @@ export function FormControlLabel({
   disabled = false,
   value,
   className,
-}: Omit<FormControlLabelProps, 'onClick'>) {
+}: Omit<FormControlLabelProps, "onClick">) {
   const isVertical = labelPlacement === "top" || labelPlacement === "bottom";
   const isReversed = labelPlacement === "start" || labelPlacement === "top";
 
@@ -160,19 +161,19 @@ export function FormControlLabel({
   );
 
   // TypeScript strict mode requires careful handling of cloneElement
-  const existingClassName = 
-    typeof control.props === 'object' && control.props && 'className' in control.props 
-      ? (control.props.className as string) 
-      : '';
-  
+  const existingClassName =
+    typeof control.props === "object" && control.props && "className" in control.props
+      ? (control.props.className as string)
+      : "";
+
   const cloneProps: Record<string, unknown> = {
     className: cn(existingClassName, "peer"),
   };
-  
+
   if (value !== undefined) {
     cloneProps.value = value;
   }
-  
+
   const controlElement = React.cloneElement(control as React.ReactElement, cloneProps);
 
   return (

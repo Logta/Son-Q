@@ -62,16 +62,7 @@ export type ContainerProps = React.HTMLAttributes<HTMLDivElement> &
  */
 const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
   (
-    {
-      className,
-      component = "div",
-      maxWidth,
-      minWidth,
-      disableGutters,
-      fixed,
-      children,
-      ...props
-    },
+    { className, component = "div", maxWidth, minWidth, disableGutters, fixed, children, ...props },
     ref
   ) => {
     const Component = component as React.ElementType;

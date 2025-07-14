@@ -14,8 +14,10 @@ export const chipVariants = cva(
     variants: {
       variant: {
         default: "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
-        secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
+        secondary:
+          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        destructive:
+          "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground border-border",
         filled: "border-transparent bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
       },
@@ -35,7 +37,7 @@ export const chipVariants = cva(
 /**
  * Chipコンポーネントのプロパティ型
  */
-export type ChipProps = ComponentProps<"div"> & 
+export type ChipProps = ComponentProps<"div"> &
   VariantProps<typeof chipVariants> & {
     /** チップのラベル */
     label?: string;
@@ -59,10 +61,7 @@ export function Chip({
   ...props
 }: ChipProps) {
   return (
-    <div
-      className={cn(chipVariants({ variant, size }), className)}
-      {...props}
-    >
+    <div className={cn(chipVariants({ variant, size }), className)} {...props}>
       {label || children}
       {onDelete && (
         <button
