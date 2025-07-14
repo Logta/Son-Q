@@ -82,7 +82,16 @@
       "bracketSameLine": false,
       "quoteStyle": "double"
     },
-    "globals": ["describe", "beforeEach", "afterEach", "it", "test", "expect", "vi", "vitest"]
+    "globals": [
+      "describe",
+      "beforeEach",
+      "afterEach",
+      "it",
+      "test",
+      "expect",
+      "vi",
+      "vitest"
+    ]
   },
   "json": {
     "formatter": {
@@ -95,6 +104,13 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["src/**/*", "pages/**/*", "packages/*/src/**/*", "*.json", "*.js", "*.ts"]
+    "includes": [
+      "src/**/*",
+      "pages/**/*",
+      "packages/*/src/**/*",
+      "*.json",
+      "*.js",
+      "*.ts"
+    ]
   }
 }

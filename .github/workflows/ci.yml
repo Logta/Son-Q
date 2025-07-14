@@ -29,9 +29,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Get Biome version from package.json
+        id: biome-version
+        run: echo "version=$(node -p "require('./package.json').devDependencies['@biomejs/biome'].replace('^', '')")" >> $GITHUB_OUTPUT
       - name: Setup Biome
         uses: biomejs/setup-biome@v2
         with:
-          version: latest
+          version: ${{ steps.biome-version.outputs.version }}
       - name: Run Biome
         run: biome ci .
