@@ -1,11 +1,9 @@
-import CreateIcon from "@mui/icons-material/Create";
-import { FormControl, InputAdornment, InputLabel, OutlinedInput, Paper } from "@mui/material";
 import { authApi } from "@son-q/api";
 import { useParticipants, useRegisterQuestions } from "@son-q/queries";
 import type { Question } from "@son-q/types";
-import { Popup } from "@son-q/ui";
-import { Button } from "@son-q/ui-tailwind";
+import { Button, Paper, Popup, TextField } from "@son-q/ui-tailwind";
 import { useQuery } from "@tanstack/react-query";
+import { Edit3 } from "lucide-react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useGlobalStore, useQuestionsStore } from "@/stores";
@@ -129,20 +127,26 @@ const App = ({ questions, nums }: Props) => {
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: question index is stable
             <div key={value} className={styles.textForm}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-amount">{`${+value + 1}題目：`}</InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-amount"
-                  value={currentQuestions[value]?.url ? currentQuestions[value].url : ""}
-                  onChange={handleURLChange(+value)}
-                  onBlur={handleURLBlur(+value)}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      https://www.youtube.com/watch?v=
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
+              <div className="space-y-2">
+                <label
+                  htmlFor={`question-${value}`}
+                  className="text-sm font-medium"
+                >{`${+value + 1}題目：`}</label>
+                <div className="flex items-center">
+                  <span className="text-sm text-muted-foreground whitespace-nowrap pr-2">
+                    https://www.youtube.com/watch?v=
+                  </span>
+                  <TextField
+                    id={`question-${value}`}
+                    value={currentQuestions[value]?.url ? currentQuestions[value].url : ""}
+                    onChange={handleURLChange(+value)}
+                    onBlur={handleURLBlur(+value)}
+                    variant="outlined"
+                    fullWidth
+                    placeholder="YouTubeの動画ID"
+                  />
+                </div>
+              </div>
             </div>
           );
         })}
@@ -157,7 +161,7 @@ const App = ({ questions, nums }: Props) => {
               disabled={!isUserJoinProject}
               className="inline-flex items-center gap-2"
             >
-              <CreateIcon />
+              <Edit3 />
               登録
             </Button>
           </Popup>

@@ -1,6 +1,5 @@
-import { Chip, TableCell, TableRow } from "@mui/material";
 import type { Answer, Participant, Question } from "@son-q/types";
-import { YoutubeAnswer } from "@son-q/ui";
+import { Chip, TableCell, TableRow, YoutubeAnswer } from "@son-q/ui-tailwind";
 import { getQuestioner, getRespondent } from "@son-q/utils";
 import React from "react";
 
@@ -22,16 +21,24 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
               component="th"
               scope="row"
               align="center"
-              style={{ fontWeight: "bold" }}
+              className="min-h-16 py-2"
+              style={{
+                width: "2em",
+                minWidth: "2em",
+                fontWeight: "bold",
+              }}
             >
-              <Chip size="small" label={<strong>{index + 1}</strong>} />
+              <Chip size="sm" label={`${index + 1}`} />
             </TableCell>
             <TableCell
               key={`${ques.ID}-result-questioner`}
               component="th"
               scope="row"
               align="center"
+              className="min-h-16 py-2"
               style={{
+                width: "10em",
+                minWidth: "10em",
                 fontWeight: "bold",
                 borderLeftWidth: "1px",
                 borderLeftStyle: "solid",
@@ -45,7 +52,10 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
               component="th"
               scope="row"
               align="center"
+              className="min-h-16 py-2"
               style={{
+                width: "5em",
+                minWidth: "5em",
                 borderLeftWidth: "2px",
                 borderLeftStyle: "dotted",
                 borderLeftColor: "lightGray",
@@ -58,9 +68,10 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
                 <React.Fragment key={`${part.user_id}-${ques.ID}-fragment`}>
                   <TableCell
                     align="center"
+                    className="min-h-16 py-2"
                     style={{
-                      width: "5em",
-                      minWidth: "5em",
+                      width: `calc(45% / ${participants.length})`,
+                      minWidth: `calc(45% / ${participants.length})`,
                       borderLeftWidth: "3px",
                       borderLeftStyle: "solid",
                       borderLeftColor: "lightGray",
@@ -69,19 +80,21 @@ const App = ({ participants, answers, questions, darkMode: _darkMode = false }: 
                   >
                     {getQuestioner(participants, ques) ===
                     getRespondent(part, participants, ques, answers) ? (
-                      <Chip label="〇" color="secondary" variant="outlined" />
+                      <Chip label="〇" color="secondary" variant="outline" />
                     ) : (
-                      <Chip label="×" color="primary" variant="outlined" />
+                      <Chip label="×" color="primary" variant="outline" />
                     )}
                   </TableCell>
                   <TableCell
                     key={`${part.user_id}-${ques.ID}-result`}
                     align="center"
+                    className="min-h-16 py-2"
                     style={{
                       borderLeftWidth: "2px",
                       borderLeftStyle: "dotted",
                       borderLeftColor: "lightGray",
-                      width: `calc(90% / ${participants.length})`,
+                      width: `calc(45% / ${participants.length})`,
+                      minWidth: `calc(45% / ${participants.length})`,
                     }}
                   >
                     {getRespondent(part, participants, ques, answers)}

@@ -1,12 +1,19 @@
-import HowToVoteIcon from "@mui/icons-material/HowToVote";
-import { Box, Card, CardContent, CardHeader, Paper } from "@mui/material";
 import { useRegisterAnswers } from "@son-q/queries";
 import type { Answer, Participant, Question } from "@son-q/types";
-import { Popup, Youtube } from "@son-q/ui";
-import { Button } from "@son-q/ui-tailwind";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Paper,
+  Popup,
+  Youtube,
+} from "@son-q/ui-tailwind";
 import { isNil } from "es-toolkit";
+import { Vote } from "lucide-react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAnswersStore, useGlobalStore } from "@/stores";
 import styles from "./AnswerForm.module.scss";
 import { AnswerSelector } from "./AnswerSelector";
@@ -57,7 +64,15 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
     })
   );
 
-  const handleSetPropsAnswers = async () => {
+  const getAnswerFromQuestionID = useCallback(
+    (currentAnswer: Answer, answers: Array<Answer>): Answer | undefined => {
+      if (isNil(currentAnswer.question_id)) return undefined;
+      return answers.find((a) => a.question_id === currentAnswer.question_id);
+    },
+    []
+  );
+
+  const handleSetPropsAnswers = useCallback(async () => {
     if (isNil(answers)) return;
     const newQues: Array<Answer> = currentAnswers.map((data) => {
       const findAns: Answer | undefined = getAnswerFromQuestionID(data, answers);
@@ -66,20 +81,12 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
       } else return { ...findAns, url: data.url };
     });
     setCurrentAnswers([...newQues]);
-  };
+  }, [answers, currentAnswers, getAnswerFromQuestionID]);
 
-  const getAnswerFromQuestionID = (
-    currentAnswer: Answer,
-    answers: Array<Answer>
-  ): Answer | undefined => {
-    if (isNil(currentAnswer.question_id)) return undefined;
-    return answers.find((a) => a.question_id === currentAnswer.question_id);
-  };
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: initialization only
+  // answersが更新されたときにマージ処理を実行
   useEffect(() => {
     handleSetPropsAnswers();
-  }, []);
+  }, [handleSetPropsAnswers]);
 
   const handleSelector = (id: number) => (value: string) => {
     const newQues = currentAnswers.slice();
@@ -116,11 +123,11 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
                   <Box display="flex" alignItems="center" justifyContent="center">
                     <Box>
                       <Youtube id={questions[value] ? questions[value].url : ""} endSec={60} />
-                      <Box m={-0.5} />
+                      <Box className="-m-0.5" />
                     </Box>
                   </Box>
 
-                  <Box mt={0.5} mb={-1}>
+                  <Box className="mt-0.5 -mb-1">
                     <AnswerSelector
                       key={`Label-${+value + 1}`}
                       index={value}
@@ -145,7 +152,7 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
               popupDisable={isUserJoinProject}
             >
               <Button type="submit" variant="primary" disabled={!isUserJoinProject}>
-                <HowToVoteIcon className="mr-2" />
+                <Vote className="mr-2 h-4 w-4" />
                 回答
               </Button>
             </Popup>

@@ -1,11 +1,7 @@
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
 import type { Project } from "@son-q/types";
+import { Paper, Table, TableBody, TableContainer, TableHeader } from "@son-q/ui-tailwind";
 import styles from "./ProjectTable.module.scss";
-
-import { TableHeader } from "./TableHeader";
+import { TableHeader as TableHeaderRow } from "./TableHeader";
 import { TableRow } from "./TableRow";
 
 type Props = {
@@ -14,16 +10,20 @@ type Props = {
 
 const App = ({ rows }: Props) => {
   return (
-    <TableContainer component={Paper}>
-      <Table className={styles.table} aria-label="simple table">
-        <TableHeader />
-        <TableBody>
-          {rows.map((row: Project) => (
-            <TableRow key={row.ID} row={row} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Paper className="w-full mx-4">
+      <TableContainer className="w-full">
+        <Table className={`${styles.table} w-full`} aria-label="simple table">
+          <TableHeader>
+            <TableHeaderRow />
+          </TableHeader>
+          <TableBody>
+            {rows.map((row: Project) => (
+              <TableRow key={row.ID} row={row} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Paper>
   );
 };
 

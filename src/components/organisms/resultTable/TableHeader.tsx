@@ -1,5 +1,5 @@
-import { Box, Chip, TableCell, TableHead, TableRow } from "@mui/material";
 import type { Participant } from "@son-q/types";
+import { Box, Chip, TableHead, TableRow } from "@son-q/ui-tailwind";
 
 type Props = {
   participants: Participant[];
@@ -7,9 +7,9 @@ type Props = {
 
 const App = ({ participants }: Props) => {
   return (
-    <TableHead>
+    <>
       <TableRow key="header-result">
-        <TableCell
+        <TableHead
           rowSpan={2}
           align="center"
           style={{
@@ -19,8 +19,8 @@ const App = ({ participants }: Props) => {
           }}
         >
           No.
-        </TableCell>
-        <TableCell
+        </TableHead>
+        <TableHead
           rowSpan={2}
           align="center"
           style={{
@@ -33,8 +33,8 @@ const App = ({ participants }: Props) => {
           }}
         >
           <Chip color="secondary" label={"出題者"} />
-        </TableCell>
-        <TableCell
+        </TableHead>
+        <TableHead
           rowSpan={2}
           align="center"
           style={{
@@ -47,9 +47,9 @@ const App = ({ participants }: Props) => {
           }}
         >
           課題曲
-        </TableCell>
+        </TableHead>
 
-        <TableCell
+        <TableHead
           colSpan={participants.length * 2}
           align="center"
           style={{
@@ -59,15 +59,15 @@ const App = ({ participants }: Props) => {
             borderLeftColor: "lightGray",
           }}
         >
-          <Box ml={2}>
+          <Box className="ml-2">
             <Chip color="primary" label={"回答者"} />
           </Box>
-        </TableCell>
+        </TableHead>
       </TableRow>
       <TableRow>
         {participants.map((part: Participant) => {
           return (
-            <TableCell
+            <TableHead
               key={`${part.user_id}-result-answer-part`}
               colSpan={2}
               align="center"
@@ -77,14 +77,15 @@ const App = ({ participants }: Props) => {
                 borderLeftStyle: "solid",
                 borderLeftColor: "lightGray",
                 width: `calc(90% / ${participants.length})`,
+                minWidth: `calc(90% / ${participants.length})`,
               }}
             >
               {part.user_name}
-            </TableCell>
+            </TableHead>
           );
         })}
       </TableRow>
-    </TableHead>
+    </>
   );
 };
 

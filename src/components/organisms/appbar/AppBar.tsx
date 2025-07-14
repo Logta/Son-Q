@@ -1,5 +1,4 @@
-import { AppBar, Box, Toolbar } from "@mui/material";
-import { AppBarButton, Button } from "@son-q/ui-tailwind";
+import { AppBar, AppBarButton, Box, Button, Toolbar } from "@son-q/ui-tailwind";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import type React from "react";
@@ -26,7 +25,7 @@ const App = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Box mr={2} ml={1}>
+        <Box className="mr-2 ml-1">
           <Button
             onClick={redirect("/")}
             variant="ghost"

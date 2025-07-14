@@ -1,11 +1,10 @@
-import ScopedCssBaseline from "@mui/material/ScopedCssBaseline";
-import { Copyright } from "@son-q/ui";
+import { Copyright } from "@son-q/ui-tailwind";
 import Head from "next/head";
 import { HomePage } from "../src/components/pages";
 
 export default function Home() {
   return (
-    <ScopedCssBaseline>
+    <div>
       <Head>
         <title>Black Jukebox</title>
         <meta name="description" content="皆の好きな曲を持ち寄って、誰が持ってきた曲か当てよう！" />
@@ -14,6 +13,6 @@ export default function Home() {
 
       <HomePage />
       <Copyright />
-    </ScopedCssBaseline>
+    </div>
   );
 }

@@ -1,17 +1,22 @@
-import { Box, Chip, List, ListItem, ListItemText } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { getProjectFromID } from "@son-q/api";
-import { FormLabel } from "@son-q/ui";
+import {
+  Chip,
+  Container,
+  FormLabel,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+} from "@son-q/ui-tailwind";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useGlobalStore } from "@/stores";
-import styles from "./ProjectForm.module.scss";
 
 const App = () => {
   const router = useRouter();
   const projectId = router.query.project_id as string;
   const { user } = useGlobalStore();
-  const paletteType = useTheme().palette.mode;
+  // Note: Dark mode detection can be handled via CSS classes or other means
 
   const { data: project } = useQuery({
     queryKey: ["project", projectId],
@@ -27,30 +32,24 @@ const App = () => {
 
   return (
     project && (
-      <Box m={"2em"}>
-        <FormLabel>プロジェクト情報</FormLabel>
-        <List className={styles.list}>
-          <ListItem>
-            <ListItemText primary="プロジェクトID" secondary={project.ID} />
-          </ListItem>
-          <ListItem>
-            <ListItemText primary="参加者" />
-          </ListItem>
-          <ListItem>
-            {getParticipants().map((p) => {
-              return (
-                <Chip
-                  key={p}
-                  label={p}
-                  color="primary"
-                  variant={paletteType === "dark" ? "filled" : "outlined"}
-                  style={{ marginRight: "1em" }}
-                />
-              );
-            })}
-          </ListItem>
-        </List>
-      </Box>
+      <Container maxWidth="md" className="mt-8">
+        <Paper className="p-6">
+          <FormLabel className="mb-4">プロジェクト情報</FormLabel>
+          <List>
+            <ListItem>
+              <ListItemText primary="プロジェクトID" secondary={project.ID} />
+            </ListItem>
+            <ListItem>
+              <ListItemText primary="参加者" />
+            </ListItem>
+            <ListItem className="flex flex-wrap gap-2">
+              {getParticipants().map((p) => {
+                return <Chip key={p} label={p} variant="filled" />;
+              })}
+            </ListItem>
+          </List>
+        </Paper>
+      </Container>
     )
   );
 };

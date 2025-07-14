@@ -1,8 +1,5 @@
-import "../styles/globals.scss";
+import "../app.css";
 
-import CssBaseline from "@mui/material/CssBaseline";
-import * as colors from "@mui/material/colors";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useEffect, useState } from "react";
@@ -52,44 +49,15 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
 
-  const theme = createTheme({
-    typography: {
-      fontFamily: [
-        "Noto Sans JP",
-        "Lato",
-        "游ゴシック Medium",
-        "游ゴシック体",
-        "Yu Gothic Medium",
-        "YuGothic",
-        "ヒラギノ角ゴ ProN",
-        "Hiragino Kaku Gothic ProN",
-        "メイリオ",
-        "Meiryo",
-        "ＭＳ Ｐゴシック",
-        "MS PGothic",
-        "sans-serif",
-      ].join(","),
-    },
-    palette: {
-      primary: {
-        main: colors.blue[800],
-      },
-      mode: darkMode ? "dark" : "light",
-    },
-  });
-
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <GlobalContainer
-          darkMode={darkMode}
-          handleDarkModeOn={handleDarkModeOn}
-          handleDarkModeOff={handleDarkModeOff}
-        >
-          <CssBaseline />
-          <Component {...pageProps} />
-        </GlobalContainer>
-      </ThemeProvider>
+      <GlobalContainer
+        darkMode={darkMode}
+        handleDarkModeOn={handleDarkModeOn}
+        handleDarkModeOff={handleDarkModeOff}
+      >
+        <Component {...pageProps} />
+      </GlobalContainer>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

@@ -1,11 +1,17 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import SaveIcon from "@mui/icons-material/Save";
-import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { getProjectFromID, updateProject } from "@son-q/api";
 import type { Project } from "@son-q/types";
-import { FormLabel } from "@son-q/ui";
-import { Button } from "@son-q/ui-tailwind";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@son-q/ui-tailwind";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Save, Trash2 } from "lucide-react";
 import React from "react";
 import { useProjectIdFromRouter } from "@/hooks/useProjectIdFromRouter";
 import { useGlobalStore } from "@/stores";
@@ -127,18 +133,16 @@ const App = () => {
             <TextField
               variant="outlined"
               autoFocus
-              margin="dense"
               id="name"
               label="プロジェクト名"
               required
               fullWidth
               {...name}
             />
-            <Box marginTop={3} width={"100%"}>
+            <Box className="mt-3 w-full">
               <TextField
                 variant="outlined"
                 autoFocus
-                margin="dense"
                 id="content"
                 label="内容"
                 required
@@ -146,11 +150,10 @@ const App = () => {
                 {...content}
               />
             </Box>
-            <Box marginTop={3} width={"100%"}>
+            <Box className="mt-3 w-full">
               <TextField
                 variant="outlined"
                 autoFocus
-                margin="dense"
                 id="question_num"
                 label="出題数"
                 type="number"
@@ -159,14 +162,18 @@ const App = () => {
                 {...question_num}
               />
             </Box>
-            <Box marginTop={3} width={"100%"}>
+            <Box className="mt-3 w-full">
               <FormControl variant="outlined" fullWidth>
                 <InputLabel id="demo-simple-select-outlined-label">ポイント計算モード</InputLabel>
                 <Select
-                  labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
-                  {...project_mode}
-                  label="ポイント計算モード"
+                  value={project_mode.value}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                    const fakeEvent = {
+                      target: { value: e.target.value },
+                    } as React.ChangeEvent<HTMLInputElement>;
+                    project_mode.onChange(fakeEvent);
+                  }}
                 >
                   <MenuItem value={"normal"}>正解数が得点に</MenuItem>
                   <MenuItem value={"getOnlyOneCorrectAnswer"}>1人だけが正解するように</MenuItem>
@@ -175,13 +182,13 @@ const App = () => {
                 </Select>
               </FormControl>
             </Box>
-            <Box my={2} display="flex" justifyContent="center" gap={2}>
+            <Box className="my-2" display="flex" justifyContent="center" gap={2}>
               <Button
                 type="submit"
                 variant="primary"
                 className={`${styles.submitButton} inline-flex items-center gap-2`}
               >
-                <SaveIcon />
+                <Save />
                 更新
               </Button>
               <Button
@@ -189,7 +196,7 @@ const App = () => {
                 variant="outline"
                 className={`${styles.deleteButton} inline-flex items-center gap-2`}
               >
-                <DeleteIcon />
+                <Trash2 />
                 プロジェクトの削除
               </Button>
             </Box>

@@ -1,5 +1,8 @@
+import { useCreateProject } from "@son-q/queries";
+import type { Project } from "@son-q/types";
 import {
   Box,
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -10,10 +13,7 @@ import {
   MenuItem,
   Select,
   TextField,
-} from "@mui/material";
-import { useCreateProject } from "@son-q/queries";
-import type { Project } from "@son-q/types";
-import { Button } from "@son-q/ui-tailwind";
+} from "@son-q/ui-tailwind";
 import React from "react";
 import { useProjectsStore } from "@/stores";
 import styles from "./ProjectDialog.module.scss";
@@ -119,17 +119,16 @@ const App = (props: Props) => {
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
-        classes={{ paper: styles.dialog }}
+        className={styles.dialog}
       >
         <DialogTitle id="form-dialog-title">プログラムの作成</DialogTitle>
         <form onSubmit={handleSubmit}>
-          <DialogContent classes={{ root: styles.dialogContent }}>
+          <DialogContent className={styles.dialogContent}>
             <DialogContentText>作成したいプログラムの情報を入力してください</DialogContentText>
-            <Box mt={3}>
+            <Box className="mt-3">
               <TextField
                 variant="outlined"
                 autoFocus
-                margin="dense"
                 id="name"
                 label="プロジェクト名"
                 required
@@ -137,11 +136,10 @@ const App = (props: Props) => {
                 {...name}
               />
             </Box>
-            <Box mt={3}>
+            <Box className="mt-3">
               <TextField
                 variant="outlined"
                 autoFocus
-                margin="dense"
                 id="content"
                 label="内容"
                 required
@@ -149,11 +147,10 @@ const App = (props: Props) => {
                 {...content}
               />
             </Box>
-            <Box mt={3}>
+            <Box className="mt-3">
               <TextField
                 variant="outlined"
                 autoFocus
-                margin="dense"
                 id="question_num"
                 label="出題数"
                 type="number"
@@ -162,15 +159,10 @@ const App = (props: Props) => {
                 {...question_num}
               />
             </Box>
-            <Box mt={3}>
+            <Box className="mt-3">
               <FormControl variant="outlined" fullWidth>
                 <InputLabel id="demo-simple-select-outlined-label">ポイント計算モード</InputLabel>
-                <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  {...project_mode}
-                  label="ポイント計算モード"
-                >
+                <Select id="demo-simple-select-outlined" {...project_mode}>
                   <MenuItem value={"normal"}>正解数が得点に</MenuItem>
                   <MenuItem value={"getOnlyOneCorrectAnswer"}>1人だけが正解するように</MenuItem>
                   <MenuItem value={"getOnlyOneIncorrectAnswer"}>1人だけが不正解するように</MenuItem>

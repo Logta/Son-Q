@@ -1,10 +1,15 @@
-import HomeIcon from "@mui/icons-material/Home";
-import { Box, CircularProgress, Container } from "@mui/material";
 import { authApi } from "@son-q/api";
 import { useAllAnswers, useParticipants, useQuestions } from "@son-q/queries";
-import { Label, SubLabel } from "@son-q/ui";
-import { Button } from "@son-q/ui-tailwind";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  StandardLabel,
+  SubLabel,
+} from "@son-q/ui-tailwind";
 import { useQuery } from "@tanstack/react-query";
+import { Home } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Suspense } from "react";
@@ -106,7 +111,7 @@ const PageBody = () => {
       <AppBar />
       <Container maxWidth="lg">
         <main className={styles.main}>
-          <Label>回答フォーム</Label>
+          <StandardLabel>回答フォーム</StandardLabel>
           <SubLabel>誰が選んだ曲か推理しよう！</SubLabel>
         </main>
 
@@ -122,7 +127,7 @@ const PageBody = () => {
 
         <div className={styles.redirectButton}>
           <Button onClick={redirect("/projects")} variant="outline">
-            <HomeIcon className="mr-2" />
+            <Home className="mr-2" />
             プロジェクト一覧に戻る
           </Button>
         </div>

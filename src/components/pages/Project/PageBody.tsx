@@ -1,9 +1,7 @@
-import HomeIcon from "@mui/icons-material/Home";
-import { Container } from "@mui/material";
 import { getProjectFromID } from "@son-q/api";
-import { Label, SubLabel } from "@son-q/ui";
-import { Button } from "@son-q/ui-tailwind";
+import { Button, Container, StandardLabel, SubLabel } from "@son-q/ui-tailwind";
 import { useQuery } from "@tanstack/react-query";
+import { Home } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -43,7 +41,7 @@ const PageBody = () => {
         <AppBar />
         <Container maxWidth="lg">
           <main className={styles.main}>
-            <Label>プロジェクト情報</Label>
+            <StandardLabel>プロジェクト情報</StandardLabel>
             <SubLabel>プロジェクトの確認・編集をしましょう</SubLabel>
           </main>
 
@@ -51,7 +49,7 @@ const PageBody = () => {
 
           <div className={styles.redirectButton}>
             <Button onClick={redirect("/projects")} variant="outline">
-              <HomeIcon className="mr-2" />
+              <Home className="mr-2" />
               プロジェクト一覧に戻る
             </Button>
           </div>

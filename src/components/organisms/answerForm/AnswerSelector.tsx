@@ -1,5 +1,5 @@
-import { Box, FormControl, FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import type { Participant } from "@son-q/types";
+import { Box, FormControl, FormControlLabel, Radio, RadioGroup } from "@son-q/ui-tailwind";
 import styles from "./AnswerForm.module.scss";
 
 type Props = {
@@ -12,24 +12,21 @@ type Props = {
 const App = (props: Props) => {
   const { value, setValue, participants, index } = props;
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
-  };
   return (
-    <FormControl component="fieldset" key={`${index}-radio`}>
+    <FormControl key={`${index}-radio`}>
       <RadioGroup
         aria-label={`${index}曲目`}
         name={`${index}曲目`}
         value={value}
-        onChange={handleChange}
+        onValueChange={setValue}
       >
         {participants.map((participant) => {
           return (
-            <Box key={participant.user_id} my={-0.25}>
+            <Box key={participant.user_id} className="my-1">
               <FormControlLabel
                 className={styles.formControl}
                 value={participant.user_id}
-                control={<Radio size="small" />}
+                control={<Radio value={participant.user_id} />}
                 label={participant.user_name}
               />
             </Box>

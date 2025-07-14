@@ -1,4 +1,4 @@
-import { Copyright } from "@son-q/ui";
+import { Copyright } from "@son-q/ui-tailwind";
 import Head from "next/head";
 import { QuestionsContainer } from "../../src/components/containers";
 import { QuestionPage } from "../../src/components/pages";

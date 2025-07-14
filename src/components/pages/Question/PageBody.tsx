@@ -1,9 +1,15 @@
-import HomeIcon from "@mui/icons-material/Home";
-import { Box, CircularProgress, Container, Typography } from "@mui/material";
 import { useQuestionCount, useUserQuestions } from "@son-q/queries";
-import { Label, SubLabel } from "@son-q/ui";
-import { Button } from "@son-q/ui-tailwind";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  StandardLabel,
+  SubLabel,
+  Typography,
+} from "@son-q/ui-tailwind";
 import { isNil } from "es-toolkit";
+import { Home } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Suspense, useState } from "react";
@@ -57,7 +63,7 @@ const PageBody = () => {
       <AppBar />
       <Container maxWidth="lg">
         <main className={styles.main}>
-          <Label>出題フォーム</Label>
+          <StandardLabel>出題フォーム</StandardLabel>
           <SubLabel>問題を設定しましょう！</SubLabel>
           <Typography color="secondary">※出題するYoutube動画IDを記入してください</Typography>
         </main>
@@ -74,7 +80,7 @@ const PageBody = () => {
 
         <div className={styles.redirectButton}>
           <Button onClick={redirect("/projects")} variant="outline">
-            <HomeIcon className="mr-2" />
+            <Home className="mr-2" />
             プロジェクト一覧に戻る
           </Button>
         </div>

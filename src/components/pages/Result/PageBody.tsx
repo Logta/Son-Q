@@ -1,5 +1,3 @@
-import HomeIcon from "@mui/icons-material/Home";
-import { Box, CircularProgress, Container } from "@mui/material";
 import {
   useAllAnswers,
   useParticipants,
@@ -7,9 +5,16 @@ import {
   useQuestionNumber,
   useQuestions,
 } from "@son-q/queries";
-import { Label, SubLabel } from "@son-q/ui";
-import { Button } from "@son-q/ui-tailwind";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  StandardLabel,
+  SubLabel,
+} from "@son-q/ui-tailwind";
 import { isNil } from "es-toolkit";
+import { Home } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Suspense } from "react";
@@ -67,9 +72,9 @@ const PageBody = () => {
   return (
     <>
       <AppBar />
-      <Container maxWidth="lg">
+      <Container maxWidth="7xl" disableGutters>
         <main className={styles.main}>
-          <Label>結果一覧</Label>
+          <StandardLabel>結果一覧</StandardLabel>
           <SubLabel>結果を確認しよう！</SubLabel>
         </main>
 
@@ -85,7 +90,7 @@ const PageBody = () => {
 
         <div className={styles.redirectButton}>
           <Button onClick={redirect("/projects")} variant="outline">
-            <HomeIcon className="mr-2" />
+            <Home className="mr-2" />
             プロジェクト一覧に戻る
           </Button>
         </div>

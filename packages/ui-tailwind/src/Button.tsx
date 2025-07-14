@@ -1,103 +1,68 @@
-import { clsx } from "clsx";
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { Loader2 } from "lucide-react";
+import * as React from "react";
+import { cn } from "./utils/utils";
 
-type ButtonVariant = "primary" | "secondary" | "outline" | "ghost";
-type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
+const buttonVariants = cva(
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ring-offset-background",
+  {
+    variants: {
+      variant: {
+        primary: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+        outline:
+          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+      },
+      size: {
+        xs: "h-7 px-2 text-xs",
+        sm: "h-8 px-3 text-xs",
+        md: "h-9 px-4 py-2",
+        lg: "h-10 px-8",
+        xl: "h-11 px-8 text-base",
+      },
+    },
+    defaultVariants: {
+      variant: "primary",
+      size: "md",
+    },
+  }
+);
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  /**
-   * ボタンのバリアント
-   */
-  variant?: ButtonVariant;
-  /**
-   * ボタンのサイズ
-   */
-  size?: ButtonSize;
-  /**
-   * 全幅表示
-   */
-  fullWidth?: boolean;
-  /**
-   * ローディング状態
-   */
-  loading?: boolean;
-  /**
-   * ボタンの内容
-   */
-  children: ReactNode;
-};
-
-const buttonVariants = {
-  primary: "bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500",
-  secondary: "bg-secondary-600 text-white hover:bg-secondary-700 focus:ring-secondary-500",
-  outline: "border border-primary-600 text-primary-600 hover:bg-primary-50 focus:ring-primary-500",
-  ghost: "text-primary-600 hover:bg-primary-50 focus:ring-primary-500",
-};
-
-const buttonSizes = {
-  xs: "px-2.5 py-1.5 text-xs",
-  sm: "px-3 py-2 text-sm",
-  md: "px-4 py-2 text-sm",
-  lg: "px-4 py-2 text-base",
-  xl: "px-6 py-3 text-base",
-};
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  VariantProps<typeof buttonVariants> & {
+    /**
+     * ローディング状態
+     */
+    loading?: boolean;
+    /**
+     * 全幅表示
+     */
+    fullWidth?: boolean;
+  };
 
 /**
- * 汎用ボタンコンポーネント
+ * 汎用ボタンコンポーネント（shadcn/ui形式）
  */
-export const Button = ({
-  variant = "primary",
-  size = "md",
-  fullWidth = false,
-  loading = false,
-  className,
-  disabled,
-  children,
-  ...props
-}: ButtonProps) => {
-  return (
-    <button
-      className={clsx(
-        // Base styles
-        "inline-flex items-center justify-center font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed",
-        // Variant styles
-        buttonVariants[variant],
-        // Size styles
-        buttonSizes[size],
-        // Full width
-        fullWidth && "w-full",
-        // Loading state
-        loading && "cursor-wait",
-        className
-      )}
-      disabled={disabled || loading}
-      {...props}
-    >
-      {loading && (
-        <svg
-          className="animate-spin -ml-1 mr-3 h-5 w-5 text-current"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          role="img"
-          aria-label="読み込み中"
-        >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-          />
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          />
-        </svg>
-      )}
-      {children}
-    </button>
-  );
-};
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, loading, fullWidth, children, disabled, ...props }, ref) => {
+    return (
+      <button
+        className={cn(
+          buttonVariants({ variant, size, className }),
+          fullWidth && "w-full",
+          loading && "relative"
+        )}
+        ref={ref}
+        disabled={disabled || loading}
+        {...props}
+      >
+        {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        {children}
+      </button>
+    );
+  }
+);
+Button.displayName = "Button";
+
+export { Button, buttonVariants };
