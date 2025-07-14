@@ -1,7 +1,7 @@
-import * as React from "react";
 import { Dialog as HeadlessDialog, Transition } from "@headlessui/react";
-import { X } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";
+import { X } from "lucide-react";
+import * as React from "react";
 import { cn } from "./utils/utils";
 
 const dialogVariants = cva(
@@ -98,7 +98,13 @@ const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(
         <HeadlessDialog
           as="div"
           className="relative z-50"
-          onClose={disableEscapeKeyDown ? () => { /* No action */ } : onClose}
+          onClose={
+            disableEscapeKeyDown
+              ? () => {
+                  /* No action */
+                }
+              : onClose
+          }
         >
           <Transition.Child
             as={React.Fragment}

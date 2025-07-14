@@ -1,8 +1,8 @@
 "use client";
 
-import { cn } from "./utils/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import type { ComponentProps } from "react";
+import { cn } from "./utils/utils";
 
 /**
  * Listコンポーネントのバリアント定義
@@ -128,7 +128,7 @@ export function ListItem({
       )}
       onClick={onClick}
       onKeyDown={(e) => {
-        if ((e.key === 'Enter' || e.key === ' ') && onClick) {
+        if ((e.key === "Enter" || e.key === " ") && onClick) {
           e.preventDefault();
           onClick(e as unknown as React.MouseEvent<HTMLLIElement>);
         }

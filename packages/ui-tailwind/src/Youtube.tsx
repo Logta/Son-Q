@@ -1,6 +1,6 @@
-import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Play, RotateCcw, RotateCw, Square, Volume2, VolumeX } from "lucide-react";
+import * as React from "react";
 import YouTube from "react-youtube";
 import { Button } from "./Button";
 import { cn } from "./utils/utils";
@@ -135,7 +135,7 @@ const Youtube = React.forwardRef<HTMLDivElement, YoutubeProps>(
         className={cn(youtubeVariants({ size, className }))}
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
+          if (e.key === "Enter" || e.key === " ") {
             e.stopPropagation();
           }
         }}
@@ -287,7 +287,7 @@ const YoutubeAnswer = React.forwardRef<HTMLDivElement, YoutubeAnswerProps>(
         className={cn("relative flex items-center justify-center h-full min-h-12", className)}
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
+          if (e.key === "Enter" || e.key === " ") {
             e.stopPropagation();
           }
         }}

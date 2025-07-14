@@ -1,7 +1,13 @@
-import { Plus, UserPlus } from "lucide-react";
-import { Box, CircularProgress, Container } from "@son-q/ui-tailwind";
 import { useProjects } from "@son-q/queries";
-import { Button, StandardLabel, SubLabel } from "@son-q/ui-tailwind";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  StandardLabel,
+  SubLabel,
+} from "@son-q/ui-tailwind";
+import { Plus, UserPlus } from "lucide-react";
 import Image from "next/image";
 import { Suspense, useState } from "react";
 import {

@@ -1,8 +1,7 @@
-import { Home } from "lucide-react";
-import { Container } from "@son-q/ui-tailwind";
 import { getProjectFromID } from "@son-q/api";
-import { Button, StandardLabel, SubLabel } from "@son-q/ui-tailwind";
+import { Button, Container, StandardLabel, SubLabel } from "@son-q/ui-tailwind";
 import { useQuery } from "@tanstack/react-query";
+import { Home } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";

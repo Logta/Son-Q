@@ -1,9 +1,17 @@
-import { Save, Trash2 } from "lucide-react";
-import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@son-q/ui-tailwind";
 import { getProjectFromID, updateProject } from "@son-q/api";
 import type { Project } from "@son-q/types";
-import { Button, FormLabel } from "@son-q/ui-tailwind";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@son-q/ui-tailwind";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Save, Trash2 } from "lucide-react";
 import React from "react";
 import { useProjectIdFromRouter } from "@/hooks/useProjectIdFromRouter";
 import { useGlobalStore } from "@/stores";

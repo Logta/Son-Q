@@ -1,5 +1,5 @@
-import * as React from "react";
 import { Switch as HeadlessSwitch } from "@headlessui/react";
+import * as React from "react";
 import { cn } from "./utils/utils";
 
 export type SwitchProps = {

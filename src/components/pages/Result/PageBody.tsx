@@ -1,5 +1,3 @@
-import { Home } from "lucide-react";
-import { Box, CircularProgress, Container } from "@son-q/ui-tailwind";
 import {
   useAllAnswers,
   useParticipants,
@@ -7,8 +5,16 @@ import {
   useQuestionNumber,
   useQuestions,
 } from "@son-q/queries";
-import { Button, StandardLabel, SubLabel } from "@son-q/ui-tailwind";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  StandardLabel,
+  SubLabel,
+} from "@son-q/ui-tailwind";
 import { isNil } from "es-toolkit";
+import { Home } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Suspense } from "react";

@@ -1,4 +1,6 @@
+import { useJoinProject } from "@son-q/queries";
 import {
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -6,8 +8,6 @@ import {
   DialogTitle,
   TextField,
 } from "@son-q/ui-tailwind";
-import { useJoinProject } from "@son-q/queries";
-import { Button } from "@son-q/ui-tailwind";
 import React from "react";
 import { useProjectsStore } from "@/stores";
 import styles from "./ProjectDialog.module.scss";

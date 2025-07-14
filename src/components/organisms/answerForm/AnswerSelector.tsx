@@ -1,5 +1,5 @@
-import { Box, FormControl, FormControlLabel, Radio, RadioGroup } from "@son-q/ui-tailwind";
 import type { Participant } from "@son-q/types";
+import { Box, FormControl, FormControlLabel, Radio, RadioGroup } from "@son-q/ui-tailwind";
 import styles from "./AnswerForm.module.scss";
 
 type Props = {

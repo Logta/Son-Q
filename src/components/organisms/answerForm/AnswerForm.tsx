@@ -1,4 +1,3 @@
-import { Vote } from "lucide-react";
 import { useRegisterAnswers } from "@son-q/queries";
 import type { Answer, Participant, Question } from "@son-q/types";
 import {
@@ -12,6 +11,7 @@ import {
   Youtube,
 } from "@son-q/ui-tailwind";
 import { isNil } from "es-toolkit";
+import { Vote } from "lucide-react";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useAnswersStore, useGlobalStore } from "@/stores";

@@ -1,5 +1,5 @@
-import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
 import { cn } from "./utils/utils";
 
 const paperVariants = cva("bg-background rounded-lg border border-border shadow-sm", {

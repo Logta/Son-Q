@@ -1,8 +1,8 @@
-import { Paper, Table, TableBody, TableContainer, TableHeader } from "@son-q/ui-tailwind";
 import type { Project } from "@son-q/types";
+import { Paper, Table, TableBody, TableContainer, TableHeader } from "@son-q/ui-tailwind";
+import styles from "./ProjectTable.module.scss";
 import { TableHeader as TableHeaderRow } from "./TableHeader";
 import { TableRow } from "./TableRow";
-import styles from "./ProjectTable.module.scss";
 
 type Props = {
   rows: Array<Project>;

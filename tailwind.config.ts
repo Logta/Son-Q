@@ -4,7 +4,7 @@ const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
-    "./packages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./packages/ui-tailwind/src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {

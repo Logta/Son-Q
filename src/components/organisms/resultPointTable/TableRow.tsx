@@ -1,6 +1,6 @@
 import type { Answer, Participant } from "@son-q/types";
-import { getPoint } from "@son-q/utils";
 import { Chip, TableCell, TableRow } from "@son-q/ui-tailwind";
+import { getPoint } from "@son-q/utils";
 
 type Props = {
   participants: Participant[];

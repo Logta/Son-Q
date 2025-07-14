@@ -1,5 +1,5 @@
-import * as React from "react";
 import { cva } from "class-variance-authority";
+import * as React from "react";
 import { cn } from "./utils/utils";
 
 const textFieldVariants = cva("flex flex-col space-y-2", {
@@ -51,7 +51,11 @@ const inputVariants = cva(
   }
 );
 
-export interface TextFieldProps extends Omit<React.InputHTMLAttributes<HTMLInputElement> & React.TextareaHTMLAttributes<HTMLTextAreaElement>, "size"> {
+export interface TextFieldProps
+  extends Omit<
+    React.InputHTMLAttributes<HTMLInputElement> & React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+    "size"
+  > {
   /**
    * ラベルテキスト
    */

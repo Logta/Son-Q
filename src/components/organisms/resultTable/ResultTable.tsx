@@ -1,8 +1,8 @@
-import { Table, TableBody, TableContainer, TableHeader } from "@son-q/ui-tailwind";
 import type { Answer, Participant, Question } from "@son-q/types";
+import { Table, TableBody, TableContainer, TableHeader } from "@son-q/ui-tailwind";
+import styles from "./ResultTable.module.scss";
 import { TableHeader as TableHeaderRows } from "./TableHeader";
 import { TableRow } from "./TableRow";
-import styles from "./ResultTable.module.scss";
 
 type Props = {
   participants: Participant[];

@@ -1,4 +1,3 @@
-import { Bookmark, User } from "lucide-react";
 import {
   Box,
   Button,
@@ -8,6 +7,7 @@ import {
   StandardLabel,
   SubLabel,
 } from "@son-q/ui-tailwind";
+import { Bookmark, User } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { HomeStep } from "@/components/organisms";

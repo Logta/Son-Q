@@ -1,6 +1,13 @@
-import { Chip, List, ListItem, ListItemText, Container, Paper } from "@son-q/ui-tailwind";
 import { getProjectFromID } from "@son-q/api";
-import { FormLabel } from "@son-q/ui-tailwind";
+import {
+  Chip,
+  Container,
+  FormLabel,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+} from "@son-q/ui-tailwind";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useGlobalStore } from "@/stores";

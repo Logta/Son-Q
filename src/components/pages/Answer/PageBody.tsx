@@ -1,9 +1,15 @@
-import { Home } from "lucide-react";
-import { Box, CircularProgress, Container } from "@son-q/ui-tailwind";
 import { authApi } from "@son-q/api";
 import { useAllAnswers, useParticipants, useQuestions } from "@son-q/queries";
-import { Button, StandardLabel, SubLabel } from "@son-q/ui-tailwind";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  StandardLabel,
+  SubLabel,
+} from "@son-q/ui-tailwind";
 import { useQuery } from "@tanstack/react-query";
+import { Home } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Suspense } from "react";

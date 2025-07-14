@@ -96,5 +96,12 @@
   "files": {
     "ignoreUnknown": false,
     "includes": ["src/**/*", "pages/**/*", "packages/*/src/**/*", "*.json", "*.js", "*.ts"]
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
   }
 }

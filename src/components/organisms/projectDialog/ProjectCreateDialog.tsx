@@ -1,5 +1,8 @@
+import { useCreateProject } from "@son-q/queries";
+import type { Project } from "@son-q/types";
 import {
   Box,
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -11,9 +14,6 @@ import {
   Select,
   TextField,
 } from "@son-q/ui-tailwind";
-import { useCreateProject } from "@son-q/queries";
-import type { Project } from "@son-q/types";
-import { Button } from "@son-q/ui-tailwind";
 import React from "react";
 import { useProjectsStore } from "@/stores";
 import styles from "./ProjectDialog.module.scss";
