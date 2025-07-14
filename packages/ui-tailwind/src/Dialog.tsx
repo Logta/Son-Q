@@ -98,7 +98,7 @@ const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(
         <HeadlessDialog
           as="div"
           className="relative z-50"
-          onClose={disableEscapeKeyDown ? () => {} : onClose}
+          onClose={disableEscapeKeyDown ? () => { /* No action */ } : onClose}
         >
           <Transition.Child
             as={React.Fragment}

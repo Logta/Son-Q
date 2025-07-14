@@ -79,12 +79,12 @@ const Youtube = React.forwardRef<HTMLDivElement, YoutubeProps>(
       setLoading(false);
     };
 
-    const onError = (error: any) => {
+    const onError = (error: unknown) => {
       console.error("YouTube player error:", error);
       setLoading(false);
     };
 
-    const onStateChange = (event: any) => {
+    const onStateChange = (event: { data: number }) => {
       // YouTube Player State: -1 (unstarted), 0 (ended), 1 (playing), 2 (paused), 3 (buffering), 5 (video cued)
       if (event.data === 0) {
         // ended
@@ -129,10 +129,18 @@ const Youtube = React.forwardRef<HTMLDivElement, YoutubeProps>(
     };
 
     return (
+      /* biome-ignore lint/a11y/useSemanticElements: Wrapper div for YouTube player, cannot use button */
       <div
         ref={ref}
         className={cn(youtubeVariants({ size, className }))}
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.stopPropagation();
+          }
+        }}
+        role="button"
+        tabIndex={0}
         {...props}
       >
         <div>
@@ -238,12 +246,12 @@ const YoutubeAnswer = React.forwardRef<HTMLDivElement, YoutubeAnswerProps>(
       setLoading(false);
     };
 
-    const onError = (error: any) => {
+    const onError = (error: unknown) => {
       console.error("YouTube player error:", error);
       setLoading(false);
     };
 
-    const onStateChange = (event: any) => {
+    const onStateChange = (event: { data: number }) => {
       // YouTube Player State: -1 (unstarted), 0 (ended), 1 (playing), 2 (paused), 3 (buffering), 5 (video cued)
       if (event.data === 0) {
         // ended
@@ -273,10 +281,18 @@ const YoutubeAnswer = React.forwardRef<HTMLDivElement, YoutubeAnswerProps>(
     };
 
     return (
+      /* biome-ignore lint/a11y/useSemanticElements: Wrapper div for YouTube player, cannot use button */
       <div
         ref={ref}
         className={cn("relative flex items-center justify-center h-full min-h-12", className)}
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.stopPropagation();
+          }
+        }}
+        role="button"
+        tabIndex={0}
         {...props}
       >
         <div className="absolute opacity-0 pointer-events-none -z-10">

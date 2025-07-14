@@ -179,6 +179,7 @@ const InputLabel = React.forwardRef<HTMLLabelElement, InputLabelProps>(
     const context = useFormControlContext();
 
     return (
+      /* biome-ignore lint/a11y/noLabelWithoutControl: Label component for use with inputs via htmlFor prop */
       <label
         ref={ref}
         className={cn(

@@ -64,13 +64,13 @@ const App = ({ answers, questionNum, questions, participants, isUserJoinProject 
     })
   );
 
-  const getAnswerFromQuestionID = useCallback((
-    currentAnswer: Answer,
-    answers: Array<Answer>
-  ): Answer | undefined => {
-    if (isNil(currentAnswer.question_id)) return undefined;
-    return answers.find((a) => a.question_id === currentAnswer.question_id);
-  }, []);
+  const getAnswerFromQuestionID = useCallback(
+    (currentAnswer: Answer, answers: Array<Answer>): Answer | undefined => {
+      if (isNil(currentAnswer.question_id)) return undefined;
+      return answers.find((a) => a.question_id === currentAnswer.question_id);
+    },
+    []
+  );
 
   const handleSetPropsAnswers = useCallback(async () => {
     if (isNil(answers)) return;

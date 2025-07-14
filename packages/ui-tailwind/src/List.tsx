@@ -127,6 +127,14 @@ export function ListItem({
         className
       )}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && onClick) {
+          e.preventDefault();
+          onClick(e as unknown as React.MouseEvent<HTMLLIElement>);
+        }
+      }}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
       {...(props as React.LiHTMLAttributes<HTMLLIElement>)}
     >
       {children}

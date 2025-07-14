@@ -51,7 +51,7 @@ const inputVariants = cva(
   }
 );
 
-export interface TextFieldProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
+export interface TextFieldProps extends Omit<React.InputHTMLAttributes<HTMLInputElement> & React.TextareaHTMLAttributes<HTMLTextAreaElement>, "size"> {
   /**
    * ラベルテキスト
    */
@@ -94,7 +94,7 @@ export interface TextFieldProps extends Omit<React.InputHTMLAttributes<HTMLInput
  * TextFieldコンポーネント（shadcn/ui形式）
  * Material-UIのTextFieldの代替として使用
  */
-const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
+const TextField = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextFieldProps>(
   (
     {
       className,
@@ -112,7 +112,8 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     },
     ref
   ) => {
-    const inputId = id || React.useId();
+    const generatedId = React.useId();
+    const inputId = id || generatedId;
     const Component = multiline ? "textarea" : "input";
 
     return (
@@ -130,7 +131,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         )}
         <Component
           id={inputId}
-          ref={ref as any}
+          ref={ref as React.LegacyRef<HTMLInputElement & HTMLTextAreaElement>}
           className={cn(inputVariants({ variant, size, error }))}
           rows={multiline ? rows : undefined}
           style={
@@ -138,7 +139,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
               ? { maxHeight: `${maxRows * 1.5}em`, resize: "vertical" }
               : undefined
           }
-          {...(props as any)}
+          {...props}
         />
         {helperText && (
           <p className={cn("text-sm text-muted-foreground", error && "text-destructive")}>

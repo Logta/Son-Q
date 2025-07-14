@@ -31,6 +31,7 @@ export type LabelProps = React.LabelHTMLAttributes<HTMLLabelElement> &
 const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
   ({ className, variant, required, children, ...props }, ref) => {
     return (
+      /* biome-ignore lint/a11y/noLabelWithoutControl: Label component for use with inputs via htmlFor prop */
       <label
         ref={ref}
         className={cn(labelVariants({ variant: required ? "required" : variant, className }))}

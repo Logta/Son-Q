@@ -129,7 +129,10 @@ const App = ({ questions, nums }: Props) => {
             // biome-ignore lint/suspicious/noArrayIndexKey: question index is stable
             <div key={value} className={styles.textForm}>
               <div className="space-y-2">
-                <label htmlFor={`question-${value}`} className="text-sm font-medium">{`${+value + 1}題目：`}</label>
+                <label
+                  htmlFor={`question-${value}`}
+                  className="text-sm font-medium"
+                >{`${+value + 1}題目：`}</label>
                 <div className="flex items-center">
                   <span className="text-sm text-muted-foreground whitespace-nowrap pr-2">
                     https://www.youtube.com/watch?v=
