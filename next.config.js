@@ -5,6 +5,9 @@ module.exports = {
     config.resolve.alias["@"] = path.join(__dirname, "src");
     return config;
   },
+  experimental: {
+    cssChunking: 'strict',
+  },
   env: {
     API_KEY: process.env.API_KEY,
     AUTH_DOMAIN: process.env.AUTH_DOMAIN,
